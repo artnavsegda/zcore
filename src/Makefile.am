@@ -1,4 +1,4 @@
-bin_PROGRAMS = ethernet wireless
+bin_PROGRAMS = ethernet mobile
 zcore_SOURCES = main.c
 ethernet_SOURCES = ethernet.c plug.c
-wireless_SOURCES = wireless.c plug.c
+mobile_SOURCES = mobile.c plug.c
