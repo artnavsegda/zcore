@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "Ethernet",
+  "description": "Interface list",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Interface entity",
+    "required": ["name"],
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Interface name"
+      },
+      "vid": {
+        "type": "number",
+        "description": "VLAN ID"
+      },
+      "ip": {
+        "type": "string",
+        "description": "IP address config"
+      },
+      "defaultroute": {
+        "type": "boolean",
+        "description": "Use as defaultroute"
+      },
+      "macaddr": {
+        "type": "string",
+        "description": "MAC address"
+      },
+      "mtu": {
+        "type": "number",
+        "description": "MTU"
+      },
+      "metric": {
+        "type": "number",
+        "description": "Network metric"
+      }
+   }
+}

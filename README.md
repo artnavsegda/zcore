@@ -1,2 +1,2 @@
-# zcore
-Zcore iRZ CLI frontend
+# rlnavsegda
+Readline playground projects
