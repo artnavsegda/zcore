@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "Mobile",
+  "description": "Interface list",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Interface entity",
+    "required": ["name"],
+    "properties": {
+
+        "enable":       ["bool",        "Enable cellulare interface"],
+        "apn":          ["str",         "Access point name"],
+        "username":     ["str",         "Username"],
+        "password":     ["str",         "Password"],
+        "mode":         ["select",      ["auto", "edge", "umts", "lte"], "Network access mode"], ## must be one of list
+        "bands":        ["multiselect", ["850", "900", "1800", "1900", "2100", "2600"], "Freq bands allowed"],
+
+        "zone":         ["fwzone",      "Firewall zone by default"],
+      }
+}
