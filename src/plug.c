@@ -14,8 +14,7 @@ int main(int argc, char *argv[])
   FILE *jsonstream;
   WJReader readjson;
   char temp[100];
-  sprintf(temp,"./wrapper.sh",argv[1]);
-  if (!(jsonstream = popen(temp, "r"))) {
+  if (!(jsonstream = popen(argv[1], "r"))) {
     puts("handle error");
     return 1;
   }
