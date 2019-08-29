@@ -10,7 +10,8 @@
     "properties": {
       "name": {
         "type": "string",
-        "description": "Interface name"
+        "description": "Interface name",
+        "hidden": true
       },
       "enable": {
         "type": "boolean",
@@ -18,8 +19,7 @@
       },
       "apn": {
         "type": "string",
-        "description": "Access point name",
-        "command": "uci set network.%n.%s=%v"
+        "description": "Access point name"
       },
       "username": {
         "type": "string",
@@ -27,8 +27,25 @@
       },
       "password": {
         "type": "string",
-        "description": "Password"
+        "description": "Password",
+        "hidden": true
       }
-    }
-  }
+    },
+    "commands": {
+      "apply": {
+        "type": "string",
+        "command": "./mobile.sh apply %n",
+        "json": true
+      },
+      "commit": {
+        "type": "string",
+        "command": "./mobile.sh commit %n"
+      },
+      "revert": {
+        "type": "string",
+        "command": "./mobile.sh revert %@name@%",
+        "json": false
+      }
+	   }
+   }
 }
