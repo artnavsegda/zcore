@@ -16,8 +16,7 @@ char interface[100] = "";
 char option[100] = "";
 int level = 0;
 
-int setparameter(char * setiface, char * setparam, char * setvalue)
-{
+int setparameter(char * setiface, char * setparam, char * setvalue) {
   char temp[100];
   printf("setting %s %s %s\n",setiface,setparam,setvalue);
   if (setvalue[0] == '\"')
@@ -28,40 +27,34 @@ int setparameter(char * setiface, char * setparam, char * setvalue)
   WJEString(entity, parameter->name, WJE_SET, setvalue);
 }
 
-void entitylist(void)
-{
+void entitylist(void) {
     while (entity = _WJEObject(doc, "[]", WJE_GET, &entity)) {
       puts(WJEString(entity, "name", WJE_GET, ""));
     }
 }
 
-void parameterlist()
-{
+void parameterlist() {
   while (parameter = _WJEObject(schema, "items.properties[]", WJE_GET, &parameter)) {
     puts(parameter->name);
   }
 }
 
-int getparameter(char * getiface, char * getparam)
-{
+int getparameter(char * getiface, char * getparam) {
   char temp[100];
   sprintf(temp,"items.properties.%s",getparam);
   parameter = WJEObject(schema, temp, WJE_GET);
-  if (parameter)
-  {
+  if (parameter) {
     entity = getelementbynameprop(doc,getiface);
     printf("Value: %s\n", WJEString(entity, parameter->name, WJE_GET, "<undefined>"));
     return 0;
   }
-  else
-  {
+  else {
     printf("No property %s defined\n",getparam);
     return 1;
   }
 }
 
-int execute(int argc, char *argv[])
-{
+int execute(int argc, char *argv[]) {
   if (strcmp(argv[0],"..")==0){
     if (level > 0)
       level--;
@@ -69,8 +62,17 @@ int execute(int argc, char *argv[])
       printf("Already at the command root\n",argv[0]);
     return 0;
   }
-    switch (level)
-    {
+  if (strcmp(argv[0],"show")==0) {
+    while (entity = _WJEObject(doc, "[]", WJE_GET, &entity)) {
+      while (parameter = _WJEObject(schema, "items.properties[]", WJE_GET, &parameter)) {
+        printf("%s.", WJEString(entity, "name", WJE_GET, ""));
+        printf("%s = ", parameter->name);
+        printf("%s\n", WJEString(entity, parameter->name, WJE_GET, "None"));
+      }
+    }
+    return 0;
+  }
+    switch (level) {
       case 0:
         if (argv[0][0]=='?') {
           entitylist();
