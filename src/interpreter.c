@@ -9,12 +9,11 @@
 #include "interpreter.h"
 
 extern WJElement doc, schema;
-WJElement entity = NULL, parameter = NULL;
+static WJElement entity = NULL, parameter = NULL;
 
 char greet[100] = ">";
 char interface[100] = "";
 char option[100] = "";
-char *command;
 int level = 0;
 
 int setparameter(char * setiface, char * setparam, char * setvalue)

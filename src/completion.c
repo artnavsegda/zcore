@@ -5,9 +5,17 @@
 #include <readline/history.h>
 #include <wjelement.h>
 #include <wjreader.h>
+#include "completion.h"
+#include "utils.h"
 
-char **character_name_completion(const char *, int, int);
-char *character_name_generator(const char *, int);
+char *command;
+
+extern WJElement doc, schema;
+static WJElement entity = NULL, parameter = NULL;
+
+extern char interface[100];
+extern char option[100];
+extern int level;
 
 char * entityvalues(const char * text, int len)
 {

@@ -1,4 +1,4 @@
 bin_PROGRAMS = ethernet mobile zcore
-zcore_SOURCES = main.c interpreter.c utils.c
+zcore_SOURCES = main.c interpreter.c utils.c completion.c
 ethernet_SOURCES = ethernet.c plug.c
 mobile_SOURCES = mobile.c plug.c

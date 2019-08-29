@@ -6,11 +6,14 @@
 #include <wjelement.h>
 #include <wjreader.h>
 #include "interpreter.h"
+#include "completion.h"
 
 WJElement schema = NULL, doc = NULL;
 
 int main(int argc, char *argv[])
 {
+  rl_attempted_completion_function = character_name_completion;
+
   FILE *jsonstream, *schemafile;
   WJReader readjson, readschema;
 
