@@ -18,7 +18,8 @@
       },
       "apn": {
         "type": "string",
-        "description": "Access point name"
+        "description": "Access point name",
+        "command": "uci set something"
       },
       "username": {
         "type": "string",
