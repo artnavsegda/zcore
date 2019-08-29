@@ -51,7 +51,7 @@ int getparameter(char * getiface, char * getparam)
   if (parameter)
   {
     entity = getelementbynameprop(doc,getiface);
-    printf("Value: %s\n", WJEString(entity, parameter->name, WJE_GET, ""));
+    printf("Value: %s\n", WJEString(entity, parameter->name, WJE_GET, "<undefined>"));
     return 0;
   }
   else
