@@ -16,13 +16,16 @@
         "type": "boolean",
         "description": "Enable cellulare interface"
       },
-        "apn": "string",
+      "apn": {
+        "type": "string",
         "description": "Access point name"
       },
-        "username": "string",
+      "username": {
+        "type": "string",
         "description": "Username"
       },
-        "password": "string",
+      "password": {
+        "type": "string",
         "description": "Password"
       }
 }
