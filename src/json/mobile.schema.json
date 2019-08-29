@@ -30,7 +30,8 @@
         "description": "Password",
         "hidden": true
       }
-    },
+    }
+  },
     "commands": {
       "apply": {
         "type": "string",
@@ -46,6 +47,5 @@
         "command": "./mobile.sh revert %@name@%",
         "json": false
       }
-	   }
-   }
+	 }
 }

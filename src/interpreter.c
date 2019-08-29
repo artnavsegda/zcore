@@ -9,7 +9,7 @@
 #include "interpreter.h"
 
 extern WJElement doc, schema;
-static WJElement entity = NULL, parameter = NULL;
+static WJElement entity = NULL, parameter = NULL, command = NULL;
 
 char greet[100] = ">";
 char interface[100] = "";
@@ -34,6 +34,13 @@ void entitylist(void) {
 void parameterlist() {
   while (parameter = _WJEObject(schema, "items.properties[]", WJE_GET, &parameter)) {
     puts(parameter->name);
+  }
+}
+
+void commandlist() {
+  puts("commands:");
+  while (command = _WJEObject(schema, "commands[]", WJE_GET, &command)) {
+    puts(command->name);
   }
 }
 
@@ -77,6 +84,7 @@ int execute(int argc, char *argv[]) {
       case 0:
         if (argv[0][0]=='?') {
           entitylist();
+          commandlist();
           return 0;
         }
         if (argc == 1) {
@@ -105,6 +113,7 @@ int execute(int argc, char *argv[]) {
       case 1:
         if (argv[0][0]=='?') {
           parameterlist();
+          commandlist();
           return 0;
         }
         if (argc == 1) {
