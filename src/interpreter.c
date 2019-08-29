@@ -77,7 +77,7 @@ int execute(int argc, char *argv[]) {
   }
   if (strcmp(argv[0],"apply")==0) {
     puts("applying\n");
-    printf("exec %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","items.properties.%s.command", argv[1]));
+    printf("exec %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","items.properties.%s.command", argv[0]));
     return 0;
   }
     switch (level) {
@@ -88,10 +88,12 @@ int execute(int argc, char *argv[]) {
           return 0;
         }
         if (argc == 1) {
-          if (getelementbynameprop(doc,argv[0]) != NULL)
+          if (getelementbynameprop(doc,argv[0]) != NULL) {
             strcpy(interface,argv[0]);
-          else {
-            printf("No interface %s found\n",argv[0]);
+            level++;
+          }
+          else if (!WJEObjectF(schema, WJE_GET, NULL, "commands.%s", argv[0])) {
+            printf("No command %s found\n",argv[0]);
             return 0;
           }
         }
@@ -128,8 +130,8 @@ int execute(int argc, char *argv[]) {
         return 0;
       break;
     }
-    if (level < 1)
-      level++;
+    //if (level < 1)
+      //level++;
     //sprintf(greet,"%s >",line);
 }
 
