@@ -28,4 +28,6 @@
         "type": "string",
         "description": "Password"
       }
+    }
+  }
 }
