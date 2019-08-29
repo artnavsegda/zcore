@@ -105,6 +105,9 @@ int execute(int argc, char *argv[]) {
             parameterlist();
             return 0;
           }
+          else if (WJEObjectF(schema, WJE_GET, NULL, "commands.%s", argv[0])) {
+            printf("exec %s with arg %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]),argv[1]);
+          }
           else {
             getparameter(argv[0],argv[1]);
             return 0;
