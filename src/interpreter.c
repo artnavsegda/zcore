@@ -70,7 +70,7 @@ int execute(int argc, char *argv[]) {
   }
   if (strcmp(argv[0],"apply")==0) {
     puts("applying\n");
-    printf("exec %s\n", WJEString(schema, "items.properties.apn.command", WJE_GET, "not found"));
+    printf("exec %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","items.properties.%s.command", argv[1]));
     return 0;
   }
     switch (level) {
