@@ -17,13 +17,11 @@ char option[100] = "";
 int level = 0;
 
 int setparameter(char * setiface, char * setparam, char * setvalue) {
-  char temp[100];
   printf("setting %s %s %s\n",setiface,setparam,setvalue);
   if (setvalue[0] == '\"')
     setvalue = cutquot(setvalue);
   entity = getelementbynameprop(doc,setiface);
-  sprintf(temp,"items.properties.%s",setparam);
-  parameter = WJEObject(schema, temp, WJE_GET);
+  parameter = WJEObjectF(schema, WJE_GET, NULL, "items.properties.%s",setparam);
   WJEString(entity, parameter->name, WJE_SET, setvalue);
 }
 
@@ -40,9 +38,7 @@ void parameterlist() {
 }
 
 int getparameter(char * getiface, char * getparam) {
-  char temp[100];
-  sprintf(temp,"items.properties.%s",getparam);
-  parameter = WJEObject(schema, temp, WJE_GET);
+  parameter = WJEObjectF(schema, WJE_GET, NULL, "items.properties.%s",getparam);
   if (parameter) {
     entity = getelementbynameprop(doc,getiface);
     printf("Value: %s\n", WJEString(entity, parameter->name, WJE_GET, "<undefined>"));
