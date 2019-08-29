@@ -75,11 +75,11 @@ int execute(int argc, char *argv[]) {
     }
     return 0;
   }
-  if (strcmp(argv[0],"apply")==0) {
-    puts("applying\n");
-    printf("exec %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","items.properties.%s.command", argv[0]));
-    return 0;
-  }
+//  if (strcmp(argv[0],"apply")==0) {
+//    puts("applying\n");
+//    printf("exec %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","items.properties.%s.command", argv[0]));
+//    return 0;
+//  }
     switch (level) {
       case 0:
         if (argv[0][0]=='?') {
@@ -92,7 +92,10 @@ int execute(int argc, char *argv[]) {
             strcpy(interface,argv[0]);
             level++;
           }
-          else if (!WJEObjectF(schema, WJE_GET, NULL, "commands.%s", argv[0])) {
+          else if (WJEObjectF(schema, WJE_GET, NULL, "commands.%s", argv[0])) {
+            printf("exec %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]));
+          }
+          else {
             printf("No command %s found\n",argv[0]);
             return 0;
           }
