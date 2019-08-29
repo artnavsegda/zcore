@@ -72,6 +72,11 @@ int execute(int argc, char *argv[]) {
     }
     return 0;
   }
+  if (strcmp(argv[0],"apply")==0) {
+    puts("applying\n");
+    printf("exec %s\n", WJEString(schema, "items.properties.apn.command", WJE_GET, "not found"));
+    return 0;
+  }
     switch (level) {
       case 0:
         if (argv[0][0]=='?') {
