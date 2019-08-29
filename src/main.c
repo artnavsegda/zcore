@@ -13,18 +13,19 @@ int main(int argc, char *argv[])
   FILE *jsonstream, *schemafile;
   WJReader readjson, readschema;
 
-  if (argc < 1) {
-    puts("Enter conf category");
+  if (argc < 2) {
+    puts("Enter proto type");
     return 1;
   }
 
   char temp[100];
-  sprintf(temp,"%s.schema.json",argv[1]);
+  sprintf(temp,"json/%s.schema.json",argv[1]);
   if (!(schemafile = fopen(temp, "r"))) {
-    puts("cannot open schema file %s\n",temp);
+    printf("cannot open schema file %s\n",temp);
     return 1;
   }
-  sprintf(temp,"./%s.sh",argv[1]);
+
+  sprintf(temp,"./%s ./%s.sh",argv[1],argv[1]);
   if (!(jsonstream = popen(temp, "r"))) {
     puts("handle error");
     return 1;
@@ -40,17 +41,17 @@ int main(int argc, char *argv[])
   }
 
   schema = WJEOpenDocument(readschema, NULL, NULL, NULL);
-  doc = ethernet(readjson);
+  doc = WJEOpenDocument(readjson, NULL, NULL, NULL);
 
   while (1)
   {
-    char * input = readline(greet);
+    char * input = readline(">");
     if (!input)
       break;
     add_history(input);
-    interpret(input);
+    //interpret(input);
     free(input);
   }
-  
+
   return 0;
 }
