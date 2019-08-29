@@ -8,7 +8,7 @@
 #include "utils.h"
 #include "interpreter.h"
 
-WJElement doc = NULL, schema = NULL, input = NULL, ifaceinput = NULL, ifaceoutput = NULL;
+extern WJElement doc, schema;
 WJElement entity = NULL, parameter = NULL;
 
 char greet[100] = ">";
