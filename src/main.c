@@ -5,6 +5,7 @@
 #include <readline/history.h>
 #include <wjelement.h>
 #include <wjreader.h>
+#include "interpreter.h"
 
 WJElement schema = NULL, doc = NULL;
 

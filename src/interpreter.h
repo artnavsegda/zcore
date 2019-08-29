@@ -1,0 +1,1 @@
+int interpret(char * stringtointerpret);

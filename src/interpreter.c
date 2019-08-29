@@ -6,6 +6,7 @@
 #include <wjelement.h>
 #include <wjreader.h>
 #include "utils.h"
+#include "interpreter.h"
 
 WJElement doc = NULL, schema = NULL, input = NULL, ifaceinput = NULL, ifaceoutput = NULL;
 WJElement entity = NULL, parameter = NULL;
