@@ -8,4 +8,6 @@ int parse(char * stringtoparse, char **tokarr);
 int ifacefound(char * ifacetosearch);
 int streamintocommand(char * command, char * stream);
 int ifacefound(char * ifacetosearch);
+int commandfound(char * commandtosearch);
+char * formatcommand(char * command);
 
