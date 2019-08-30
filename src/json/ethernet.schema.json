@@ -41,7 +41,7 @@
    "commands": {
      "apply": {
        "type": "string",
-       "command": "./apply.sh",
+       "command": "./apply.sh %s",
        "json": true
     }
   }

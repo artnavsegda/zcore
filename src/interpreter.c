@@ -103,8 +103,8 @@ int execute(int argc, char *argv[]) {
             parameterlist();
             return 0;
           }
-          else if (WJEObjectF(schema, WJE_GET, NULL, "commands.%s", argv[0])) {
-            if (ifacefound(argv[1])) {     
+          else if (commandfound(argv[0])) {
+            if (ifacefound(argv[1])) {
               printf("exec %s for iface %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]),argv[1]);
               streamintocommand(WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]),WJEToString(getelementbynameprop(doc,argv[1]), TRUE));
             }

@@ -7,7 +7,7 @@
 #include <wjreader.h>
 #include "utils.h"
 
-extern WJElement doc;
+extern WJElement doc, schema;
 
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
     static char *token = NULL;
@@ -70,6 +70,14 @@ int ifacefound(char * ifacetosearch)
       return 0;
 }
 
+int commandfound(char * commandtosearch)
+{
+  if (WJEObjectF(schema, WJE_GET, NULL, "commands.%s", commandtosearch))
+    return 1;
+  else
+    return 0;
+}
+
 char * cutquot(char * stringtocut)
 {
   stringtocut[strlen(stringtocut)-1] = '\0';
@@ -109,4 +117,10 @@ int streamintocommand(char * command, char * stream)
   pclose(jsonstream);
   puts("\n");
 }
+
+char * formatcommand(char * command)
+{
+  return WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", command);
+}
+
 

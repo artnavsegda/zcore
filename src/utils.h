@@ -7,4 +7,5 @@ int arrlength(char **array);
 int parse(char * stringtoparse, char **tokarr);
 int ifacefound(char * ifacetosearch);
 int streamintocommand(char * command, char * stream);
+int ifacefound(char * ifacetosearch);
 
