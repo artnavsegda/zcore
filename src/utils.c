@@ -7,6 +7,8 @@
 #include <wjreader.h>
 #include "utils.h"
 
+extern WJElement doc;
+
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
     static char *token = NULL;
     char *lead = NULL;
@@ -60,6 +62,14 @@ WJElement getelementbynameprop(WJElement container, char * text)
   return NULL;
 }
 
+int ifacefound(char * ifacetosearch)
+{
+  if (getelementbynameprop(doc,ifacetosearch))
+      return 1;
+  else
+      return 0;
+}
+
 char * cutquot(char * stringtocut)
 {
   stringtocut[strlen(stringtocut)-1] = '\0';
@@ -84,3 +94,19 @@ int parse(char * stringtoparse, char **tokarr)
     tokarr[++i] = NULL;
   return i;
 }
+
+int streamintocommand(char * command, char * stream)
+{
+  FILE *jsonstream = popen(command, "w");
+  if (jsonstream == NULL)
+  {
+    puts("handle error");
+    return 1;
+  }
+
+  fwrite(stream,strlen(stream),1,jsonstream); 
+
+  pclose(jsonstream);
+  puts("\n");
+}
+

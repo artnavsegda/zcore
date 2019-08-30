@@ -35,7 +35,7 @@
     "commands": {
       "apply": {
         "type": "string",
-        "command": "./mobile.sh apply %s",
+        "command": "./apply.sh",
         "json": true
       },
       "commit": {
