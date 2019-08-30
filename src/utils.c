@@ -103,9 +103,15 @@ int parse(char * stringtoparse, char **tokarr)
   return i;
 }
 
-int streamintocommand(char * command, char * stream)
+int streamintocommand(char * command, char * stream, char * argument)
 {
-  FILE *jsonstream = popen(command, "w");
+  char temp[100];
+
+  sprintf(temp,command,argument);
+  puts(temp);
+
+  //FILE *jsonstream = popen(command, "w");
+  FILE *jsonstream = popen(temp, "w");
   if (jsonstream == NULL)
   {
     puts("handle error");

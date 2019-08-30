@@ -90,7 +90,7 @@ int execute(int argc, char *argv[]) {
           else if (commandfound(argv[0])) {
             printf("exec %s for all ifaces\n", WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]));
             while (entity = _WJEObject(doc, "[]", WJE_GET, &entity)) {
-              streamintocommand(formatcommand(argv[0]),WJEToString(entity,TRUE));
+              streamintocommand(formatcommand(argv[0]),WJEToString(entity,TRUE),WJEString(entity, "name", WJE_GET, "none"));
             }
           }
           else {
@@ -106,7 +106,7 @@ int execute(int argc, char *argv[]) {
           else if (commandfound(argv[0])) {
             if (ifacefound(argv[1])) {
               printf("exec %s for iface %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]),argv[1]);
-              streamintocommand(formatcommand(argv[0]),WJEToString(getelementbynameprop(doc,argv[1]), TRUE));
+              streamintocommand(formatcommand(argv[0]),WJEToString(getelementbynameprop(doc,argv[1]), TRUE),argv[1]);
             }
             else {
               printf("no interface %s found\n",argv[1]);
