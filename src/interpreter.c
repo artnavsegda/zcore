@@ -75,11 +75,6 @@ int execute(int argc, char *argv[]) {
     }
     return 0;
   }
-//  if (strcmp(argv[0],"apply")==0) {
-//    puts("applying\n");
-//    printf("exec %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","items.properties.%s.command", argv[0]));
-//    return 0;
-//  }
     switch (level) {
       case 0:
         if (argv[0][0]=='?') {
@@ -94,8 +89,9 @@ int execute(int argc, char *argv[]) {
           }
           else if (WJEObjectF(schema, WJE_GET, NULL, "commands.%s", argv[0])) {
             printf("exec %s for all ifaces\n", WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]));
-            //system(WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]));
-            //streamintocommand(WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]),WJEToString(getelementbynameprop(doc,argv[1]), TRUE));
+            while (entity = _WJEObject(doc, "[]", WJE_GET, &entity)) {
+              streamintocommand(WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]),WJEToString(entity,TRUE));
+            }
           }
           else {
             printf("No command %s found\n",argv[0]);
