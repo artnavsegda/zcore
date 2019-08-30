@@ -37,4 +37,12 @@
         "description": "Network metric"
       }
    }
+ },
+   "commands": {
+     "apply": {
+       "type": "string",
+       "command": "./apply.sh",
+       "json": true
+    }
+  }
 }
