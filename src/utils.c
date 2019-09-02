@@ -106,7 +106,7 @@ int parse(char * stringtoparse, char **tokarr)
 int streamintocommand(char * command, char * stream, char * argument)
 {
   char temp[100];
-
+  puts(argument);
   sprintf(temp,command,argument);
   puts(temp);
 
