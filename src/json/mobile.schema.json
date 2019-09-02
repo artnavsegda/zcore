@@ -29,6 +29,11 @@
         "type": "string",
         "description": "Password",
         "hidden": true
+      },
+        "mode": {
+        "type": "string",
+        "enum": ["auto","edge","umts","lte"],
+        "description": "Network access mode"
       }
     }
   },
