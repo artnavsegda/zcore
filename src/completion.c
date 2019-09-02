@@ -11,7 +11,7 @@
 char *command;
 
 extern WJElement doc, schema;
-static WJElement entity = NULL, parameter = NULL;
+static WJElement entity = NULL, parameter = NULL, enumoption = NULL;
 
 extern char interface[100];
 extern char option[100];
@@ -35,14 +35,24 @@ char * parametervalues(const char * text, int len)
   }
 }
 
-char * settingvalues(char * getparam, int state)
+char * settingvalues(const char * text, int len, char * getparam, int state)
 {
+  char temp[100];
+  char * validvalue;
+  if (WJEArrayF(schema, WJE_GET, NULL, "items.properties.%s.enum", getparam))
+  {
+    while (validvalue = WJEStringF(schema, WJE_GET, &enumoption, NULL, "items.properties.%s.enum", getparam)) {
+      if (strncmp(validvalue, text, len) == 0) {
+        return strdup(validvalue);
+      }
+    }
+  }
+
+
   if (!state)
   {
     entity = getelementbynameprop(doc,interface);
-    char temp[100];
-    sprintf(temp,"items.properties.%s",getparam);
-    parameter = WJEObject(schema, temp, WJE_GET);
+    parameter = WJEObjectF(schema, WJE_GET, NULL, "items.properties.%s", getparam);
     char * testquote = WJEString(entity, parameter->name, WJE_GET, "");
     if (strchr(testquote,' '))
     {
@@ -97,10 +107,10 @@ char * character_name_generator(const char *text, int state)
         if (command == NULL)
           return parametervalues(text,len);
         else
-          return settingvalues(command, state);
+          return settingvalues(text,len,command, state);
       break;
       case 2:
-        return settingvalues(option, state);
+        return settingvalues(text,len,option, state);
       break;
     }
 
