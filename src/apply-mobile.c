@@ -8,16 +8,26 @@ WJElement filter(WJReader inputstream)
 {
   WJElement input = WJEOpenDocument(inputstream, NULL, NULL, NULL);
   WJElement output = WJEObject(NULL, NULL, WJE_NEW);
+  WJElement valuesoutput = NULL;
 
-    char * apn = WJEString(input,"apn",WJE_GET,"");
-    if (apn[0]){
-      WJEString(output,"apn",WJE_NEW,apn);
-    }
+  WJEString(output,"config",WJE_NEW,"network");
 
-    XplBool enable = WJEBool(input,"enable",WJE_GET,-1);
-    if (enable != -1){
-      WJEInt32(output,"enable",WJE_NEW,(int)enable);
-    }
+  char * name = WJEString(input,"name",WJE_GET,"");
+  if (name[0]){
+    WJEString(output,"section",WJE_NEW,name);
+  }
+
+  valuesoutput = WJEObject(output, "values", WJE_NEW);
+
+  char * apn = WJEString(input,"apn",WJE_GET,"");
+  if (apn[0]){
+    WJEString(valuesoutput,"apn",WJE_NEW,apn);
+  }
+
+  XplBool enable = WJEBool(input,"enable",WJE_GET,-1);
+  if (enable != -1){
+    WJEInt32(valuesoutput,"enable",WJE_NEW,(XplBool)enable);
+  }
 
   return output;
 }
