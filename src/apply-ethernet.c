@@ -19,14 +19,19 @@ WJElement filter(WJReader inputstream)
 
   valuesoutput = WJEObject(output, "values", WJE_NEW);
 
-  char * apn = WJEString(input,"apn",WJE_GET,"");
-  if (apn[0]){
-    WJEString(valuesoutput,"apn",WJE_NEW,apn);
+  char * macaddr = WJEString(input,"macaddr",WJE_GET,"");
+  if (macaddr[0]){
+    WJEString(valuesoutput,"macaddr",WJE_NEW,macaddr);
   }
 
-  XplBool enable = WJEBool(input,"enable",WJE_GET,-1);
-  if (enable != -1){
-    WJEInt32(valuesoutput,"enable",WJE_NEW,(int)enable);
+  XplBool defaultroute = WJEBool(input,"defaultroute",WJE_GET,-1);
+  if (defaultroute != -1){
+    WJEInt32(valuesoutput,"defaultroute",WJE_NEW,(int)defaultroute);
+  }
+
+  int metric = WJEInt32(input,"metric",WJE_GET,-1);
+  if (metric != -1){
+    WJEInt32(valuesoutput,"metric",WJE_NEW,(int)metric);
   }
 
   return output;

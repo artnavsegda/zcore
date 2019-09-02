@@ -41,7 +41,7 @@
    "commands": {
      "apply": {
        "type": "string",
-       "command": "./apply.sh %s",
+       "command": "./apply.sh applyethernet %s",
        "json": true
     }
   }
