@@ -26,3 +26,14 @@ int readconfig(void)
   //puts(config.schemepath);
 
 }
+
+int list(const char *name, const struct stat *status, int type)
+{
+  puts(name);
+  return 0;
+}
+
+int listschemefiles(char * searchpath)
+{
+  ftw(searchpath, listcb, 1);
+}
