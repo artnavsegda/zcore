@@ -23,13 +23,15 @@ int readconfig(void)
 
   parseconfig(configjson);
 
-  //puts(config.schemepath);
+  listschemefiles(config.schemepath);
 
 }
 
 int list(const char *name, const struct stat *status, int type)
 {
-  puts(name);
+  char *ptr = rindex(name, '.');
+  if ((ptr!=NULL) && ((strcmp(ptr,SCHEMAEXTENSION)==0)))
+    puts(name);
   return 0;
 }
 
