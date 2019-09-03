@@ -6,6 +6,8 @@
 
 struct configstruct_t config;
 
+char *schemapath[100];
+
 void parseconfig(WJElement configjson)
 {
   strcpy(config.schemepath, WJEString(configjson, "name", WJE_GET, DEFAULTSCHEMEPATH));
@@ -29,9 +31,13 @@ int readconfig(void)
 
 int list(const char *name, const struct stat *status, int type)
 {
+  static index = 0;
   char *ptr = rindex(name, '.');
   if ((ptr!=NULL) && ((strcmp(ptr,SCHEMAEXTENSION)==0)))
-    puts(name);
+  {
+    schemepath[index] = strdup(name);
+    schemepath[index++] = NULL;
+  }
   return 0;
 }
 
