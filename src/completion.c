@@ -40,7 +40,7 @@ char * settingvalues(const char * text, int len, char * getparam, int state)
   char temp[100];
   if (WJEArrayF(schema, WJE_GET, NULL, "items.properties.%s.enum", getparam))
   {
-    while (enumoption = WJEGetF(schema, enumoption, "items.properties.%s.enum", getparam)) {
+    while (enumoption = WJEGetF(schema, enumoption, "items.properties.%s.enum[]", getparam)) {
       if (strncmp(WJEString(enumoption, NULL, WJE_GET, ""), text, len) == 0) {
         return strdup(WJEString(enumoption, NULL, WJE_GET, ""));
       }
