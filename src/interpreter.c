@@ -58,6 +58,7 @@ void commandlist() {
   puts("commands:");
   listbuiltins();
   listprotos();
+  listcommands();
   listfaces();
   listoptions;
 }
@@ -69,12 +70,23 @@ int execute(int argc, char *argv[]) {
   }
   else if (isbuiltin(argv[0]))
   {
+    builtin(argc,argv);
   }
   else if (isproto(argv[0]))
   {
+    proto(argc,argv);
+  }
+  else if (iscommand(argv[0]))
+  {
+    command(argc,argv);
+  }
+  else if (isface(argv[0]))
+  {
+    face(argc,argv);
   }
   else if (isoption(argv[0]))
   {
+    option(argc,argv);
   }
 }
 
