@@ -1,2 +1,2 @@
 bin_PROGRAMS = zcore
-zcore_SOURCES = main.c utils.c config.c
+zcore_SOURCES = main.c utils.c config.c load.c

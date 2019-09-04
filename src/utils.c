@@ -62,21 +62,21 @@ WJElement getelementbynameprop(WJElement container, char * text)
   return NULL;
 }
 
-int ifacefound(char * ifacetosearch)
+/*int ifacefound(char * ifacetosearch)
 {
   if (getelementbynameprop(doc,ifacetosearch))
       return 1;
   else
       return 0;
-}
+}*/
 
-int commandfound(char * commandtosearch)
+/*int commandfound(char * commandtosearch)
 {
   if (WJEObjectF(schema, WJE_GET, NULL, "commands.%s", commandtosearch))
     return 1;
   else
     return 0;
-}
+}*/
 
 char * cutquot(char * stringtocut)
 {
@@ -124,9 +124,9 @@ int streamintocommand(char * command, char * stream, char * argument)
   puts("\n");
 }
 
-char * formatcommand(char * command)
+/*char * formatcommand(char * command)
 {
   return WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", command);
-}
+}*/
 
 

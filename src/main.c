@@ -8,12 +8,13 @@
 #include "interpreter.h"
 #include "completion.h"
 #include "config.h"
+#include "load.h"
 
 WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
-  rl_attempted_completion_function = character_name_completion;
+//  rl_attempted_completion_function = character_name_completion;
 
   root = WJEObject(NULL, NULL, WJE_NEW);
 

@@ -1,5 +1,10 @@
 #include <wjelement.h>
 #include <wjreader.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/param.h>
+#include <dirent.h>
+#include <string.h>
 
 static int fileselect(const struct dirent *entry)
 {
@@ -52,7 +57,7 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
     }
   }
   else
-    perror("Cannot open directory");
+    printf("Cannot open directory %s\n", loadschemepath);
 
   //recursively load shemes from every subdir
   n = scandir(loadschemepath,&dirs,dirselect,alphasort);
@@ -66,5 +71,5 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
     }
   } 
   else
-    perror("Cannot open directory");
+    printf("Cannot open directory %s\n", loadschemepath);
 }
