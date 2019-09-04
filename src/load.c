@@ -47,6 +47,8 @@ WJElement loadscheme(char * pathtoload)
 
 int loadeveryscheme(WJElement loadroot, char * loadschemepath)
 {
+  char path[MAXPATHLEN];
+  getcwd(path,MAXPATHLEN);
   struct dirent **dirs;
 
   //load schemes from root
@@ -78,4 +80,6 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
   {
     printf("Cannot find dirs in %s\n", loadschemepath);
   }
+
+  chdir(path);
 }

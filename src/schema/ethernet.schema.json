@@ -44,5 +44,8 @@
        "command": "./apply.sh applyethernet %s",
        "json": true
     }
+  },
+  "aquire": {
+    "shell": "./ethernet ./ethernet.sh"
   }
 }
