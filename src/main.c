@@ -7,6 +7,7 @@
 #include <wjreader.h>
 #include "interpreter.h"
 #include "completion.h"
+#include "config.h"
 
 WJElement root = NULL;
 
@@ -22,11 +23,10 @@ int main(int argc, char *argv[])
 
   WJEDump(root);
 
-  return 1;
+  return 0;
 
-  FILE *jsonstream;
+  /*FILE *jsonstream;
   WJReader readjson;
-
   sprintf(temp,"./%s ./%s.sh",argv[1],argv[1]);
   if (!(jsonstream = popen(temp, "r"))) {
     puts("handle error");
@@ -55,5 +55,5 @@ int main(int argc, char *argv[])
     free(input);
   }
 
-  return 0;
+  return 0;*/
 }

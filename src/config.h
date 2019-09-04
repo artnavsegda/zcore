@@ -9,3 +9,6 @@ struct configstruct_t
 };
 
 extern struct configstruct_t config;
+
+int readconfig(void);
+

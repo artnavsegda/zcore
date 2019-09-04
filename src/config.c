@@ -22,24 +22,6 @@ int readconfig(void)
     configjson = WJEObject(NULL, NULL, WJE_NEW);
 
   parseconfig(configjson);
-
-  listschemefiles(config.schemepath);
-
 }
 
-int list(const char *name, const struct stat *status, int type)
-{
-  static index = 0;
-  char *ptr = rindex(name, '.');
-  if ((ptr!=NULL) && ((strcmp(ptr,SCHEMAEXTENSION)==0)))
-  {
-    schemepath[index] = strdup(name);
-    schemepath[index++] = NULL;
-  }
-  return 0;
-}
 
-int listschemefiles(char * searchpath)
-{
-  ftw(searchpath, listcb, 1);
-}
