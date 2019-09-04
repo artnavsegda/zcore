@@ -1,0 +1,2 @@
+int acquireall(WJElement directory);
+

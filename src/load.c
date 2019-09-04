@@ -28,7 +28,7 @@ WJElement loadscheme(char * pathtoload)
   FILE *schemafile;
   WJReader readschema;
 
-  printf("loading %s\n",pathtoload);
+  //printf("loading %s\n",pathtoload);
 
   if (!(schemafile = fopen(pathtoload, "r"))) {
     printf("cannot open schema file %s\n", pathtoload);
@@ -61,7 +61,7 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
     chdir(loadschemepath);
     for (int cnt = 0;cnt < n;++cnt)
     {
-      puts(dirs[cnt]->d_name);
+      //puts(dirs[cnt]->d_name);
       WJEAttach(loadroot,loadscheme(dirs[cnt]->d_name));
     }
   }
@@ -75,7 +75,7 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
   { 
     for (int cnt = 0;cnt < n;++cnt)
     {
-      printf("subdir %s\n",(dirs[cnt]->d_name));
+      //printf("subdir %s\n",(dirs[cnt]->d_name));
       loadeveryscheme(WJEObject(loadroot, dirs[cnt]->d_name, WJE_NEW), dirs[cnt]->d_name);
     }
   } 

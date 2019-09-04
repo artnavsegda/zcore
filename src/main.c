@@ -9,6 +9,7 @@
 #include "completion.h"
 #include "config.h"
 #include "load.h"
+#include "acquire.h"
 
 WJElement root = NULL;
 
@@ -19,10 +20,12 @@ int main(int argc, char *argv[])
   root = WJEObject(NULL, NULL, WJE_NEW);
 
   readconfig();
-  printf("Schema search path %s\n",config.schemepath);
+//  printf("Schema search path %s\n",config.schemepath);
   loadeveryscheme(root,config.schemepath);
 
-  WJEDump(root);
+//  WJEDump(root);
+
+  acquireall(root);
 
   return 0;
 

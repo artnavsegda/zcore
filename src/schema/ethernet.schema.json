@@ -45,7 +45,7 @@
        "json": true
     }
   },
-  "aquire": {
+  "acquire": {
     "shell": "./ethernet ./ethernet.sh"
   }
 }
