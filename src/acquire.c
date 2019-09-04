@@ -4,14 +4,25 @@
 int acquire(WJElement proto)
 {
   //WJEDump(proto);
-  puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "echo"));
+  //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "echo"));
+  FILE *jsonstream;
+  WJReader readjson;
 
+  if (!(jsonstream = popen(WJEString(proto, "schema.acquire.shell", WJE_GET, "echo"), "r"))) {
+    puts("handle error");
+    return 1;
+  }
 
-  //FILE *jsonstream;
+  if (!(readjson = WJROpenFILEDocument(jsonstream, NULL, 0))) {
+    puts("json failed to open");
+    return 1;
+  }
 
-  //if (!(jsonstream = popen(WJEString(proto, "scheme.acquire.shell", WJE_GET, "echo"), "r"))) {
-  //}
+  WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
+  WJERename(jsondata,"data");
+  WJEAttach(proto,jsondata);
 
+  WJEDump(proto);
 
 }
 
@@ -32,4 +43,3 @@ int acquireall(WJElement directory)
     }
   }
 }
-
