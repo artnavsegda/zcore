@@ -57,7 +57,7 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
     }
   }
   else
-    printf("Cannot open directory %s\n", loadschemepath);
+    printf("Cannot open directory %s for files\n", loadschemepath);
 
   //recursively load shemes from every subdir
   n = scandir(loadschemepath,&dirs,dirselect,alphasort);
@@ -71,5 +71,5 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
     }
   } 
   else
-    printf("Cannot open directory %s\n", loadschemepath);
+    printf("Cannot open directory %s for files\n", loadschemepath);
 }
