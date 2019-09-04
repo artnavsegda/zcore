@@ -21,9 +21,6 @@ int acquire(WJElement proto)
   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
   WJERename(jsondata,"data");
   WJEAttach(proto,jsondata);
-
-  WJEDump(proto);
-
 }
 
 int acquireall(WJElement directory)

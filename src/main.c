@@ -23,31 +23,7 @@ int main(int argc, char *argv[])
 //  printf("Schema search path %s\n",config.schemepath);
   loadeveryscheme(root,config.schemepath);
 
-//  WJEDump(root);
-
   acquireall(root);
-
-  return 0;
-
-  /*FILE *jsonstream;
-  WJReader readjson;
-  sprintf(temp,"./%s ./%s.sh",argv[1],argv[1]);
-  if (!(jsonstream = popen(temp, "r"))) {
-    puts("handle error");
-    return 1;
-  }
-
-  if (!(readjson = WJROpenFILEDocument(jsonstream, NULL, 0))) {
-    puts("json failed to open");
-    return 1;
-  }
-  if (!(readschema = WJROpenFILEDocument(schemafile, NULL, 0))) {
-    puts("schema failed to open");
-    return 1;
-  }
-
-  schema = WJEOpenDocument(readschema, NULL, NULL, NULL);
-  doc = WJEOpenDocument(readjson, NULL, NULL, NULL);
 
   while (1)
   {
@@ -59,5 +35,5 @@ int main(int argc, char *argv[])
     free(input);
   }
 
-  return 0;*/
+  return 0;
 }

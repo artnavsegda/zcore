@@ -8,13 +8,15 @@
 #include "utils.h"
 #include "interpreter.h"
 
-extern WJElement doc, schema;
-static WJElement entity = NULL, parameter = NULL, command = NULL;
+//extern WJElement doc, schema;
+//static WJElement entity = NULL, parameter = NULL, command = NULL;
 
-char greet[100] = ">";
-char interface[100] = "";
-char option[100] = "";
-int level = 0;
+//char greet[100] = ">";
+//char interface[100] = "";
+//char option[100] = "";
+//int level = 0;
+
+/*
 
 int setparameter(char * setiface, char * setparam, char * setvalue) {
   printf("setting %s %s %s\n",setiface,setparam,setvalue);
@@ -145,6 +147,8 @@ int execute(int argc, char *argv[]) {
     //sprintf(greet,"%s >",line);
 }
 
+*/
+
 int interpret(char * stringtointerpret)
 {
   char *tokarr[100]; // maximum argument count
@@ -152,5 +156,7 @@ int interpret(char * stringtointerpret)
   int numberoftokens = arrlength(tokarr);
   //printf("number of tokens %d\n", numberoftokens);
   if (numberoftokens > 0)
-    execute(numberoftokens,tokarr);
+  {
+    //execute(numberoftokens,tokarr);
+  }
 }
