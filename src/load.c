@@ -18,8 +18,22 @@ static int dirselect(const struct dirent *entry)
     return 0;
 }
 
-int loadscheme(WJElement loadelement, char * pathtoload)
+WJElement loadscheme(char * pathtoload)
 {
+  FILE *schemafile;
+  WJReader readschema;
+
+  if (!(schemafile = fopen(pathtoload, "r"))) {
+    printf("cannot open schema file %s", pathtoload);
+    return NULL;
+  }
+
+  if (!(readschema = WJROpenFILEDocument(schemafile, NULL, 0))) {
+    puts("schema failed to open");
+    return NULL;
+  }
+
+  return WJEOpenDocument(readschema, NULL, NULL, NULL);
 }
 
 int loadeveryscheme(WJElement loadroot, char * loadschemepath)
