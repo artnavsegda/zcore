@@ -8,11 +8,17 @@
 #include "interpreter.h"
 #include "completion.h"
 
-WJElement schema = NULL, doc = NULL;
+WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
   rl_attempted_completion_function = character_name_completion;
+
+  root = WJEObject(NULL, NULL, WJE_NEW);
+
+  readconfig();
+
+  loadeveryscheme(root,config.schemepath);
 
   FILE *jsonstream, *schemafile;
   WJReader readjson, readschema;
