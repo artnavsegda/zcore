@@ -41,8 +41,10 @@ WJElement loadscheme(char * pathtoload)
   }
 
   WJElement schema = WJEOpenDocument(readschema, NULL, NULL, NULL);
-  WJERename(schema,WJEString(schema, "title", WJE_GET, "default"));
-  return schema;
+  WJERename(schema,"schema");
+  WJElement schemaroot = WJEObject(NULL,WJEString(schema, "title", WJE_GET, "unnamed"), WJE_NEW);
+  WJEAttach(schemaroot,schema);
+  return schemaroot;
 }
 
 int loadeveryscheme(WJElement loadroot, char * loadschemepath)
@@ -59,6 +61,7 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
     chdir(loadschemepath);
     for (int cnt = 0;cnt < n;++cnt)
     {
+      puts(dirs[cnt]->d_name);
       WJEAttach(loadroot,loadscheme(dirs[cnt]->d_name));
     }
   }
@@ -78,7 +81,7 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
   } 
   else
   {
-    printf("Cannot find dirs in %s\n", loadschemepath);
+//    printf("Cannot find dirs in %s\n", loadschemepath);
   }
 
   chdir(path);
