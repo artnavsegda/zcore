@@ -71,7 +71,7 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
     for (int cnt = 0;cnt < n;++cnt)
     {
       printf("subdir %s\n",(dirs[cnt]->d_name));
-      loadeveryscheme(loadroot, dirs[cnt]->d_name);
+      loadeveryscheme(WJEObject(loadroot, dirs[cnt]->d_name, WJE_NEW), dirs[cnt]->d_name);
     }
   } 
   else
