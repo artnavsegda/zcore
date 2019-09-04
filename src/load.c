@@ -40,7 +40,9 @@ WJElement loadscheme(char * pathtoload)
     return NULL;
   }
 
-  return WJEOpenDocument(readschema, NULL, NULL, NULL);
+  WJElement schema = WJEOpenDocument(readschema, NULL, NULL, NULL);
+  WJERename(schema,WJEString(schema, "title", WJE_GET, "default"));
+  return schema;
 }
 
 int loadeveryscheme(WJElement loadroot, char * loadschemepath)
