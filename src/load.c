@@ -48,7 +48,7 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
     for (int cnt = 0;cnt < n;++cnt)
     {
       puts(dirs[cnt]->d_name);
-      loadscheme(loadroot, dirs[cnt]->d_name);
+      WJEAttach(loadroot,loadscheme(dirs[cnt]->d_name));
     }
   }
   else
