@@ -52,5 +52,8 @@
         "command": "./mobile.sh revert %@name@%",
         "json": false
       }
-	 }
+	 },
+   "acquire": {
+     "shell": "./mobile ./mobile.sh"
+   }
 }
