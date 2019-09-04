@@ -20,20 +20,12 @@ int main(int argc, char *argv[])
 
   loadeveryscheme(root,config.schemepath);
 
-  FILE *jsonstream, *schemafile;
-  WJReader readjson, readschema;
+  WJEDump(root);
 
-  if (argc < 2) {
-    puts("Enter proto type");
-    return 1;
-  }
+  return 1;
 
-  char temp[100];
-  sprintf(temp,"json/%s.schema.json",argv[1]);
-  if (!(schemafile = fopen(temp, "r"))) {
-    printf("cannot open schema file %s\n",temp);
-    return 1;
-  }
+  FILE *jsonstream;
+  WJReader readjson;
 
   sprintf(temp,"./%s ./%s.sh",argv[1],argv[1]);
   if (!(jsonstream = popen(temp, "r"))) {
