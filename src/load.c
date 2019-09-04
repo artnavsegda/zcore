@@ -18,9 +18,9 @@ static int fileselect(const struct dirent *entry)
 static int dirselect(const struct dirent *entry)
 {
   if (entry->d_type == DT_DIR)
-    return 1;
-  else
-    return 0;
+    if (entry->d_name[0] != '.')
+      return 1;
+  return 0;
 }
 
 WJElement loadscheme(char * pathtoload)
@@ -28,8 +28,10 @@ WJElement loadscheme(char * pathtoload)
   FILE *schemafile;
   WJReader readschema;
 
+  printf("loading %s\n",pathtoload);
+
   if (!(schemafile = fopen(pathtoload, "r"))) {
-    printf("cannot open schema file %s", pathtoload);
+    printf("cannot open schema file %s\n", pathtoload);
     return NULL;
   }
 
@@ -50,9 +52,9 @@ int loadeveryscheme(WJElement loadroot, char * loadschemepath)
   int n = scandir(loadschemepath,&dirs,fileselect,alphasort);
   if (n >= 0)
   {
+    chdir(loadschemepath);
     for (int cnt = 0;cnt < n;++cnt)
     {
-      puts(dirs[cnt]->d_name);
       WJEAttach(loadroot,loadscheme(dirs[cnt]->d_name));
     }
   }
