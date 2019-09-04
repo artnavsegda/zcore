@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "ntp",
+  "title": "vrrp",
   "type": "object",
   "properties": {
     "enable": {
