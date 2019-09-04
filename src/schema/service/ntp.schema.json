@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "ntp",
+  "type": "object",
+  "properties": {
+    "enable": {
+      "type": "boolean",
+      "description": "Enable update time from Internet"
+    },
+    "enable_server": {
+      "type": "boolean",
+      "description": "Enable time server on this host"
+    },
+    "server": {
+      "type": "array",
+      "description": "Servers addresses for time sync",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
