@@ -5,6 +5,8 @@
 #include "proto.h"
 #include "zcore.h"
 #include "face.h"
+#include "command.h"
+#include "option.h"
 
 extern int protodepth;
 extern WJElement protojson; 
@@ -46,10 +48,13 @@ void commandlist()
     break;
     case FACE:
       listfaces();
+      listcommands();
+    break;
+    case OPTION:
+      listoptions();
+      listcommands();
     break;
   }
-//  listcommands();
-//  listoptions;
 }
 
 void listbuiltins()
