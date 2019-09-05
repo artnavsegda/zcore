@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "zcore.h"
+#include "interpreter.h"
 
 char protopath[100] = "";
 int protodepth = 0;
@@ -42,12 +43,13 @@ int isproto(char * protoname)
 
 int proto(int argc, char *argv[])
 {
-  strcpy(protopath,argv[0]);
-  protodepth++;
+//  strcpy(protopath,argv[0]);
+//  protodepth++;
   protojson = WJEObject(protojson, argv[0], WJE_GET);
   if (WJEGet(protojson, "schema", NULL))
   {
     puts("proto is schema");
+    domain = FACE;
   }
   else
   {
