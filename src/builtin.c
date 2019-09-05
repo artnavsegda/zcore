@@ -4,6 +4,7 @@
 #include "interpreter.h"
 #include "proto.h"
 #include "zcore.h"
+#include "face.h"
 
 extern int protodepth;
 extern WJElement protojson; 
@@ -40,9 +41,11 @@ void commandlist()
     case PROTO:
       listprotos();
     break;
+    case FACE:
+      listfaces();
+    break;
   }
 //  listcommands();
-//  listfaces();
 //  listoptions;
 }
 

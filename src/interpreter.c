@@ -9,6 +9,7 @@
 #include "interpreter.h"
 #include "proto.h"
 #include "builtin.h"
+#include "face.h"
 
 enum domains domain = PROTO;
 
@@ -25,10 +26,10 @@ int execute(int argc, char *argv[]) {
 //  {
 //    command(argc,argv);
 //  }
-//  else if (isface(argv[0]))
-//  {
-//    face(argc,argv);
-//  }
+  else if (isface(argv[0]))
+  {
+    face(argc,argv);
+  }
 //  else if (isoption(argv[0]))
 //  {
 //    option(argc,argv);
@@ -40,7 +41,6 @@ int interpret(char * stringtointerpret)
   char *tokarr[100]; // maximum argument count
   int one = parse(stringtointerpret, tokarr);
   int numberoftokens = arrlength(tokarr);
-//  printf("%s %d %d\n",stringtointerpret,one,numberoftokens);
   if (numberoftokens > 0)
   {
     execute(numberoftokens,tokarr);

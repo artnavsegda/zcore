@@ -3,7 +3,6 @@
 #include "zcore.h"
 #include "interpreter.h"
 
-//char protopath[100] = "";
 char protoname[100] = "";
 int protodepth = 0;
 WJElement protojson = NULL;
@@ -42,18 +41,22 @@ int isproto(char * protoname)
 
 int proto(int argc, char *argv[])
 {
-//  strcpy(protopath,argv[0]);
-  strcpy(protoname,argv[0]);
-  protodepth++;
-  protojson = WJEObject(protojson, argv[0], WJE_GET);
-  if (WJEGet(protojson, "schema", NULL))
+  for (int i = 0; i < argc; i++)
   {
-    //puts("proto is schema");
-    domain = FACE;
-  }
-  else
-  {
-    //puts("proto is subdir");
+    if (isproto(argv[i]))
+    {
+      strcpy(protoname,argv[i]);
+      protodepth++;
+      protojson = WJEObject(protojson, argv[i], WJE_GET);
+      if (WJEGet(protojson, "schema", NULL))
+      {
+        domain = FACE;
+      }
+    }
+    else
+    {
+      printf("%s unavalible\n", argv[i]);
+    }
   }
 }
 
