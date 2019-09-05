@@ -8,35 +8,18 @@
 #include "utils.h"
 #include "interpreter.h"
 #include "proto.h"
+#include "builtin.h"
 
 enum domains domain = PROTO;
 
-void commandlist() {
-  puts("commands:");
-//  listbuiltins();
-  listprotos();
-//  listcommands();
-//  listfaces();
-//  listoptions;
-}
-
 int execute(int argc, char *argv[]) {
-  if (argv[0][0]=='?')
+  if (isbuiltin(argv[0]))
   {
-    commandlist();
+    builtin(argc,argv);
   }
-//  else if (isbuiltin(argv[0]))
-//  {
-//    builtin(argc,argv);
-//  }
   else if (isproto(argv[0]))
   {
     proto(argc,argv);
-    puts("proto exists");
-  }
-  else
-  {
-    puts("proto not exists");
   }
 //  else if (iscommand(argv[0]))
 //  {

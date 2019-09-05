@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <string.h>
+#include "builtin.h"
+#include "interpreter.h"
+#include "proto.h"
+
+extern int protodepth;
+
+void path_up()
+{
+  switch (domain)
+  {
+    case PROTO:
+      if (protodepth == 0)
+      {
+        printf("Already at the command root\n");
+      }
+    break;
+  }
+}
+
+void commandlist()
+{
+  puts("commands:");
+  listbuiltins();
+  switch (domain)
+  {
+    case PROTO:
+      listprotos();
+    break;
+  }
+//  listcommands();
+//  listfaces();
+//  listoptions;
+}
+
+void listbuiltins()
+{
+  puts("?");
+  puts("..");
+}
+
+int isbuiltin(char * builtinname)
+{
+  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0))
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+int builtin(int argc, char *argv[])
+{
+  if (argv[0][0]=='?')
+  {
+    commandlist();
+  }
+  else if (strcmp(argv[0],"..") == 0)
+  {
+    path_up();
+  }
+}
+
