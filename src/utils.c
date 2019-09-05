@@ -94,6 +94,12 @@ int arrlength(char **array)
 
 int parse(char * stringtoparse, char **tokarr)
 {
+  if (strlen(stringtoparse) == 0)
+  {
+    tokarr[0] = NULL;
+    return 0;
+  }
+
   char acOpen[]  = {"\"[<{"};
   char acClose[] = {"\"]>}"};
   int i = 0;

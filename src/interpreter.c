@@ -55,8 +55,9 @@ int execute(int argc, char *argv[]) {
 int interpret(char * stringtointerpret)
 {
   char *tokarr[100]; // maximum argument count
-  parse(stringtointerpret, tokarr);
+  int one = parse(stringtointerpret, tokarr);
   int numberoftokens = arrlength(tokarr);
+//  printf("%s %d %d\n",stringtointerpret,one,numberoftokens);
   if (numberoftokens > 0)
   {
     execute(numberoftokens,tokarr);
