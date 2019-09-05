@@ -29,10 +29,15 @@ int execute(int argc, char *argv[]) {
 //  {
 //    builtin(argc,argv);
 //  }
-//  else if (isproto(argv[0]))
-//  {
-//    proto(argc,argv);
-//  }
+  else if (isproto(argv[0]))
+  {
+    //proto(argc,argv);
+    puts("proto exists");
+  }
+  else
+  {
+    puts("proto not exists");
+  }
 //  else if (iscommand(argv[0]))
 //  {
 //    command(argc,argv);

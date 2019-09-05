@@ -13,3 +13,17 @@ int listprotos(void)
   }
 }
 
+int isproto(char * protoname)
+{
+  if (WJEGetF(root, NULL, "%s", protoname))
+  {
+    return 1;
+    //puts("proto exists");
+  }
+  else
+  {
+    return 0;
+    //puts("proto not exists");
+  }
+}
+
