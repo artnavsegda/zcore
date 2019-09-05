@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <string.h>
 #include "zcore.h"
 #include "interpreter.h"
 #include "utils.h"
 
 extern WJElement protojson;
+WJElement protoface = NULL;
+char facename[100] = "";
 
 int isface(char * facename)
 {
@@ -11,7 +14,7 @@ int isface(char * facename)
   {
     if (getelementbynameprop(protojson, facename))
     {
-      puts(facename);
+      //puts(facename);
       return 1;
     }
     else
@@ -24,6 +27,9 @@ int isface(char * facename)
 
 int face(int argc, char *argv[])
 {
+  strcpy(facename,argv[0]);
+  protoface = getelementbynameprop(protojson, facename);
+  domain = OPTION;
 }
 
 int listfaces(void)

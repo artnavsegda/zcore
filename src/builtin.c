@@ -29,6 +29,9 @@ void path_up()
       protodepth--;
       protojson = protojson->parent;
     break;
+    case OPTION:
+      domain = FACE;
+    break;
   }
 }
 
