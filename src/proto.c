@@ -3,7 +3,8 @@
 #include "zcore.h"
 #include "interpreter.h"
 
-char protopath[100] = "";
+//char protopath[100] = "";
+char protoname[100] = "";
 int protodepth = 0;
 WJElement protojson = NULL;
 
@@ -41,7 +42,8 @@ int isproto(char * protoname)
 
 int proto(int argc, char *argv[])
 {
-  strcpy(protopath,argv[0]);
+//  strcpy(protopath,argv[0]);
+  strcpy(protoname,argv[0]);
   protodepth++;
   protojson = WJEObject(protojson, argv[0], WJE_GET);
   if (WJEGet(protojson, "schema", NULL))

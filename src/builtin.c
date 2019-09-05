@@ -3,8 +3,10 @@
 #include "builtin.h"
 #include "interpreter.h"
 #include "proto.h"
+#include "zcore.h"
 
 extern int protodepth;
+extern WJElement protojson; 
 
 void path_up()
 {
@@ -14,6 +16,11 @@ void path_up()
       if (protodepth == 0)
       {
         printf("Already at the command root\n");
+      }
+      else
+      {
+        protodepth--;
+        protojson = protojson->parent;
       }
     break;
   }
