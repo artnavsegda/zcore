@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "zcore.h"
 #include "interpreter.h"
+#include "utils.h"
 
 extern WJElement protojson;
 
@@ -8,7 +9,15 @@ int isface(char * facename)
 {
   if (domain == FACE)
   {
-
+    if (getelementbynameprop(protojson, facename))
+    {
+      puts(facename);
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
   }
   return 0;
 }

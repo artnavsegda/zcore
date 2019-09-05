@@ -54,7 +54,7 @@ char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) 
 WJElement getelementbynameprop(WJElement container, char * text)
 {
   WJElement entity = NULL;
-  while (entity = _WJEObject(container, "[]", WJE_GET, &entity)) {
+  while (entity = _WJEObject(container, "data[]", WJE_GET, &entity)) {
     if (strcmp(WJEString(entity, "name", WJE_GET, ""), text) == 0) {
       return entity;
     }
