@@ -32,3 +32,8 @@ int iscommand(char * commandname)
   return 0;
 }
 
+int command(int argc, char *argv[])
+{
+  puts(argv[0]);
+}
+

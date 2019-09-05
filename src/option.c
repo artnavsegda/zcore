@@ -5,6 +5,7 @@
 #include "option.h"
 
 extern WJElement protojson;
+extern WJElement protoface;
 
 int listoptions(void)
 {
@@ -30,5 +31,12 @@ int isoption(char * optionname)
     }
   }
   return 0;
+}
+
+int option(int argc, char *argv[])
+{
+  WJElement parameter;
+  parameter = WJEObjectF(protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
+  puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
 }
 
