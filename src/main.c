@@ -25,6 +25,8 @@ int main(int argc, char *argv[])
 
   acquireall(root);
 
+//  WJEDump(root);
+
   while (1)
   {
     char * input = readline(">");
