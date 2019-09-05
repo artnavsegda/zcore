@@ -10,6 +10,8 @@
 #include "proto.h"
 #include "builtin.h"
 #include "face.h"
+#include "command.h"
+#include "option.h"
 
 enum domains domain = PROTO;
 

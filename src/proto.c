@@ -3,6 +3,7 @@
 #include "zcore.h"
 #include "interpreter.h"
 #include "proto.h"
+#include "face.h"
 
 char protoname[100] = "";
 int protodepth = 0;
@@ -53,6 +54,10 @@ int proto(int argc, char *argv[])
       {
         domain = FACE;
       }
+    }
+    else if(isface(argv[i]))
+    {
+      face(argc-i, &argv[i]);
     }
     else
     {
