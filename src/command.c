@@ -16,3 +16,19 @@ int listcommands(void)
   }
 }
 
+int iscommand(char * commandname)
+{
+  if (domain == FACE || domain == OPTION)
+  {
+    if (WJEGetF(protojson, NULL, "schema.commands.%s", commandname))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  return 0;
+}
+

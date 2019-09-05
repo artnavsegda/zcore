@@ -16,3 +16,19 @@ int listoptions(void)
   }
 }
 
+int isoption(char * optionname)
+{
+  if (domain == OPTION)
+  {
+    if (WJEGetF(protojson, NULL, "schema.items.properties.%s", optionname))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  return 0;
+}
+

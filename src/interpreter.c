@@ -22,18 +22,18 @@ int execute(int argc, char *argv[]) {
   {
     proto(argc,argv);
   }
-//  else if (iscommand(argv[0]))
-//  {
-//    command(argc,argv);
-//  }
+  else if (iscommand(argv[0]))
+  {
+    command(argc,argv);
+  }
   else if (isface(argv[0]))
   {
     face(argc,argv);
   }
-//  else if (isoption(argv[0]))
-//  {
-//    option(argc,argv);
-//  }
+  else if (isoption(argv[0]))
+  {
+    option(argc,argv);
+  }
 }
 
 int interpret(char * stringtointerpret)
