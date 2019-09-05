@@ -31,7 +31,7 @@ int execute(int argc, char *argv[]) {
 //  }
   else if (isproto(argv[0]))
   {
-    //proto(argc,argv);
+    proto(argc,argv);
     puts("proto exists");
   }
   else

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "zcore.h"
 
 char protopath[100] = "";
@@ -25,5 +26,12 @@ int isproto(char * protoname)
     return 0;
     //puts("proto not exists");
   }
+}
+
+int proto(int argc, char *argv[])
+{
+  //WJElement proto = NULL;
+  strcpy(protopath,argv[0]);
+  protodepth++;
 }
 
