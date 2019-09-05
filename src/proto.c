@@ -2,6 +2,7 @@
 #include <string.h>
 #include "zcore.h"
 #include "interpreter.h"
+#include "proto.h"
 
 char protoname[100] = "";
 int protodepth = 0;
