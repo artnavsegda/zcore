@@ -23,6 +23,11 @@ void path_up()
         protojson = protojson->parent;
       }
     break;
+    case FACE:
+      domain = PROTO;
+      protodepth--;
+      protojson = protojson->parent;
+    break;
   }
 }
 
