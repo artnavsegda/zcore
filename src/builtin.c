@@ -37,7 +37,7 @@ void path_up()
 
 void commandlist()
 {
-  puts("commands:");
+  puts("tokens:");
   listbuiltins();
   switch (domain)
   {
