@@ -87,3 +87,24 @@ int builtin(int argc, char *argv[])
   }
 }
 
+char *builtincommands[] = {"?","..",NULL};
+
+char * builtinvalues(const char * text, int len)
+{
+  static int valueindex = 0;
+  
+  while (builtincommands[valueindex] != NULL)
+  {
+    if (strncmp(builtincommands[valueindex], text, len)==0)
+    {
+      return strdup(builtincommands[valueindex++]);
+    }
+    else
+    {
+      valueindex++;
+    }
+  }
+  valueindex = 0;
+  return NULL;
+}
+

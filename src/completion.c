@@ -69,7 +69,8 @@ char ** character_name_completion(const char *text, int start, int end)
 char * rl_rootcommands(const char * text, int len)
 {
   char * rootvalues = NULL;
-  rootvalues = protovalues(text,len);
+  //rootvalues = protovalues(text,len);
+  rootvalues = builtinvalues(text,len);
   if (rootvalues == NULL)
   {
     return NULL;
