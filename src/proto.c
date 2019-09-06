@@ -67,3 +67,16 @@ int proto(int argc, char *argv[])
   }
 }
 
+char * protovalues(const char * text, int len)
+{
+  if (protodepth == 0)
+    protojson = root;
+    
+  static WJElement proto = NULL;
+
+  while (proto = _WJEObject(protojson, "[]", WJE_GET, &proto)) {
+    if (strncmp(proto->name, text, len) == 0) {
+      return strdup(proto->name);
+    }
+  }
+}
