@@ -66,6 +66,11 @@ char ** character_name_completion(const char *text, int start, int end)
   return rl_completion_matches(text, character_name_generator);
 }
 
+char * rl_rootcommands(const char * text, int len)
+{
+  return protovalues(text,len);
+}
+
 char * character_name_generator(const char *text, int state)
 {
   static int list_index, len;
@@ -77,7 +82,7 @@ char * character_name_generator(const char *text, int state)
 
   if (rl_command == NULL)
   {
-    return protovalues(text,len);
+    return rl_rootcommands(text,len);
   }
 
   return NULL;
