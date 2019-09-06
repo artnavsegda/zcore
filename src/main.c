@@ -15,17 +15,16 @@ WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
-//  rl_attempted_completion_function = character_name_completion;
+  rl_attempted_completion_function = character_name_completion;
 
   root = WJEObject(NULL, NULL, WJE_NEW);
 
   readconfig();
-//  printf("Schema search path %s\n",config.schemepath);
   loadeveryscheme(root,config.schemepath);
 
   acquireall(root);
 
-  WJEDump(root);
+  //WJEDump(root);
 
   while (1)
   {
