@@ -58,6 +58,7 @@ int proto(int argc, char *argv[])
     else if(isface(argv[i]))
     {
       face(argc-i, &argv[i]);
+      return 1;
     }
     else
     {

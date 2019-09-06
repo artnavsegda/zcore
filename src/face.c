@@ -3,6 +3,7 @@
 #include "zcore.h"
 #include "interpreter.h"
 #include "utils.h"
+#include "option.h"
 
 extern WJElement protojson;
 WJElement protoface = NULL;
@@ -30,6 +31,13 @@ int face(int argc, char *argv[])
   strcpy(facename,argv[0]);
   protoface = getelementbynameprop(protojson, facename);
   domain = OPTION;
+  if (argc > 1)
+  {
+    if(isoption(argv[1]))
+    {
+      option(argc-1, &argv[1]);
+    }
+  }
 }
 
 int listfaces(void)
