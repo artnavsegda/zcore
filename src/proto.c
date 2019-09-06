@@ -79,4 +79,5 @@ char * protovalues(const char * text, int len)
       return strdup(proto->name);
     }
   }
+  return NULL;
 }
