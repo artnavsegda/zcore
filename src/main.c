@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
   acquireall(root);
 
-//  WJEDump(root);
+  WJEDump(root);
 
   while (1)
   {
