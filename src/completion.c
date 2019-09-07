@@ -74,6 +74,14 @@ char * rl_rootcommands(const char * text, int len)
   return rootvalues;
 }
 
+char * rl_subcommands(const char * text, int len)
+{
+  char * subvalues = NULL;
+  if ((subvalues = protovalues(text,len)) == NULL)
+    return NULL;
+  return subvalues;
+}
+
 char * character_name_generator(const char *text, int state)
 {
   static int list_index, len;
