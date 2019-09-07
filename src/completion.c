@@ -95,6 +95,10 @@ char * character_name_generator(const char *text, int state)
   {
     return rl_rootcommands(text,len);
   }
+  else
+  {
+    return rl_subcommands(text,len);
+  }
 
   return NULL;
 }
