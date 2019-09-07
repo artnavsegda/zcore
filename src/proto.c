@@ -9,6 +9,9 @@ char protoname[100] = "";
 int protodepth = 0;
 WJElement protojson = NULL;
 
+int rl_protodepth = 0;
+WJElement rl_protojson = NULL;
+
 int listprotos(void)
 {
   if (protodepth == 0)
@@ -69,12 +72,12 @@ int proto(int argc, char *argv[])
 
 char * protovalues(const char * text, int len)
 {
-  if (protodepth == 0)
-    protojson = root;
+  if (rl_protodepth == 0)
+    rl_protojson = root;
     
   static WJElement proto = NULL;
 
-  while (proto = _WJEObject(protojson, "[]", WJE_GET, &proto)) {
+  while (proto = _WJEObject(rl_protojson, "[]", WJE_GET, &proto)) {
     if (strncmp(proto->name, text, len) == 0) {
       return strdup(proto->name);
     }
