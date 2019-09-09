@@ -14,27 +14,37 @@
 #include "option.h"
 
 enum domains domain = PROTO;
+extern WJElement protojson;
 
 int execute(int argc, char *argv[]) {
+  int ret = 0;
+  enum domains ret_domain = domain; 
+  WJElement ret_protojson = protojson;
+
   if (isbuiltin(argv[0]))
   {
-    builtin(argc,argv);
+    ret = builtin(argc,argv);
   }
   else if (isproto(argv[0]))
   {
-    proto(argc,argv);
+    ret = proto(argc,argv);
   }
   else if (iscommand(argv[0]))
   {
-    command(argc,argv);
+    ret = command(argc,argv);
   }
   else if (isface(argv[0]))
   {
-    face(argc,argv);
+    ret = face(argc,argv);
   }
   else if (isoption(argv[0]))
   {
-    option(argc,argv);
+    ret = option(argc,argv);
+  }
+  if (ret)
+  {
+    domain = ret_domain;
+    protojson = ret_protojson;
   }
 }
 

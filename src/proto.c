@@ -80,14 +80,14 @@ int proto(int argc, char *argv[])
     }
     else if(isface(argv[i]))
     {
-      face(argc-i, &argv[i]);
-      return 1;
+      return face(argc-i, &argv[i]);
     }
     else
     {
       printf("%s unavalible\n", argv[i]);
     }
   }
+  return 0;
 }
 
 int rl_proto(int argc, char *argv[])

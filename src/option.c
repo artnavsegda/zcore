@@ -39,6 +39,7 @@ int option(int argc, char *argv[])
   WJElement parameter;
   parameter = WJEObjectF(protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
   puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  return 1;
 }
 
 char * optionvalues(const char * text, int len)

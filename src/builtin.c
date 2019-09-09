@@ -11,7 +11,7 @@
 extern int protodepth;
 extern WJElement protojson; 
 
-void path_up()
+int path_up()
 {
   switch (domain)
   {
@@ -35,9 +35,10 @@ void path_up()
       domain = FACE;
     break;
   }
+  return 0;
 }
 
-void commandlist()
+int commandlist()
 {
   puts("tokens:");
   listbuiltins();
@@ -55,6 +56,7 @@ void commandlist()
       listcommands();
     break;
   }
+  return 1;
 }
 
 void listbuiltins()
@@ -79,11 +81,11 @@ int builtin(int argc, char *argv[])
 {
   if (argv[0][0]=='?')
   {
-    commandlist();
+    return commandlist();
   }
   else if (strcmp(argv[0],"..") == 0)
   {
-    path_up();
+    return path_up();
   }
 }
 

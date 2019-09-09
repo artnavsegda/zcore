@@ -54,9 +54,10 @@ int face(int argc, char *argv[])
   {
     if(isoption(argv[1]))
     {
-      option(argc-1, &argv[1]);
+      return option(argc-1, &argv[1]);
     }
   }
+  return 0;
 }
 
 int rl_face(int argc, char *argv[])
