@@ -2,9 +2,12 @@
 #include <unistd.h>
 #include <limits.h>
 #include <wjelement.h>
+#include "interpreter.h"
 
 extern WJElement protojson;
+extern WJElement protoface;
 extern int protodepth;
+extern enum domains domain;
 
 char * parentname(WJElement element, int depth)
 {
@@ -30,6 +33,11 @@ void generateprompt(char * prompt)
   {
     strcat(prompt, "/");
     strcat(prompt, parentname(protojson, i));
+  }
+  if (domain == OPTION)
+  {
+    strcat(prompt, "/");
+    strcat(prompt, WJEString(protoface, "name", WJE_GET, ""));
   }
   strcat(prompt, ">");
 }
