@@ -23,9 +23,9 @@ int rl_execute(int argc, char *argv[])
   {
     //builtin(argc,argv);
   }
-  else if (isproto(argv[0]))
+  else if (rl_isproto(argv[0]))
   {
-    //proto(argc,argv);
+    rl_proto(argc,argv);
   }
   else if (iscommand(argv[0]))
   {
@@ -59,8 +59,15 @@ int rl_interpret(char * stringtointerpret, int start, int end)
   rl_command = NULL;
 }
 
+void init_completition(void)
+{
+  incom_proto();
+}
+
 char ** character_name_completion(const char *text, int start, int end)
 {
+  puts("STAGE1");
+  init_completition();
   rl_interpret(strdup(rl_line_buffer),start,end);
   rl_attempted_completion_over = 1;
   return rl_completion_matches(text, character_name_generator);
@@ -84,6 +91,7 @@ char * rl_subcommands(const char * text, int len)
 
 char * character_name_generator(const char *text, int state)
 {
+  puts("STAGE2");
   static int list_index, len;
 
   if (!state) {

@@ -44,6 +44,25 @@ int isproto(char * protoname)
   return 0;
 }
 
+int rl_isproto(char * rl_protoname)
+{
+  if (domain == PROTO)
+  {
+    if (rl_protodepth == 0)
+      rl_protojson = root;
+
+    if (WJEGet(rl_protojson, rl_protoname, NULL))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  return 0;
+}
+
 int proto(int argc, char *argv[])
 {
   for (int i = 0; i < argc; i++)
@@ -70,6 +89,15 @@ int proto(int argc, char *argv[])
   }
 }
 
+int rl_proto(int argc, char *argv[])
+{
+  if (rl_isproto(argv[0]))
+  {
+    rl_protodepth++;
+    rl_protojson = WJEObject(rl_protojson, argv[0], WJE_GET);
+  }
+}
+
 char * protovalues(const char * text, int len)
 {
   if (rl_protodepth == 0)
@@ -84,3 +112,11 @@ char * protovalues(const char * text, int len)
   }
   return NULL;
 }
+
+void incom_proto(void)
+{
+  puts("proto completition init");
+  rl_protojson = protojson;
+  rl_protodepth = protodepth;
+}
+
