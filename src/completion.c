@@ -86,6 +86,10 @@ char * rl_rootcommands(const char * text, int len)
         if ((rootvalues = facevalues(text,len)) == NULL)
           rootvalues = commandvalues(text,len);
       break;
+      case OPTION:
+        if ((rootvalues = optionvalues(text,len)) == NULL)
+          rootvalues = commandvalues(text,len);
+      break;
     }
   }
   return rootvalues;

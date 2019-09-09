@@ -6,6 +6,7 @@
 
 extern WJElement protojson;
 extern WJElement protoface;
+extern WJElement rl_protojson;
 
 int listoptions(void)
 {
@@ -38,5 +39,16 @@ int option(int argc, char *argv[])
   WJElement parameter;
   parameter = WJEObjectF(protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
   puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+}
+
+char * optionvalues(const char * text, int len)
+{
+  static WJElement option = NULL;
+  while (option = _WJEObject(rl_protojson, "schema.items.properties[]", WJE_GET, &option)) {
+    if (strncmp(option->name, text, len) == 0) {
+      return strdup(option->name);
+    }
+  }
+  return NULL;
 }
 
