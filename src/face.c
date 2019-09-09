@@ -52,7 +52,7 @@ int listfaces(void)
 
 char * facevalues(const char * text, int len)
 {
-  WJElement face = NULL;
+  static WJElement face = NULL;
   while (face = _WJEObject(rl_protojson, "data[]", WJE_GET, &face)) {
     if (strncmp(WJEString(face, "name", WJE_GET, ""), text, len) == 0) {
       return strdup(WJEString(face, "name", WJE_GET, ""));

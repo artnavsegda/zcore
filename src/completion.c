@@ -82,6 +82,9 @@ char * rl_rootcommands(const char * text, int len)
       case PROTO:
         rootvalues = protovalues(text,len);
       break;
+      case FACE:
+        rootvalues = facevalues(text,len);
+      break;
     }
   }
   return rootvalues;
