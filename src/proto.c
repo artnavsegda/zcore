@@ -6,7 +6,6 @@
 #include "face.h"
 #include "completion.h"
 
-//char protoname[100] = "";
 int protodepth = 0;
 WJElement protojson = NULL;
 

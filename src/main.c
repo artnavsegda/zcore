@@ -6,32 +6,15 @@
 #include <wjelement.h>
 #include <wjreader.h>
 #include <unistd.h>
-#include <limits.h>
 #include "interpreter.h"
 #include "completion.h"
 #include "config.h"
 #include "load.h"
 #include "acquire.h"
+#include "prompt.h"
 
 WJElement root = NULL;
-
-char zcore_prompt[255] = "";
-//extern char protoname[100];
-
-void generateprompt(char * prompt)
-{
-  char hostname[HOST_NAME_MAX];
-  gethostname(hostname, HOST_NAME_MAX);
-//  sprintf(prompt, "[%s@%s]/%s>", getlogin(), hostname, protoname);
-  prompt[0] = '\0';
-  strcat(prompt, "[");
-  strcat(prompt, getlogin());
-  strcat(prompt, "@");
-  strcat(prompt, hostname);
-  strcat(prompt, "]/");
-//  strcat(prompt, protoname);
-  strcat(prompt, ">");
-}
+char zcore_prompt[255];
 
 int main(int argc, char *argv[])
 {
