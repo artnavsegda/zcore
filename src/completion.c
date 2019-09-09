@@ -98,8 +98,13 @@ char * rl_rootcommands(const char * text, int len)
 char * rl_subcommands(const char * text, int len)
 {
   char * subvalues = NULL;
-  if ((subvalues = protovalues(text,len)) == NULL)
-    return NULL;
+  switch (domain)
+  {
+    case PROTO:
+    if ((subvalues = protovalues(text,len)) == NULL)
+      return NULL;
+    break;
+  }
   return subvalues;
 }
 
