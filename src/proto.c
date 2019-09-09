@@ -92,13 +92,16 @@ int proto(int argc, char *argv[])
 
 int rl_proto(int argc, char *argv[])
 {
-  if (rl_isproto(argv[0]))
+  for (int i = 0; i < argc; i++)
   {
-    rl_protodepth++;
-    rl_protojson = WJEObject(rl_protojson, argv[0], WJE_GET);
-    if (WJEGet(rl_protojson, "schema", NULL))
+    if (rl_isproto(argv[i]))
     {
-      rl_domain = FACE;
+      rl_protodepth++;
+      rl_protojson = WJEObject(rl_protojson, argv[i], WJE_GET);
+      if (WJEGet(rl_protojson, "schema", NULL))
+      {
+        rl_domain = FACE;
+      }
     }
   }
 }
