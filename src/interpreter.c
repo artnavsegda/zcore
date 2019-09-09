@@ -15,11 +15,15 @@
 
 enum domains domain = PROTO;
 extern WJElement protojson;
+extern WJElement protoface;
+extern int protodepth;
 
 int execute(int argc, char *argv[]) {
   int ret = 0;
   enum domains ret_domain = domain; 
   WJElement ret_protojson = protojson;
+  WJElement ret_protoface = protoface;
+  int ret_protodepth = protodepth;
 
   if (isbuiltin(argv[0]))
   {
@@ -45,6 +49,8 @@ int execute(int argc, char *argv[]) {
   {
     domain = ret_domain;
     protojson = ret_protojson;
+    protoface = ret_protoface;
+    protodepth = ret_protodepth;
   }
 }
 
