@@ -76,7 +76,14 @@ char * rl_rootcommands(const char * text, int len)
 {
   char * rootvalues = NULL;
   if ((rootvalues = builtinvalues(text,len)) == NULL)
-    rootvalues = protovalues(text,len);
+  {
+    switch (domain)
+    {
+      case PROTO:
+        rootvalues = protovalues(text,len);
+      break;
+    }
+  }
   return rootvalues;
 }
 
