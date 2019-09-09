@@ -27,7 +27,7 @@ int rl_execute(int argc, char *argv[])
   {
     rl_proto(argc,argv);
   }
-  else if (iscommand(argv[0]))
+  else if (rl_iscommand(argv[0]))
   {
     //command(argc,argv);
   }
@@ -83,7 +83,8 @@ char * rl_rootcommands(const char * text, int len)
         rootvalues = protovalues(text,len);
       break;
       case FACE:
-        rootvalues = facevalues(text,len);
+        if ((rootvalues = facevalues(text,len)) == NULL)
+          rootvalues = commandvalues(text,len);
       break;
     }
   }
