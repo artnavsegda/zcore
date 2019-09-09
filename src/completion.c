@@ -98,7 +98,7 @@ char * rl_rootcommands(const char * text, int len)
 char * rl_subcommands(const char * text, int len)
 {
   char * subvalues = NULL;
-  switch (domain)
+  switch (rl_domain)
   {
     case PROTO:
     if ((subvalues = protovalues(text,len)) == NULL)

@@ -4,6 +4,7 @@
 #include "interpreter.h"
 #include "proto.h"
 #include "face.h"
+#include "completion.h"
 
 char protoname[100] = "";
 int protodepth = 0;
@@ -95,6 +96,10 @@ int rl_proto(int argc, char *argv[])
   {
     rl_protodepth++;
     rl_protojson = WJEObject(rl_protojson, argv[0], WJE_GET);
+    if (WJEGet(rl_protojson, "schema", NULL))
+    {
+      rl_domain = FACE;
+    }
   }
 }
 
