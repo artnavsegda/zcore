@@ -47,7 +47,7 @@ int isproto(char * protoname)
 
 int rl_isproto(char * rl_protoname)
 {
-  if (domain == PROTO)
+  if (rl_domain == PROTO)
   {
     if (rl_protodepth == 0)
       rl_protojson = root;
@@ -102,6 +102,10 @@ int rl_proto(int argc, char *argv[])
       {
         rl_domain = FACE;
       }
+    }
+    else if(rl_isface(argv[i]))
+    {
+      rl_face(argc-i, &argv[i]);
     }
   }
 }

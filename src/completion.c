@@ -31,9 +31,9 @@ int rl_execute(int argc, char *argv[])
   {
     //command(argc,argv);
   }
-  else if (isface(argv[0]))
+  else if (rl_isface(argv[0]))
   {
-    //face(argc,argv);
+    rl_face(argc,argv);
   }
   else if (isoption(argv[0]))
   {
@@ -102,6 +102,14 @@ char * rl_subcommands(const char * text, int len)
   {
     case PROTO:
     if ((subvalues = protovalues(text,len)) == NULL)
+      return NULL;
+    break;
+    case FACE:
+    if ((subvalues = facevalues(text,len)) == NULL)
+      return NULL;
+    break;
+    case OPTION:
+    if ((subvalues = optionvalues(text,len)) == NULL)
       return NULL;
     break;
   }
