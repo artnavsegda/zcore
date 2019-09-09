@@ -6,7 +6,7 @@
 #include "face.h"
 #include "completion.h"
 
-char protoname[100] = "";
+//char protoname[100] = "";
 int protodepth = 0;
 WJElement protojson = NULL;
 
@@ -70,7 +70,7 @@ int proto(int argc, char *argv[])
   {
     if (isproto(argv[i]))
     {
-      strcpy(protoname,argv[i]);
+      //strcpy(protoname,argv[i]);
       protodepth++;
       protojson = WJEObject(protojson, argv[i], WJE_GET);
       if (WJEGet(protojson, "schema", NULL))

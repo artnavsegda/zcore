@@ -16,13 +16,21 @@
 WJElement root = NULL;
 
 char zcore_prompt[255] = "";
-extern char protoname[100];
+//extern char protoname[100];
 
 void generateprompt(char * prompt)
 {
   char hostname[HOST_NAME_MAX];
   gethostname(hostname, HOST_NAME_MAX);
-  sprintf(prompt, "[%s@%s]/%s>", getlogin(), hostname, protoname);
+//  sprintf(prompt, "[%s@%s]/%s>", getlogin(), hostname, protoname);
+  prompt[0] = '\0';
+  strcat(prompt, "[");
+  strcat(prompt, getlogin());
+  strcat(prompt, "@");
+  strcat(prompt, hostname);
+  strcat(prompt, "]/");
+//  strcat(prompt, protoname);
+  strcat(prompt, ">");
 }
 
 int main(int argc, char *argv[])
