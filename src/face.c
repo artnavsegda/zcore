@@ -6,6 +6,7 @@
 #include "option.h"
 
 extern WJElement protojson;
+extern WJElement rl_protojson;
 WJElement protoface = NULL;
 char facename[100] = "";
 
@@ -47,5 +48,16 @@ int listfaces(void)
   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
     puts(WJEString(face, "name", WJE_GET, ""));
   }
+}
+
+char * facevalues(const char * text, int len)
+{
+  WJElement face = NULL;
+  while (face = _WJEObject(rl_protojson, "data[]", WJE_GET, &face)) {
+    if (strncmp(WJEString(face, "name", WJE_GET, ""), text, len) == 0) {
+      return strdup(WJEString(face, "name", WJE_GET, ""));
+    }
+  }
+  return NULL;
 }
 
