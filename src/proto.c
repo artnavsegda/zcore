@@ -115,7 +115,7 @@ char * protovalues(const char * text, int len)
 
 void incom_proto(void)
 {
-  puts("proto completition init");
+//  puts("proto completition init");
   rl_protojson = protojson;
   rl_protodepth = protodepth;
 }

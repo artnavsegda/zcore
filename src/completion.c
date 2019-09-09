@@ -66,7 +66,6 @@ void init_completition(void)
 
 char ** character_name_completion(const char *text, int start, int end)
 {
-  puts("STAGE1");
   init_completition();
   rl_interpret(strdup(rl_line_buffer),start,end);
   rl_attempted_completion_over = 1;
@@ -91,7 +90,6 @@ char * rl_subcommands(const char * text, int len)
 
 char * character_name_generator(const char *text, int state)
 {
-  puts("STAGE2");
   static int list_index, len;
 
   if (!state) {
