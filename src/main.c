@@ -5,6 +5,8 @@
 #include <readline/history.h>
 #include <wjelement.h>
 #include <wjreader.h>
+#include <unistd.h>
+#include <limits.h>
 #include "interpreter.h"
 #include "completion.h"
 #include "config.h"
@@ -12,6 +14,15 @@
 #include "acquire.h"
 
 WJElement root = NULL;
+
+char zcore_prompt[255] = "";
+
+void generateprompt(char * prompt)
+{
+  char hostname[HOST_NAME_MAX];
+  gethostname(hostname, HOST_NAME_MAX);
+  sprintf(prompt, "%s>", hostname);
+}
 
 int main(int argc, char *argv[])
 {
@@ -28,7 +39,8 @@ int main(int argc, char *argv[])
 
   while (1)
   {
-    char * input = readline(">");
+    generateprompt(zcore_prompt);
+    char * input = readline(zcore_prompt);
     if (!input)
       break;
     add_history(input);
