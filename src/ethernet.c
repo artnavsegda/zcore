@@ -26,17 +26,33 @@ WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
           WJEString(ifaceoutput,property->name,WJE_NEW,stringvalue);
         }
       }
+      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
+      {
+        int numbervalue = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
+        if (numbervalue != -1)
+        {
+          WJEInt32(ifaceoutput,property->name,WJE_NEW,numbervalue);
+        }
+      }
+      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
+      {
+        int boolval = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
+        if (boolval != -1)
+        {
+          WJEBool(ifaceoutput,property->name,WJE_NEW,(XplBool)boolval);
+        }
+      }
     }
 
-    int defaultroute = WJEInt32(ifaceinput,"defaultroute",WJE_GET,-1);
-    if (defaultroute != -1){
-      WJEBool(ifaceoutput,"defaultroute",WJE_NEW,(XplBool)defaultroute);
-    }
+//    int defaultroute = WJEInt32(ifaceinput,"defaultroute",WJE_GET,-1);
+//    if (defaultroute != -1){
+//      WJEBool(ifaceoutput,"defaultroute",WJE_NEW,(XplBool)defaultroute);
+//    }
 
-    int metric = WJEInt32(ifaceinput,"metric",WJE_GET,-1);
-    if (metric != -1) {
-      WJEInt32(ifaceoutput,"metric",WJE_NEW,metric);
-    }
+//    int metric = WJEInt32(ifaceinput,"metric",WJE_GET,-1);
+//    if (metric != -1) {
+//      WJEInt32(ifaceoutput,"metric",WJE_NEW,metric);
+//    }
   }
 
   return output;
