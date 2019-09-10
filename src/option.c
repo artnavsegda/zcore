@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <wjelement.h>
 #include "zcore.h"
 #include "interpreter.h"
 #include "option.h"
@@ -73,6 +74,11 @@ int option(int argc, char *argv[])
   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
   if (argc == 2)
   {
+    if (argv[1][0] == '?')
+    {
+      puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
+      return 1;
+    }
     if (argv[1][0] == '\"')
     {
       argv[1] = cutquot(argv[1]);
