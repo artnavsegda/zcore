@@ -20,6 +20,11 @@ WJElement filter(WJReader inputstream)
       WJEString(ifaceoutput,"macaddr",WJE_NEW,macaddr);
     }
 
+    char * ip = WJEString(ifaceinput,"ip",WJE_GET,"");
+    if (ip[0]){
+      WJEString(ifaceoutput,"ip",WJE_NEW,ip);
+    }
+
     int defaultroute = WJEInt32(ifaceinput,"defaultroute",WJE_GET,-1);
     if (defaultroute != -1){
       WJEBool(ifaceoutput,"defaultroute",WJE_NEW,(XplBool)defaultroute);

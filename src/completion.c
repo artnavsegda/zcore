@@ -7,111 +7,133 @@
 #include <wjreader.h>
 #include "completion.h"
 #include "utils.h"
+#include "proto.h"
+#include "builtin.h"
+#include "command.h"
+#include "face.h"
+#include "option.h"
+#include "interpreter.h"
 
-char *command;
+enum domains rl_domain = PROTO;
+char *rl_command = NULL;
 
-extern WJElement doc, schema;
-static WJElement entity = NULL, parameter = NULL, enumoption = NULL;
-
-extern char interface[100];
-extern char option[100];
-extern int level;
-
-char * entityvalues(const char * text, int len)
+int rl_execute(int argc, char *argv[])
 {
-  while (entity = _WJEObject(doc, "[]", WJE_GET, &entity)) {
-    if (strncmp(WJEString(entity, "name", WJE_GET, ""), text, len) == 0) {
-      return strdup(WJEString(entity, "name", WJE_GET, ""));
-    }
-  }
-}
-
-char * parametervalues(const char * text, int len)
-{
-  while (parameter = _WJEObject(schema, "items.properties[]", WJE_GET, &parameter)) {
-    if (strncmp(parameter->name, text, len) == 0) {
-      return strdup(parameter->name);
-    }
-  }
-}
-
-char * settingvalues(const char * text, int len, char * getparam, int state)
-{
-  char temp[100];
-  if (WJEArrayF(schema, WJE_GET, NULL, "items.properties.%s.enum", getparam))
+  if (isbuiltin(argv[0]))
   {
-    while (enumoption = WJEGetF(schema, enumoption, "items.properties.%s.enum[]", getparam)) {
-      if (strncmp(WJEString(enumoption, NULL, WJE_GET, ""), text, len) == 0) {
-        return strdup(WJEString(enumoption, NULL, WJE_GET, ""));
-      }
-    }
+    //builtin(argc,argv);
   }
-
-
-  if (!state)
+  else if (rl_isproto(argv[0]))
   {
-    entity = getelementbynameprop(doc,interface);
-    parameter = WJEObjectF(schema, WJE_GET, NULL, "items.properties.%s", getparam);
-    char * testquote = WJEString(entity, parameter->name, WJE_GET, "");
-    if (strchr(testquote,' '))
-    {
-      sprintf(temp,"\"%s\"", testquote);
-      return strdup(temp);
-    }
-    else
-      return strdup(WJEString(entity, parameter->name, WJE_GET, ""));
+    rl_proto(argc,argv);
   }
-  return NULL;
+  else if (rl_iscommand(argv[0]))
+  {
+    //command(argc,argv);
+  }
+  else if (rl_isface(argv[0]))
+  {
+    rl_face(argc,argv);
+  }
+  else if (isoption(argv[0]))
+  {
+    //option(argc,argv);
+  }
 }
 
-char * find_command(char **tokarr, int start)
+int rl_interpret(char * stringtointerpret, int start, int end)
 {
-  int numberoftokens = arrlength(tokarr);
+  rl_domain = domain;
+  char *rl_tokarr[100];
+  int one = parse(stringtointerpret, rl_tokarr);
+  int numberoftokens = arrlength(rl_tokarr);
   if (numberoftokens > 0)
   {
     if (start > 0)
-      return tokarr[0];
+    {
+      rl_execute(numberoftokens,rl_tokarr);
+      rl_command = rl_tokarr[0];
+      return 0;
+    }
   }
-  return NULL;
+  rl_command = NULL;
+}
+
+void init_completition(void)
+{
+  incom_proto();
 }
 
 char ** character_name_completion(const char *text, int start, int end)
 {
-    char *tokarr[100];
-    char *inputline = strdup(rl_line_buffer);
-    parse(inputline, tokarr);
-    command = find_command(tokarr, start);
-    rl_attempted_completion_over = 1;
-    return rl_completion_matches(text, character_name_generator);
+  init_completition();
+  rl_interpret(strdup(rl_line_buffer),start,end);
+  rl_attempted_completion_over = 1;
+  return rl_completion_matches(text, character_name_generator);
+}
+
+char * rl_rootcommands(const char * text, int len)
+{
+  char * rootvalues = NULL;
+  if ((rootvalues = builtinvalues(text,len)) == NULL)
+  {
+    switch (domain)
+    {
+      case PROTO:
+        rootvalues = protovalues(text,len);
+      break;
+      case FACE:
+        if ((rootvalues = facevalues(text,len)) == NULL)
+          rootvalues = commandvalues(text,len);
+      break;
+      case OPTION:
+        if ((rootvalues = optionvalues(text,len)) == NULL)
+          rootvalues = commandvalues(text,len);
+      break;
+    }
+  }
+  return rootvalues;
+}
+
+char * rl_subcommands(const char * text, int len)
+{
+  char * subvalues = NULL;
+  switch (rl_domain)
+  {
+    case PROTO:
+    if ((subvalues = protovalues(text,len)) == NULL)
+      return NULL;
+    break;
+    case FACE:
+    if ((subvalues = facevalues(text,len)) == NULL)
+      return NULL;
+    break;
+    case OPTION:
+    if ((subvalues = optionvalues(text,len)) == NULL)
+      return NULL;
+    break;
+  }
+  return subvalues;
 }
 
 char * character_name_generator(const char *text, int state)
 {
-    static int list_index, len;
+  static int list_index, len;
 
-    if (!state) {
-        list_index = 0;
-        len = strlen(text);
-    }
+  if (!state) {
+      list_index = 0;
+      len = strlen(text);
+  }
 
-    switch (level)
-    {
-      case 0:
-        if (command == NULL)
-          return entityvalues(text,len);
-        else
-          return parametervalues(text,len);
-      break;
-      case 1:
-        if (command == NULL)
-          return parametervalues(text,len);
-        else
-          return settingvalues(text,len,command, state);
-      break;
-      case 2:
-        return settingvalues(text,len,option, state);
-      break;
-    }
+  if (rl_command == NULL)
+  {
+    return rl_rootcommands(text,len);
+  }
+  else
+  {
+    return rl_subcommands(text,len);
+  }
 
-    return NULL;
+  return NULL;
 }
+

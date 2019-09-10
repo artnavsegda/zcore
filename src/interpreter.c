@@ -7,150 +7,60 @@
 #include <wjreader.h>
 #include "utils.h"
 #include "interpreter.h"
+#include "proto.h"
+#include "builtin.h"
+#include "face.h"
+#include "command.h"
+#include "option.h"
 
-extern WJElement doc, schema;
-static WJElement entity = NULL, parameter = NULL, command = NULL;
-
-char greet[100] = ">";
-char interface[100] = "";
-char option[100] = "";
-int level = 0;
-
-int setparameter(char * setiface, char * setparam, char * setvalue) {
-  printf("setting %s %s %s\n",setiface,setparam,setvalue);
-  if (setvalue[0] == '\"')
-    setvalue = cutquot(setvalue);
-  entity = getelementbynameprop(doc,setiface);
-  parameter = WJEObjectF(schema, WJE_GET, NULL, "items.properties.%s",setparam);
-  WJEString(entity, parameter->name, WJE_SET, setvalue);
-}
-
-void entitylist(void) {
-    while (entity = _WJEObject(doc, "[]", WJE_GET, &entity)) {
-      puts(WJEString(entity, "name", WJE_GET, ""));
-    }
-}
-
-void parameterlist() {
-  while (parameter = _WJEObject(schema, "items.properties[]", WJE_GET, &parameter)) {
-    puts(parameter->name);
-  }
-}
-
-void commandlist() {
-  puts("commands:");
-  while (command = _WJEObject(schema, "commands[]", WJE_GET, &command)) {
-    puts(command->name);
-  }
-}
-
-int getparameter(char * getiface, char * getparam) {
-  parameter = WJEObjectF(schema, WJE_GET, NULL, "items.properties.%s",getparam);
-  if (parameter) {
-    entity = getelementbynameprop(doc,getiface);
-    printf("Value: %s\n", WJEString(entity, parameter->name, WJE_GET, "<undefined>"));
-    return 0;
-  }
-  else {
-    printf("No property %s defined\n",getparam);
-    return 1;
-  }
-}
+enum domains domain = PROTO;
+extern WJElement protojson;
+extern WJElement protoface;
+extern int protodepth;
 
 int execute(int argc, char *argv[]) {
-  if (strcmp(argv[0],"..")==0){
-    if (level > 0)
-      level--;
-    else
-      printf("Already at the command root\n",argv[0]);
-    return 0;
+  int ret = 0;
+  enum domains ret_domain = domain; 
+  WJElement ret_protojson = protojson;
+  WJElement ret_protoface = protoface;
+  int ret_protodepth = protodepth;
+
+  if (isbuiltin(argv[0]))
+  {
+    ret = builtin(argc,argv);
   }
-  if (strcmp(argv[0],"show")==0) {
-    while (entity = _WJEObject(doc, "[]", WJE_GET, &entity)) {
-      while (parameter = _WJEObject(schema, "items.properties[]", WJE_GET, &parameter)) {
-        printf("%s.", WJEString(entity, "name", WJE_GET, ""));
-        printf("%s = ", parameter->name);
-        printf("%s\n", WJEString(entity, parameter->name, WJE_GET, "None"));
-      }
-    }
-    return 0;
+  else if (isproto(argv[0]))
+  {
+    ret = proto(argc,argv);
   }
-    switch (level) {
-      case 0:
-        if (argv[0][0]=='?') {
-          entitylist();
-          commandlist();
-          return 0;
-        }
-        if (argc == 1) {
-          if (getelementbynameprop(doc,argv[0]) != NULL) {
-            strcpy(interface,argv[0]);
-            level++;
-          }
-          else if (commandfound(argv[0])) {
-            printf("exec %s for all ifaces\n", WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]));
-            while (entity = _WJEObject(doc, "[]", WJE_GET, &entity)) {
-              streamintocommand(formatcommand(argv[0]),WJEToString(entity,TRUE),WJEString(entity, "name", WJE_GET, "none"));
-            }
-          }
-          else {
-            printf("No command %s found\n",argv[0]);
-            return 0;
-          }
-        }
-        else if (argc == 2){
-          if (argv[1][0]=='?') {
-            parameterlist();
-            return 0;
-          }
-          else if (commandfound(argv[0])) {
-            if (ifacefound(argv[1])) {
-              printf("exec %s for iface %s\n", WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", argv[0]),argv[1]);
-              streamintocommand(formatcommand(argv[0]),WJEToString(getelementbynameprop(doc,argv[1]), TRUE),argv[1]);
-            }
-            else {
-              printf("no interface %s found\n",argv[1]);
-            }
-          }
-          else {
-            getparameter(argv[0],argv[1]);
-            return 0;
-          }
-        }
-        else {
-          setparameter(argv[0],argv[1],argv[2]);
-          return 0;
-        }
-      break;
-      case 1:
-        if (argv[0][0]=='?') {
-          parameterlist();
-          commandlist();
-          return 0;
-        }
-        if (argc == 1) {
-          getparameter(interface,argv[0]);
-        }
-        else {
-          setparameter(interface,argv[0],argv[1]);
-        }
-      break;
-      case 2:
-        setparameter(interface,option,argv[0]);
-        return 0;
-      break;
-    }
-    //if (level < 1)
-      //level++;
-    //sprintf(greet,"%s >",line);
+  else if (iscommand(argv[0]))
+  {
+    ret = command(argc,argv);
+  }
+  else if (isface(argv[0]))
+  {
+    ret = face(argc,argv);
+  }
+  else if (isoption(argv[0]))
+  {
+    ret = option(argc,argv);
+  }
+  if (ret)
+  {
+    domain = ret_domain;
+    protojson = ret_protojson;
+    protoface = ret_protoface;
+    protodepth = ret_protodepth;
+  }
 }
 
 int interpret(char * stringtointerpret)
 {
   char *tokarr[100]; // maximum argument count
-  parse(stringtointerpret, tokarr);
+  int one = parse(stringtointerpret, tokarr);
   int numberoftokens = arrlength(tokarr);
-  //printf("number of tokens %d\n", numberoftokens);
   if (numberoftokens > 0)
+  {
     execute(numberoftokens,tokarr);
+  }
 }

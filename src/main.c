@@ -5,10 +5,16 @@
 #include <readline/history.h>
 #include <wjelement.h>
 #include <wjreader.h>
+#include <unistd.h>
 #include "interpreter.h"
 #include "completion.h"
+#include "config.h"
+#include "load.h"
+#include "acquire.h"
+#include "prompt.h"
 
 WJElement root = NULL;
+char zcore_prompt[255];
 
 int main(int argc, char *argv[])
 {
@@ -17,37 +23,16 @@ int main(int argc, char *argv[])
   root = WJEObject(NULL, NULL, WJE_NEW);
 
   readconfig();
-
   loadeveryscheme(root,config.schemepath);
 
-  WJEDump(root);
+  acquireall(root);
 
-  return 1;
-
-  FILE *jsonstream;
-  WJReader readjson;
-
-  sprintf(temp,"./%s ./%s.sh",argv[1],argv[1]);
-  if (!(jsonstream = popen(temp, "r"))) {
-    puts("handle error");
-    return 1;
-  }
-
-  if (!(readjson = WJROpenFILEDocument(jsonstream, NULL, 0))) {
-    puts("json failed to open");
-    return 1;
-  }
-  if (!(readschema = WJROpenFILEDocument(schemafile, NULL, 0))) {
-    puts("schema failed to open");
-    return 1;
-  }
-
-  schema = WJEOpenDocument(readschema, NULL, NULL, NULL);
-  doc = WJEOpenDocument(readjson, NULL, NULL, NULL);
+  //WJEDump(root);
 
   while (1)
   {
-    char * input = readline(">");
+    generateprompt(zcore_prompt);
+    char * input = readline(zcore_prompt);
     if (!input)
       break;
     add_history(input);

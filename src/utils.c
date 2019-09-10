@@ -54,7 +54,7 @@ char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) 
 WJElement getelementbynameprop(WJElement container, char * text)
 {
   WJElement entity = NULL;
-  while (entity = _WJEObject(container, "[]", WJE_GET, &entity)) {
+  while (entity = _WJEObject(container, "data[]", WJE_GET, &entity)) {
     if (strcmp(WJEString(entity, "name", WJE_GET, ""), text) == 0) {
       return entity;
     }
@@ -62,21 +62,21 @@ WJElement getelementbynameprop(WJElement container, char * text)
   return NULL;
 }
 
-int ifacefound(char * ifacetosearch)
+/*int ifacefound(char * ifacetosearch)
 {
   if (getelementbynameprop(doc,ifacetosearch))
       return 1;
   else
       return 0;
-}
+}*/
 
-int commandfound(char * commandtosearch)
+/*int commandfound(char * commandtosearch)
 {
   if (WJEObjectF(schema, WJE_GET, NULL, "commands.%s", commandtosearch))
     return 1;
   else
     return 0;
-}
+}*/
 
 char * cutquot(char * stringtocut)
 {
@@ -94,6 +94,12 @@ int arrlength(char **array)
 
 int parse(char * stringtoparse, char **tokarr)
 {
+  if (strlen(stringtoparse) == 0)
+  {
+    tokarr[0] = NULL;
+    return 0;
+  }
+
   char acOpen[]  = {"\"[<{"};
   char acClose[] = {"\"]>}"};
   int i = 0;
@@ -124,9 +130,9 @@ int streamintocommand(char * command, char * stream, char * argument)
   puts("\n");
 }
 
-char * formatcommand(char * command)
+/*char * formatcommand(char * command)
 {
   return WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", command);
-}
+}*/
 
 

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "Mobile",
+  "title": "mobile",
   "description": "Interface list",
   "type": "array",
   "items": {
@@ -52,5 +52,8 @@
         "command": "./mobile.sh revert %@name@%",
         "json": false
       }
-	 }
+	 },
+   "acquire": {
+     "shell": "./mobile ./mobile.sh"
+   }
 }

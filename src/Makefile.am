@@ -1,6 +1,4 @@
-bin_PROGRAMS = ethernet mobile zcore applymobile applyethernet
-zcore_SOURCES = main.c interpreter.c utils.c completion.c
-ethernet_SOURCES = ethernet.c plug.c
-mobile_SOURCES = mobile.c plug.c
-applymobile_SOURCES = apply-mobile.c plug2.c
-applyethernet_SOURCES = apply-ethernet.c plug2.c
+bin_PROGRAMS = zcore ethernet mobile
+zcore_SOURCES = main.c utils.c config.c load.c acquire.c interpreter.c proto.c builtin.c face.c command.c option.c completion.c prompt.c
+ethernet_SOURCES = plug.c ethernet.c
+mobile_SOURCES = plug.c mobile.c
