@@ -36,8 +36,11 @@ void generateprompt(char * prompt)
   }
   if (domain == OPTION)
   {
-    strcat(prompt, "/");
-    strcat(prompt, WJEString(protoface, "name", WJE_GET, ""));
+    if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+    {
+      strcat(prompt, "/");
+      strcat(prompt, WJEString(protoface, "name", WJE_GET, ""));
+    }
   }
   strcat(prompt, ">");
 }
