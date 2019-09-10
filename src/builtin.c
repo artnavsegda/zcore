@@ -33,9 +33,15 @@ int path_up()
     break;
     case OPTION:
       if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+      {
         domain = FACE;
+      }
       else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+      {
         domain = PROTO;
+        protodepth--;
+        protojson = protojson->parent;
+      }
     break;
   }
   return 0;

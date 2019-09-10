@@ -5,6 +5,7 @@
 #include "proto.h"
 #include "face.h"
 #include "completion.h"
+#include "option.h"
 
 int protodepth = 0;
 WJElement protojson = NULL;
@@ -92,6 +93,10 @@ int proto(int argc, char *argv[])
     {
       return face(argc-i, &argv[i]);
     }
+    else if(isoption(argv[i]))
+    {
+      return option(argc-i, &argv[i]);
+    }
     else
     {
       printf("%s unavalible\n", argv[i]);
@@ -117,14 +122,18 @@ int rl_proto(int argc, char *argv[])
         }
         else if (strcmp(WJEString(rl_protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
         {
-          rl_domain = OPTION;
           rl_protoface = WJEObject(rl_protojson, "data", WJE_GET);
+          rl_domain = OPTION;
         }
       }
     }
     else if(rl_isface(argv[i]))
     {
       rl_face(argc-i, &argv[i]);
+    }
+    else if(rl_isoption(argv[i]))
+    {
+      rl_option(argc-i, &argv[i]);
     }
   }
 }

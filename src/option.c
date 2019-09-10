@@ -19,7 +19,7 @@ WJElement optionlist(WJElement schema)
   {
     return WJEObject(schema,"schema.items", WJE_GET);
   }
-  else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+  else if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"object") == 0)
   {
     return WJEObject(schema,"schema", WJE_GET);
   }
@@ -39,7 +39,7 @@ int isoption(char * optionname)
 {
   if (domain == OPTION)
   {
-    if (WJEGetF(optionlist(protojson), NULL, "schema.items.properties.%s", optionname))
+    if (WJEGetF(optionlist(protojson), NULL, "properties.%s", optionname))
     {
       return 1;
     }
@@ -55,7 +55,7 @@ int rl_isoption(char * optionname)
 {
   if (rl_domain == OPTION)
   {
-    if (WJEGetF(optionlist(rl_protojson), NULL, "schema.items.properties.%s", optionname))
+    if (WJEGetF(optionlist(rl_protojson), NULL, "properties.%s", optionname))
     {
       return 1;
     }

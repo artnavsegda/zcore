@@ -3,7 +3,7 @@
   "title": "ntp",
   "type": "object",
   "properties": {
-    "enable": {
+    "enabled": {
       "type": "boolean",
       "description": "Enable update time from Internet"
     },
@@ -18,5 +18,8 @@
         "type": "string"
       }
     }
+  },
+  "acquire": {
+    "shell": "./ntp.sh"
   }
 }
