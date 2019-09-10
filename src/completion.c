@@ -112,9 +112,9 @@ char * rl_subcommands(const char * text, int len, int state)
     if ((subvalues = optionvalues(text,len)) == NULL)
       return NULL;
     break;
-//    case SETTING:
-//    if ((subvalues = settingvalues(text,len,state)) == NULL)
-//      return NULL;
+    case SETTING:
+    if ((subvalues = settingvalues(text,len,state)) == NULL)
+      return NULL;
   }
   return subvalues;
 }

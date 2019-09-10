@@ -9,6 +9,8 @@
 extern WJElement protojson;
 extern WJElement protoface;
 extern WJElement rl_protojson;
+extern WJElement rl_protoface;
+WJElement rl_parameter;
 
 int listoptions(void)
 {
@@ -70,8 +72,7 @@ int option(int argc, char *argv[])
 
 int rl_option(int argc, char *argv[])
 {
-  WJElement parameter;
-  parameter = WJEObjectF(protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
+  rl_parameter = WJEObjectF(rl_protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
   domain = SETTING;
   return 1;
 }
@@ -83,6 +84,18 @@ char * optionvalues(const char * text, int len)
     if (strncmp(option->name, text, len) == 0) {
       return strdup(option->name);
     }
+  }
+  return NULL;
+}
+
+char * settingvalues(const char * text, int len, int state)
+{
+  if (!state)
+  {
+   if (rl_parameter) 
+   {
+     return strdup(WJEString(rl_protoface, rl_parameter->name, WJE_GET, ""));
+   }
   }
   return NULL;
 }
