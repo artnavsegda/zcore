@@ -67,7 +67,6 @@ int option(int argc, char *argv[])
     WJEString(protoface, parameter->name, WJE_SET, argv[1]);
   }
   puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
-  puts(WJEString(protoface,argv[0],WJE_GET,"<undefined>"));
   return 1;
 }
 
