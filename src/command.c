@@ -51,7 +51,7 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
-  puts(argv[0]);
+  system(argv[0]);
 }
 
 char * commandvalues(const char * text, int len)
