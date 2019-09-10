@@ -84,6 +84,7 @@ int proto(int argc, char *argv[])
     else
     {
       printf("%s unavalible\n", argv[i]);
+      return 1;
     }
   }
   return 0;

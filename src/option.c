@@ -4,6 +4,7 @@
 #include "interpreter.h"
 #include "option.h"
 #include "utils.h"
+#include "completion.h"
 
 extern WJElement protojson;
 extern WJElement protoface;
@@ -35,6 +36,22 @@ int isoption(char * optionname)
   return 0;
 }
 
+int rl_isoption(char * optionname)
+{
+  if (rl_domain == OPTION)
+  {
+    if (WJEGetF(rl_protojson, NULL, "schema.items.properties.%s", optionname))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  return 0;
+}
+
 int option(int argc, char *argv[])
 {
   WJElement parameter;
@@ -48,6 +65,14 @@ int option(int argc, char *argv[])
     WJEString(protoface, parameter->name, WJE_SET, argv[1]);
   }
   puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  return 1;
+}
+
+int rl_option(int argc, char *argv[])
+{
+  WJElement parameter;
+  parameter = WJEObjectF(protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
+  domain = SETTING;
   return 1;
 }
 

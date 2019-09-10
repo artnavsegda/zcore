@@ -35,9 +35,9 @@ int rl_execute(int argc, char *argv[])
   {
     rl_face(argc,argv);
   }
-  else if (isoption(argv[0]))
+  else if (rl_isoption(argv[0]))
   {
-    //option(argc,argv);
+    rl_option(argc,argv);
   }
 }
 
@@ -95,7 +95,7 @@ char * rl_rootcommands(const char * text, int len)
   return rootvalues;
 }
 
-char * rl_subcommands(const char * text, int len)
+char * rl_subcommands(const char * text, int len, int state)
 {
   char * subvalues = NULL;
   switch (rl_domain)
@@ -112,6 +112,9 @@ char * rl_subcommands(const char * text, int len)
     if ((subvalues = optionvalues(text,len)) == NULL)
       return NULL;
     break;
+//    case SETTING:
+//    if ((subvalues = settingvalues(text,len,state)) == NULL)
+//      return NULL;
   }
   return subvalues;
 }
@@ -131,7 +134,7 @@ char * character_name_generator(const char *text, int state)
   }
   else
   {
-    return rl_subcommands(text,len);
+    return rl_subcommands(text,len, state);
   }
 
   return NULL;

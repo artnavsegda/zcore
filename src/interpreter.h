@@ -1,4 +1,4 @@
-enum domains { PROTO, FACE, OPTION };
+enum domains { PROTO, FACE, OPTION, SETTING };
 
 extern enum domains domain;
 
