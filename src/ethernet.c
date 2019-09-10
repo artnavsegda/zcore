@@ -4,25 +4,28 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement filter(WJReader inputstream)
+WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
 {
   WJElement input = WJEOpenDocument(inputstream, NULL, NULL, NULL);
   WJElement output = WJEArray(NULL, NULL, WJE_NEW);
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
+  WJElement property = NULL;
 
   while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
   {
     ifaceoutput = WJEObject(output, "interface", WJE_NEW);
     WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
 
-    char * macaddr = WJEString(ifaceinput,"macaddr",WJE_GET,"");
-    if (macaddr[0]){
-      WJEString(ifaceoutput,"macaddr",WJE_NEW,macaddr);
-    }
-
-    char * ip = WJEString(ifaceinput,"ip",WJE_GET,"");
-    if (ip[0]){
-      WJEString(ifaceoutput,"ip",WJE_NEW,ip);
+    while (property = _WJEObject(schema,schemapath, WJE_GET, &property))
+    {
+      if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
+      {
+        char * stringvalue = WJEString(ifaceinput,property->name,WJE_GET,"");
+        if (stringvalue[0])
+        {
+          WJEString(ifaceoutput,property->name,WJE_NEW,stringvalue);
+        }
+      }
     }
 
     int defaultroute = WJEInt32(ifaceinput,"defaultroute",WJE_GET,-1);
