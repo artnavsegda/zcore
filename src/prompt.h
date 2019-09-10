@@ -1,0 +1,1 @@
+void generateprompt(char * prompt);
