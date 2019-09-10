@@ -56,24 +56,25 @@ int rl_isoption(char * optionname)
 
 int option(int argc, char *argv[])
 {
-  WJElement parameter;
-  parameter = WJEObjectF(protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
-  if (argc == 2)
-  {
-    if (argv[1][0] == '\"')
-    {
-      argv[1] = cutquot(argv[1]);
-    }
-    WJEString(protoface, parameter->name, WJE_SET, argv[1]);
-  }
-  puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+//  WJElement parameter;
+//  parameter = WJEObjectF(protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
+//  if (argc == 2)
+//  {
+//    if (argv[1][0] == '\"')
+//    {
+//      argv[1] = cutquot(argv[1]);
+//    }
+//    WJEString(protoface, parameter->name, WJE_SET, argv[1]);
+//  }
+//  puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  puts(WJEString(protoface,argv[0],WJE_GET,"<undefined>"));
   return 1;
 }
 
 int rl_option(int argc, char *argv[])
 {
   rl_parameter = WJEObjectF(rl_protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
-  domain = SETTING;
+  rl_domain = SETTING;
   return 1;
 }
 
