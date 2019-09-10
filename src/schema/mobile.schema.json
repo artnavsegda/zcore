@@ -54,6 +54,6 @@
       }
 	 },
    "acquire": {
-     "shell": "./mobile ./mobile.sh"
+     "shell": "./ethernet mobile.schema.items.properties[] ./mobile-online.sh"
    }
 }
