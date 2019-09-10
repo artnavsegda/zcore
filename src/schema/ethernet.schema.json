@@ -46,6 +46,6 @@
     }
   },
   "acquire": {
-    "shell": "./ethernet ethernet.schema.items.properties[] ./ethernet.sh"
+    "shell": "./zfilter ethernet.schema.items.properties[] ./ethernet.sh"
   }
 }

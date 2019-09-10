@@ -54,6 +54,6 @@
       }
 	 },
    "acquire": {
-     "shell": "./ethernet mobile.schema.items.properties[] ./mobile-online.sh"
+     "shell": "./zfilter mobile.schema.items.properties[] ./mobile-online.sh"
    }
 }
