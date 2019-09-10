@@ -10,14 +10,27 @@ extern WJElement protojson;
 extern WJElement protoface;
 extern WJElement rl_protojson;
 extern WJElement rl_protoface;
+extern WJElement rl_optionjson;
 WJElement rl_parameter;
+
+WJElement optionlist(WJElement schema)
+{
+  if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"array") == 0)
+  {
+    return WJEObject(schema,"schema.items", WJE_GET);
+  }
+  else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+  {
+    return WJEObject(schema,"schema", WJE_GET);
+  }
+}
 
 int listoptions(void)
 {
   WJElement option = NULL;
   puts("Options:");
 
-  while ((option = _WJEObject(protojson, "schema.items.properties[]", WJE_GET, &option))) {
+  while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
     puts(option->name);
   }
 }
@@ -26,7 +39,7 @@ int isoption(char * optionname)
 {
   if (domain == OPTION)
   {
-    if (WJEGetF(protojson, NULL, "schema.items.properties.%s", optionname))
+    if (WJEGetF(optionlist(protojson), NULL, "schema.items.properties.%s", optionname))
     {
       return 1;
     }
@@ -42,7 +55,7 @@ int rl_isoption(char * optionname)
 {
   if (rl_domain == OPTION)
   {
-    if (WJEGetF(rl_protojson, NULL, "schema.items.properties.%s", optionname))
+    if (WJEGetF(optionlist(rl_protojson), NULL, "schema.items.properties.%s", optionname))
     {
       return 1;
     }
@@ -57,7 +70,7 @@ int rl_isoption(char * optionname)
 int option(int argc, char *argv[])
 {
   WJElement parameter;
-  parameter = WJEObjectF(protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
+  parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
   if (argc == 2)
   {
     if (argv[1][0] == '\"')
@@ -72,7 +85,7 @@ int option(int argc, char *argv[])
 
 int rl_option(int argc, char *argv[])
 {
-  rl_parameter = WJEObjectF(rl_protojson, WJE_GET, NULL, "schema.items.properties.%s",argv[0]);
+  rl_parameter = WJEObjectF(optionlist(rl_protojson), WJE_GET, NULL, "properties.%s",argv[0]);
   rl_domain = SETTING;
   return 1;
 }
@@ -80,7 +93,7 @@ int rl_option(int argc, char *argv[])
 char * optionvalues(const char * text, int len)
 {
   static WJElement option = NULL;
-  while (option = _WJEObject(rl_protojson, "schema.items.properties[]", WJE_GET, &option)) {
+  while (option = _WJEObject(optionlist(rl_protojson), "properties[]", WJE_GET, &option)) {
     if (strncmp(option->name, text, len) == 0) {
       return strdup(option->name);
     }

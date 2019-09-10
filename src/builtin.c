@@ -32,7 +32,10 @@ int path_up()
       protojson = protojson->parent;
     break;
     case OPTION:
-      domain = FACE;
+      if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+        domain = FACE;
+      else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+        domain = PROTO;
     break;
   }
   return 0;

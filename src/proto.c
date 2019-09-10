@@ -12,6 +12,9 @@ WJElement protojson = NULL;
 int rl_protodepth = 0;
 WJElement rl_protojson = NULL;
 
+extern WJElement protoface;
+extern WJElement rl_protoface;
+
 int listprotos(void)
 {
   if (protodepth == 0)
@@ -74,7 +77,15 @@ int proto(int argc, char *argv[])
       protojson = WJEObject(protojson, argv[i], WJE_GET);
       if (WJEGet(protojson, "schema", NULL))
       {
-        domain = FACE;
+        if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+        {
+          domain = FACE;
+        }
+        else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+        {
+          domain = OPTION;
+          protoface = WJEObject(protojson, "data", WJE_GET);
+        }
       }
     }
     else if(isface(argv[i]))
@@ -100,7 +111,15 @@ int rl_proto(int argc, char *argv[])
       rl_protojson = WJEObject(rl_protojson, argv[i], WJE_GET);
       if (WJEGet(rl_protojson, "schema", NULL))
       {
-        rl_domain = FACE;
+        if (strcmp(WJEString(rl_protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+        {
+          rl_domain = FACE;
+        }
+        else if (strcmp(WJEString(rl_protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+        {
+          rl_domain = OPTION;
+          rl_protoface = WJEObject(rl_protojson, "data", WJE_GET);
+        }
       }
     }
     else if(rl_isface(argv[i]))
