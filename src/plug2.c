@@ -14,7 +14,7 @@ WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
-  WJElement root = NULL;
+  root = WJEObject(NULL, NULL, WJE_NEW);
 
   readconfig();
   loadeveryschema(root,config.schemapath);

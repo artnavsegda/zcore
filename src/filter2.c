@@ -7,7 +7,7 @@
 WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
 {
   WJElement input = WJEOpenDocument(inputstream, NULL, NULL, NULL);
-  WJElement output = WJEArray(NULL, NULL, WJE_NEW);
+  WJElement output = WJEObject(NULL, NULL, WJE_NEW);
   WJElement property = NULL;
   WJElement valuesoutput = NULL;
 

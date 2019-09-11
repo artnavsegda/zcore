@@ -56,12 +56,12 @@ int command(int argc, char *argv[])
   WJElement face = NULL;
   if (domain == OPTION)
   {
-    streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(protoface,TRUE),"test");
+    streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(protoface,TRUE),"");
   }
   else if (domain == FACE)
   {
     while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-      streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(face,TRUE),"test");
+      streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(face,TRUE),"");
     }
   }
   else
