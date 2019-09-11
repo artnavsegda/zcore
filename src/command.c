@@ -3,8 +3,10 @@
 #include "zcore.h"
 #include "interpreter.h"
 #include "command.h"
+#include "utils.h"
 
 extern WJElement protojson;
+extern WJElement protoface;
 extern WJElement rl_protojson;
 
 int listcommands(void)
@@ -51,8 +53,7 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
-  //system(argv[0]);
-  puts(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]));
+  streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(protoface,TRUE),"test");
 }
 
 char * commandvalues(const char * text, int len)
