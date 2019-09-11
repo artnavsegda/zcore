@@ -10,6 +10,7 @@
 
 extern int protodepth;
 extern WJElement protojson; 
+extern WJElement protoface; 
 
 int path_up()
 {
@@ -89,7 +90,17 @@ int isbuiltin(char * builtinname)
 
 int builtin_show(int argc, char *argv[])
 {
-  puts("not implemented");
+  WJElement option = NULL;
+  if (domain == OPTION)
+  {
+    while (option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option)) {
+      printf("%s.", WJEString(protoface, "name", WJE_GET, ""));
+      printf("%s = ", option->name);
+      printf("%s\n", WJEString(protoface, option->name, WJE_GET, "None"));
+    }
+  }
+  else
+    puts("Not implemented");
 }
 
 int builtin(int argc, char *argv[])
