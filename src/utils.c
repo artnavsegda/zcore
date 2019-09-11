@@ -112,10 +112,7 @@ int parse(char * stringtoparse, char **tokarr)
 int streamintocommand(char * command, char * stream, char * argument)
 {
   char temp[100];
-  puts(argument);
   sprintf(temp,command,argument);
-  puts(temp);
-
   //FILE *jsonstream = popen(command, "w");
   FILE *jsonstream = popen(temp, "w");
   if (jsonstream == NULL)
@@ -123,11 +120,8 @@ int streamintocommand(char * command, char * stream, char * argument)
     puts("handle error");
     return 1;
   }
-
   fwrite(stream,strlen(stream),1,jsonstream); 
-
   pclose(jsonstream);
-  puts("\n");
 }
 
 /*char * formatcommand(char * command)
