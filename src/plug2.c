@@ -6,11 +6,19 @@
 #include <wjelement.h>
 #include <wjreader.h>
 #include "filter.h"
+#include "config.h"
+#include "load.h"
 
 WJElement doc = NULL;
+WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
+  WJElement root = NULL;
+
+  readconfig();
+  loadeveryscheme(root,config.schemepath);
+
   WJReader readjson;
 
   if (!(readjson = WJROpenFILEDocument(stdin, NULL, 0))) {
@@ -18,7 +26,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  doc = filter(readjson);
+  doc = filter(readjson, root, argv[1]);
   WJEDump(doc);
 
   return 0;
