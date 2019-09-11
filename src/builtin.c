@@ -72,11 +72,12 @@ void listbuiltins()
 {
   puts("?");
   puts("..");
+  puts("show");
 }
 
 int isbuiltin(char * builtinname)
 {
-  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0))
+  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0))
   {
     return 1;
   }
@@ -84,6 +85,11 @@ int isbuiltin(char * builtinname)
   {
     return 0;
   }
+}
+
+int builtin_show(int argc, char *argv[])
+{
+  puts("not implemented");
 }
 
 int builtin(int argc, char *argv[])
@@ -96,9 +102,13 @@ int builtin(int argc, char *argv[])
   {
     return path_up();
   }
+  else if (strcmp(argv[0],"show") == 0)
+  {
+    return builtin_show(argc,argv);
+  }
 }
 
-char *builtincommands[] = {"?","..",NULL};
+char *builtincommands[] = {"?","..","show",NULL};
 
 char * builtinvalues(const char * text, int len)
 {
