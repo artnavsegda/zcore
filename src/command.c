@@ -51,7 +51,8 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
-  system(argv[0]);
+  //system(argv[0]);
+  puts(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]));
 }
 
 char * commandvalues(const char * text, int len)
