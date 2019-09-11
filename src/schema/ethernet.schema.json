@@ -41,7 +41,7 @@
    "commands": {
      "apply": {
        "type": "string",
-       "command": "./apply.sh applyethernet %s",
+       "command": "./apply.sh zfilter2 ethernet.schema.items.properties[]",
        "json": true
     }
   },
