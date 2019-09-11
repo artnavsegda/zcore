@@ -53,7 +53,14 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
-  streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(protoface,TRUE),"test");
+  if (domain == OPTION)
+  {
+    streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(protoface,TRUE),"test");
+  }
+  else
+  {
+    puts("not implemented");
+  }
 }
 
 char * commandvalues(const char * text, int len)
