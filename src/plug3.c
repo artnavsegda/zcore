@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <wjelement.h>
@@ -14,6 +15,7 @@ WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
+  setuid(0);
   root = WJEObject(NULL, NULL, WJE_NEW);
 
   readconfig();
