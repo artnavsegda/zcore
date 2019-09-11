@@ -32,16 +32,15 @@ int main(int argc, char *argv[])
 
   doc = filter(readjson, root, argv[1]);
 
-//  WJWriter writejson;
+  FILE *jsonstream;
 
-//  if (!(writejson = WJWOpenFILEDocument(0, stdout))) {
-//    puts("stream failed to open");
-//    return 1;
-//  }
+  if (!(jsonstream = popen(argv[2], "w"))) {
+    puts("handle error");
+    return 1;
+  }
 
+//  WJEWriteFILE(doc, stdout);
   WJEWriteFILE(doc, stdout);
-
-  //WJEDump(doc);
 
   return 0;
 }
