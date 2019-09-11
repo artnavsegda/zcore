@@ -99,6 +99,17 @@ int builtin_show(int argc, char *argv[])
       printf("%s\n", WJEString(protoface, option->name, WJE_GET, "None"));
     }
   }
+  else if (domain == FACE)
+  {
+    WJElement face = NULL;
+    while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
+      while (option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option)) {
+        printf("%s.", WJEString(face, "name", WJE_GET, ""));
+        printf("%s = ", option->name);
+        printf("%s\n", WJEString(face, option->name, WJE_GET, "None"));
+      }
+    }
+  }
   else
     puts("Not implemented");
 }
