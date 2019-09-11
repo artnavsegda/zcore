@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
   root = WJEObject(NULL, NULL, WJE_NEW);
 
   readconfig();
-  loadeveryscheme(root,config.schemepath);
+  loadeveryschema(root,config.schemapath);
 
   FILE *jsonstream;
   WJReader readjson;

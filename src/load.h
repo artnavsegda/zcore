@@ -1,2 +1,2 @@
-int loadeveryscheme(WJElement loadroot, char * loadschemepath);
+int loadeveryschema(WJElement loadroot, char * loadschemapath);
 

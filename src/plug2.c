@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
   WJElement root = NULL;
 
   readconfig();
-  loadeveryscheme(root,config.schemepath);
+  loadeveryschema(root,config.schemapath);
 
   WJReader readjson;
 
