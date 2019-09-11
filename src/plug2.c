@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
   }
 
 //  WJEWriteFILE(doc, stdout);
-  WJEWriteFILE(doc, stdout);
+  WJEWriteFILE(doc, jsonstream);
 
   return 0;
 }
