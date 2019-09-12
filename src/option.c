@@ -87,6 +87,8 @@ int option(int argc, char *argv[])
   }
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
     puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
+    printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
   else
     puts("Not implemeted");
   return 1;
