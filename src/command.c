@@ -53,15 +53,17 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
-  WJElement face = NULL;
+  WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
+
   if (domain == OPTION)
   {
-    streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(protoface,TRUE),"");
+    streamintocommand(WJEString(command, "command", WJE_GET, "not found"),WJEToString(protoface,TRUE),"");
   }
   else if (domain == FACE)
   {
+    WJElement face = NULL;
     while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-      streamintocommand(WJEStringF(protojson, WJE_GET, NULL, "not found","schema.commands.%s.command", argv[0]),WJEToString(face,TRUE),"");
+      streamintocommand(WJEString(command, "command" ,WJE_GET, "not found"),WJEToString(face,TRUE),"");
     }
   }
   else
