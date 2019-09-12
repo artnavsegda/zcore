@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
   readconfig();
   loadeveryschema(root,config.schemapath);
 
-  doc = filter(argv[2], root, argv[1]);
+  doc = generator(argv[2], root, argv[1]);
   WJEDump(doc);
 
   return 0;
