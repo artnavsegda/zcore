@@ -146,7 +146,7 @@ int forkwaitexec(char * command, int argc, char *argv[])
   }
 }
 
-int streamfromcommand(char * command, char * stream, char * argument)
+int streamfromcommand(char * command, char * argument, WJElement jsonparent)
 {
   FILE *jsonstream = popen(command, "r");
   if (jsonstream == NULL)
@@ -154,7 +154,15 @@ int streamfromcommand(char * command, char * stream, char * argument)
     puts("handle error");
     return 1;
   }
-  fread(stream,1000,1,jsonstream);
-  pclose(jsonstream);
+
+  WJReader readjson = WJROpenFILEDocument(jsonstream, NULL, 0);
+  if (readjson == NULL) {
+    puts("json failed to open");
+    return 1;
+  }
+  WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
+  WJEAttach(jsonparent,jsondata);
+
+//  pclose(jsonstream);
 }
 
