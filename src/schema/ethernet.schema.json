@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name", "vid", "ip", "macaddr"],
+    "required": ["name", "vid", "ip", "macaddr", "defaultroute"],
     "properties": {
       "name": {
         "type": "string",
@@ -25,7 +25,8 @@
       },
       "defaultroute": {
         "type": "boolean",
-        "description": "Use as defaultroute"
+        "description": "Use as defaultroute",
+        "example": false
       },
       "macaddr": {
         "type": "string",
@@ -49,7 +50,7 @@
        "json": true
     },
     "add": {
-       "command": "./zgen ethernet.schema.items.properties[] eth0",
+       "command": "./zgen ethernet.schema.items eth0",
        "json": true,
        "cue": "add"
     }
