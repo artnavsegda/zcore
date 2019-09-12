@@ -1,5 +1,13 @@
 {
   "$schema": "http://json-schema.org/schema#",
   "title": "utils",
-  "type": "object"
+  "type": "object",
+  "commands": {
+    "ping": {
+      "command": "/usr/bin/ping",
+      "wait": true,
+      "json": false,
+      "arguments": "pass"
+    }
+  }
 }
