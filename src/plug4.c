@@ -21,6 +21,12 @@ int main(int argc, char *argv[])
   readconfig();
   loadeveryschema(root,config.schemapath);
 
+  if (argc < 2)
+  {
+    puts("command name schema");
+    return 1;
+  }
+
   doc = generator(argv[2], root, argv[1]);
   WJEDump(doc);
 
