@@ -11,4 +11,5 @@ int ifacefound(char * ifacetosearch);
 int commandfound(char * commandtosearch);
 char * formatcommand(char * command);
 int forkwaitexec(char * command, int argc, char *argv[]);
+int streamfromcommand(char * command, char * stream, char * argument);
 

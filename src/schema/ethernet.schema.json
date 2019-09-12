@@ -51,7 +51,6 @@
     },
     "add": {
        "command": "./zgen ethernet.schema.items eth0",
-       "json": true,
        "add": true
     }
   },

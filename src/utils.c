@@ -146,4 +146,15 @@ int forkwaitexec(char * command, int argc, char *argv[])
   }
 }
 
+int streamfromcommand(char * command, char * stream, char * argument)
+{
+  FILE *jsonstream = popen(command, "r");
+  if (jsonstream == NULL)
+  {
+    puts("handle error");
+    return 1;
+  }
+  fread(stream,1000,1,jsonstream);
+  pclose(jsonstream);
+}
 

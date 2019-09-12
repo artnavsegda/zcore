@@ -54,10 +54,16 @@ int rl_iscommand(char * commandname)
 int command(int argc, char *argv[])
 {
   WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
-
-  if (WJEBool(command, "json", WJE_GET, 0) == TRUE)
+  if (WJEBool(command, "add", WJE_GET, 0) == TRUE)
   {
-
+    FILE *jsonstream = popen(WJEString(command, "command", WJE_GET, "/bin/false"), "r");
+    WJReader readjson = WJROpenFILEDocument(jsonstream, NULL, 0);
+    WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
+    WJEAttach(WJEArray(protojson, "data", WJE_GET),jsondata);
+    //WJEDump(protojson);
+  }
+  else if (WJEBool(command, "json", WJE_GET, 0) == TRUE)
+  {
     if (domain == OPTION)
     {
       streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),WJEToString(protoface,TRUE),"");
