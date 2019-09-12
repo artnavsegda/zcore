@@ -5,6 +5,8 @@
 #include <readline/history.h>
 #include <wjelement.h>
 #include <wjreader.h>
+#include <unistd.h>
+#include <sys/wait.h>
 #include "utils.h"
 
 extern WJElement doc, schema;
@@ -131,7 +133,17 @@ int streamintocommand(char * command, char * stream, char * argument)
 
 int forkwaitexec(char * command, int argc, char *argv[])
 {
-  puts("not implemented");
+  pid_t pid = fork();
+  int status;
+  if (pid == 0)
+  {
+    execv(command,argv);
+    exit(0);
+  }
+  else
+  {
+    waitpid(pid, &status, 0);
+  }
 }
 
 
