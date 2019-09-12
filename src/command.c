@@ -66,13 +66,13 @@ int command(int argc, char *argv[])
   {
     if (domain == OPTION)
     {
-      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),WJEToString(protoface,TRUE),"");
+      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),argv,WJEToString(protoface,TRUE));
     }
     else if (domain == FACE)
     {
       WJElement face = NULL;
       while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),WJEToString(face,TRUE),"");
+        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),argv,WJEToString(face,TRUE));
       }
     }
     else

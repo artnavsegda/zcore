@@ -46,7 +46,7 @@
    "commands": {
      "apply": {
        "type": "string",
-       "command": "./zfilter2 ethernet.schema.items.properties[] ./apply.sh",
+       "command": "/home/art/Coding/zcore/src/zfilter2",
        "json": true
     },
     "add": {

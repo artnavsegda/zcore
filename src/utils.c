@@ -111,15 +111,13 @@ int parse(char * stringtoparse, char **tokarr)
   return i;
 }
 
-int streamintocommand(char * command, char * stream, char * argument)
+int streamintocommand(char * command, char *argv[], char * stream)
 {
-  char temp[100];
-  sprintf(temp,command,argument);
   //FILE *jsonstream = popen(command, "w");
-  FILE *jsonstream = popen(temp, "w");
+  FILE *jsonstream = my_popen_write(command, argv);
   if (jsonstream == NULL)
   {
-    puts("handle error");
+    puts("streamintocommand handle error");
     return 1;
   }
   fwrite(stream,strlen(stream),1,jsonstream);
@@ -185,5 +183,26 @@ FILE * my_popen_read (char * command, char *argv[])
     } else {
         close(write_fd);
         return fdopen(read_fd, "r");
+    }
+}
+
+FILE * my_popen_write (char * command, char *argv[])
+{
+    int fd[2];
+    int read_fd, write_fd;
+    int pid;
+    pipe(fd);
+    read_fd = fd[0];
+    write_fd = fd[1];
+    pid = fork();
+    if (pid == 0) {
+        close(write_fd);
+        dup2(read_fd,0);
+        close(read_fd);
+        execv(command,argv);
+        return NULL;
+    } else {
+        close(read_fd);
+        return fdopen(write_fd, "w");
     }
 }
