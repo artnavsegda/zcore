@@ -85,7 +85,10 @@ int option(int argc, char *argv[])
     }
     WJEString(protoface, parameter->name, WJE_SET, argv[1]);
   }
-  puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
+    puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  else
+    puts("Not implemeted");
   return 1;
 }
 
