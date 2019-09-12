@@ -52,7 +52,7 @@
     "add": {
        "command": "./zgen ethernet.schema.items eth0",
        "json": true,
-       "cue": "add"
+       "add": true
     }
   },
   "acquire": {
