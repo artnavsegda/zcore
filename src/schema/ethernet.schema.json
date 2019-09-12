@@ -6,19 +6,22 @@
   "items": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name"],
+    "required": ["name", "vid", "ip", "macaddr"],
     "properties": {
       "name": {
         "type": "string",
-        "description": "Interface name"
+        "description": "Interface name",
+        "hidden": true
       },
       "vid": {
         "type": "number",
-        "description": "VLAN ID"
+        "description": "VLAN ID",
+        "example": 13
       },
       "ip": {
         "type": "string",
-        "description": "IP address config"
+        "description": "IP address config",
+        "example": "dhcp"
       },
       "defaultroute": {
         "type": "boolean",
@@ -26,7 +29,8 @@
       },
       "macaddr": {
         "type": "string",
-        "description": "MAC address"
+        "description": "MAC address",
+        "example": "de:ad:be:ef:12:34"
       },
       "mtu": {
         "type": "number",
