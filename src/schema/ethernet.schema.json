@@ -43,6 +43,11 @@
        "type": "string",
        "command": "./zfilter2 ethernet.schema.items.properties[] ./apply.sh",
        "json": true
+    },
+    "add": {
+       "command": "./zgen ethernet.schema.items.properties[]",
+       "json": true,
+       "cue": "add"
     }
   },
   "acquire": {
