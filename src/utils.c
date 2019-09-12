@@ -146,10 +146,10 @@ int forkwaitexec(char * command, int argc, char *argv[])
   }
 }
 
-int streamfromcommand(char * command, char * argument, WJElement jsonparent)
+int streamfromcommand(char * command, char *argv[], WJElement jsonparent)
 {
   //FILE *jsonstream = popen(command, "r");
-  FILE *jsonstream = my_popen_read(command);
+  FILE *jsonstream = my_popen_read(command, argv);
   if (jsonstream == NULL)
   {
     puts("handle error");
@@ -167,7 +167,7 @@ int streamfromcommand(char * command, char * argument, WJElement jsonparent)
 //  pclose(jsonstream);
 }
 
-FILE * my_popen_read (const char *cmd)
+FILE * my_popen_read (char * command, char *argv[])
 {
     int fd[2];
     int read_fd, write_fd;
@@ -180,7 +180,7 @@ FILE * my_popen_read (const char *cmd)
         close(read_fd);
         dup2(write_fd,1);
         close(write_fd);
-        execl("/bin/sh", "sh", "-c", cmd, NULL);
+        execv(command,argv);
         return NULL;
     } else {
         close(write_fd);

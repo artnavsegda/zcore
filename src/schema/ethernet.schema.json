@@ -50,7 +50,7 @@
        "json": true
     },
     "add": {
-       "command": "./zgen ethernet.schema.items eth0",
+       "command": "/home/art/Coding/zcore/src/zgen",
        "add": true
     }
   },
