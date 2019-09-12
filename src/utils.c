@@ -122,7 +122,7 @@ int streamintocommand(char * command, char * stream, char * argument)
     puts("handle error");
     return 1;
   }
-  fwrite(stream,strlen(stream),1,jsonstream); 
+  fwrite(stream,strlen(stream),1,jsonstream);
   pclose(jsonstream);
 }
 
@@ -148,7 +148,8 @@ int forkwaitexec(char * command, int argc, char *argv[])
 
 int streamfromcommand(char * command, char * argument, WJElement jsonparent)
 {
-  FILE *jsonstream = popen(command, "r");
+  //FILE *jsonstream = popen(command, "r");
+  FILE *jsonstream = my_popen_read(command);
   if (jsonstream == NULL)
   {
     puts("handle error");
@@ -166,3 +167,23 @@ int streamfromcommand(char * command, char * argument, WJElement jsonparent)
 //  pclose(jsonstream);
 }
 
+FILE * my_popen_read (const char *cmd)
+{
+    int fd[2];
+    int read_fd, write_fd;
+    int pid;
+    pipe(fd);
+    read_fd = fd[0];
+    write_fd = fd[1];
+    pid = fork();
+    if (pid == 0) {
+        close(read_fd);
+        dup2(write_fd,1);
+        close(write_fd);
+        execl("/bin/sh", "sh", "-c", cmd, NULL);
+        return NULL;
+    } else {
+        close(write_fd);
+        return fdopen(read_fd, "r");
+    }
+}
