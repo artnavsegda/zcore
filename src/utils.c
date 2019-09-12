@@ -129,4 +129,9 @@ int streamintocommand(char * command, char * stream, char * argument)
   return WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", command);
 }*/
 
+int forkwaitexec(char * command, int argc, char *argv[])
+{
+  puts("not implemented");
+}
+
 

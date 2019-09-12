@@ -55,20 +55,28 @@ int command(int argc, char *argv[])
 {
   WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
 
-  if (domain == OPTION)
+  if (WJEBool(command, "json", WJE_GET, 0) == TRUE)
   {
-    streamintocommand(WJEString(command, "command", WJE_GET, "not found"),WJEToString(protoface,TRUE),"");
-  }
-  else if (domain == FACE)
-  {
-    WJElement face = NULL;
-    while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-      streamintocommand(WJEString(command, "command" ,WJE_GET, "not found"),WJEToString(face,TRUE),"");
+
+    if (domain == OPTION)
+    {
+      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),WJEToString(protoface,TRUE),"");
+    }
+    else if (domain == FACE)
+    {
+      WJElement face = NULL;
+      while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
+        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),WJEToString(face,TRUE),"");
+      }
+    }
+    else
+    {
+      puts("not implemented");
     }
   }
   else
   {
-    puts("not implemented");
+    forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argc,argv);
   }
 }
 
@@ -82,4 +90,3 @@ char * commandvalues(const char * text, int len)
   }
   return NULL;
 }
-
