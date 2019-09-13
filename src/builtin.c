@@ -97,7 +97,8 @@ int printoption(WJElement face)
     {
       printf("%s.", parentname(protojson, i));
     }
-    printf("%s.", WJEString(face, "name", WJE_GET, ""));
+    if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+      printf("%s.", WJEString(face, "name", WJE_GET, ""));
     printf("%s = ", option->name);
     printf("%s\n", WJEString(face, option->name, WJE_GET, "None"));
   }
