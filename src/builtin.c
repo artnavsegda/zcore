@@ -7,6 +7,7 @@
 #include "face.h"
 #include "command.h"
 #include "option.h"
+#include "prompt.h"
 
 extern int protodepth;
 extern WJElement protojson; 
@@ -88,16 +89,35 @@ int isbuiltin(char * builtinname)
   }
 }
 
+int printoption(WJElement face)
+{
+  WJElement option = NULL;
+  while (option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option)) {
+    for (int i = protodepth; i > 0; i--)
+    {
+      printf("%s.", parentname(protojson, i));
+    }
+    printf("%s.", WJEString(face, "name", WJE_GET, ""));
+    printf("%s = ", option->name);
+    printf("%s\n", WJEString(face, option->name, WJE_GET, "None"));
+  }
+}
+
 int builtin_show(int argc, char *argv[])
 {
   WJElement option = NULL;
   if (domain == OPTION)
   {
-    while (option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option)) {
+    /*while (option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option)) {
+      for (int i = protodepth; i > 0; i--)
+      {
+        printf("%s.", parentname(protojson, i));
+      }
       printf("%s.", WJEString(protoface, "name", WJE_GET, ""));
       printf("%s = ", option->name);
       printf("%s\n", WJEString(protoface, option->name, WJE_GET, "None"));
-    }
+    }*/
+    printoption(protoface);
   }
   else if (domain == FACE)
   {
