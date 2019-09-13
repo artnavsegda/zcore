@@ -18,6 +18,14 @@
         "description": "VLAN ID",
         "example": 13
       },
+      "switch": {
+        "type": "string",
+        "description": "Switch device"
+      },
+      "untagged":{
+        "type": "array",
+        "description": "Tagged ports"
+      },
       "ip": {
         "type": "string",
         "description": "IP address config",
