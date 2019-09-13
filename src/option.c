@@ -86,11 +86,28 @@ int option(int argc, char *argv[])
     WJEString(protoface, parameter->name, WJE_SET, argv[1]);
   }
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
+  {
     puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  }
   else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
+  {
     printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+  {
+    WJElement array = NULL;
+    char * entity = NULL;
+    WJEDump(WJEArray(protoface,parameter->name,WJE_GET));
+    while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
+    {
+      puts("lolo");
+      puts(entity);
+    }
+  }
   else
+  {
     puts("Not implemeted");
+  }
   return 1;
 }
 
@@ -114,7 +131,7 @@ char * optionvalues(const char * text, int len)
 
 char * settingvalues(const char * text, int len, int state)
 {
-  static WJElement setting;
+  static WJElement setting = NULL;
   char * variant = NULL;
   while (variant = _WJEString(rl_parameter, "enum[]", WJE_GET, &setting, NULL))
   {
