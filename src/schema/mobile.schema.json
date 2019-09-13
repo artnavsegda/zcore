@@ -30,7 +30,7 @@
         "description": "Password",
         "hidden": true
       },
-        "mode": {
+      "mode": {
         "type": "string",
         "enum": ["auto","edge","umts","lte"],
         "description": "Network access mode"
