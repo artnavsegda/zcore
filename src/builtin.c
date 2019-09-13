@@ -108,26 +108,13 @@ int builtin_show(int argc, char *argv[])
   WJElement option = NULL;
   if (domain == OPTION)
   {
-    /*while (option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option)) {
-      for (int i = protodepth; i > 0; i--)
-      {
-        printf("%s.", parentname(protojson, i));
-      }
-      printf("%s.", WJEString(protoface, "name", WJE_GET, ""));
-      printf("%s = ", option->name);
-      printf("%s\n", WJEString(protoface, option->name, WJE_GET, "None"));
-    }*/
     printoption(protoface);
   }
   else if (domain == FACE)
   {
     WJElement face = NULL;
     while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-      while (option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option)) {
-        printf("%s.", WJEString(face, "name", WJE_GET, ""));
-        printf("%s = ", option->name);
-        printf("%s\n", WJEString(face, option->name, WJE_GET, "None"));
-      }
+      printoption(face);
     }
   }
   else
