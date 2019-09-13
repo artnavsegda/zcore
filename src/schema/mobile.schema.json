@@ -15,7 +15,7 @@
       },
       "enable": {
         "type": "boolean",
-        "description": "Enable cellulare interface"
+        "description": "Enable cellular interface"
       },
       "apn": {
         "type": "string",
@@ -34,6 +34,15 @@
         "type": "string",
         "enum": ["auto","edge","umts","lte"],
         "description": "Network access mode"
+      },
+      "bands": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "enum": ["850","900","1800","1900","2100","2600"],
+          "description": "Freq bands allowed"
+        }
       }
     }
   },

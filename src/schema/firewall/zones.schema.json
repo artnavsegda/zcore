@@ -10,47 +10,44 @@
     "properties": {
       "name": {
         "type": "string",
-        "description": "Interface name",
+        "description": "Unique zone name",
         "hidden": true
       },
-      "vid": {
-        "type": "number",
-        "description": "VLAN ID",
+      "network": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "Interface name"
+        },
+        "description": "List of interfaces attached to this zone"
       },
-      "ip": {
-        "type": "string",
-        "description": "IP address config",
-      },
-      "defaultroute": {
+      "masq": {
         "type": "boolean",
-        "description": "Use as defaultroute",
+        "description": "Specifies whether outgoing zone traffic should be masqueraded",
       },
-      "macaddr": {
+      "conntack": {
+        "type": "boolean",
+        "description": "Force connection tracking for this zone",
+      },
+      "mtu_fix": {
+        "type": "boolean",
+        "description": "Enable MSS clamping for outgoing zone traffic",
+      },
+      "input": {
         "type": "string",
-        "description": "MAC address",
+        "enum": ["ACCEPT", "DROP", "REJECT"],
+        "description": "Default action for INPUT chain"
       },
-      "mtu": {
-        "type": "number",
-        "description": "MTU"
+      "output": {
+        "type": "string",
+        "enum": ["ACCEPT", "DROP", "REJECT"],
+        "description": "Default action for DROP chain"
       },
-      "metric": {
-        "type": "number",
-        "description": "Network metric"
+      "forward": {
+        "type": "string",
+        "enum": ["ACCEPT", "DROP", "REJECT"],
+        "description": "Default action for REJECT chain"
       }
    }
- },
-   "commands": {
-     "apply": {
-       "type": "string",
-       "command": "/home/art/Coding/zcore/src/zfilter2",
-       "json": true
-    },
-    "add": {
-       "command": "/home/art/Coding/zcore/src/zgen",
-       "add": true
-    }
-  },
-  "acquire": {
-    "shell": "./zfilter ethernet.schema.items.properties[] ./ethernet.sh"
-  }
+ }
 }
