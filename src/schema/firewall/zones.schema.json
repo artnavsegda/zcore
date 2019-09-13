@@ -49,5 +49,8 @@
         "description": "Default action for REJECT chain"
       }
    }
+ },
+ "acquire": {
+   "shell": "./zfilter firewall.zones.schema.items.properties[] ./zones.sh"
  }
 }
