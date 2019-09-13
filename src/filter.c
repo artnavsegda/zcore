@@ -44,7 +44,8 @@ WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
       }
       else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
       {
-        WJEMergeObjects(WJEArray(ifaceoutput, property->name, WJE_NEW),WJEArray(ifaceinput, property->name, WJE_GET), TRUE);
+        //WJEDump(WJEArray(ifaceinput, property->name, WJE_GET));
+        //WJEMergeObjects(WJEArray(ifaceoutput, property->name, WJE_NEW),WJEArray(ifaceinput, property->name, WJE_GET), TRUE);
       }
     }
 
