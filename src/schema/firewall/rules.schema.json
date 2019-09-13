@@ -61,5 +61,8 @@
         "description": "Firewall action for matched traffic"
       }
    }
+ },
+ "acquire": {
+   "shell": "./zfilter firewall.rules.schema.items.properties[] ./rules.sh"
  }
 }
