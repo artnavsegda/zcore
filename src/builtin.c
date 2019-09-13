@@ -104,19 +104,23 @@ int printoption(WJElement proto, WJElement face)
   }
 }
 
+int printoption2(WJElement proto)
+{
+  WJElement face = NULL;
+  while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
+    printoption(proto,face);
+  }
+}
+
 int builtin_show(int argc, char *argv[])
 {
-  WJElement option = NULL;
   if (domain == OPTION)
   {
     printoption(protojson,protoface);
   }
   else if (domain == FACE)
   {
-    WJElement face = NULL;
-    while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-      printoption(protojson, face);
-    }
+    printoption2(protojson);
   }
   else if (domain == PROTO)
   {
@@ -124,10 +128,7 @@ int builtin_show(int argc, char *argv[])
       protojson = root;
     WJElement proto = NULL;
     while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
-      WJElement face = NULL;
-      while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
-        printoption(proto, face);
-      }
+      printoption2(proto);
     }
   }
   else
