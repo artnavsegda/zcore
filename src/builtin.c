@@ -89,15 +89,15 @@ int isbuiltin(char * builtinname)
   }
 }
 
-int printoption(WJElement face)
+int printoption(WJElement proto, WJElement face)
 {
   WJElement option = NULL;
-  while (option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option)) {
+  while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
     for (int i = protodepth; i > 0; i--)
     {
-      printf("%s.", parentname(protojson, i));
+      printf("%s.", parentname(proto, i));
     }
-    if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+    if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
       printf("%s.", WJEString(face, "name", WJE_GET, ""));
     printf("%s = ", option->name);
     printf("%s\n", WJEString(face, option->name, WJE_GET, "None"));
@@ -109,13 +109,25 @@ int builtin_show(int argc, char *argv[])
   WJElement option = NULL;
   if (domain == OPTION)
   {
-    printoption(protoface);
+    printoption(protojson,protoface);
   }
   else if (domain == FACE)
   {
     WJElement face = NULL;
     while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-      printoption(face);
+      printoption(protojson, face);
+    }
+  }
+  else if (domain == PROTO)
+  {
+    if (protodepth == 0)
+      protojson = root;
+    WJElement proto = NULL;
+    while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
+      WJElement face = NULL;
+      while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
+        printoption(proto, face);
+      }
     }
   }
   else
