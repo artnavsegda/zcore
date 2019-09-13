@@ -42,6 +42,10 @@ WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
           WJEBool(ifaceoutput,property->name,WJE_NEW,(XplBool)boolval);
         }
       }
+      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
+      {
+        WJEMergeObjects(WJEArray(ifaceoutput, property->name, WJE_NEW),WJEArray(ifaceinput, property->name, WJE_GET), TRUE);
+      }
     }
 
 //    int defaultroute = WJEInt32(ifaceinput,"defaultroute",WJE_GET,-1);
