@@ -114,13 +114,21 @@ char * optionvalues(const char * text, int len)
 
 char * settingvalues(const char * text, int len, int state)
 {
-  if (!state)
+  static WJElement setting;
+  char * variant = NULL;
+  while (variant = _WJEString(rl_parameter, "enum[]", WJE_GET, &setting, NULL))
+  {
+    if (strncmp(variant, text, len) == 0) {
+      return strdup(variant);
+    }
+  }
+  /*if (!state)
   {
    if (rl_parameter) 
    {
      return strdup(WJEString(rl_protoface, rl_parameter->name, WJE_GET, ""));
    }
-  }
+  }*/
   return NULL;
 }
 
