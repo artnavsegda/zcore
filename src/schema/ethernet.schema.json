@@ -55,13 +55,13 @@
      "apply": {
        "command": "/home/art/Coding/zcore/src/zfilter2",
        "args": ["ethernet.schema", "./apply.sh"],
-       "json": "out"
+       "json": "in"
     },
     "add": {
        "command": "/home/art/Coding/zcore/src/zgen",
        "arg": ["ethernet.schema"],
        "argpass": true,
-       "json": "in"
+       "json": "out"
     }
   },
   "acquire": {
