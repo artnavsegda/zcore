@@ -103,7 +103,16 @@ int printoption(WJElement proto, WJElement face, int depth)
     if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
       printf("%s", WJEString(face, option->name, WJE_GET, "None"));
     else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
-      printf("%d", WJEInt32(protoface,option->name,WJE_GET,-1));
+      printf("%d", WJEInt32(face,option->name,WJE_GET,-1));
+    else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
+    {
+      if (WJEBool(face,option->name,WJE_GET,-1) == TRUE)
+        printf("True");
+      else if (WJEBool(face,option->name,WJE_GET,-1) == FALSE)
+        printf("False");
+      else
+        printf("None");
+    }
     puts("");
   }
 }
