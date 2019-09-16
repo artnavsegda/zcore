@@ -17,21 +17,22 @@
         "type": "array",
         "items": {
           "type": "string",
-          "description": "Interface name"
+          "description": "Interface name",
+          "cue": ["mobile"]
         },
         "description": "List of interfaces attached to this zone"
       },
       "masq": {
         "type": "boolean",
-        "description": "Specifies whether outgoing zone traffic should be masqueraded",
+        "description": "Specifies whether outgoing zone traffic should be masqueraded"
       },
       "conntack": {
         "type": "boolean",
-        "description": "Force connection tracking for this zone",
+        "description": "Force connection tracking for this zone"
       },
       "mtu_fix": {
         "type": "boolean",
-        "description": "Enable MSS clamping for outgoing zone traffic",
+        "description": "Enable MSS clamping for outgoing zone traffic"
       },
       "input": {
         "type": "string",
