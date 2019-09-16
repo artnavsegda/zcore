@@ -8,4 +8,5 @@ int option(int argc, char *argv[]);
 int rl_option(int argc, char *argv[]);
 char * optionvalues(const char * text, int len);
 char * settingvalues(const char * text, int len, int state);
+char * cuesettingvalues(const char * text, int len, int state);
 

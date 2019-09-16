@@ -184,3 +184,9 @@ char * settingvalues(const char * text, int len, int state)
   }*/
   return NULL;
 }
+
+char * cuesettingvalues(const char * text, int len, int state)
+{
+  return NULL;
+}
+
