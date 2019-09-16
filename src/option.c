@@ -95,7 +95,12 @@ int option(int argc, char *argv[])
   }
   else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
   {
-
+    if (WJEBool(protoface,parameter->name,WJE_GET,-1) == TRUE)
+      puts("True");
+    else if (WJEBool(protoface,parameter->name,WJE_GET,-1) == FALSE)
+      puts("False");
+    else
+      puts("<undefined>");
   }
   else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
   {
