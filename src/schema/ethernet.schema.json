@@ -53,13 +53,15 @@
  },
    "commands": {
      "apply": {
-       "type": "string",
        "command": "/home/art/Coding/zcore/src/zfilter2",
-       "json": true
+       "args": ["ethernet.schema", "./apply.sh"],
+       "json": "out"
     },
     "add": {
        "command": "/home/art/Coding/zcore/src/zgen",
-       "add": true
+       "arg": ["ethernet.schema"],
+       "argpass": true,
+       "json": "in"
     }
   },
   "acquire": {

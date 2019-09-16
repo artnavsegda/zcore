@@ -6,8 +6,7 @@
     "ping": {
       "command": "/usr/bin/ping",
       "wait": true,
-      "json": false,
-      "arguments": "pass"
+      "argpass": true
     }
   }
 }
