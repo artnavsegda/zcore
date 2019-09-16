@@ -112,11 +112,18 @@ int option(int argc, char *argv[])
       puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
       return 1;
     }
-    if (argv[1][0] == '\"')
+    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
     {
-      argv[1] = cutquot(argv[1]);
+      if (argv[1][0] == '\"')
+      {
+        argv[1] = cutquot(argv[1]);
+      }
+      WJEString(protoface, parameter->name, WJE_SET, argv[1]);
     }
-    WJEString(protoface, parameter->name, WJE_SET, argv[1]);
+    else
+    {
+      puts("Not implemeted");
+    }
   }
   return 1;
 }
