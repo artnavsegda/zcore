@@ -97,10 +97,8 @@ int option(int argc, char *argv[])
   {
     WJElement array = NULL;
     char * entity = NULL;
-    WJEDump(WJEArray(protoface,parameter->name,WJE_GET));
     while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
     {
-      puts("lolo");
       puts(entity);
     }
   }

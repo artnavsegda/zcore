@@ -89,11 +89,11 @@ int isbuiltin(char * builtinname)
   }
 }
 
-int printoption(WJElement proto, WJElement face)
+int printoption(WJElement proto, WJElement face, int depth)
 {
   WJElement option = NULL;
   while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
-    for (int i = protodepth; i > 0; i--)
+    for (int i = depth; i > 0; i--)
     {
       printf("%s.", parentname(proto, i));
     }
@@ -104,11 +104,11 @@ int printoption(WJElement proto, WJElement face)
   }
 }
 
-int printoption2(WJElement proto)
+int printoption2(WJElement proto, int depth)
 {
   WJElement face = NULL;
   while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
-    printoption(proto,face);
+    printoption(proto,face, depth);
   }
 }
 
@@ -116,11 +116,11 @@ int builtin_show(int argc, char *argv[])
 {
   if (domain == OPTION)
   {
-    printoption(protojson,protoface);
+    printoption(protojson,protoface,protodepth);
   }
   else if (domain == FACE)
   {
-    printoption2(protojson);
+    printoption2(protojson, protodepth);
   }
   else if (domain == PROTO)
   {
@@ -128,7 +128,7 @@ int builtin_show(int argc, char *argv[])
       protojson = root;
     WJElement proto = NULL;
     while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
-      printoption2(proto);
+      printoption2(proto, protodepth);
     }
   }
   else
