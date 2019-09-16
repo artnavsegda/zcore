@@ -112,6 +112,18 @@ int printoption2(WJElement proto, int depth)
   }
 }
 
+int printoption3(WJElement protoinput, int depth)
+{
+  WJElement proto = NULL;
+  depth++;
+  while ((proto = _WJEObject(protoinput, "[]", WJE_GET, &proto))) {
+    if (WJEGet(proto, "schema", NULL))
+      printoption2(proto, depth);
+    else
+      printoption3(proto, depth);
+  }
+}
+
 int builtin_show(int argc, char *argv[])
 {
   if (domain == OPTION)
@@ -126,10 +138,7 @@ int builtin_show(int argc, char *argv[])
   {
     if (protodepth == 0)
       protojson = root;
-    WJElement proto = NULL;
-    while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
-      printoption2(proto, protodepth);
-    }
+    printoption3(protojson,protodepth);
   }
   else
     puts("Not implemented");
