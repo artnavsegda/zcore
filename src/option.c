@@ -189,20 +189,19 @@ char * cuesettingvalues(const char * text, int len, int state)
 {
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"string") == 0)
   {
-//    static WJElement cue = NULL;
-//    char * cuename = NULL;
+    WJElement cue = NULL;
+    char * cuename = NULL;
     static WJElement cueface = NULL;
 
-//    while (cuename = _WJEString(rl_parameter, "cue[]", WJE_GET, &cue, NULL))
-//    {
-//      while (cueface = WJEObjectF(root, WJE_GET, &cueface, "%s.data[]", cuename))
-      while (cueface = WJEObjectF(root, WJE_GET, &cueface, "%s.data[]", WJEString(rl_parameter,"cue", WJE_GET, NULL)))
+    while (cuename = _WJEString(rl_parameter, "cue[]", WJE_GET, &cue, NULL))
+    {
+      while (cueface = WJEObjectF(root, WJE_GET, &cueface, "%s.data[]", cuename))
       {
         if (strncmp(WJEString(cueface, "name", WJE_GET, ""), text, len) == 0) {
           return strdup(WJEString(cueface, "name", WJE_GET, ""));
         }
       }
-//    }
+    }
   }
   else if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"array") == 0)
   {

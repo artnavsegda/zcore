@@ -18,7 +18,7 @@
         "items": {
           "type": "string",
           "description": "Interface name",
-          "cue": "mobile"
+          "cue": [ "mobile" ]
         },
         "description": "List of interfaces attached to this zone"
       },
