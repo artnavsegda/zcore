@@ -46,6 +46,8 @@ WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
       {
         //WJEDump(WJEArray(ifaceinput, property->name, WJE_GET));
         //WJEMergeObjects(WJEArray(ifaceoutput, property->name, WJE_NEW),WJEArray(ifaceinput, property->name, WJE_GET), TRUE);
+        //WJEMergeObjects(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET), TRUE);
+        WJEAttach(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET));
       }
     }
 
