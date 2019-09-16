@@ -113,6 +113,15 @@ int printoption(WJElement proto, WJElement face, int depth)
       else
         printf("None");
     }
+    else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"array") == 0)
+    {
+      WJElement array = NULL;
+      char * entity = NULL;
+      while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", option->name))
+      {
+        printf("%s ", entity);
+      }
+    }
     puts("");
   }
 }
