@@ -79,7 +79,10 @@ int command(int argc, char *argv[])
   }
   else
   {
-    forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argc,argv);
+    if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
+    {
+      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argc,argv);
+    }
   }
 }
 
