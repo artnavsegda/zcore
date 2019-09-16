@@ -93,6 +93,10 @@ int option(int argc, char *argv[])
   {
     printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
   }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
+  {
+
+  }
   else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
   {
     WJElement array = NULL;
