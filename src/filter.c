@@ -14,8 +14,6 @@ WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
   while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
   {
     ifaceoutput = WJEObject(output, "interface", WJE_NEW);
-    WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
-
     while (property = _WJEObject(schema,schemapath, WJE_GET, &property))
     {
       if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
@@ -44,22 +42,10 @@ WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
       }
       else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
       {
-        //WJEDump(WJEArray(ifaceinput, property->name, WJE_GET));
-        //WJEMergeObjects(WJEArray(ifaceoutput, property->name, WJE_NEW),WJEArray(ifaceinput, property->name, WJE_GET), TRUE);
-        //WJEMergeObjects(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET), TRUE);
         WJEAttach(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET));
       }
     }
-
-//    int defaultroute = WJEInt32(ifaceinput,"defaultroute",WJE_GET,-1);
-//    if (defaultroute != -1){
-//      WJEBool(ifaceoutput,"defaultroute",WJE_NEW,(XplBool)defaultroute);
-//    }
-
-//    int metric = WJEInt32(ifaceinput,"metric",WJE_GET,-1);
-//    if (metric != -1) {
-//      WJEInt32(ifaceoutput,"metric",WJE_NEW,metric);
-//    }
+    WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
   }
 
   return output;
