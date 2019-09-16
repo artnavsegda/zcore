@@ -22,6 +22,16 @@
         "description": "Rule name",
         "hidden": true
       },
+      "src": {
+        "type": "string",
+        "description": "From this zone",
+        "cue": ["firewall.zones"]
+      },
+      "dest": {
+        "type": "string",
+        "description": "To this zone",
+        "cue": ["firewall.zones"]
+      },
       "proto": {
         "type": "string",
         "enum": ["tcp", "udp", "tcpudp", "udplite", "icmp", "esp", "ah", "sctp", "all"],
