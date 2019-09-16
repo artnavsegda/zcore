@@ -120,6 +120,17 @@ int option(int argc, char *argv[])
       }
       WJEString(protoface, parameter->name, WJE_SET, argv[1]);
     }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+    {
+      if (argv[1][0] == '-')
+      {
+        WJEDettach(WJEGetF(protoface,NULL,"%s[] == %s",parameter->name,&argv[1][1]));
+      }
+      else
+      {
+        WJEStringF(protoface, WJE_NEW, NULL, argv[1], "%s[$]", parameter->name);
+      }
+    }
     else
     {
       puts("Not implemeted");
