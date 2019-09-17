@@ -8,7 +8,7 @@ int acquire(WJElement proto)
   WJReader readjson;
   char *argv[100];
 
-  if (!(jsonstream = my_popen_read(WJEString(proto, "schema.acquire.shell", WJE_GET, "echo"), arguments(WJEArray(proto, "schema.acquire.args", WJE_GET), argv)))) {
+  if (!(jsonstream = my_popen_read(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"), arguments(WJEArray(proto, "schema.acquire.args", WJE_GET), argv)))) {
     puts("handle error");
     return 1;
   }

@@ -64,6 +64,6 @@
 	 },
    "acquire": {
      "shell": "/home/art/Coding/zcore/src/zfilter",
-     "args": ["mobile.schema","./mobile-online.sh"]
+     "args": ["zfilter", "mobile.schema","./mobile-online.sh"]
    }
 }

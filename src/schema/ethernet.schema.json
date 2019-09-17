@@ -66,6 +66,6 @@
   },
   "acquire": {
     "shell": "/home/art/Coding/zcore/src/zfilter",
-    "args": ["ethernet.schema", "./ethernet.sh"]
+    "args": ["zfilter", "ethernet.schema", "./ethernet.sh"]
   }
 }

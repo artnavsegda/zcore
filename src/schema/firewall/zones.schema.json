@@ -53,6 +53,6 @@
  },
  "acquire": {
    "shell": "/home/art/Coding/zcore/src/zfilter",
-   "args": ["firewall.zones.schema", "./rules.sh"]
+   "args": ["zfilter", "firewall.zones.schema", "./rules.sh"]
  }
 }
