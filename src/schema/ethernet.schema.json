@@ -59,7 +59,7 @@
     },
     "add": {
        "command": "/home/art/Coding/zcore/src/zgen",
-       "args": ["ethernet.schema"],
+       "args": ["zgen", "ethernet.schema"],
        "argpass": true,
        "json": "out"
     }
