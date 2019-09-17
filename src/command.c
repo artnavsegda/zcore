@@ -72,8 +72,7 @@ int command(int argc, char *argv[])
   {
     if (domain == OPTION)
     {
-      //streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),argv,WJEToString(protoface,TRUE));
-      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),arguments(WJEArray(command, "args", WJE_GET),argv),WJEToString(protoface,TRUE));
+      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),argv,WJEToString(protoface,TRUE));
     }
     else if (domain == FACE)
     {
@@ -89,7 +88,7 @@ int command(int argc, char *argv[])
   }
   else
   {
-    if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
+    if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
     {
       forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argc,argv);
     }
