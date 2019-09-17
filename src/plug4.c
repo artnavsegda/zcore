@@ -9,8 +9,10 @@
 #include "generator.h"
 #include "config.h"
 #include "load.h"
+#include "filter.h"
 
 WJElement doc = NULL;
+WJElement doc2 = NULL;
 WJElement root = NULL;
 
 int main(int argc, char *argv[])
@@ -21,14 +23,25 @@ int main(int argc, char *argv[])
   readconfig();
   loadeveryschema(root,config.schemapath);
 
-  if (argc < 3)
+  if (argc < 4)
   {
-    puts("command schema name");
+    puts("command schema script name");
     return 1;
   }
 
-  doc = generator(argv[2], root, argv[1]);
+  doc = generator(argv[3], root, argv[1]);
   WJEDump(doc);
+
+  doc2 = filter(doc, root, argv[1]);
+
+  FILE *jsonstream;
+
+  if (!(jsonstream = popen(argv[2], "w"))) {
+    puts("handle error");
+    return 1;
+  }
+
+  WJEWriteFILE(doc2, jsonstream);
 
   return 0;
 }

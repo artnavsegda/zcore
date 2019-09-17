@@ -30,7 +30,9 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  doc = filter(readjson, root, argv[1]);
+  WJElement input = WJEOpenDocument(readjson, NULL, NULL, NULL);
+
+  doc = filter(input, root, argv[1]);
 
   FILE *jsonstream;
 
