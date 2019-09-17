@@ -207,7 +207,7 @@ FILE * my_popen_write (char * command, char *argv[])
     }
 }
 
-char ** arguments(WJElement argarray, char *argv[])
+int arguments(WJElement argarray, char *argv[])
 {
   int i = 0;
   WJElement argstring = NULL;
@@ -217,6 +217,17 @@ char ** arguments(WJElement argarray, char *argv[])
     i++;
   }
 
-  return argv;
+  return i;
+}
+
+int argcat(int argc, char *argout[], char *argin[])
+{
+  int i = 0;
+  while (argout[argc] = argin[i])
+  {
+    i++;
+    argc++;
+  }
+  return i;
 }
 

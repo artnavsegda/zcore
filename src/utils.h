@@ -13,5 +13,6 @@ int streamfromcommand(char * command, char *argv[], WJElement jsonparent);
 FILE * my_popen_read (char * command, char *argv[]);
 FILE * my_popen_write (char * command, char *argv[]);
 int streamintocommand(char * command, char *argv[], char * stream);
-char ** arguments(WJElement argarray, char *argv[]);
+int arguments(WJElement argarray, char *argv[]);
+int argcat(int argc, char *argout[], char *argin[]);
 
