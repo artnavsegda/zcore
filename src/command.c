@@ -59,7 +59,7 @@ int command(int argc, char *argv[])
 
   if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
   {
-    argcat(argsc, args, &argv[1]);
+    argsc = argcat(argsc, args, &argv[1]);
   }
 
   if (strcmp(WJEString(command,"json", WJE_GET, "none"),"out") == 0)
@@ -88,7 +88,7 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
     {
-      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argc,argv);
+      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args);
     }
   }
 }

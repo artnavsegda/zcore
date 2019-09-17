@@ -228,6 +228,6 @@ int argcat(int argc, char *argout[], char *argin[])
     i++;
     argc++;
   }
-  return i;
+  return argc;
 }
 
