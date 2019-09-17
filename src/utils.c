@@ -206,3 +206,15 @@ FILE * my_popen_write (char * command, char *argv[])
         return fdopen(write_fd, "w");
     }
 }
+
+char ** arguments(WJElement argarray, char *argv[])
+{
+  int i = 0;
+  WJElement argstring = NULL;
+
+  while (argv[i] = _WJEString(argarray, "[]", WJE_GET, &argstring, NULL))
+    i++;
+
+  return argv;
+}
+

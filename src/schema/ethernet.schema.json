@@ -59,12 +59,13 @@
     },
     "add": {
        "command": "/home/art/Coding/zcore/src/zgen",
-       "arg": ["ethernet.schema"],
+       "args": ["ethernet.schema"],
        "argpass": true,
        "json": "out"
     }
   },
   "acquire": {
-    "shell": "./zfilter ethernet.schema.items.properties[] ./ethernet.sh"
+    "shell": "/home/art/Coding/zcore/src/zfilter",
+    "args": ["ethernet.schema", "./ethernet.sh"]
   }
 }

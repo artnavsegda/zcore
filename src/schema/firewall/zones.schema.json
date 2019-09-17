@@ -52,6 +52,7 @@
    }
  },
  "acquire": {
-   "shell": "./zfilter firewall.zones.schema.items.properties[] ./zones.sh"
+   "shell": "/home/art/Coding/zcore/src/zfilter",
+   "args": ["firewall.zones.schema", "/rules.sh"]
  }
 }

@@ -73,6 +73,7 @@
    }
  },
  "acquire": {
-   "shell": "./zfilter firewall.rules.schema.items.properties[] ./rules.sh"
+   "shell": "/home/art/Coding/zcore/src/zfilter",
+   "args": ["firewall.rules.schema","./rules.sh"]
  }
 }

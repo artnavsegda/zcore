@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <wjelement.h>
+#include "utils.h"
 
 int acquire(WJElement proto)
 {
-  //WJEDump(proto);
-  //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "echo"));
   FILE *jsonstream;
   WJReader readjson;
+  char *argv[100];
 
-  if (!(jsonstream = popen(WJEString(proto, "schema.acquire.shell", WJE_GET, "echo"), "r"))) {
+  if (!(jsonstream = my_popen_read(WJEString(proto, "schema.acquire.shell", WJE_GET, "echo"), arguments(WJEArray(proto, "schema.acquire.args", WJE_GET), argv)))) {
     puts("handle error");
     return 1;
   }
@@ -30,12 +30,10 @@ int acquireall(WJElement directory)
   {
     if (WJEGet(proto, "schema", NULL))
     {
-      //printf("acquire %s\n",proto->name);
       acquire(proto);
     }
     else
     {
-      //printf("submodule %s\n",proto->name);
       acquireall(proto);
     }
   }
