@@ -64,11 +64,11 @@ int command(int argc, char *argv[])
     arguments(WJEArray(command, "args", WJE_GET),argv);
   }
 
-  if (strcmp(WJEString(command,"json", WJE_GET, NULL),"out") == 0)
+  if (strcmp(WJEString(command,"json", WJE_GET, "none"),"out") == 0)
   {
     streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),argv,WJEArray(protojson, "data", WJE_GET));
   }
-  else if (strcmp(WJEString(command,"json", WJE_GET, NULL),"in") == 0)
+  else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
   {
     if (domain == OPTION)
     {
