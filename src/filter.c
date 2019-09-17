@@ -14,7 +14,7 @@ WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
   while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
   {
     ifaceoutput = WJEObject(output, "interface", WJE_NEW);
-    while (property = _WJEObject(schema,schemapath, WJE_GET, &property))
+    while (property = WJEObjectF(schema, WJE_GET, &property, "%s.items.properties[]", schemapath))
     {
       if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
       {
