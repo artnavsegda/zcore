@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name"],
+    "required": ["name", "mode", "enable"],
     "properties": {
       "name": {
         "type": "string",
@@ -15,7 +15,8 @@
       },
       "enable": {
         "type": "boolean",
-        "description": "Enable cellular interface"
+        "description": "Enable cellular interface",
+        "example": true
       },
       "apn": {
         "type": "string",
@@ -33,7 +34,8 @@
       "mode": {
         "type": "string",
         "enum": ["auto","edge","umts","lte"],
-        "description": "Network access mode"
+        "description": "Network access mode",
+        "example": "auto"
       },
       "bands": {
         "type": "array",

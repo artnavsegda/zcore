@@ -13,13 +13,9 @@ WJElement generator(char * generatedname, WJElement schema, char * schemapath)
 
   WJEString(output,"name",WJE_NEW,generatedname);
 
-  //WJEDump(schema);
-
   while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.items.required[]", schemapath))
   {
-    //puts(itemname);
-    property = WJEObjectF(schema, WJE_GET, NULL, "ethernet.schema.items.properties.%s", itemname);
-    //WJEDump(property);
+    property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, itemname);
 
     if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
     {
