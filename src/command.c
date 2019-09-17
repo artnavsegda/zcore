@@ -64,7 +64,7 @@ int command(int argc, char *argv[])
 
   if (strcmp(WJEString(command,"json", WJE_GET, "none"),"out") == 0)
   {
-    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),argv,WJEArray(protojson, "data", WJE_GET));
+    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,WJEArray(protojson, "data", WJE_GET));
   }
   else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
   {
