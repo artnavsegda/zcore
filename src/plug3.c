@@ -15,6 +15,11 @@ WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
+//  fprintf(stderr,"argumets %d\n",argc);
+//  fprintf(stderr,"zero %s\n",argv[0]);
+//  fprintf(stderr,"one %s\n",argv[1]);
+//  fprintf(stderr,"two %s\n",argv[2]);
+
   setuid(0);
   root = WJEObject(NULL, NULL, WJE_NEW);
 

@@ -213,7 +213,9 @@ char ** arguments(WJElement argarray, char *argv[])
   WJElement argstring = NULL;
 
   while (argv[i] = _WJEString(argarray, "[]", WJE_GET, &argstring, NULL))
+  {
     i++;
+  }
 
   return argv;
 }
