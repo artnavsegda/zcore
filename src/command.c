@@ -53,14 +53,15 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
-  char *args[100];
   WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
 
   if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
   {
+    arguments(WJEArray(command, "args", WJE_GET),&argv[argc]);
   }
   else
   {
+    arguments(WJEArray(command, "args", WJE_GET),argv);
   }
 
   if (strcmp(WJEString(command,"json", WJE_GET, NULL),"out") == 0)
