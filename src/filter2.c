@@ -12,6 +12,8 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
 
   WJEString(output,"config",WJE_NEW,"network");
 
+  WJEString(output,"type",WJE_NEW,"interface");
+
   char * name = WJEString(input,"name",WJE_GET,"");
   if (name[0]){
     WJEString(output,"section",WJE_NEW,name);
