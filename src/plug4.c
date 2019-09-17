@@ -21,9 +21,9 @@ int main(int argc, char *argv[])
   readconfig();
   loadeveryschema(root,config.schemapath);
 
-  if (argc < 2)
+  if (argc < 3)
   {
-    puts("command name schema");
+    puts("command schema name");
     return 1;
   }
 
