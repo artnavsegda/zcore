@@ -54,7 +54,7 @@
    "commands": {
      "apply": {
        "command": "/home/art/Coding/zcore/src/zfilter2",
-       "args": ["ethernet.schema", "./apply.sh"],
+       "args": ["zfilter2", "ethernet.schema", "./apply.sh"],
        "json": "in"
     },
     "add": {
