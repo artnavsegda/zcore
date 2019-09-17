@@ -56,6 +56,13 @@ int command(int argc, char *argv[])
   char *args[100];
   WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
 
+  if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
+  {
+  }
+  else
+  {
+  }
+
   if (strcmp(WJEString(command,"json", WJE_GET, NULL),"out") == 0)
   {
     streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),argv,WJEArray(protojson, "data", WJE_GET));
@@ -65,7 +72,7 @@ int command(int argc, char *argv[])
     if (domain == OPTION)
     {
       //streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),argv,WJEToString(protoface,TRUE));
-      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),arguments(WJEArray(command, "args", WJE_GET),args),WJEToString(protoface,TRUE));
+      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),arguments(WJEArray(command, "args", WJE_GET),argv),WJEToString(protoface,TRUE));
     }
     else if (domain == FACE)
     {
