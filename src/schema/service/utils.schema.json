@@ -5,7 +5,7 @@
   "commands": {
     "ping": {
       "command": "/usr/bin/ping",
-      "arg": ["ping","-4"],
+      "args": ["ping","-4"],
       "argpass": true,
       "wait": true
     }
