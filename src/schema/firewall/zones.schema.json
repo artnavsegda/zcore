@@ -54,6 +54,12 @@
       }
    }
  },
+ "commands": {
+   "command": "/home/art/Coding/zcore/src/zgen",
+   "args": ["zgen", "firewall.zones.schema", "./add.sh"],
+   "argpass": true,
+   "json": "out"
+ },
  "acquire": {
    "shell": "/home/art/Coding/zcore/src/zfilter",
    "args": ["zfilter", "firewall.zones.schema", "./zones.sh"]
