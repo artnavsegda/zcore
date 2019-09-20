@@ -13,13 +13,15 @@ WJElement generator(char * generatedname, WJElement schema, char * schemapath)
 
   WJEString(output,"name",WJE_NEW,generatedname);
 
+  WJEString(output,"name",WJE_NEW,generatedname);
+
   while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.items.required[]", schemapath))
   {
     property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, itemname);
 
     if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
     {
-      char * stringvalue = WJEString(property,"example",WJE_GET,"");
+      char * stringvalue = WJEString(property,"default",WJE_GET,"");
       if (stringvalue[0])
       {
         WJEString(output,property->name,WJE_NEW,stringvalue);
@@ -27,7 +29,7 @@ WJElement generator(char * generatedname, WJElement schema, char * schemapath)
     }
     else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
     {
-      int numbervalue = WJEInt32(property,"example",WJE_GET,-1);
+      int numbervalue = WJEInt32(property,"default",WJE_GET,-1);
       if (numbervalue != -1)
       {
         WJEInt32(output,property->name,WJE_NEW,numbervalue);
@@ -35,7 +37,7 @@ WJElement generator(char * generatedname, WJElement schema, char * schemapath)
     }
     else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
     {
-      int boolval = WJEInt32(property,"example",WJE_GET,-1);
+      int boolval = WJEInt32(property,"default",WJE_GET,-1);
       if (boolval != -1)
       {
         WJEBool(output,property->name,WJE_NEW,(XplBool)boolval);
