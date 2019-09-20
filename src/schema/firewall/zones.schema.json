@@ -18,7 +18,8 @@
         "items": {
           "type": "string",
           "description": "Interface name",
-          "cue": [ "mobile", "ethernet" ]
+          "cue": [ "mobile", "ethernet" ],
+          "default": "loopback"
         },
         "description": "List of interfaces attached to this zone"
       },

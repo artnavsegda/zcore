@@ -41,6 +41,18 @@ WJElement generator(char * generatedname, WJElement schema, char * schemapath)
         WJEBool(output,property->name,WJE_NEW,(XplBool)boolval);
       }
     }
+    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
+    {
+      WJElement myarray = WJEArray(output,property->name,WJE_NEW);
+      if (strcmp(WJEString(property,"items.type",WJE_GET,"unknown"),"string") == 0)
+      {
+        char * stringvalue = WJEString(property,"items.default",WJE_GET,"");
+        if (stringvalue[0])
+        {
+          WJEString(myarray,property->name,WJE_NEW,stringvalue);
+        }
+      }
+    }
   }
 
   return output;
