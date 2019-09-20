@@ -55,10 +55,17 @@
    }
  },
  "commands": {
-   "command": "/home/art/Coding/zcore/src/zgen",
-   "args": ["zgen", "firewall.zones.schema", "./add.sh"],
-   "argpass": true,
-   "json": "out"
+   "apply": {
+     "command": "/home/art/Coding/zcore/src/zfilter2",
+     "args": ["zfilter2", "firewall.zones.schema", "./apply.sh"],
+     "json": "in"
+   },
+   "add": {
+     "command": "/home/art/Coding/zcore/src/zgen",
+     "args": ["zgen", "firewall.zones.schema", "./add.sh"],
+     "argpass": true,
+     "json": "out"
+   }
  },
  "acquire": {
    "shell": "/home/art/Coding/zcore/src/zfilter",
