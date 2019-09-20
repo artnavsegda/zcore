@@ -74,6 +74,12 @@
       }
    }
  },
+ "commands": {
+   "apply": {
+     "command": "/home/art/Coding/zcore/src/zfilter2",
+     "args": ["zfilter2", "firewall.rules.schema", "./apply.sh"],
+     "json": "in"
+ },
  "acquire": {
    "shell": "/home/art/Coding/zcore/src/zfilter",
    "args": ["zfilter", "firewall.rules.schema","./rules.sh"]
