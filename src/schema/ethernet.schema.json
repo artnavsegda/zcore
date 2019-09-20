@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name", "vid", "ip", "macaddr", "defaultroute"],
+    "required": ["name", "vid", "ip", "macaddr", "defaultroute", "proto"],
     "properties": {
       "name": {
         "type": "string",
@@ -48,6 +48,10 @@
       "metric": {
         "type": "number",
         "description": "Network metric"
+      },
+      "proto": {
+        "type": "string",
+        "default": "vlan"
       }
    }
  },
