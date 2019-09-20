@@ -16,7 +16,7 @@
       "vid": {
         "type": "number",
         "description": "VLAN ID",
-        "example": 13
+        "default": 13
       },
       "switch": {
         "type": "string",
@@ -29,17 +29,17 @@
       "ip": {
         "type": "string",
         "description": "IP address config",
-        "example": "dhcp"
+        "default": "dhcp"
       },
       "defaultroute": {
         "type": "boolean",
         "description": "Use as defaultroute",
-        "example": false
+        "default": false
       },
       "macaddr": {
         "type": "string",
         "description": "MAC address",
-        "example": "de:ad:be:ef:12:34"
+        "default": "de:ad:be:ef:12:34"
       },
       "mtu": {
         "type": "number",

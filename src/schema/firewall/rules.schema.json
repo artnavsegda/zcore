@@ -35,7 +35,8 @@
       "proto": {
         "type": "string",
         "enum": ["tcp", "udp", "tcpudp", "udplite", "icmp", "esp", "ah", "sctp", "all"],
-        "description": "Match incoming traffic using the given protocol"
+        "description": "Match incoming traffic using the given protocol",
+        "default": "all"
       },
       "src_ip": {
         "type": "string",
@@ -68,7 +69,8 @@
       "target": {
         "type": "string",
         "enum": ["ACCEPT", "REJECT", "DROP", "MARK", "NOTRACK"],
-        "description": "Firewall action for matched traffic"
+        "description": "Firewall action for matched traffic",
+        "default": "ACCEPT"
       }
    }
  },

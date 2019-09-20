@@ -37,17 +37,20 @@
       "input": {
         "type": "string",
         "enum": ["ACCEPT", "DROP", "REJECT"],
-        "description": "Default action for INPUT chain"
+        "description": "Default action for INPUT chain",
+        "default": "ACCEPT"
       },
       "output": {
         "type": "string",
         "enum": ["ACCEPT", "DROP", "REJECT"],
-        "description": "Default action for DROP chain"
+        "description": "Default action for DROP chain",
+        "default": "ACCEPT"
       },
       "forward": {
         "type": "string",
         "enum": ["ACCEPT", "DROP", "REJECT"],
-        "description": "Default action for REJECT chain"
+        "description": "Default action for REJECT chain",
+        "default": "ACCEPT"
       }
    }
  },

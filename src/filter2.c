@@ -16,7 +16,7 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
 
   char * name = WJEString(input,"name",WJE_GET,"");
   if (name[0]){
-    WJEString(output,"section",WJE_NEW,name);
+    WJEString(output,"name",WJE_NEW,name);
   }
 
   valuesoutput = WJEObject(output, "values", WJE_NEW);
