@@ -75,10 +75,18 @@
    }
  },
  "commands": {
-   "apply": {
+  "apply": {
      "command": "/home/art/Coding/zcore/src/zfilter2",
      "args": ["zfilter2", "firewall.rules.schema", "./apply.sh"],
      "json": "in"
+  },
+  "add": {
+    "command": "/home/art/Coding/zcore/src/zgen",
+    "args": ["zgen", "firewall.rules.schema", "./add.sh"],
+    "argpass": true,
+    "cue": ["name"],
+    "json": "out"
+  }
  },
  "acquire": {
    "shell": "/home/art/Coding/zcore/src/zfilter",
