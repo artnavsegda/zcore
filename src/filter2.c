@@ -4,15 +4,15 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement filter(WJElement input, WJElement schema, char * schemapath)
+WJElement filter(WJElement input, WJElement schema, char * schemapath, char * ubustype, char * ubusconfig)
 {
   WJElement output = WJEObject(NULL, NULL, WJE_NEW);
   WJElement property = NULL;
   WJElement valuesoutput = NULL;
 
-  WJEString(output,"config",WJE_NEW,"network");
+  WJEString(output,"config",WJE_NEW,ubusconfig);
 
-  WJEString(output,"type",WJE_NEW,"interface");
+  WJEString(output,"type",WJE_NEW,ubustype);
 
   char * name = WJEString(input,"name",WJE_GET,"");
   if (name[0]){

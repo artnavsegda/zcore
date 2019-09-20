@@ -9,7 +9,7 @@
 #include "generator.h"
 #include "config.h"
 #include "load.h"
-#include "filter.h"
+#include "filter2.h"
 
 WJElement doc = NULL;
 WJElement doc2 = NULL;
@@ -29,10 +29,10 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  doc = generator(argv[3], root, argv[1]);
+  doc = generator(argv[5], root, argv[1]);
   WJEDump(doc);
 
-  doc2 = filter(doc, root, argv[1]);
+  doc2 = filter(doc, root, argv[1], argv[3], argv[4]);
 
   FILE *jsonstream;
 
