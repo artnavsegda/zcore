@@ -47,17 +47,11 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
           WJEInt32(valuesoutput,property->name,WJE_NEW,(int)boolval);
         }
       }
+      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
+      {
+        WJEAttach(valuesoutput,WJEArray(input, property->name, WJE_GET));
+      }
     }
-
-//    int defaultroute = WJEInt32(ifaceinput,"defaultroute",WJE_GET,-1);
-//    if (defaultroute != -1){
-//      WJEBool(ifaceoutput,"defaultroute",WJE_NEW,(XplBool)defaultroute);
-//    }
-
-//    int metric = WJEInt32(ifaceinput,"metric",WJE_GET,-1);
-//    if (metric != -1) {
-//      WJEInt32(ifaceoutput,"metric",WJE_NEW,metric);
-//    }
 
   return output;
 }
