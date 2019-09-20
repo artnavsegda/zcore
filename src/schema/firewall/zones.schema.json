@@ -64,6 +64,7 @@
      "command": "/home/art/Coding/zcore/src/zgen",
      "args": ["zgen", "firewall.zones.schema", "./add.sh"],
      "argpass": true,
+     "cue": ["name","network"],
      "json": "out"
    }
  },
