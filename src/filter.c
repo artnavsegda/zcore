@@ -4,9 +4,8 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement filter(WJReader inputstream, WJElement schema, char * schemapath)
+WJElement filter(WJElement input, WJElement schema, char * schemapath)
 {
-  WJElement input = WJEOpenDocument(inputstream, NULL, NULL, NULL);
   WJElement output = WJEArray(NULL, NULL, WJE_NEW);
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
   WJElement property = NULL;
