@@ -185,23 +185,44 @@ char * settingvalues(const char * text, int len, int state)
   return NULL;
 }
 
+char * singlecuevalue(const char * text, int len, char * cuename)
+{
+  static WJElement cueface = NULL;
+  if (cuename)
+  {
+    while (cueface = WJEObjectF(root, WJE_GET, &cueface, "%s.data[]", cuename))
+    {
+      if (strncmp(WJEString(cueface, "name", WJE_GET, ""), text, len) == 0) {
+        return strdup(WJEString(cueface, "name", WJE_GET, ""));
+      }
+    }
+  }
+  return NULL;
+}
+
+char * multicuevalue(const char * text, int len)
+{
+  static WJElement cue = NULL;
+  static char * cuename = NULL;
+  char * cuevalue = NULL;
+
+  while (1)
+  {
+    cuevalue = singlecuevalue(text, len, cuename);
+    if (cuevalue == NULL)
+      cuename = _WJEString(rl_parameter, "cue[]", WJE_GET, &cue, NULL);
+    if (cuevalue)
+      return cuevalue;
+    if (!cuevalue && !cuename)
+      return NULL;
+  }
+}
+
 char * cuesettingvalues(const char * text, int len, int state)
 {
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"string") == 0)
   {
-    WJElement cue = NULL;
-    char * cuename = NULL;
-    static WJElement cueface = NULL;
-
-    while (cuename = _WJEString(rl_parameter, "cue[]", WJE_GET, &cue, NULL))
-    {
-      while (cueface = WJEObjectF(root, WJE_GET, &cueface, "%s.data[]", cuename))
-      {
-        if (strncmp(WJEString(cueface, "name", WJE_GET, ""), text, len) == 0) {
-          return strdup(WJEString(cueface, "name", WJE_GET, ""));
-        }
-      }
-    }
+      return multicuevalue(text,len);
   }
   else if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"array") == 0)
   {
