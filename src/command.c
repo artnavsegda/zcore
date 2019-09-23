@@ -5,10 +5,12 @@
 #include "command.h"
 #include "utils.h"
 #include "completion.h"
+#include "option.h"
 
 extern WJElement protojson;
 extern WJElement protoface;
 extern WJElement rl_protojson;
+extern WJElement rl_parameter;
 
 WJElement rl_commjson = NULL;
 int rl_argcount = 0;
@@ -121,7 +123,11 @@ char * cuecommandvalues(const char * text, int len, int state)
   //printf("arg num %d\n",rl_argcount);
   char * cuename = NULL;
   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
-    puts(cuename);
+  {
+    //puts(cuename);
+    rl_parameter = WJEObjectF(optionlist(rl_protojson), WJE_GET, NULL, "properties.%s",cuename);
+    return cuesettingvalues(text, len, state);
+  }
   return NULL;
 }
 
