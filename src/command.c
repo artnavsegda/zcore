@@ -6,6 +6,7 @@
 #include "utils.h"
 #include "completion.h"
 #include "option.h"
+#include "acquire.h"
 
 extern WJElement protojson;
 extern WJElement protoface;
@@ -96,6 +97,10 @@ int command(int argc, char *argv[])
     {
       forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args);
     }
+  }
+  if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
+  {
+    acquire(protojson);
   }
 }
 
