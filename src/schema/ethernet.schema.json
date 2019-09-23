@@ -71,7 +71,7 @@
     },
     "remove": {
        "command": "/home/art/Coding/zcore/src/remove.sh",
-       "args": ["remove"],
+       "args": ["remove", "network", "interface"],
        "argpass": true,
        "wait": true,
        "reload": true
