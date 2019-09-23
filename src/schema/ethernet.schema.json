@@ -68,6 +68,10 @@
        "argpass": true,
        "cue": ["name", "vid","switch"],
        "json": "out"
+    },
+    "remove": {
+       "command": "/home/art/Coding/zcore/src/remove.sh",
+       "argpass": true
     }
   },
   "acquire": {
