@@ -63,7 +63,7 @@
    },
    "add": {
      "command": "/home/art/Coding/zcore/src/zgen",
-     "args": ["zgen", "firewall.zones.schema", "./add.sh", "zone", "firewall"],
+     "args": ["zgen", "-sfirewall.zones.schema", "-e./add.sh", "-tzone", "-cfirewall", "-nadd"],
      "argpass": true,
      "cue": ["name","network"],
      "json": "out"
