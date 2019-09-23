@@ -18,12 +18,15 @@ WJElement root = NULL;
 int main(int argc, char *argv[])
 {
   int opt;
-  char *ubusconfig = NULL, *ubustype = NULL, *schema = NULL, *execmd = NULL;
+  char *ubusconfig = NULL, *ubustype = NULL, *schema = NULL, *execmd = NULL, *namecmd = NULL;
 
   while ((opt = getopt(argc, argv, "e:s:c:t:")) != -1)
   {
     switch (opt)
     {
+      case 'n':
+        namecmd = optarg;
+        break;
       case 'e': // execmd
         execmd = optarg;
         break;
@@ -51,7 +54,7 @@ int main(int argc, char *argv[])
   //  return 1;
   //}
 
-  doc = generator(argv[optind], root, schema);
+  doc = generator(root, schema, namecmd, argc-optind, &argv[optind]);
   WJEDump(doc);
 
   doc2 = filter(doc, root, schema, ubustype, ubusconfig);
