@@ -17,26 +17,48 @@ WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
+  int opt;
+  char *ubusconfig = NULL, *ubustype = NULL, *schema = NULL, *execmd = NULL;
+
+  while ((opt = getopt(argc, argv, "e:s:c:t:")) != -1)
+  {
+    switch (opt)
+    {
+      case 'e': // execmd
+        execmd = optarg;
+        break;
+      case 's': // schema
+        schema = optarg;
+        break;
+      case 'c': // config
+        ubusconfig = optarg;
+        break;
+      case 't': // type
+        ubustype = optarg;
+        break;
+    }
+  }
+
   setuid(0);
   root = WJEObject(NULL, NULL, WJE_NEW);
 
   readconfig();
   loadeveryschema(root,config.schemapath);
 
-  if (argc < 4)
-  {
-    puts("command schema script name");
-    return 1;
-  }
+  //if (argc < 4)
+  //{
+  //  puts("command schema script name");
+  //  return 1;
+  //}
 
-  doc = generator(argv[5], root, argv[1]);
+  doc = generator(argv[optind], root, schema);
   WJEDump(doc);
 
-  doc2 = filter(doc, root, argv[1], argv[3], argv[4]);
+  doc2 = filter(doc, root, schema, ubustype, ubusconfig);
 
   FILE *jsonstream;
 
-  if (!(jsonstream = popen(argv[2], "w"))) {
+  if (!(jsonstream = popen(execmd, "w"))) {
     puts("handle error");
     return 1;
   }
