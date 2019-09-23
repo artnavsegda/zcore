@@ -55,7 +55,19 @@ WJElement generator(WJElement schema, char * schemapath, char * commandname, int
     }
   }
 
+  char * cuename = NULL;
 
+  for (int i = 0; i < argc; i++)
+  {
+    if (cuename = WJEStringF(schema, WJE_GET, NULL, NULL, "%s.commands.%s.cue[%d]", schemapath, commandname, i))
+    {
+      property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, cuename);
+      if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
+      {
+        WJEString(output,property->name,WJE_SET,argv[i]);
+      }
+    }
+  }
 
   return output;
 }
