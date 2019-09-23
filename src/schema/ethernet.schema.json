@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name", "vid", "ip", "macaddr", "defaultroute", "proto"],
+    "required": ["name", "vid", "ip", "macaddr", "defaultroute", "proto", "switch"],
     "properties": {
       "name": {
         "type": "string",
@@ -20,7 +20,8 @@
       },
       "switch": {
         "type": "string",
-        "description": "Switch device"
+        "description": "Switch device",
+        "default": "eth0"
       },
       "untagged":{
         "type": "array",

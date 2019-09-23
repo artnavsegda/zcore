@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
   int opt;
   char *ubusconfig = NULL, *ubustype = NULL, *schema = NULL, *execmd = NULL, *namecmd = NULL;
 
-  while ((opt = getopt(argc, argv, "e:s:c:t:")) != -1)
+  while ((opt = getopt(argc, argv, "n:e:s:c:t:")) != -1)
   {
     switch (opt)
     {
