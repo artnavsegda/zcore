@@ -11,6 +11,7 @@ extern WJElement protoface;
 extern WJElement rl_protojson;
 
 WJElement rl_commjson = NULL;
+int rl_argcount = 0;
 
 int listcommands(void)
 {
@@ -100,6 +101,7 @@ int rl_command(int argc, char *argv[])
 {
   rl_commjson = WJEObjectF(rl_protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
   rl_domain = COMMAND;
+  rl_argcount = 0;
   return 1;
 }
 

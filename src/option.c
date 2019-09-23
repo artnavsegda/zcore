@@ -122,9 +122,11 @@ int option(int argc, char *argv[])
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
     {
+      WJEInt32(protoface, parameter->name, WJE_SET, atoi(argv[1]));
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
     {
+      WJEBool(protoface, parameter->name, WJE_SET, atoi(argv[1]));
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
     {
