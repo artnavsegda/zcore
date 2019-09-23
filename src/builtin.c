@@ -169,6 +169,7 @@ int builtin_show(int argc, char *argv[])
 
 int builtin_acquire(int argc, char *argv[])
 {
+  acquire(WJEObject(root, argv[0], WJE_GET));
 }
 
 int builtin(int argc, char *argv[])
