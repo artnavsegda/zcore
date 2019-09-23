@@ -93,6 +93,13 @@ int command(int argc, char *argv[])
   }
 }
 
+int rl_command(int argc, char *argv[])
+{
+  WJElement rl_command = WJEObjectF(rl_protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
+  rl_domain = COMMAND;
+  return 1;
+}
+
 char * commandvalues(const char * text, int len)
 {
   static WJElement command = NULL;

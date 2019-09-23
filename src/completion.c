@@ -29,7 +29,7 @@ int rl_execute(int argc, char *argv[])
   }
   else if (rl_iscommand(argv[0]))
   {
-    //command(argc,argv);
+    rl_command(argc,argv);
   }
   else if (rl_isface(argv[0]))
   {
