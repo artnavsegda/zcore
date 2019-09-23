@@ -71,7 +71,9 @@
     },
     "remove": {
        "command": "/home/art/Coding/zcore/src/remove.sh",
-       "argpass": true
+       "args": ["remove"],
+       "argpass": true,
+       "wait": true
     }
   },
   "acquire": {
