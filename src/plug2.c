@@ -8,7 +8,7 @@
 #include <wjwriter.h>
 #include <wjreader.h>
 #include <unistd.h>
-#include "filter.h"
+#include "filter2.h"
 #include "config.h"
 #include "load.h"
 
@@ -17,6 +17,31 @@ WJElement root = NULL;
 
 int main(int argc, char *argv[])
 {
+  int opt;
+  char *ubusconfig = NULL, *ubustype = NULL, *schema = NULL, *execmd = NULL, *namecmd = NULL;
+
+  while ((opt = getopt(argc, argv, "n:e:s:c:t:")) != -1)
+  {
+    switch (opt)
+    {
+      case 'n':
+        namecmd = optarg;
+        break;
+      case 'e': // execmd
+        execmd = optarg;
+        break;
+      case 's': // schema
+        schema = optarg;
+        break;
+      case 'c': // config
+        ubusconfig = optarg;
+        break;
+      case 't': // type
+        ubustype = optarg;
+        break;
+    }
+  }
+
   setuid(0);
   root = WJEObject(NULL, NULL, WJE_NEW);
 
@@ -32,11 +57,11 @@ int main(int argc, char *argv[])
 
   WJElement input = WJEOpenDocument(readjson, NULL, NULL, NULL);
 
-  doc = filter(input, root, argv[1]);
+  doc = filter(input, root, schema, ubustype, ubusconfig);
 
   FILE *jsonstream;
 
-  if (!(jsonstream = popen(argv[2], "w"))) {
+  if (!(jsonstream = popen(execmd, "w"))) {
     puts("handle error");
     return 1;
   }
