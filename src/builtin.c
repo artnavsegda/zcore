@@ -8,6 +8,7 @@
 #include "command.h"
 #include "option.h"
 #include "prompt.h"
+#include "acquire.h"
 
 extern int protodepth;
 extern WJElement protojson; 
@@ -169,7 +170,7 @@ int builtin_show(int argc, char *argv[])
 
 int builtin_acquire(int argc, char *argv[])
 {
-  acquire(WJEObject(root, argv[0], WJE_GET));
+  acquire(WJEObject(root, argv[1], WJE_GET));
 }
 
 int builtin(int argc, char *argv[])
