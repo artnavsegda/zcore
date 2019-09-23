@@ -75,11 +75,12 @@ void listbuiltins()
   puts("?");
   puts("..");
   puts("show");
+  puts("acquire");
 }
 
 int isbuiltin(char * builtinname)
 {
-  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0))
+  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0))
   {
     return 1;
   }
@@ -166,6 +167,10 @@ int builtin_show(int argc, char *argv[])
     puts("Not implemented");
 }
 
+int builtin_acquire(int argc, char *argv[])
+{
+}
+
 int builtin(int argc, char *argv[])
 {
   if (argv[0][0]=='?')
@@ -180,9 +185,13 @@ int builtin(int argc, char *argv[])
   {
     return builtin_show(argc,argv);
   }
+  else if (strcmp(argv[0],"acquire") == 0)
+  {
+    return builtin_acquire(argc,argv);
+  }
 }
 
-char *builtincommands[] = {"?","..","show",NULL};
+char *builtincommands[] = {"?","..","show","acquire",NULL};
 
 char * builtinvalues(const char * text, int len)
 {
