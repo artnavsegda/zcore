@@ -118,6 +118,10 @@ char * rl_subcommands(const char * text, int len, int state)
     if ((subvalues = cuesettingvalues(text,len,state)) == NULL)
       return NULL;
     break;
+    case COMMAND:
+    if ((subvalues = cuecommandvalues(text,len,state)) == NULL)
+      return NULL;
+    break;
   }
   return subvalues;
 }

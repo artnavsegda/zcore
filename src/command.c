@@ -110,3 +110,9 @@ char * commandvalues(const char * text, int len)
   }
   return NULL;
 }
+
+char * cuecommandvalues(const char * text, int len, int state)
+{
+  return NULL;
+}
+
