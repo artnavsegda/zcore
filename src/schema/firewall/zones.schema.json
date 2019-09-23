@@ -67,7 +67,14 @@
      "argpass": true,
      "cue": ["name","network"],
      "json": "out"
-   }
+   },
+   "remove": {
+       "command": "/home/art/Coding/zcore/src/remove.sh",
+       "args": ["remove", "firewall", "zone"],
+       "argpass": true,
+       "wait": true,
+       "reload": true
+    }
  },
  "acquire": {
    "shell": "/home/art/Coding/zcore/src/zfilter",
