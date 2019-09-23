@@ -66,6 +66,10 @@ WJElement generator(WJElement schema, char * schemapath, char * commandname, int
       {
         WJEString(output,property->name,WJE_SET,argv[i]);
       }
+      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
+      {
+        WJEInt32(output,property->name,WJE_SET,atoi(argv[i]));
+      }
     }
   }
 
