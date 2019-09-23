@@ -7,6 +7,7 @@
 #include "completion.h"
 #include "option.h"
 #include "acquire.h"
+#include "face.h"
 
 extern WJElement protojson;
 extern WJElement protoface;
@@ -132,6 +133,10 @@ char * cuecommandvalues(const char * text, int len, int state)
     //puts(cuename);
     rl_parameter = WJEObjectF(optionlist(rl_protojson), WJE_GET, NULL, "properties.%s",cuename);
     return cuesettingvalues(text, len, state);
+  }
+  else
+  {
+    return facevalues(text,len);
   }
   return NULL;
 }
