@@ -15,7 +15,7 @@
 #include "interpreter.h"
 
 enum domains rl_domain = PROTO;
-char *rl_command = NULL;
+char *rl_commandname = NULL;
 
 int rl_execute(int argc, char *argv[])
 {
@@ -52,11 +52,11 @@ int rl_interpret(char * stringtointerpret, int start, int end)
     if (start > 0)
     {
       rl_execute(numberoftokens,rl_tokarr);
-      rl_command = rl_tokarr[0];
+      rl_commandname = rl_tokarr[0];
       return 0;
     }
   }
-  rl_command = NULL;
+  rl_commandname = NULL;
 }
 
 void init_completition(void)
@@ -135,7 +135,7 @@ char * character_name_generator(const char *text, int state)
       len = strlen(text);
   }
 
-  if (rl_command == NULL)
+  if (rl_commandname == NULL)
   {
     return rl_rootcommands(text,len);
   }
