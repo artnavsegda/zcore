@@ -65,7 +65,7 @@
        "command": "/home/art/Coding/zcore/src/zgen",
        "args": ["zgen", "-sethernet.schema", "-e./add.sh", "-cnetwork", "-tinterface"],
        "argpass": true,
-       "cue": ["vid","switch"],
+       "cue": ["name", "vid","switch"],
        "json": "out"
     }
   },
