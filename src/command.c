@@ -101,7 +101,7 @@ int rl_command(int argc, char *argv[])
 {
   rl_commjson = WJEObjectF(rl_protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
   rl_domain = COMMAND;
-  rl_argcount = 0;
+  rl_argcount = argc-1;
   return 1;
 }
 
@@ -118,6 +118,10 @@ char * commandvalues(const char * text, int len)
 
 char * cuecommandvalues(const char * text, int len, int state)
 {
+  //printf("arg num %d\n",rl_argcount);
+  char * cuename = NULL;
+  if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
+    puts(cuename);
   return NULL;
 }
 
