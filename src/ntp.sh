@@ -1,4 +1,1 @@
-#!/bin/sh
-
-cat json/service/ntp.json
-
+ntp-online.sh
