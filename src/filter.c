@@ -42,7 +42,6 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement schema, ch
       WJEAttach(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET));
     }
   }
-  WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
 }
 
 WJElement filter(WJElement input, WJElement schema, char * schemapath)
@@ -56,6 +55,7 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
     {
       ifaceoutput = WJEObject(output, "interface", WJE_NEW);
       translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.items.properties[]");
+      WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
     }
     return output;
   }
