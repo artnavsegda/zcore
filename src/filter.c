@@ -10,6 +10,15 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
   WJElement property = NULL;
 
+  if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+  {
+    puts("array");
+  }
+  else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+  {
+    puts("object");
+  }
+
   while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
   {
     ifaceoutput = WJEObject(output, "interface", WJE_NEW);
