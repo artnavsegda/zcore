@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
 
   acquireall(root);
 
+  //WJEDump(root);
+
   while (1)
   {
     generateprompt(zcore_prompt);
