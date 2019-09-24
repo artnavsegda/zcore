@@ -4,58 +4,62 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
+void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement schema, char * schemapath, char * protopath)
+{
+  WJElement property = NULL;
+  printf(protopath, schemapath);
+  while (property = WJEObjectF(schema, WJE_GET, &property, protopath, schemapath))
+  {
+    WJEDump(property);
+    if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
+    {
+      char * stringvalue = WJEString(ifaceinput,property->name,WJE_GET,"");
+      if (stringvalue[0])
+      {
+        WJEString(ifaceoutput,property->name,WJE_NEW,stringvalue);
+      }
+    }
+    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
+    {
+      int numbervalue = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
+      if (numbervalue != -1)
+      {
+        WJEInt32(ifaceoutput,property->name,WJE_NEW,numbervalue);
+      }
+    }
+    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
+    {
+      int boolval = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
+      if (boolval != -1)
+      {
+        WJEBool(ifaceoutput,property->name,WJE_NEW,(XplBool)boolval);
+      }
+    }
+    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
+    {
+      WJEAttach(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET));
+    }
+  }
+  WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
+}
+
 WJElement filter(WJElement input, WJElement schema, char * schemapath)
 {
   WJElement output = WJEArray(NULL, NULL, WJE_NEW);
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
-  WJElement property = NULL;
-
-//  WJEDump(schema);
 
   if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"array") == 0)
   {
-    puts("array");
+    while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
+    {
+      ifaceoutput = WJEObject(output, "interface", WJE_NEW);
+      translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.items.properties[]");
+    }
   }
   else if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"object") == 0)
   {
     puts("object");
-  }
-
-  while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
-  {
-    ifaceoutput = WJEObject(output, "interface", WJE_NEW);
-    while (property = WJEObjectF(schema, WJE_GET, &property, "%s.items.properties[]", schemapath))
-    {
-      if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
-      {
-        char * stringvalue = WJEString(ifaceinput,property->name,WJE_GET,"");
-        if (stringvalue[0])
-        {
-          WJEString(ifaceoutput,property->name,WJE_NEW,stringvalue);
-        }
-      }
-      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
-      {
-        int numbervalue = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
-        if (numbervalue != -1)
-        {
-          WJEInt32(ifaceoutput,property->name,WJE_NEW,numbervalue);
-        }
-      }
-      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
-      {
-        int boolval = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
-        if (boolval != -1)
-        {
-          WJEBool(ifaceoutput,property->name,WJE_NEW,(XplBool)boolval);
-        }
-      }
-      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
-      {
-        WJEAttach(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET));
-      }
-    }
-    WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
+    translate(output, input, schema, schemapath, "%s.properties[]");
   }
 
   return output;
