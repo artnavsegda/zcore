@@ -86,7 +86,14 @@
     "argpass": true,
     "cue": ["name"],
     "json": "out"
-  }
+  },
+  "remove": {
+      "command": "/home/art/Coding/zcore/src/remove.sh",
+      "args": ["remove", "firewall", "rule"],
+      "argpass": true,
+      "wait": true,
+      "reload": true
+   }
  },
  "acquire": {
    "shell": "/home/art/Coding/zcore/src/zfilter",
