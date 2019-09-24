@@ -59,7 +59,7 @@
    "commands": {
      "apply": {
        "command": "/home/art/Coding/zcore/src/zfilter2",
-       "args": ["zfilter2", "-sethernet.schema", "-e./apply.sh", "-cnetwork", "-tinterface", "-nadd"],
+       "args": ["zfilter2", "-sethernet.schema", "-e./apply.sh", "-cnetwork", "-tinterface", "-napply"],
        "json": "in"
     },
     "add": {
