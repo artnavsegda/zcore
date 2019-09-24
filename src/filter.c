@@ -7,10 +7,12 @@
 void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement schema, char * schemapath, char * protopath)
 {
   WJElement property = NULL;
-  printf(protopath, schemapath);
+  //printf(protopath, schemapath);
+  //WJEDump(ifaceinput);
   while (property = WJEObjectF(schema, WJE_GET, &property, protopath, schemapath))
   {
-    WJEDump(property);
+    //puts(property->name);
+    //WJEDump(property);
     if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
     {
       char * stringvalue = WJEString(ifaceinput,property->name,WJE_GET,"");
@@ -45,22 +47,23 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement schema, ch
 
 WJElement filter(WJElement input, WJElement schema, char * schemapath)
 {
-  WJElement output = WJEArray(NULL, NULL, WJE_NEW);
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
 
   if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"array") == 0)
   {
+    WJElement output = WJEArray(NULL, NULL, WJE_NEW);
     while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
     {
       ifaceoutput = WJEObject(output, "interface", WJE_NEW);
       translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.items.properties[]");
     }
+    return output;
   }
   else if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"object") == 0)
   {
-    puts("object");
-    translate(output, input, schema, schemapath, "%s.properties[]");
+    WJElement output = WJEObject(NULL, NULL, WJE_NEW);
+    //puts("object");
+    translate(output, WJEObject(input, "values", WJE_GET), schema, schemapath, "%s.properties[]");
+    return output;
   }
-
-  return output;
 }
