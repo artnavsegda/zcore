@@ -84,7 +84,7 @@
     "command": "/home/art/Coding/zcore/src/zgen",
     "args": ["zgen", "-sfirewall.rules.schema", "-e./add.sh", "-trule", "-cfirewall", "-nadd"],
     "argpass": true,
-    "cue": ["name", "proto", "target"],
+    "cue": ["name"],
     "json": "out"
   }
  },
