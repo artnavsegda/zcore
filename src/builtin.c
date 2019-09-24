@@ -102,6 +102,9 @@ int printoption(WJElement proto, WJElement face, int depth)
     if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
       printf("%s.", WJEString(face, "name", WJE_GET, ""));
     printf("%s = ", option->name);
+
+    if (WJEGet(face,option->name,NULL))
+    {
     if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
       printf("%s", WJEString(face, option->name, WJE_GET, "None"));
     else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
@@ -124,6 +127,9 @@ int printoption(WJElement proto, WJElement face, int depth)
         printf("%s ", entity);
       }
     }
+    }
+    else
+      printf("None");
     puts("");
   }
 }
