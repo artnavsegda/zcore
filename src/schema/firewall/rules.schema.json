@@ -82,9 +82,9 @@
   },
   "add": {
     "command": "/home/art/Coding/zcore/src/zgen",
-    "args": ["zgen", "-sfirewall.rules.schema", "-e./add.sh", "-trules", "-cfirewall", "-nadd"],
+    "args": ["zgen", "-sfirewall.rules.schema", "-e./add.sh", "-trule", "-cfirewall", "-nadd"],
     "argpass": true,
-    "cue": ["name"],
+    "cue": ["name", "proto", "target"],
     "json": "out"
   }
  },
