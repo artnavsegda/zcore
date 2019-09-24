@@ -88,7 +88,7 @@
     "json": "out"
   },
   "remove": {
-      "command": "/home/art/Coding/zcore/src/remove.sh",
+      "command": "/home/art/Coding/zcore/src/remove2.sh",
       "args": ["remove", "firewall", "rule"],
       "argpass": true,
       "wait": true,
