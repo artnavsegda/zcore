@@ -142,9 +142,20 @@ int printoption3(WJElement protoinput, int depth)
   depth++;
   while ((proto = _WJEObject(protoinput, "[]", WJE_GET, &proto))) {
     if (WJEGet(proto, "schema", NULL))
-      printoption2(proto, depth);
+    {
+      if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
+      {
+        printoption2(proto, depth);
+      }
+      else if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"object") == 0)
+      {
+        printoption(proto,WJEObject(proto, "data", WJE_GET),depth);
+      }
+    }
     else
+    {
       printoption3(proto, depth);
+    }
   }
 }
 
