@@ -20,7 +20,7 @@ extern int protodepth;
 
 int execute(int argc, char *argv[]) {
   int ret = 0;
-  enum domains ret_domain = domain; 
+  enum domains ret_domain = domain;
   WJElement ret_protojson = protojson;
   WJElement ret_protoface = protoface;
   int ret_protodepth = protodepth;
@@ -44,6 +44,10 @@ int execute(int argc, char *argv[]) {
   else if (isoption(argv[0]))
   {
     ret = option(argc,argv);
+  }
+  else
+  {
+    puts("invalid input");
   }
   if (ret)
   {
