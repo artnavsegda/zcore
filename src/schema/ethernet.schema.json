@@ -21,7 +21,7 @@
       "switch": {
         "type": "string",
         "description": "Switch device",
-        "default": "eth0"
+        "default": "switch0"
       },
       "untagged":{
         "type": "array",

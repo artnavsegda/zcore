@@ -57,8 +57,8 @@
  },
  "commands": {
    "apply": {
-     "command": "/home/art/Coding/zcore/src/zfilter2",
-     "args": ["zfilter2", "firewall.zones.schema", "./apply.sh"],
+     "command": "/usr/bin/cat",
+     "args": ["cat"],
      "json": "in"
    },
    "add": {
