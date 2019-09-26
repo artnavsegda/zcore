@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name", "network"],
+    "required": ["name"],
     "properties": {
       "name": {
         "type": "string",
