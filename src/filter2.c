@@ -14,10 +14,10 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath, char * ub
 
   WJEString(output,"type",WJE_NEW,ubustype);
 
-  //char * name = WJEString(input,"name",WJE_GET,"");
-  //if (name[0]){
-  //  WJEString(output,"name",WJE_NEW,name);
-  //}
+  char * name = WJEString(input,"section",WJE_GET,NULL);
+  if (name){
+    WJEString(output,"name",WJE_NEW,name);
+  }
 
   valuesoutput = WJEObject(output, "values", WJE_NEW);
 
@@ -25,8 +25,8 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath, char * ub
     {
       if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
       {
-        char * stringvalue = WJEString(input,property->name,WJE_GET,"");
-        if (stringvalue[0])
+        char * stringvalue = WJEString(input,property->name,WJE_GET,NULL);
+        if (stringvalue && strcmp(property->name,"section"))
         {
           WJEString(valuesoutput,property->name,WJE_NEW,stringvalue);
         }
