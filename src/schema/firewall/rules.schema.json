@@ -85,14 +85,15 @@
     "args": ["zgen", "-sfirewall.rules.schema", "-e./add.sh", "-trule", "-cfirewall", "-nadd"],
     "argpass": true,
     "cue": ["name"],
-    "json": "out"
+    "wait": true,
+    "reload": true
   },
   "remove": {
-      "command": "/home/art/Coding/zcore/src/remove2.sh",
-      "args": ["remove", "firewall", "rule"],
-      "argpass": true,
-      "wait": true,
-      "reload": true
+    "command": "/home/art/Coding/zcore/src/remove2.sh",
+    "args": ["remove", "firewall", "rule"],
+    "argpass": true,
+    "wait": true,
+    "reload": true
    }
  },
  "acquire": {
