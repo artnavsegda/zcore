@@ -66,14 +66,16 @@
      "args": ["zgen", "-sfirewall.zones.schema", "-e./add.sh", "-tzone", "-cfirewall", "-nadd"],
      "argpass": true,
      "cue": ["name"],
-     "json": "out"
+     "reload": true,
+     "wait": true
    },
    "remove": {
-       "command": "/home/art/Coding/zcore/src/remove.sh",
-       "args": ["remove", "firewall", "zone"],
-       "argpass": true,
-       "wait": true,
-       "reload": true
+     "command": "/home/art/Coding/zcore/src/remove.sh",
+     "args": ["remove", "firewall", "zone"],
+     "argpass": true,
+     "cue": ["name"],
+     "reload": true,
+     "wait": true
     }
  },
  "acquire": {
