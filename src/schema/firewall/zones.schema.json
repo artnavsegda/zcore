@@ -73,7 +73,6 @@
      "command": "/home/art/Coding/zcore/src/remove2.sh",
      "args": ["remove2", "firewall", "zone"],
      "argpass": true,
-     "cue": ["name"],
      "reload": true,
      "wait": true
     }
