@@ -50,8 +50,12 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
     while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
     {
       ifaceoutput = WJEObject(output, "interface", WJE_NEW);
+      WJEDump(ifaceinput);
       translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.items.properties[]");
-      WJEString(ifaceoutput,"section",WJE_NEW,ifaceinput->name);
+      if (WJEBool(ifaceinput, "[\".anonymous\"]", WJE_GET, FALSE))
+      {
+        WJEString(ifaceoutput,"section",WJE_NEW,ifaceinput->name);
+      }
       if (!WJEGet(ifaceoutput, "name", NULL))
         WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
     }

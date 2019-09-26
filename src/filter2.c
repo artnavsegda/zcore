@@ -15,8 +15,10 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath, char * ub
   WJEString(output,"type",WJE_NEW,ubustype);
 
   char * name = WJEString(input,"section",WJE_GET,NULL);
+  if (!name)
+    name = input->name;
   if (name){
-    WJEString(output,"name",WJE_NEW,name);
+    WJEString(output,"section",WJE_NEW,name);
   }
 
   valuesoutput = WJEObject(output, "values", WJE_NEW);
