@@ -9,7 +9,6 @@
 #include "generator.h"
 #include "config.h"
 #include "load.h"
-#include "filter2.h"
 
 WJElement doc = NULL;
 WJElement doc2 = NULL;
@@ -48,10 +47,7 @@ int main(int argc, char *argv[])
   readconfig();
   loadeveryschema(root,config.schemapath);
 
-  doc = generator(root, schema, namecmd, argc-optind, &argv[optind]);
-  //WJEDump(doc);
-
-  doc2 = filter(doc, root, schema, ubustype, ubusconfig);
+  doc = generator(root, schema, namecmd, ubustype, ubusconfig, argc-optind, &argv[optind]);
 
   FILE *jsonstream;
 
@@ -60,7 +56,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  WJEWriteFILE(doc2, jsonstream);
+  WJEWriteFILE(doc, jsonstream);
 
   sleep(1);
 
