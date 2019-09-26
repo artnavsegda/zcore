@@ -52,6 +52,8 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
       ifaceoutput = WJEObject(output, "interface", WJE_NEW);
       translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.items.properties[]");
       WJEString(ifaceoutput,"section",WJE_NEW,ifaceinput->name);
+      if (!WJEGet(ifaceoutput, "name", NULL))
+        WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
     }
     return output;
   }

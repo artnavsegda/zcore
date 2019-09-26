@@ -71,6 +71,10 @@
         "enum": ["ACCEPT", "REJECT", "DROP", "MARK", "NOTRACK"],
         "description": "Firewall action for matched traffic",
         "default": "ACCEPT"
+      },
+      "section": {
+        "type": "string",
+        "description": "Internal generated UBUS name"
       }
    }
  },
