@@ -52,6 +52,10 @@
         "enum": ["ACCEPT", "DROP", "REJECT"],
         "description": "Default action for REJECT chain",
         "default": "ACCEPT"
+      },
+      "section": {
+        "type": "string",
+        "description": "Internal generated UBUS name"
       }
    }
  },
