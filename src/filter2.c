@@ -16,6 +16,8 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath, char * ub
 
   char * name = WJEString(input,"section",WJE_GET,NULL);
   if (!name)
+    name = WJEString(input,"name",WJE_GET,NULL);
+  if (!name)
     name = input->name;
   if (name){
     WJEString(output,"section",WJE_NEW,name);
@@ -28,9 +30,23 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath, char * ub
       if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
       {
         char * stringvalue = WJEString(input,property->name,WJE_GET,NULL);
-        if (stringvalue && strcmp(property->name,"section"))
+        if (stringvalue)
         {
-          WJEString(valuesoutput,property->name,WJE_NEW,stringvalue);
+          if (strcmp(property->name,"name")==0)
+          {
+            if (WJEGet(input,"section",NULL))
+            {
+              WJEString(valuesoutput,property->name,WJE_NEW,stringvalue);
+            }
+          }
+          else if (strcmp(property->name,"section")==0)
+          {
+            //nothing
+          }
+          else
+          {
+            WJEString(valuesoutput,property->name,WJE_NEW,stringvalue);
+          }
         }
       }
       else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
