@@ -62,5 +62,7 @@ int main(int argc, char *argv[])
 
   WJEWriteFILE(doc2, jsonstream);
 
+  sleep(1);
+
   return 0;
 }
