@@ -74,8 +74,8 @@
      "wait": true
    },
    "remove": {
-     "command": "/home/art/Coding/zcore/src/remove2.sh",
-     "args": ["remove2", "firewall", "zone"],
+     "command": "/home/art/Coding/zcore/src/remove.sh",
+     "args": ["remove", "firewall", "zone"],
      "argpass": true,
      "reload": true,
      "wait": true
