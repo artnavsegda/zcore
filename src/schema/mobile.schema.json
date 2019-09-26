@@ -50,10 +50,10 @@
   },
     "commands": {
       "apply": {
-        "type": "string",
-        "command": "./apply.sh applymobile %s",
-        "json": true
-      },
+        "command": "/home/art/Coding/zcore/src/zfilter2",
+        "args": ["zfilter2", "-smobile.schema", "-e./apply.sh", "-cnetwork", "-tinterface", "-napply"],
+        "json": "in"
+     },
       "add": {
          "command": "/home/art/Coding/zcore/src/zgen",
          "args": ["zgen", "mobile.schema"],
