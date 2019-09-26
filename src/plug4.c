@@ -48,14 +48,8 @@ int main(int argc, char *argv[])
   readconfig();
   loadeveryschema(root,config.schemapath);
 
-  //if (argc < 4)
-  //{
-  //  puts("command schema script name");
-  //  return 1;
-  //}
-
   doc = generator(root, schema, namecmd, argc-optind, &argv[optind]);
-  WJEDump(doc);
+  //WJEDump(doc);
 
   doc2 = filter(doc, root, schema, ubustype, ubusconfig);
 

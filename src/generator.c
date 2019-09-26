@@ -11,8 +11,6 @@ WJElement generator(WJElement schema, char * schemapath, char * commandname, int
   WJElement property = NULL;
   WJElement reqstring = NULL;
 
-  //WJEString(output,"name",WJE_NEW,generatedname);
-
   while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.items.required[]", schemapath))
   {
     property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, itemname);
