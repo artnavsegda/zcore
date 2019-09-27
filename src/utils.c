@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "utils.h"
+#include "option.h"
 
 extern WJElement doc, schema;
 
@@ -225,12 +226,26 @@ int argcat(int argc, char *argout[], char *argin[])
 void fillenv(WJElement proto, WJElement face, char *envp[])
 {
   int i = 0;
+  char stringparam[100] = "";
+  WJElement option = NULL;
   while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
     if (WJEGet(face,option->name,NULL))
       {
         if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
         {
-          setenv(option->name,WJEString(face, option->name, WJE_GET, "None"));
+          setenv(option->name,WJEString(face, option->name, WJE_GET, "None"),1);
+        }
+        else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
+        {
+          sprintf(stringparam,"%d",WJEInt32(face,option->name,WJE_GET,-1),1);
+          setenv(option->name,stringparam,1);
+        }
+        else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
+        {
+          if (WJEBool(face,option->name,WJE_GET,-1))
+            setenv(option->name,"True",1);
+          else
+            setenv(option->name,"False",1);
         }
       }
   }
