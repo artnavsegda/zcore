@@ -63,30 +63,37 @@ int command(int argc, char *argv[])
 {
   char *myenv[100];
   char facename[100] = "";
+  clearenv();
 
   switch(domain)
   {
     case PROTO:
-      myenv[0] = "DOMAIN=PROTO";
-      myenv[1] = NULL;
+      setenv("DOMAIN", "PROTO", 1);
+      //myenv[0] = "DOMAIN=PROTO";
+      //myenv[1] = NULL;
     break;
     case FACE:
-      myenv[0] = "DOMAIN=FACE";
-      myenv[1] = NULL;
+      setenv("DOMAIN", "FACE", 1);
+      //myenv[0] = "DOMAIN=FACE";
+      //myenv[1] = NULL;
     break;
     case OPTION:
-      myenv[0] = "DOMAIN=OPTION";
-      sprintf(facename,"FACE=%s", WJEString(protoface, "name", WJE_GET, ""));
-      myenv[1] = facename;
-      myenv[2] = NULL;
+      setenv("DOMAIN", "OPTION", 1);
+      setenv("FACE", WJEString(protoface, "name", WJE_GET, ""), 1);
+      //myenv[0] = "DOMAIN=OPTION";
+      //sprintf(facename,"FACE=%s", WJEString(protoface, "name", WJE_GET, ""));
+      //myenv[1] = facename;
+      //myenv[2] = NULL;
     break;
     case SETTING:
-      myenv[0] = "DOMAIN=SETTING";
-      myenv[1] = NULL;
+      setenv("DOMAIN", "SETTING", 1);
+      //myenv[0] = "DOMAIN=SETTING";
+      //myenv[1] = NULL;
     break;
     case COMMAND:
-      myenv[0] = "DOMAIN=COMMAND";
-      myenv[1] = NULL;
+      setenv("DOMAIN", "COMMAND", 1);
+      //myenv[0] = "DOMAIN=COMMAND";
+      //myenv[1] = NULL;
     break;
   }
 
