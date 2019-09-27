@@ -61,6 +61,11 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
+  char *myenv[100];
+
+  myenv[0] = "test=mytest";
+  myenv[1] = NULL;
+
   char *args[100];
   WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
   int argsc = arguments(WJEArray(command, "args", WJE_GET),args);
@@ -96,7 +101,7 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
     {
-      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,NULL);
+      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,myenv);
     }
   }
   if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)

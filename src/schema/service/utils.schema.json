@@ -8,6 +8,12 @@
       "args": ["ping", "-c 10"],
       "argpass": true,
       "wait": true
+    },
+    "env": {
+      "command": "/usr/bin/env",
+      "args": ["env"],
+      "argpass": true,
+      "wait": true
     }
   }
 }
