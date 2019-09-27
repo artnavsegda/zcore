@@ -9,6 +9,7 @@
 #include "acquire.h"
 #include "face.h"
 
+extern char **environ;
 extern WJElement protojson;
 extern WJElement protoface;
 extern WJElement rl_protojson;
@@ -132,7 +133,7 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
     {
-      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,myenv);
+      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,environ);
     }
   }
   if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
