@@ -222,3 +222,8 @@ int argcat(int argc, char *argout[], char *argin[])
   return argc;
 }
 
+void fillenv(WJElement face, char *envp[])
+{
+}
+
+
