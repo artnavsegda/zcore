@@ -101,19 +101,19 @@ int command(int argc, char *argv[])
 
   if (strcmp(WJEString(command,"json", WJE_GET, "none"),"out") == 0)
   {
-    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,NULL,WJEArray(protojson, "data", WJE_GET));
+    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,myenv,WJEArray(protojson, "data", WJE_GET));
   }
   else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
   {
     if (domain == OPTION)
     {
-      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,NULL,WJEToString(protoface,TRUE));
+      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,myenv,WJEToString(protoface,TRUE));
     }
     else if (domain == FACE)
     {
       WJElement face = NULL;
       while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,NULL,WJEToString(face,TRUE));
+        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,myenv,WJEToString(face,TRUE));
       }
     }
     else
