@@ -111,10 +111,9 @@ int parse(char * stringtoparse, char **tokarr)
   return i;
 }
 
-int streamintocommand(char * command, char *argv[], char * stream)
+int streamintocommand(char * command, char *argv[], char *envp[], char * stream)
 {
-  //FILE *jsonstream = popen(command, "w");
-  FILE *jsonstream = my_popen_write(command, argv);
+  FILE *jsonstream = my_popen_write(command, argv, envp);
   if (jsonstream == NULL)
   {
     puts("streamintocommand handle error");
@@ -124,18 +123,13 @@ int streamintocommand(char * command, char *argv[], char * stream)
   pclose(jsonstream);
 }
 
-/*char * formatcommand(char * command)
-{
-  return WJEStringF(schema, WJE_GET, NULL, "not found","commands.%s.command", command);
-}*/
-
-int forkwaitexec(char * command, int argc, char *argv[])
+int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
 {
   pid_t pid = fork();
   int status;
   if (pid == 0)
   {
-    execv(command,argv);
+    execve(command,argv,envp);
     exit(0);
   }
   else
@@ -144,10 +138,9 @@ int forkwaitexec(char * command, int argc, char *argv[])
   }
 }
 
-int streamfromcommand(char * command, char *argv[], WJElement jsonparent)
+int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
 {
-  //FILE *jsonstream = popen(command, "r");
-  FILE *jsonstream = my_popen_read(command, argv);
+  FILE *jsonstream = my_popen_read(command, argv, envp);
   if (jsonstream == NULL)
   {
     puts("handle error");
@@ -161,11 +154,9 @@ int streamfromcommand(char * command, char *argv[], WJElement jsonparent)
   }
   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
   WJEAttach(jsonparent,jsondata);
-
-//  pclose(jsonstream);
 }
 
-FILE * my_popen_read (char * command, char *argv[])
+FILE * my_popen_read (char * command, char *argv[], char *envp[])
 {
     int fd[2];
     int read_fd, write_fd;
@@ -178,7 +169,7 @@ FILE * my_popen_read (char * command, char *argv[])
         close(read_fd);
         dup2(write_fd,1);
         close(write_fd);
-        execv(command,argv);
+        execve(command,argv,envp);
         return NULL;
     } else {
         close(write_fd);
@@ -186,7 +177,7 @@ FILE * my_popen_read (char * command, char *argv[])
     }
 }
 
-FILE * my_popen_write (char * command, char *argv[])
+FILE * my_popen_write (char * command, char *argv[], char *envp[])
 {
     int fd[2];
     int read_fd, write_fd;
@@ -199,7 +190,7 @@ FILE * my_popen_write (char * command, char *argv[])
         close(write_fd);
         dup2(read_fd,0);
         close(read_fd);
-        execv(command,argv);
+        execve(command,argv,envp);
         return NULL;
     } else {
         close(read_fd);
