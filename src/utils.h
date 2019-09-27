@@ -15,4 +15,5 @@ FILE * my_popen_write (char * command, char *argv[], char *envp[]);
 int streamintocommand(char * command, char *argv[], char *envp[], char * stream);
 int arguments(WJElement argarray, char *argv[]);
 int argcat(int argc, char *argout[], char *argin[]);
+void fillenv(WJElement proto, WJElement face);
 

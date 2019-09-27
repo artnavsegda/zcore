@@ -223,7 +223,7 @@ int argcat(int argc, char *argout[], char *argin[])
   return argc;
 }
 
-void fillenv(WJElement proto, WJElement face, char *envp[])
+void fillenv(WJElement proto, WJElement face)
 {
   int i = 0;
   char stringparam[100] = "";
