@@ -62,26 +62,33 @@ int rl_iscommand(char * commandname)
 int command(int argc, char *argv[])
 {
   char *myenv[100];
+  char facename[100] = "";
 
   switch(domain)
   {
     case PROTO:
       myenv[0] = "DOMAIN=PROTO";
+      myenv[1] = NULL;
     break;
     case FACE:
       myenv[0] = "DOMAIN=FACE";
+      myenv[1] = NULL;
     break;
     case OPTION:
       myenv[0] = "DOMAIN=OPTION";
+      sprintf(facename,"FACE=%s", protoface->name);
+      myenv[1] = facename;
+      myenv[2] = NULL;
     break;
     case SETTING:
       myenv[0] = "DOMAIN=SETTING";
+      myenv[1] = NULL;
     break;
     case COMMAND:
       myenv[0] = "DOMAIN=COMMAND";
+      myenv[1] = NULL;
     break;
   }
-  myenv[1] = NULL;
 
   char *args[100];
   WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
