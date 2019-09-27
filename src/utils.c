@@ -222,8 +222,18 @@ int argcat(int argc, char *argout[], char *argin[])
   return argc;
 }
 
-void fillenv(WJElement face, char *envp[])
+void fillenv(WJElement proto, WJElement face, char *envp[])
 {
+  int i = 0;
+  while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
+    if (WJEGet(face,option->name,NULL))
+      {
+        if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
+        {
+          setenv(option->name,WJEString(face, option->name, WJE_GET, "None"));
+        }
+      }
+  }
 }
 
 
