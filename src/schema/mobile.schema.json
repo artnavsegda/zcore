@@ -40,10 +40,10 @@
       "bands": {
         "type": "array",
         "uniqueItems": true,
+        "description": "Freq bands allowed",
         "items": {
           "type": "string",
-          "enum": ["850","900","1800","1900","2100","2600"],
-          "description": "Freq bands allowed"
+          "enum": ["850","900","1800","1900","2100","2600"]
         }
       }
     }
@@ -51,24 +51,17 @@
     "commands": {
       "apply": {
         "command": "/home/art/Coding/zcore/src/zfilter2",
-        "args": ["zfilter2", "-smobile.schema", "-e./apply.sh", "-cnetwork", "-tinterface", "-napply"],
+        "args": ["zfilter2", "-smobile.schema", "-e./applyif.sh", "-cnetwork", "-tinterface", "-napply"],
+        "argpass": true,
         "json": "in"
      },
-      "add": {
-         "command": "/home/art/Coding/zcore/src/zgen",
-         "args": ["zgen", "mobile.schema"],
-         "argpass": true,
-         "json": "out"
-      },
-      "commit": {
-        "type": "string",
-        "command": "./mobile.sh commit %n"
-      },
-      "revert": {
-        "type": "string",
-        "command": "./mobile.sh revert %@name@%",
-        "json": false
-      }
+    "revert": {
+       "command": "/home/art/Coding/zcore/src/revert.sh",
+       "args": ["revert"],
+       "argpass": true,
+       "wait": true,
+       "reload": true
+    }
 	 },
    "acquire": {
      "shell": "/home/art/Coding/zcore/src/zfilter",

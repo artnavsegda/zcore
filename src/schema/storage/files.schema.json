@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "files",
+  "description": "file list",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "File",
+    "required": ["filename"],
+    "properties": {
+      "filename": {
+        "type": "string",
+        "description": "file name"
+      },
+      "type": {
+        "type": "string",
+        "description": "file type"
+      },
+      "md5sum": {
+        "type": "string",
+        "description": "file type",
+        "readonly": true
+    }
+  },
+    "commands": {
+      "add": {
+        "command": "/home/art/Coding/zcore/src/zfilter2",
+        "argpass": true
+     },
+    "remove": {
+       "command": "/home/art/Coding/zcore/src/revert.sh",
+       "args": ["revert"],
+       "argpass": true,
+       "wait": true,
+       "reload": true
+    }
+	 },
+   "acquire": {
+     "shell": "/home/art/Coding/zcore/src/zfilter",
+     "args": ["zfilter", "storage.files.schema","./files.sh"]
+   }
+}

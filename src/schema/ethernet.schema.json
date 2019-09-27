@@ -53,13 +53,17 @@
       "proto": {
         "type": "string",
         "default": "vlan"
+      },
+      "zone": {
+        "type": "string",
+        "cue": ["firewall.zones"]
       }
    }
  },
    "commands": {
      "apply": {
        "command": "/home/art/Coding/zcore/src/zfilter2",
-       "args": ["zfilter2", "-sethernet.schema", "-e./apply.sh", "-cnetwork", "-tinterface", "-napply"],
+       "args": ["zfilter2", "-sethernet.schema", "-e./applyif.sh", "-cnetwork", "-tinterface", "-napply"],
        "json": "in"
     },
     "add": {
