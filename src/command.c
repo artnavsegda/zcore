@@ -63,7 +63,24 @@ int command(int argc, char *argv[])
 {
   char *myenv[100];
 
-  myenv[0] = "test=mytest";
+  switch(domain)
+  {
+    case PROTO:
+      myenv[0] = "DOMAIN=PROTO";
+    break;
+    case FACE:
+      myenv[0] = "DOMAIN=FACE";
+    break;
+    case OPTION:
+      myenv[0] = "DOMAIN=OPTION";
+    break;
+    case SETTING:
+      myenv[0] = "DOMAIN=SETTING";
+    break;
+    case COMMAND:
+      myenv[0] = "DOMAIN=COMMAND";
+    break;
+  }
   myenv[1] = NULL;
 
   char *args[100];
