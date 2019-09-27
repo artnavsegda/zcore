@@ -76,7 +76,7 @@ int command(int argc, char *argv[])
     break;
     case OPTION:
       myenv[0] = "DOMAIN=OPTION";
-      sprintf(facename,"FACE=%s", protoface->name);
+      sprintf(facename,"FACE=%s", WJEString(protoface, "name", WJE_GET, ""));
       myenv[1] = facename;
       myenv[2] = NULL;
     break;
