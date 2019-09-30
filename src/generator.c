@@ -15,6 +15,11 @@ WJElement generator(WJElement schema,  char * schemapath, char * commandname, ch
   WJEString(alloutput,"config",WJE_NEW,ubusconfig);
   WJEString(alloutput,"type",WJE_NEW,ubustype);
 
+  if (WJEBoolF(schema, WJE_GET, NULL, FALSE, "%s.items.properties.name.hidden", schemapath))
+  {
+    WJEString(alloutput,"name",WJE_NEW,argv[0]);
+  }
+
   WJElement output = WJEObject(alloutput, "values", WJE_NEW);
 
   while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.items.required[]", schemapath))
