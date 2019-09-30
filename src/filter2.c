@@ -27,47 +27,50 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath, char * ub
 
     while (property = WJEObjectF(schema, WJE_GET, &property, "%s.items.properties[]", schemapath))
     {
-      if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
+      if (!WJEBool(property, "hidden", WJE_GET, FALSE))
       {
-        char * stringvalue = WJEString(input,property->name,WJE_GET,NULL);
-        if (stringvalue)
+        if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
         {
-          if (strcmp(property->name,"name")==0)
+          char * stringvalue = WJEString(input,property->name,WJE_GET,NULL);
+          if (stringvalue)
           {
-            if (WJEGet(input,"section",NULL))
+            if (strcmp(property->name,"name")==0)
+            {
+              if (WJEGet(input,"section",NULL))
+              {
+                WJEString(valuesoutput,property->name,WJE_NEW,stringvalue);
+              }
+            }
+            else if (strcmp(property->name,"section")==0)
+            {
+              //nothing
+            }
+            else
             {
               WJEString(valuesoutput,property->name,WJE_NEW,stringvalue);
             }
           }
-          else if (strcmp(property->name,"section")==0)
-          {
-            //nothing
-          }
-          else
-          {
-            WJEString(valuesoutput,property->name,WJE_NEW,stringvalue);
-          }
         }
-      }
-      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
-      {
-        int numbervalue = WJEInt32(input,property->name,WJE_GET,-1);
-        if (numbervalue != -1)
+        else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
         {
-          WJEInt32(valuesoutput,property->name,WJE_NEW,numbervalue);
+          int numbervalue = WJEInt32(input,property->name,WJE_GET,-1);
+          if (numbervalue != -1)
+          {
+            WJEInt32(valuesoutput,property->name,WJE_NEW,numbervalue);
+          }
         }
-      }
-      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
-      {
-        XplBool boolval = WJEBool(input,property->name,WJE_GET,-1);
-        if (boolval != -1)
+        else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
         {
-          WJEInt32(valuesoutput,property->name,WJE_NEW,(int)boolval);
+          XplBool boolval = WJEBool(input,property->name,WJE_GET,-1);
+          if (boolval != -1)
+          {
+            WJEInt32(valuesoutput,property->name,WJE_NEW,(int)boolval);
+          }
         }
-      }
-      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
-      {
-        WJEAttach(valuesoutput,WJEArray(input, property->name, WJE_GET));
+        else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
+        {
+          WJEAttach(valuesoutput,WJEArray(input, property->name, WJE_GET));
+        }
       }
     }
 
