@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "option.h"
 #include "completion.h"
+#include "command.h"
 
 extern WJElement protojson;
 extern WJElement rl_protojson;
@@ -55,6 +56,10 @@ int face(int argc, char *argv[])
     if(isoption(argv[1]))
     {
       return option(argc-1, &argv[1]);
+    }
+    else if (iscommand(argv[1]))
+    {
+      return command(argc-1, &argv[1]);
     }
   }
   return 0;

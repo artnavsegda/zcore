@@ -141,6 +141,7 @@ int command(int argc, char *argv[])
   {
     acquire(protojson);
   }
+  return 1;
 }
 
 int rl_command(int argc, char *argv[])
