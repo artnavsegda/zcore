@@ -11,8 +11,8 @@
 #include "acquire.h"
 
 extern int protodepth;
-extern WJElement protojson; 
-extern WJElement protoface; 
+extern WJElement protojson;
+extern WJElement protoface;
 
 int path_up()
 {
@@ -95,42 +95,45 @@ int printoption(WJElement proto, WJElement face, int depth)
 {
   WJElement option = NULL;
   while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
-    for (int i = depth; i > 0; i--)
+    if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
-      printf("%s.", parentname(proto, i));
-    }
-    if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
-      printf("%s.", WJEString(face, "name", WJE_GET, ""));
-    printf("%s = ", option->name);
+      for (int i = depth; i > 0; i--)
+      {
+        printf("%s.", parentname(proto, i));
+      }
+      if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
+        printf("%s.", WJEString(face, "name", WJE_GET, ""));
+      printf("%s = ", option->name);
 
-    if (WJEGet(face,option->name,NULL))
-    {
-    if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
-      printf("%s", WJEString(face, option->name, WJE_GET, "None"));
-    else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
-      printf("%d", WJEInt32(face,option->name,WJE_GET,-1));
-    else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
-    {
-      if (WJEBool(face,option->name,WJE_GET,-1) == TRUE)
-        printf("True");
-      else if (WJEBool(face,option->name,WJE_GET,-1) == FALSE)
-        printf("False");
+      if (WJEGet(face,option->name,NULL))
+      {
+      if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
+        printf("%s", WJEString(face, option->name, WJE_GET, "None"));
+      else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
+        printf("%d", WJEInt32(face,option->name,WJE_GET,-1));
+      else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
+      {
+        if (WJEBool(face,option->name,WJE_GET,-1) == TRUE)
+          printf("True");
+        else if (WJEBool(face,option->name,WJE_GET,-1) == FALSE)
+          printf("False");
+        else
+          printf("None");
+      }
+      else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"array") == 0)
+      {
+        WJElement array = NULL;
+        char * entity = NULL;
+        while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", option->name))
+        {
+          printf("%s ", entity);
+        }
+      }
+      }
       else
         printf("None");
+      puts("");
     }
-    else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"array") == 0)
-    {
-      WJElement array = NULL;
-      char * entity = NULL;
-      while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", option->name))
-      {
-        printf("%s ", entity);
-      }
-    }
-    }
-    else
-      printf("None");
-    puts("");
   }
 }
 
@@ -215,7 +218,7 @@ char *builtincommands[] = {"?","..","show","acquire",NULL};
 char * builtinvalues(const char * text, int len)
 {
   static int valueindex = 0;
-  
+
   while (builtincommands[valueindex] != NULL)
   {
     if (strncmp(builtincommands[valueindex], text, len)==0)
@@ -230,4 +233,3 @@ char * builtinvalues(const char * text, int len)
   valueindex = 0;
   return NULL;
 }
-
