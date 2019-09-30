@@ -11,9 +11,12 @@
 #include "filter2.h"
 #include "config.h"
 #include "load.h"
+#include "utils.h"
 
 WJElement doc = NULL;
 WJElement root = NULL;
+
+extern char **environ;
 
 int main(int argc, char *argv[])
 {
@@ -61,7 +64,7 @@ int main(int argc, char *argv[])
 
   FILE *jsonstream;
 
-  if (!(jsonstream = popen(execmd, "w"))) {
+  if (!(jsonstream = my_popen_write(execmd, argv, environ))) {
     puts("handle error");
     return 1;
   }

@@ -223,6 +223,18 @@ int argcat(int argc, char *argout[], char *argin[])
   return argc;
 }
 
+WJElement optionlist(WJElement schema)
+{
+  if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"array") == 0)
+  {
+    return WJEObject(schema,"schema.items", WJE_GET);
+  }
+  else if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"object") == 0)
+  {
+    return WJEObject(schema,"schema", WJE_GET);
+  }
+}
+
 void fillenv(WJElement proto, WJElement face)
 {
   int i = 0;
