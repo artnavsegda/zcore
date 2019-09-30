@@ -21,39 +21,42 @@ WJElement generator(WJElement schema,  char * schemapath, char * commandname, ch
   {
     property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, itemname);
 
-    if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
+    if (!WJEBool(property, "hidden", WJE_GET, FALSE))
     {
-      char * stringvalue = WJEString(property,"default",WJE_GET,"");
-      if (stringvalue[0])
+      if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
       {
-        WJEString(output,property->name,WJE_NEW,stringvalue);
-      }
-    }
-    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
-    {
-      int numbervalue = WJEInt32(property,"default",WJE_GET,-1);
-      if (numbervalue != -1)
-      {
-        WJEInt32(output,property->name,WJE_NEW,numbervalue);
-      }
-    }
-    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
-    {
-      int boolval = WJEInt32(property,"default",WJE_GET,-1);
-      if (boolval != -1)
-      {
-        WJEBool(output,property->name,WJE_NEW,(XplBool)boolval);
-      }
-    }
-    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
-    {
-      WJElement myarray = WJEArray(output,property->name,WJE_NEW);
-      if (strcmp(WJEString(property,"items.type",WJE_GET,"unknown"),"string") == 0)
-      {
-        char * stringvalue = WJEString(property,"items.default",WJE_GET,"");
+        char * stringvalue = WJEString(property,"default",WJE_GET,"");
         if (stringvalue[0])
         {
-          WJEString(myarray,property->name,WJE_NEW,stringvalue);
+          WJEString(output,property->name,WJE_NEW,stringvalue);
+        }
+      }
+      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
+      {
+        int numbervalue = WJEInt32(property,"default",WJE_GET,-1);
+        if (numbervalue != -1)
+        {
+          WJEInt32(output,property->name,WJE_NEW,numbervalue);
+        }
+      }
+      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
+      {
+        int boolval = WJEInt32(property,"default",WJE_GET,-1);
+        if (boolval != -1)
+        {
+          WJEBool(output,property->name,WJE_NEW,(XplBool)boolval);
+        }
+      }
+      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
+      {
+        WJElement myarray = WJEArray(output,property->name,WJE_NEW);
+        if (strcmp(WJEString(property,"items.type",WJE_GET,"unknown"),"string") == 0)
+        {
+          char * stringvalue = WJEString(property,"items.default",WJE_GET,"");
+          if (stringvalue[0])
+          {
+            WJEString(myarray,property->name,WJE_NEW,stringvalue);
+          }
         }
       }
     }
@@ -66,13 +69,16 @@ WJElement generator(WJElement schema,  char * schemapath, char * commandname, ch
     if (cuename = WJEStringF(schema, WJE_GET, NULL, NULL, "%s.commands.%s.cue[%d]", schemapath, commandname, i))
     {
       property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, cuename);
-      if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
+      if (!WJEBool(property, "hidden", WJE_GET, FALSE))
       {
-        WJEString(output,property->name,WJE_SET,argv[i]);
-      }
-      else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
-      {
-        WJEInt32(output,property->name,WJE_SET,atoi(argv[i]));
+        if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
+        {
+          WJEString(output,property->name,WJE_SET,argv[i]);
+        }
+        else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
+        {
+          WJEInt32(output,property->name,WJE_SET,atoi(argv[i]));
+        }
       }
     }
   }
