@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "mobile",
+  "description": "Interface list",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Interface entity",
+    "required": ["name", "mode", "enable"],
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Interface name",
+        "hidden": true
+      },
+      "enable": {
+        "type": "boolean",
+        "description": "Enable cellular interface",
+        "example": true
+      },
+      "apn": {
+        "type": "string",
+        "description": "Access point name"
+      },
+      "username": {
+        "type": "string",
+        "description": "Username"
+      },
+      "password": {
+        "type": "string",
+        "description": "Password",
+        "hidden": true
+      },
+      "mode": {
+        "type": "string",
+        "enum": ["auto","edge","umts","lte"],
+        "description": "Network access mode",
+        "example": "auto"
+      },
+      "bands": {
+        "type": "array",
+        "uniqueItems": true,
+        "description": "Freq bands allowed",
+        "items": {
+          "type": "string",
+          "enum": ["850","900","1800","1900","2100","2600"]
+        }
+      }
+    }
+  },
+    "commands": {
+      "apply": {
+        "command": "/home/art/Coding/zcore/src/zfilter2",
+        "args": ["zfilter2", "-smobile.schema", "-e./applyif.sh", "-cnetwork", "-tinterface", "-napply"],
+        "argpass": true,
+        "json": "in"
+     },
+    "revert": {
+       "command": "/home/art/Coding/zcore/src/revert.sh",
+       "args": ["revert"],
+       "argpass": true,
+       "wait": true,
+       "reload": true
+    },
+    "env": {
+      "command": "/usr/bin/env",
+      "args": ["env"],
+      "argpass": true,
+      "wait": true
+    }
+	 },
+   "acquire": {
+     "shell": "/usr/bin/zfilter",
+     "args": ["zfilter", "mobile.schema","/root/scripts/mobile.sh"]
+   }
+}
