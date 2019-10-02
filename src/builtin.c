@@ -50,6 +50,13 @@ int path_up()
   return 0;
 }
 
+int path_root()
+{
+  domain = PROTO;
+  protodepth = 0;
+  protojson = root;
+}
+
 int commandlist()
 {
   puts("tokens:");
@@ -75,13 +82,14 @@ void listbuiltins()
 {
   puts("?");
   puts("..");
+  puts("/");
   puts("show");
   puts("acquire");
 }
 
 int isbuiltin(char * builtinname)
 {
-  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0))
+  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/")))
   {
     return 1;
   }
@@ -198,6 +206,10 @@ int builtin(int argc, char *argv[])
   if (argv[0][0]=='?')
   {
     return commandlist();
+  }
+  else if (argv[0][0]=='?')
+  {
+    return path_root();
   }
   else if (strcmp(argv[0],"..") == 0)
   {
