@@ -55,7 +55,8 @@
       },
       "section": {
         "type": "string",
-        "description": "Internal generated UBUS name"
+        "description": "Internal generated UBUS name",
+        "hidden": "true"
       }
    }
  },
