@@ -3,3 +3,5 @@
 # zfilter_SOURCES = plug3.c filter.c config.c load.c
 # zfilter2_SOURCES = plug2.c filter2.c config.c load.c utils.c
 # zgen_SOURCES = plug4.c generator.c config.c load.c
+bin_PROGRAMS = zcore
+zcore_SOURCES = main.c
