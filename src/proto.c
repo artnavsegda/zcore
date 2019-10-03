@@ -25,7 +25,8 @@ int listprotos(void)
 
   puts("Protos:");
   while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
-    puts(proto->name);
+    if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
+      puts(proto->name);
   }
 }
 
@@ -146,6 +147,8 @@ char * protovalues(const char * text, int len)
   static WJElement proto = NULL;
 
   while (proto = _WJEObject(rl_protojson, "[]", WJE_GET, &proto)) {
+    if (WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
+      return protovalues(text,len);
     if (strncmp(proto->name, text, len) == 0) {
       return strdup(proto->name);
     }
