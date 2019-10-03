@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "switch",
+  "description": "switch list",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Switch entity",
+    "required": ["name"],
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Switch name"
+      }
+   }
+ },
+  "acquire": {
+    "shell": "/home/art/Coding/zcore/src/zfilter",
+    "args": ["zfilter", "switch.schema", "./switch.sh"]
+  }
+}
