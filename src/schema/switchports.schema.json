@@ -10,7 +10,12 @@
     "properties": {
       "name": {
         "type": "string",
-        "description": "Interface name"
+        "description": "Switch port name"
+      },
+      "device": {
+        "type": "string",
+         "description": "Switch device",
+         "cue": ["switch"]
       }
    }
  },
