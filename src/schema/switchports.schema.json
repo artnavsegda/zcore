@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "switchports",
+  "description": "switch port list",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Switch port entity",
+    "required": ["name"],
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Interface name"
+      }
+   }
+ },
+  "acquire": {
+    "shell": "/home/art/Coding/zcore/src/zfilter",
+    "args": ["zfilter", "switchports.schema", "./switchports.sh"]
+  }
+}
