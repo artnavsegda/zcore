@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name", "vid", "ip", "macaddr", "defaultroute", "proto", "switch"],
+    "required": ["name", "vid", "ip", "macaddr", "defaultroute", "proto", "switch", "master_port"],
     "properties": {
       "name": {
         "type": "string",
@@ -23,9 +23,10 @@
         "description": "Switch device",
         "default": "switch0"
       },
-      "master": {
+      "master_port": {
         "type": "string",
-        "description": "Master port"
+        "description": "Master port",
+        "default": "eth0"
       },
       "tagged":{
         "type": "array",
