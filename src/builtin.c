@@ -89,7 +89,7 @@ void listbuiltins()
 
 int isbuiltin(char * builtinname)
 {
-  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/")))
+  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/")) == 0)
   {
     return 1;
   }
@@ -207,7 +207,7 @@ int builtin(int argc, char *argv[])
   {
     return commandlist();
   }
-  else if (argv[0][0]=='?')
+  else if (argv[0][0]=='/')
   {
     return path_root();
   }
@@ -225,7 +225,7 @@ int builtin(int argc, char *argv[])
   }
 }
 
-char *builtincommands[] = {"?","..","show","acquire",NULL};
+char *builtincommands[] = {"?","..","show","acquire","/",NULL};
 
 char * builtinvalues(const char * text, int len)
 {
