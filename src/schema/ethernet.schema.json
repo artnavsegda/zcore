@@ -23,9 +23,25 @@
         "description": "Switch device",
         "default": "switch0"
       },
+      "master": {
+        "type": "string",
+        "description": "Master port"
+      },
+      "tagged":{
+        "type": "array",
+        "description": "Tagged ports",
+        "items": {
+          "type": "string",
+          "description": "Tagged port"
+        }
+      },
       "untagged":{
         "type": "array",
-        "description": "Tagged ports"
+        "description": "Untagged ports",
+        "items": {
+          "type": "string",
+          "description": "Untagged port"
+        }
       },
       "ip": {
         "type": "string",
