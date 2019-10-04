@@ -1,13 +1,24 @@
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <string.h>
+#include <json-c/json.h>
 #include "config.h"
 
 struct configstruct_t config;
 
-//void parseconfig(WJElement configjson)
-//{
-//  strcpy(config.schemapath, WJEString(configjson, "schemapath", WJE_GET, DEFAULTSCHEMAPATH));
-//}
+void parseconfig(json_object * configjson)
+{
+  json_object *schemapath = NULL;
+  if(json_object_object_get_ex(configjson, "schemapath", &schemapath))
+  {
+    strcpy(config.schemapath, json_object_to_json_string(schemapath));
+  }
+  else
+    strcpy(DEFAULTSCHEMAPATH, config.schemapath);
+}
 
 int readconfig(void)
 {
@@ -18,18 +29,14 @@ int readconfig(void)
     struct stat st;
     fstat(configfile, &st);
     char *buffer = malloc(st.st_size);
-    read(jsonfile, buffer, st.st_size);
+    read(configfile, buffer, st.st_size);
     configjson = json_tokener_parse(buffer);
   }
   else
   {
     configjson = json_object_new_object();
   }
-//  if ((configfile = fopen(CONFIGPATH, "r")) && (configread = WJROpenFILEDocument(configfile, NULL, 0)))
-//    configjson = WJEOpenDocument(configread, NULL, NULL, NULL);
-//  else
-//    configjson = WJEObject(NULL, NULL, WJE_NEW);
-//
-//  parseconfig(configjson);
+
+  parseconfig(configjson);
 }
 

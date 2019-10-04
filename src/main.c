@@ -7,7 +7,7 @@
 #include <json-c/json.h>
 //#include "interpreter.h"
 //#include "completion.h"
-//#include "config.h"
+#include "config.h"
 //#include "load.h"
 //#include "acquire.h"
 //#include "prompt.h"
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
   //root = WJEObject(NULL, NULL, WJE_NEW);
 
-//  readconfig();
+  readconfig();
 //  loadeveryschema(root,config.schemapath);
 
 //  acquireall(root);
