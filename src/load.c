@@ -1,10 +1,12 @@
-#include <wjelement.h>
-#include <wjreader.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/param.h>
 #include <dirent.h>
 #include <string.h>
+#include <json-c/json.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 static int fileselect(const struct dirent *entry)
 {
@@ -23,37 +25,31 @@ static int dirselect(const struct dirent *entry)
   return 0;
 }
 
-WJElement loadschema(char * pathtoload)
+json_object * loadschema(char * pathtoload)
 {
-  FILE *schemafile;
-  WJReader readschema;
+  int schemafile;
 
-  //printf("loading %s\n",pathtoload);
-
-  if (!(schemafile = fopen(pathtoload, "r"))) {
+  if (!(schemafile = open(pathtoload, O_RDONLY))) {
     printf("cannot open schema file %s\n", pathtoload);
     return NULL;
   }
 
-  if (!(readschema = WJROpenFILEDocument(schemafile, NULL, 0))) {
-    puts("schema failed to open");
-    return NULL;
-  }
+  struct stat st;
+  fstat(schemafile, &st);
+  char * readschema = malloc(st.st_size);
+  read(schemafile, readschema, st.st_size);
+  json_object * schema = json_tokener_parse(readschema);
 
-  WJElement schema = WJEOpenDocument(readschema, NULL, NULL, NULL);
-  WJERename(schema,"schema");
-  WJElement schemaroot = WJEObject(NULL,WJEString(schema, "title", WJE_GET, "unnamed"), WJE_NEW);
-  WJEAttach(schemaroot,schema);
+  json_object * schemaroot = json_object_new_object();
+  json_object_object_add(schemaroot, "schema", schema);
   return schemaroot;
 }
 
-int loadeveryschema(WJElement loadroot, char * loadschemapath)
+int loadeveryschema(json_object * loadroot, char * loadschemapath)
 {
   char path[MAXPATHLEN];
   getcwd(path,MAXPATHLEN);
   struct dirent **dirs;
-
-  //load schemas from root
 
   int n = scandir(loadschemapath,&dirs,fileselect,alphasort);
   if (n >= 0)
@@ -62,13 +58,12 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
     for (int cnt = 0;cnt < n;++cnt)
     {
       //puts(dirs[cnt]->d_name);
-      WJEAttach(loadroot,loadschema(dirs[cnt]->d_name));
+      json_object_object_add(loadroot,dirs[cnt]->d_name, loadschema(dirs[cnt]->d_name));
     }
   }
   else
     printf("Cannot find files in %s\n", loadschemapath);
 
-  //recursively load shemes from every subdir
   n = scandir(loadschemapath,&dirs,dirselect,alphasort);
 
   if (n >= 0)
@@ -76,7 +71,9 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
     for (int cnt = 0;cnt < n;++cnt)
     {
       //printf("subdir %s\n",(dirs[cnt]->d_name));
-      loadeveryschema(WJEObject(loadroot, dirs[cnt]->d_name, WJE_NEW), dirs[cnt]->d_name);
+      json_object * subroot = json_object_new_object();
+      loadeveryschema(subroot,dirs[cnt]->d_name);
+      json_object_object_add(loadroot, dirs[cnt]->d_name,subroot); 
     }
   } 
   else

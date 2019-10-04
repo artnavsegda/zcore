@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
 //  rl_attempted_completion_function = character_name_completion;
 
-  //root = WJEObject(NULL, NULL, WJE_NEW);
+  root = json_object_new_object();
 
   readconfig();
 //  loadeveryschema(root,config.schemapath);
