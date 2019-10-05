@@ -38,6 +38,5 @@ int readconfig(void)
   }
 
   parseconfig(configjson);
-  puts(config.schemapath);
 }
 

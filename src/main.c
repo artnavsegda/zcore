@@ -23,6 +23,9 @@ int main(int argc, char *argv[])
 
   readconfig();
   loadeveryschema(root,config.schemapath);
+  puts(json_object_to_json_string_ext(root, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+
+
 
 //  acquireall(root);
 
