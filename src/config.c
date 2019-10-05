@@ -14,7 +14,7 @@ void parseconfig(json_object * configjson)
   json_object *schemapath = NULL;
   if(json_object_object_get_ex(configjson, "schemapath", &schemapath))
   {
-    strcpy(config.schemapath, json_object_to_json_string(schemapath));
+    strcpy(config.schemapath, json_object_get_string(schemapath));
   }
   else
     strcpy(DEFAULTSCHEMAPATH, config.schemapath);
@@ -23,7 +23,7 @@ void parseconfig(json_object * configjson)
 int readconfig(void)
 {
   json_object * configjson = NULL;
-  int configfile = open("test.json", O_RDONLY);
+  int configfile = open(CONFIGPATH, O_RDONLY);
   if (configfile != -1)
   {
     struct stat st;
@@ -38,5 +38,6 @@ int readconfig(void)
   }
 
   parseconfig(configjson);
+  puts(config.schemapath);
 }
 
