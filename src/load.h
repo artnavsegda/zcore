@@ -1,2 +1,1 @@
-int loadeveryschema(WJElement loadroot, char * loadschemapath);
-
+int loadeveryschema(json_object * loadroot, char * loadschemapath);

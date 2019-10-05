@@ -8,7 +8,7 @@
 //#include "interpreter.h"
 //#include "completion.h"
 #include "config.h"
-//#include "load.h"
+#include "load.h"
 //#include "acquire.h"
 //#include "prompt.h"
 
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
   root = json_object_new_object();
 
   readconfig();
-//  loadeveryschema(root,config.schemapath);
+  loadeveryschema(root,config.schemapath);
 
 //  acquireall(root);
 
