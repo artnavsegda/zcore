@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name", "vid", "ip", "macaddr", "defaultroute", "proto", "switch", "master_port"],
+    "required": ["name", "vid", "ip", "proto", "switch", "master_port"],
     "properties": {
       "name": {
         "type": "string",
@@ -28,7 +28,7 @@
         "description": "Master port",
         "default": "eth0"
       },
-      "tagged":{
+      "tagged_ports":{
         "type": "array",
         "description": "Tagged ports",
         "items": {
@@ -36,7 +36,7 @@
           "description": "Tagged port"
         }
       },
-      "untagged":{
+      "untagged_ports":{
         "type": "array",
         "description": "Untagged ports",
         "items": {
@@ -47,7 +47,8 @@
       "ip": {
         "type": "string",
         "description": "IP address config",
-        "default": "dhcp"
+        "default": "dhcp",
+        "enum": ["dhcp", "static", "pppoe", "none"]
       },
       "defaultroute": {
         "type": "boolean",
@@ -61,7 +62,9 @@
       },
       "mtu": {
         "type": "number",
-        "description": "MTU"
+        "description": "MTU",
+        "maximum": 65507,
+        "minimum": 500
       },
       "metric": {
         "type": "number",
@@ -92,8 +95,9 @@
        "command": "/home/art/Coding/zcore/src/zgen",
        "args": ["zgen", "-sethernet.schema", "-e./add.sh", "-cnetwork", "-tinterface", "-nadd"],
        "argpass": true,
-       "cue": ["name", "vid","switch"],
-       "json": "out"
+       "cue": ["name", "vid", "ip", "proto", "switch", "master_port"],
+       "json": "out",
+       "reload": true
     },
     "remove": {
        "command": "/home/art/Coding/zcore/src/remove.sh",
@@ -114,3 +118,4 @@
     "args": ["zfilter", "ethernet.schema", "./ethernet.sh"]
   }
 }
+

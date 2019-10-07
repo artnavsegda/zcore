@@ -2,8 +2,6 @@
   "$schema": "http://json-schema.org/schema#",
   "title": "mobile",
   "description": "Interface list",
-  "type": "array",
-  "items": {
     "type": "object",
     "title": "Interface entity",
     "required": ["name", "mode", "enable"],
@@ -45,7 +43,6 @@
           "type": "string",
           "enum": ["850","900","1800","1900","2100","2600"]
         }
-      }
     }
   },
     "commands": {
