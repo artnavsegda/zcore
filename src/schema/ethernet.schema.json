@@ -47,8 +47,7 @@
       "ip": {
         "type": "string",
         "description": "IP address config",
-        "default": "dhcp",
-        "enum": ["dhcp", "static", "pppoe", "none"]
+        "default": "dhcp"
       },
       "defaultroute": {
         "type": "boolean",
