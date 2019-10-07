@@ -25,26 +25,6 @@ static int dirselect(const struct dirent *entry)
   return 0;
 }
 
-json_object * loadschema(char * pathtoload)
-{
-  int schemafile;
-
-  if (!(schemafile = open(pathtoload, O_RDONLY))) {
-    printf("cannot open schema file %s\n", pathtoload);
-    return NULL;
-  }
-
-  struct stat st;
-  fstat(schemafile, &st);
-  char * readschema = malloc(st.st_size);
-  read(schemafile, readschema, st.st_size);
-  json_object * schema = json_tokener_parse(readschema);
-
-  json_object * schemaroot = json_object_new_object();
-  json_object_object_add(schemaroot, "schema", schema);
-  return schemaroot;
-}
-
 int loadeveryschema(json_object * loadroot, char * loadschemapath)
 {
   char path[MAXPATHLEN];
@@ -58,7 +38,7 @@ int loadeveryschema(json_object * loadroot, char * loadschemapath)
     for (int cnt = 0;cnt < n;++cnt)
     {
       //puts(dirs[cnt]->d_name);
-      json_object_object_add(loadroot,dirs[cnt]->d_name, loadschema(dirs[cnt]->d_name));
+      json_object_object_add(loadroot,dirs[cnt]->d_name, json_object_from_file(dirs[cnt]->d_name));
     }
   }
   else
@@ -67,15 +47,15 @@ int loadeveryschema(json_object * loadroot, char * loadschemapath)
   n = scandir(loadschemapath,&dirs,dirselect,alphasort);
 
   if (n >= 0)
-  { 
+  {
     for (int cnt = 0;cnt < n;++cnt)
     {
       //printf("subdir %s\n",(dirs[cnt]->d_name));
       json_object * subroot = json_object_new_object();
       loadeveryschema(subroot,dirs[cnt]->d_name);
-      json_object_object_add(loadroot, dirs[cnt]->d_name,subroot); 
+      json_object_object_add(loadroot, dirs[cnt]->d_name,subroot);
     }
-  } 
+  }
   else
   {
 //    printf("Cannot find dirs in %s\n", loadschemapath);
