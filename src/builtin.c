@@ -202,6 +202,14 @@ int builtin_acquire(int argc, char *argv[])
   acquire(WJEObject(root, argv[1], WJE_GET));
 }
 
+int builtin_validate(int argc, char *argv[])
+{
+  if (domain == FACE)
+  {
+    WJEDump(protojson);
+  }
+}
+
 int builtin(int argc, char *argv[])
 {
   if (argv[0][0]=='?')
@@ -226,7 +234,7 @@ int builtin(int argc, char *argv[])
   }
   else if (strcmp(argv[0],"validate") == 0)
   {
-    return 0;
+    return builtin_validate(argc,argv);
   }
 }
 
