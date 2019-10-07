@@ -253,7 +253,14 @@ int builtin_validate(int argc, char *argv[])
     WJEDump(WJEGet(protojson,"schema",NULL));
     puts("data:");
     WJEDump(WJEGet(protojson,"data",NULL));
-    WJESchemaValidate(WJEGet(protojson,"schema",NULL), WJEGet(protojson,"data",NULL), schema_error, schema_load, schema_free, NULL);
+    if (WJESchemaValidate(WJEGet(protojson,"schema",NULL), WJEGet(protojson,"data",NULL), schema_error, schema_load, schema_free, NULL))
+    {
+      puts("schema valid");
+    }
+    else
+    {
+      puts("schema invalid");
+    }
   }
 }
 
