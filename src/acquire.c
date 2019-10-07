@@ -1,41 +1,43 @@
 #include <stdio.h>
-//#include <wjelement.h>
+#include <json-c/json.h>
 #include "utils.h"
 
-// int acquire(WJElement proto)
-// {
-//   FILE *jsonstream;
-//   WJReader readjson;
-//   char *argv[100];
-//   int argc = arguments(WJEArray(proto, "schema.acquire.args", WJE_GET), argv);
-//
-//   if (!(jsonstream = my_popen_read(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"), argv,  NULL))) {
-//     puts("handle error");
-//     return 1;
-//   }
-//
-//   if (!(readjson = WJROpenFILEDocument(jsonstream, NULL, 0))) {
-//     puts("json failed to open");
-//     return 1;
-//   }
-//
-//   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
-//   WJERename(jsondata,"data");
-//   WJEAttach(proto,jsondata);
-// }
+int acquire(json_object * proto)
+{
+  json_object * readjson;
+  int jsonstream;
+  char *argv[100];
+  json_object * listargs = NULL;
+  json_pointer_get(proto, "/schema/acquire/args", &listargs);
+  int argc = arguments(listargs, argv);
 
-// int acquireall(WJElement directory)
-// {
-//   WJElement proto = NULL;
-//   while((proto = _WJEObject(directory, "[]", WJE_GET, &proto)))
-//   {
-//     if (WJEGet(proto, "schema", NULL))
-//     {
-//       acquire(proto);
-//     }
-//     else
-//     {
-//       acquireall(proto);
-//     }
-//   }
-// }
+  json_object * jsoncommand = NULL;
+  json_pointer_get(proto, "/schema/acquire/shell", &jsoncommand);
+
+  if (!(jsonstream = my_popen_read(json_object_get_string(jsoncommand), argv,  NULL))) {
+    puts("handle error");
+    return 1;
+  }
+
+  if (!(readjson = json_object_from_fd(jsonstream) != -1)) {
+    puts("json failed to open");
+    return 1;
+  }
+
+  json_object_object_add(proto, "data", readjson);
+}
+
+int acquireall(json_object * directory)
+{
+  json_object_object_foreach(directory, key, val)
+  {
+    if(json_object_object_get_ex(val,"schema",NULL))
+    {
+      acquire(val);
+    }
+    else
+    {
+      acquireall(val);
+    }
+  }
+}

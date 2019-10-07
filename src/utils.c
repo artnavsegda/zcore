@@ -3,14 +3,12 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-// #include <wjelement.h>
-// #include <wjreader.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <json-c/json.h>
 #include "utils.h"
-#include "option.h"
+//#include "option.h"
 
-// extern WJElement doc, schema;
 
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
     static char *token = NULL;
@@ -157,7 +155,7 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
 //   WJEAttach(jsonparent,jsondata);
 // }
 
-FILE * my_popen_read (char * command, char *argv[], char *envp[])
+int my_popen_read (char * command, char *argv[], char *envp[])
 {
     int fd[2];
     int read_fd, write_fd;
@@ -174,7 +172,7 @@ FILE * my_popen_read (char * command, char *argv[], char *envp[])
         return NULL;
     } else {
         close(write_fd);
-        return fdopen(read_fd, "r");
+        return read_fd;
     }
 }
 
@@ -199,13 +197,11 @@ FILE * my_popen_write (char * command, char *argv[], char *envp[])
     }
 }
 
-int arguments(json_object * argarray, char *argv[])
+int arguments(json_object * argarray, const char *argv[])
 {
   int i = 0;
 
-  while (argv[i] = 
-
-  while (argv[i] = _WJEString(argarray, "[]", WJE_GET, &argstring, NULL))
+  while (argv[i] = json_object_get_string(json_object_array_get_idx(argarray,i)))
   {
     i++;
   }

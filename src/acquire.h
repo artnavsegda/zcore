@@ -1,3 +1,2 @@
-int acquireall(WJElement directory);
-int acquire(WJElement proto);
-
+int acquireall(json_object * directory);
+int acquire(json_object * proto);
