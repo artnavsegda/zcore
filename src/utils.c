@@ -199,18 +199,19 @@ FILE * my_popen_write (char * command, char *argv[], char *envp[])
     }
 }
 
-// int arguments(WJElement argarray, char *argv[])
-// {
-//   int i = 0;
-//   WJElement argstring = NULL;
-//
-//   while (argv[i] = _WJEString(argarray, "[]", WJE_GET, &argstring, NULL))
-//   {
-//     i++;
-//   }
-//
-//   return i;
-// }
+int arguments(json_object * argarray, char *argv[])
+{
+  int i = 0;
+
+  while (argv[i] = 
+
+  while (argv[i] = _WJEString(argarray, "[]", WJE_GET, &argstring, NULL))
+  {
+    i++;
+  }
+
+  return i;
+}
 
 int argcat(int argc, char *argout[], char *argin[])
 {
