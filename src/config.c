@@ -22,21 +22,11 @@ void parseconfig(json_object * configjson)
 
 int readconfig(void)
 {
-  json_object * configjson = NULL;
-  int configfile = open(CONFIGPATH, O_RDONLY);
-  if (configfile != -1)
-  {
-    struct stat st;
-    fstat(configfile, &st);
-    char *buffer = malloc(st.st_size);
-    read(configfile, buffer, st.st_size);
-    configjson = json_tokener_parse(buffer);
-  }
-  else
+  json_object * configjson = json_object_from_file(CONFIGPATH);
+  if (configjson == NULL)
   {
     configjson = json_object_new_object();
   }
-
   parseconfig(configjson);
 }
 
