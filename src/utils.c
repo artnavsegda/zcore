@@ -3,14 +3,14 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <wjelement.h>
-#include <wjreader.h>
+// #include <wjelement.h>
+// #include <wjreader.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include "utils.h"
 #include "option.h"
 
-extern WJElement doc, schema;
+// extern WJElement doc, schema;
 
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
     static char *token = NULL;
@@ -54,16 +54,16 @@ char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) 
     return lead;
 }
 
-WJElement getelementbynameprop(WJElement container, char * text)
-{
-  WJElement entity = NULL;
-  while (entity = _WJEObject(container, "data[]", WJE_GET, &entity)) {
-    if (strcmp(WJEString(entity, "name", WJE_GET, ""), text) == 0) {
-      return entity;
-    }
-  }
-  return NULL;
-}
+// WJElement getelementbynameprop(WJElement container, char * text)
+// {
+//   WJElement entity = NULL;
+//   while (entity = _WJEObject(container, "data[]", WJE_GET, &entity)) {
+//     if (strcmp(WJEString(entity, "name", WJE_GET, ""), text) == 0) {
+//       return entity;
+//     }
+//   }
+//   return NULL;
+// }
 
 /*int ifacefound(char * ifacetosearch)
 {
@@ -139,23 +139,23 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
   }
 }
 
-int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
-{
-  FILE *jsonstream = my_popen_read(command, argv, envp);
-  if (jsonstream == NULL)
-  {
-    puts("handle error");
-    return 1;
-  }
-
-  WJReader readjson = WJROpenFILEDocument(jsonstream, NULL, 0);
-  if (readjson == NULL) {
-    puts("json failed to open");
-    return 1;
-  }
-  WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
-  WJEAttach(jsonparent,jsondata);
-}
+// int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
+// {
+//   FILE *jsonstream = my_popen_read(command, argv, envp);
+//   if (jsonstream == NULL)
+//   {
+//     puts("handle error");
+//     return 1;
+//   }
+//
+//   WJReader readjson = WJROpenFILEDocument(jsonstream, NULL, 0);
+//   if (readjson == NULL) {
+//     puts("json failed to open");
+//     return 1;
+//   }
+//   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
+//   WJEAttach(jsonparent,jsondata);
+// }
 
 FILE * my_popen_read (char * command, char *argv[], char *envp[])
 {
@@ -199,18 +199,18 @@ FILE * my_popen_write (char * command, char *argv[], char *envp[])
     }
 }
 
-int arguments(WJElement argarray, char *argv[])
-{
-  int i = 0;
-  WJElement argstring = NULL;
-
-  while (argv[i] = _WJEString(argarray, "[]", WJE_GET, &argstring, NULL))
-  {
-    i++;
-  }
-
-  return i;
-}
+// int arguments(WJElement argarray, char *argv[])
+// {
+//   int i = 0;
+//   WJElement argstring = NULL;
+//
+//   while (argv[i] = _WJEString(argarray, "[]", WJE_GET, &argstring, NULL))
+//   {
+//     i++;
+//   }
+//
+//   return i;
+// }
 
 int argcat(int argc, char *argout[], char *argin[])
 {
@@ -223,44 +223,42 @@ int argcat(int argc, char *argout[], char *argin[])
   return argc;
 }
 
-WJElement optionlist(WJElement schema)
-{
-  if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"array") == 0)
-  {
-    return WJEObject(schema,"schema.items", WJE_GET);
-  }
-  else if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"object") == 0)
-  {
-    return WJEObject(schema,"schema", WJE_GET);
-  }
-}
+// WJElement optionlist(WJElement schema)
+// {
+//   if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"array") == 0)
+//   {
+//     return WJEObject(schema,"schema.items", WJE_GET);
+//   }
+//   else if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"object") == 0)
+//   {
+//     return WJEObject(schema,"schema", WJE_GET);
+//   }
+// }
 
-void fillenv(WJElement proto, WJElement face)
-{
-  int i = 0;
-  char stringparam[100] = "";
-  WJElement option = NULL;
-  while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
-    if (WJEGet(face,option->name,NULL))
-      {
-        if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
-        {
-          setenv(option->name,WJEString(face, option->name, WJE_GET, "None"),1);
-        }
-        else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
-        {
-          sprintf(stringparam,"%d",WJEInt32(face,option->name,WJE_GET,-1),1);
-          setenv(option->name,stringparam,1);
-        }
-        else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
-        {
-          if (WJEBool(face,option->name,WJE_GET,-1))
-            setenv(option->name,"True",1);
-          else
-            setenv(option->name,"False",1);
-        }
-      }
-  }
-}
-
-
+// void fillenv(WJElement proto, WJElement face)
+// {
+//   int i = 0;
+//   char stringparam[100] = "";
+//   WJElement option = NULL;
+//   while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
+//     if (WJEGet(face,option->name,NULL))
+//       {
+//         if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
+//         {
+//           setenv(option->name,WJEString(face, option->name, WJE_GET, "None"),1);
+//         }
+//         else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
+//         {
+//           sprintf(stringparam,"%d",WJEInt32(face,option->name,WJE_GET,-1),1);
+//           setenv(option->name,stringparam,1);
+//         }
+//         else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
+//         {
+//           if (WJEBool(face,option->name,WJE_GET,-1))
+//             setenv(option->name,"True",1);
+//           else
+//             setenv(option->name,"False",1);
+//         }
+//       }
+//   }
+// }
