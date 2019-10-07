@@ -85,11 +85,12 @@ void listbuiltins()
   puts("/");
   puts("show");
   puts("acquire");
+  puts("validate");
 }
 
 int isbuiltin(char * builtinname)
 {
-  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/")) == 0)
+  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/") == 0) || (strcmp(builtinname,"validate") == 0))
   {
     return 1;
   }
@@ -223,9 +224,13 @@ int builtin(int argc, char *argv[])
   {
     return builtin_acquire(argc,argv);
   }
+  else if (strcmp(argv[0],"validate") == 0)
+  {
+    return 0;
+  }
 }
 
-char *builtincommands[] = {"?","..","show","acquire","/",NULL};
+char *builtincommands[] = {"?","..","show","acquire","validate","/",NULL};
 
 char * builtinvalues(const char * text, int len)
 {
