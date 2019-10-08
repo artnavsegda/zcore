@@ -44,6 +44,8 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
 {
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
 
+//  if (
+
   if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"array") == 0)
   {
     WJElement output = WJEArray(NULL, NULL, WJE_NEW);
