@@ -57,6 +57,7 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
       }
       if (!WJEGet(ifaceoutput, "name", NULL))
         WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
+      WJERename(ifaceoutput, WJEGet(ifaceoutput, "name", NULL));
     }
     return output;
   }
