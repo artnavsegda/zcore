@@ -2,81 +2,83 @@
   "$schema": "http://json-schema.org/schema#",
   "title": "rules",
   "description": "Firewall rule list",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "title": "Interface entity",
-    "required": ["name"],
-    "properties": {
-      "name": {
-        "type": "string",
-        "description": "Rule name",
-        "hidden": true
-      },
-      "enable": {
-        "type": "boolean",
-        "description": "Enable cellular interface"
-      },
-      "description": {
-        "type": "string",
-        "description": "Rule name",
-        "hidden": true
-      },
-      "src": {
-        "type": "string",
-        "description": "From this zone",
-        "cue": ["firewall.zones"]
-      },
-      "dest": {
-        "type": "string",
-        "description": "To this zone",
-        "cue": ["firewall.zones"]
-      },
-      "proto": {
-        "type": "string",
-        "enum": ["tcp", "udp", "tcpudp", "udplite", "icmp", "esp", "ah", "sctp", "all"],
-        "description": "Match incoming traffic using the given protocol",
-        "default": "all"
-      },
-      "src_ip": {
-        "type": "string",
-        "description": "Match incoming traffic from the specified source ip address"
-      },
-      "src_port": {
-        "type": "string",
-        "description": "Match incoming traffic from the specified source port or port range"
-      },
-      "dest_ip": {
-        "type": "string",
-        "description": "Match incoming traffic directed to the specified destination ip address"
-      },
-      "dest_port": {
-        "type": "string",
-        "description": "Match incoming traffic directed at the given destination port or port range"
-      },
-      "mark": {
-        "type": "string",
-        "description": "If specified, match traffic against the given firewall mark"
-      },
-      "set_mark": {
-        "type": "string",
-        "description": "Zeroes out the bits given by mask and ORs value into the packet mark"
-      },
-      "set_xmark": {
-        "type": "string",
-        "description": "Zeroes out the bits given by mask and XORs value into the packet mark"
-      },
-      "target": {
-        "type": "string",
-        "enum": ["ACCEPT", "REJECT", "DROP", "MARK", "NOTRACK"],
-        "description": "Firewall action for matched traffic",
-        "default": "ACCEPT"
-      },
-      "section": {
-        "type": "string",
-        "description": "Internal generated UBUS name",
-        "hidden": "true"
-      }
+  "type": "object",
+  "patternProperties": {
+    "^cfg": {
+      "type": "object",
+      "title": "Interface entity",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Rule name",
+          "hidden": true
+        },
+        "enable": {
+          "type": "boolean",
+          "description": "Enable cellular interface"
+        },
+        "description": {
+          "type": "string",
+          "description": "Rule name",
+          "hidden": true
+        },
+        "src": {
+          "type": "string",
+          "description": "From this zone",
+          "cue": ["firewall.zones"]
+        },
+        "dest": {
+          "type": "string",
+          "description": "To this zone",
+          "cue": ["firewall.zones"]
+        },
+        "proto": {
+          "type": "string",
+          "enum": ["tcp", "udp", "tcpudp", "udplite", "icmp", "esp", "ah", "sctp", "all"],
+          "description": "Match incoming traffic using the given protocol",
+          "default": "all"
+        },
+        "src_ip": {
+          "type": "string",
+          "description": "Match incoming traffic from the specified source ip address"
+        },
+        "src_port": {
+          "type": "string",
+          "description": "Match incoming traffic from the specified source port or port range"
+        },
+        "dest_ip": {
+          "type": "string",
+          "description": "Match incoming traffic directed to the specified destination ip address"
+        },
+        "dest_port": {
+          "type": "string",
+          "description": "Match incoming traffic directed at the given destination port or port range"
+        },
+        "mark": {
+          "type": "string",
+          "description": "If specified, match traffic against the given firewall mark"
+        },
+        "set_mark": {
+          "type": "string",
+          "description": "Zeroes out the bits given by mask and ORs value into the packet mark"
+        },
+        "set_xmark": {
+          "type": "string",
+          "description": "Zeroes out the bits given by mask and XORs value into the packet mark"
+        },
+        "target": {
+          "type": "string",
+          "enum": ["ACCEPT", "REJECT", "DROP", "MARK", "NOTRACK"],
+          "description": "Firewall action for matched traffic",
+          "default": "ACCEPT"
+        },
+        "section": {
+          "type": "string",
+          "description": "Internal generated UBUS name",
+          "hidden": "true"
+        }
+     }
    }
  },
  "commands": {
