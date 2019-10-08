@@ -85,7 +85,7 @@ int listfaces(void)
   WJElement face = NULL;
   puts("Faces:");
   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-    puts(WJEString(face, "name", WJE_GET, ""));
+    puts(elementname(protojson,face));
   }
 }
 
@@ -93,8 +93,8 @@ char * facevalues(const char * text, int len)
 {
   static WJElement face = NULL;
   while (face = _WJEObject(rl_protojson, "data[]", WJE_GET, &face)) {
-    if (strncmp(WJEString(face, "name", WJE_GET, ""), text, len) == 0) {
-      return strdup(WJEString(face, "name", WJE_GET, ""));
+    if (strncmp(elementname(rl_protojson,face), text, len) == 0) {
+      return strdup(elementname(rl_protojson,face));
     }
   }
   return NULL;

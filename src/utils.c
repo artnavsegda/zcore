@@ -65,6 +65,11 @@ WJElement getelementbynameprop(WJElement container, char * text)
   return NULL;
 }
 
+char * elementname(WJElement proto, WJElement element)
+{
+  return WJEString(element, "name", WJE_GET, "");
+}
+
 /*int ifacefound(char * ifacetosearch)
 {
   if (getelementbynameprop(doc,ifacetosearch))

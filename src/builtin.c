@@ -9,6 +9,7 @@
 #include "option.h"
 #include "prompt.h"
 #include "acquire.h"
+#include "utils.h"
 
 extern int protodepth;
 extern WJElement protojson;
@@ -111,7 +112,7 @@ int printoption(WJElement proto, WJElement face, int depth)
         printf("%s.", parentname(proto, i));
       }
       if (WJEGet(proto, "schema.patternProperties", NULL))
-        printf("%s.", WJEString(face, "name", WJE_GET, ""));
+        printf("%s.", elementname(proto,face));
       printf("%s = ", option->name);
 
       if (WJEGet(face,option->name,NULL))
