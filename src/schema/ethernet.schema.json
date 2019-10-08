@@ -2,86 +2,88 @@
   "$schema": "http://json-schema.org/schema#",
   "title": "ethernet",
   "description": "Interface list",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "title": "Interface entity",
-    "required": ["name", "vid", "ip", "proto", "switch", "master_port"],
-    "properties": {
-      "name": {
-        "type": "string",
-        "description": "Interface name",
-        "hidden": true
-      },
-      "vid": {
-        "type": "number",
-        "description": "VLAN ID",
-        "default": 13
-      },
-      "switch": {
-        "type": "string",
-        "description": "Switch device",
-        "default": "switch0"
-      },
-      "master_port": {
-        "type": "string",
-        "description": "Master port",
-        "default": "eth0"
-      },
-      "tagged_ports":{
-        "type": "array",
-        "description": "Tagged ports",
-        "items": {
+  "type": "object",
+  "patternProperties": {
+    "^vlan": {
+      "type": "object",
+      "title": "Interface entity",
+      "required": ["name", "vid", "ip", "proto", "switch", "master_port"],
+      "properties": {
+        "name": {
           "type": "string",
-          "description": "Tagged port"
-        }
-      },
-      "untagged_ports":{
-        "type": "array",
-        "description": "Untagged ports",
-        "items": {
+          "description": "Interface name",
+          "hidden": true
+        },
+        "vid": {
+          "type": "number",
+          "description": "VLAN ID",
+          "default": 13
+        },
+        "switch": {
           "type": "string",
-          "description": "Untagged port"
+          "description": "Switch device",
+          "default": "switch0"
+        },
+        "master_port": {
+          "type": "string",
+          "description": "Master port",
+          "default": "eth0"
+        },
+        "tagged_ports":{
+          "type": "array",
+          "description": "Tagged ports",
+          "items": {
+            "type": "string",
+            "description": "Tagged port"
+          }
+        },
+        "untagged_ports":{
+          "type": "array",
+          "description": "Untagged ports",
+          "items": {
+            "type": "string",
+            "description": "Untagged port"
+          }
+        },
+        "ip": {
+          "type": "string",
+          "description": "IP address config",
+          "default": "dhcp"
+        },
+        "defaultroute": {
+          "type": "boolean",
+          "description": "Use as defaultroute",
+          "default": false
+        },
+        "macaddr": {
+          "type": "string",
+          "description": "MAC address",
+          "default": "de:ad:be:ef:12:34"
+        },
+        "mtu": {
+          "type": "number",
+          "description": "MTU",
+          "maximum": 65507,
+          "minimum": 500
+        },
+        "metric": {
+          "type": "number",
+          "description": "Network metric"
+        },
+        "proto": {
+          "type": "string",
+          "default": "vlan"
+        },
+        "zone": {
+          "type": "string",
+          "cue": ["firewall.zones"]
+        },
+        "section": {
+          "type": "string",
+          "description": "Internal generated UBUS name",
+          "hidden": true
         }
-      },
-      "ip": {
-        "type": "string",
-        "description": "IP address config",
-        "default": "dhcp"
-      },
-      "defaultroute": {
-        "type": "boolean",
-        "description": "Use as defaultroute",
-        "default": false
-      },
-      "macaddr": {
-        "type": "string",
-        "description": "MAC address",
-        "default": "de:ad:be:ef:12:34"
-      },
-      "mtu": {
-        "type": "number",
-        "description": "MTU",
-        "maximum": 65507,
-        "minimum": 500
-      },
-      "metric": {
-        "type": "number",
-        "description": "Network metric"
-      },
-      "proto": {
-        "type": "string",
-        "default": "vlan"
-      },
-      "zone": {
-        "type": "string",
-        "cue": ["firewall.zones"]
-      },
-      "section": {
-        "type": "string",
-        "description": "Internal generated UBUS name",
-        "hidden": true
-      }
+    }
    }
  },
    "commands": {
@@ -117,4 +119,3 @@
     "args": ["zfilter", "ethernet.schema", "./ethernet.sh"]
   }
 }
-
