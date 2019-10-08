@@ -76,6 +76,10 @@ int rl_face(int argc, char *argv[])
     {
       return rl_option(argc-1, &argv[1]);
     }
+    else if (rl_iscommand(argv[1]))
+    {
+      return rl_command(argc-1, &argv[1]);
+    }
   }
   return 0;
 }
