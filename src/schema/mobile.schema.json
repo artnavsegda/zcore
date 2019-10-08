@@ -48,7 +48,8 @@
         }
       }
     }
-  },
+  }
+},
   "commands": {
     "apply": {
         "command": "/home/art/Coding/zcore/src/zfilter2",

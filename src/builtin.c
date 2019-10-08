@@ -110,7 +110,7 @@ int printoption(WJElement proto, WJElement face, int depth)
       {
         printf("%s.", parentname(proto, i));
       }
-      if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
+      if (WJEGet(proto, "schema.patternProperties", NULL))
         printf("%s.", WJEString(face, "name", WJE_GET, ""));
       printf("%s = ", option->name);
 
@@ -161,11 +161,11 @@ int printoption3(WJElement protoinput, int depth)
   while ((proto = _WJEObject(protoinput, "[]", WJE_GET, &proto))) {
     if (WJEGet(proto, "schema", NULL))
     {
-      if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
+      if (WJEGet(proto, "schema.patternProperties", NULL))
       {
         printoption2(proto, depth);
       }
-      else if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"object") == 0)
+      else if (WJEGet(proto, "schema.properties", NULL))
       {
         printoption(proto,WJEObject(proto, "data", WJE_GET),depth);
       }
