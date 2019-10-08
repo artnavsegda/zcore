@@ -225,11 +225,11 @@ int argcat(int argc, char *argout[], char *argin[])
 
 WJElement optionlist(WJElement schema)
 {
-  if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"array") == 0)
+  if (WJEGet(schema, "schema.patternProperties", NULL))
   {
-    return WJEObject(schema,"schema.items", WJE_GET);
+    return WJEObject(schema,"schema.patternProperties[0]", WJE_GET);
   }
-  else if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"object") == 0)
+  else if (WJEGet(schema, "schema.properties", NULL))
   {
     return WJEObject(schema,"schema", WJE_GET);
   }

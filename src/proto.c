@@ -79,11 +79,11 @@ int proto(int argc, char *argv[])
       protojson = WJEObject(protojson, argv[i], WJE_GET);
       if (WJEGet(protojson, "schema", NULL))
       {
-        if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+        if (WJEGet(protojson, "schema.patternProperties", NULL))
         {
           domain = FACE;
         }
-        else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+        else if (WJEGet(protojson, "schema.properties", NULL))
         {
           domain = OPTION;
           protoface = WJEObject(protojson, "data", WJE_GET);
