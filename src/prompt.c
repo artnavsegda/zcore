@@ -36,7 +36,7 @@ void generateprompt(char * prompt)
   }
   if (domain == OPTION)
   {
-    if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+    if (WJEGet(protojson, "schema.patternProperties", NULL))
     {
       strcat(prompt, "/");
       strcat(prompt, WJEString(protoface, "name", WJE_GET, ""));
