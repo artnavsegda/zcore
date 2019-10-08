@@ -3,21 +3,23 @@
   "title": "switchports",
   "description": "switch port list",
   "hidden": true,
-  "type": "array",
-  "items": {
-    "type": "object",
-    "title": "Switch port entity",
-    "required": ["name"],
-    "properties": {
-      "name": {
-        "type": "string",
-        "description": "Switch port name"
-      },
-      "device": {
-        "type": "string",
-         "description": "Switch device",
-         "cue": ["switch"]
-      }
+  "type": "object",
+  "patternProperties": {
+    "^port_" : {
+      "type": "object",
+      "title": "Switch port entity",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Switch port name"
+        },
+        "device": {
+          "type": "string",
+           "description": "Switch device",
+           "cue": ["switch"]
+        }
+     }
    }
  },
   "acquire": {
