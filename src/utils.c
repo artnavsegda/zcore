@@ -67,7 +67,15 @@ WJElement getelementbynameprop(WJElement container, char * text)
 
 char * elementname(WJElement proto, WJElement element)
 {
-  return WJEString(element, "name", WJE_GET, "");
+  char * namesake = WJEString(proto, "schema.namesake", WJE_GET, NULL);
+  if (namesake)
+  {
+    return WJEString(element, namesake, WJE_GET, "");
+  }
+  else
+  { 
+    return element->name;
+  }
 }
 
 /*int ifacefound(char * ifacetosearch)

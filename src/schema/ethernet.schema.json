@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema#",
   "title": "ethernet",
+  "namesake": "name",
   "description": "Interface list",
   "type": "object",
   "patternProperties": {
