@@ -117,11 +117,11 @@ int rl_proto(int argc, char *argv[])
       rl_protojson = WJEObject(rl_protojson, argv[i], WJE_GET);
       if (WJEGet(rl_protojson, "schema", NULL))
       {
-        if (strcmp(WJEString(rl_protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+        if (WJEGet(rl_protojson, "schema.patternProperties", NULL))
         {
           rl_domain = FACE;
         }
-        else if (strcmp(WJEString(rl_protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+        else if (WJEGet(rl_protojson, "schema.properties", NULL))
         {
           rl_protoface = WJEObject(rl_protojson, "data", WJE_GET);
           rl_domain = OPTION;
