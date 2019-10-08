@@ -162,13 +162,16 @@ int printoption3(WJElement protoinput, int depth)
   while ((proto = _WJEObject(protoinput, "[]", WJE_GET, &proto))) {
     if (WJEGet(proto, "schema", NULL))
     {
-      if (WJEGet(proto, "schema.patternProperties", NULL))
+      if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
       {
-        printoption2(proto, depth);
-      }
-      else if (WJEGet(proto, "schema.properties", NULL))
-      {
-        printoption(proto,WJEObject(proto, "data", WJE_GET),depth);
+        if (WJEGet(proto, "schema.patternProperties", NULL))
+        {
+          printoption2(proto, depth);
+        }
+        else if (WJEGet(proto, "schema.properties", NULL))
+        {
+          printoption(proto,WJEObject(proto, "data", WJE_GET),depth);
+        }
       }
     }
     else
