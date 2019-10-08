@@ -44,12 +44,10 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
 {
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
 
-//  if (
-
-  if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"array") == 0)
+  if (WJEGet(schema,"patternProperties",NULL))
   {
-    WJElement output = WJEArray(NULL, NULL, WJE_NEW);
-    while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
+    WJElement output = WJEObject(NULL, NULL, WJE_NEW);
+    while (ifaceinput = _WJEObject(input,"[]", WJE_GET, &ifaceinput))
     {
       ifaceoutput = WJEObject(output, "interface", WJE_NEW);
       translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.items.properties[]");
@@ -62,7 +60,7 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
     }
     return output;
   }
-  else if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"object") == 0)
+  else if (WJEGet(schema,"properties",NULL))
   {
     WJElement output = WJEObject(NULL, NULL, WJE_NEW);
     translate(output, WJEObject(input, "values", WJE_GET), schema, schemapath, "%s.properties[]");
