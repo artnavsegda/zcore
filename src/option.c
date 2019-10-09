@@ -120,7 +120,6 @@ int option_set_value(WJElement parameter, char * value)
 char * combinevalues(int argc, char *argv[])
 {
   char * combine = "hello good sir";
-
   return combine;
 }
 
@@ -138,7 +137,13 @@ int option(int argc, char *argv[])
   }
   else if (argc > 2)
   {
-    return option_set_value(parameter,combinevalues(argc-1, &argv[1]));
+    char combine[1000] = "";
+    for (int i = 1; i < argc; i++)
+    {
+      strcat(combine, argv[i]);
+    }
+    return option_set_value(parameter, combine);
+//    return option_set_value(parameter,combinevalues(argc-1, &argv[1]));
   }
   return 1;
 }
