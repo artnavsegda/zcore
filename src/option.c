@@ -138,10 +138,13 @@ int option(int argc, char *argv[])
   else if (argc > 2)
   {
     char combine[1000] = "";
-    for (int i = 1; i < argc; i++)
+    strcpy(combine, argv[1]);
+    for (int i = 2; i < argc; i++)
     {
+      strcat(combine, " ");
       strcat(combine, argv[i]);
     }
+//    puts(combine);
     return option_set_value(parameter, combine);
 //    return option_set_value(parameter,combinevalues(argc-1, &argv[1]));
   }
