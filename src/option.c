@@ -57,42 +57,41 @@ int rl_isoption(char * optionname)
   return 0;
 }
 
+int option_print_value(WJElement parameter)
+{
+  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
+    puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
+    printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
+    if (WJEBool(protoface,parameter->name,WJE_GET,-1) == TRUE)
+      puts("True");
+    else if (WJEBool(protoface,parameter->name,WJE_GET,-1) == FALSE)
+      puts("False");
+    else
+      puts("<undefined>");
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
+    WJElement array = NULL;
+    char * entity = NULL;
+    while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
+      puts(entity);
+  }
+  else
+  {
+    puts("Not implemeted");
+  }
+}
+
 int option(int argc, char *argv[])
 {
   WJElement parameter;
   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
   if (argc == 1)
   {
-    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
-    {
-      puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
-    {
-      printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
-    {
-      if (WJEBool(protoface,parameter->name,WJE_GET,-1) == TRUE)
-        puts("True");
-      else if (WJEBool(protoface,parameter->name,WJE_GET,-1) == FALSE)
-        puts("False");
-      else
-        puts("<undefined>");
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
-    {
-      WJElement array = NULL;
-      char * entity = NULL;
-      while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
-      {
-        puts(entity);
-      }
-    }
-    else
-    {
-      puts("Not implemeted");
-    }
+    option_print_value(parameter);
   }
   else if (argc == 2)
   {
