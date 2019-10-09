@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <readline/readline.h>
@@ -16,8 +17,14 @@
 WJElement root = NULL;
 char zcore_prompt[255];
 
+void alarm_handler(int signal)
+{
+  acquireall(root);
+}
+
 int main(int argc, char *argv[])
 {
+  signal(SIGALRM, alarm_handler);
   rl_attempted_completion_function = character_name_completion;
 
   root = WJEObject(NULL, NULL, WJE_NEW);

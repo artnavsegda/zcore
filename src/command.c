@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
 #include <string.h>
 #include "zcore.h"
 #include "interpreter.h"
@@ -139,7 +141,8 @@ int command(int argc, char *argv[])
   }
   if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
   {
-    acquire(protojson);
+    //acquire(protojson);
+    alarm(3);
   }
   return 1;
 }
