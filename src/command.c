@@ -80,7 +80,7 @@ int command(int argc, char *argv[])
     break;
     case OPTION:
       setenv("DOMAIN", "OPTION", 1);
-      setenv("FACE", WJEString(protoface, "name", WJE_GET, ""), 1);
+      setenv("FACE", elementname(protojson,protoface), 1);
       fillenv(protojson,protoface);
       //myenv[0] = "DOMAIN=OPTION";
       //sprintf(facename,"FACE=%s", WJEString(protoface, "name", WJE_GET, ""));
