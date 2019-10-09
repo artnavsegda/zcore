@@ -90,7 +90,8 @@
      "apply": {
        "command": "/home/art/Coding/zcore/src/apply-nethernet.sh",
        "args": ["apply-nethernet.sh"],
-       "json": "in"
+       "json": "in",
+       "reload": true
     },
     "add": {
        "command": "/home/art/Coding/zcore/src/zgen",
