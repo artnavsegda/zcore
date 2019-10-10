@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <string.h>
-#include "zcore.h"
 #include "interpreter.h"
 #include "proto.h"
 #include "face.h"
 #include "completion.h"
 #include "option.h"
+#include "zcore.h"
 
 int protodepth = 0;
 WJElement protojson = NULL;
