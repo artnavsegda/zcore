@@ -89,9 +89,10 @@
  },
    "commands": {
      "apply": {
-       "command": "/home/art/Coding/zcore/src/zfilter2",
-       "args": ["zfilter2", "-sethernet.schema", "-e./applyif.sh", "-cnetwork", "-tinterface", "-napply"],
-       "json": "in"
+       "command": "/home/art/Coding/zcore/src/apply-ethernet.sh",
+       "args": ["apply-ethernet.sh"],
+       "json": "in",
+       "reload": true
     },
     "add": {
        "command": "/home/art/Coding/zcore/src/zgen",
