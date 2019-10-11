@@ -3,6 +3,7 @@
   "title": "rules",
   "description": "Firewall rule list",
   "type": "object",
+  "namesake": "name",
   "patternProperties": {
     "^cfg": {
       "type": "object",

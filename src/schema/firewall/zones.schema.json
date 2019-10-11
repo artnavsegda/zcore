@@ -3,6 +3,7 @@
   "title": "zones",
   "description": "Firewall zones list",
   "type": "object",
+  "namesake": "name",
   "patternProperties": {
     "^cfg": {
       "type": "object",
