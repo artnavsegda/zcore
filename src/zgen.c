@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 
   WJElement doc = NULL;
   doc = generator(root, argv[optind], values);
+  WJEDump(doc);
 	
 	return 0;
 }

@@ -13,9 +13,9 @@ WJElement generator(WJElement schema,  char * schemapath, char *values[])
 
   WJElement output = WJEObject(NULL, "values", WJE_NEW);
 
-  while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.items.required[]", schemapath))
+  while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.patternProperties[0].required[]", schemapath))
   {
-    property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, itemname);
+    property = WJEObjectF(schema, WJE_GET, NULL, "%s.patternProperties[0].properties.%s", schemapath, itemname);
 
     if (!WJEBool(property, "hidden", WJE_GET, FALSE))
     {
