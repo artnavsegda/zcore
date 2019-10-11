@@ -95,11 +95,10 @@
        "reload": true
     },
     "add": {
-       "command": "/home/art/Coding/zcore/src/zgen",
-       "args": ["zgen", "-sethernet.schema", "-e./add.sh", "-cnetwork", "-tinterface", "-nadd"],
+       "command": "/home/art/Coding/zcore/src/add-ethernet.sh",
+       "args": ["add-ethernet.sh"],
        "argpass": true,
-       "cue": ["name", "vid", "ip", "proto", "switch", "master_port"],
-       "json": "out",
+       "cue": ["vid"],
        "reload": true
     },
     "remove": {
