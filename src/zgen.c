@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
   loadeveryschema(root,config.schemapath);
 
   WJElement doc = NULL;
-  doc = generator(root, schema, values);
+  doc = generator(root, argv[optind], values);
 	
 	return 0;
 }

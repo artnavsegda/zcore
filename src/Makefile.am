@@ -4,4 +4,4 @@ zcore_SOURCES = main.c utils.c config.c load.c acquire.c interpreter.c proto.c b
 # zfilter2_SOURCES = plug2.c filter2.c config.c load.c utils.c
 #zgen_SOURCES = plug4.c generator.c config.c load.c
 zfilter_SOURCES = zfilter.c filter.c config.c load.c
-zgen_SOURCES = zgen.c # generator.c config.c load.c
+zgen_SOURCES = zgen.c generator.c config.c load.c

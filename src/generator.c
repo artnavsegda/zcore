@@ -4,14 +4,14 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement generator(WJElement schema,  char * schemapath)
+WJElement generator(WJElement schema,  char * schemapath, char *values[])
 {
   char * itemname;
   WJElement property = NULL;
   WJElement reqstring = NULL;
   WJElement valuesoutput = NULL;
 
-  WJElement output = WJEObject(alloutput, "values", WJE_NEW);
+  WJElement output = WJEObject(NULL, "values", WJE_NEW);
 
   while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.items.required[]", schemapath))
   {
