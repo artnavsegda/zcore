@@ -52,10 +52,11 @@
 },
   "commands": {
     "apply": {
-        "command": "/home/art/Coding/zcore/src/zfilter2",
-        "args": ["zfilter2", "-smobile.schema", "-e./applyif.sh", "-cnetwork", "-tinterface", "-napply"],
+        "command": "/home/art/Coding/zcore/src/apply-mobile.sh",
+        "args": ["apply-mobile.sh"],
         "argpass": true,
-        "json": "in"
+        "json": "in",
+        "reload": true
      },
     "revert": {
        "command": "/home/art/Coding/zcore/src/revert.sh",
