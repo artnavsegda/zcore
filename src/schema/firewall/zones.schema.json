@@ -12,8 +12,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Unique zone name",
-          "hidden": true
+          "description": "Unique zone name"
         },
         "network": {
           "type": "array",
@@ -54,11 +53,6 @@
           "enum": ["ACCEPT", "DROP", "REJECT"],
           "description": "Default action for REJECT chain",
           "default": "ACCEPT"
-        },
-        "section": {
-          "type": "string",
-          "description": "Internal generated UBUS name",
-          "hidden": "true"
         }
      }
   }
