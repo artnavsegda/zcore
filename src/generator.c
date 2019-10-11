@@ -4,21 +4,12 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement generator(WJElement schema,  char * schemapath, char * commandname, char * ubustype, char * ubusconfig, int argc, char *argv[])
+WJElement generator(WJElement schema,  char * schemapath)
 {
   char * itemname;
-  WJElement alloutput = WJEObject(NULL, "generatedname", WJE_NEW);
   WJElement property = NULL;
   WJElement reqstring = NULL;
   WJElement valuesoutput = NULL;
-
-  WJEString(alloutput,"config",WJE_NEW,ubusconfig);
-  WJEString(alloutput,"type",WJE_NEW,ubustype);
-
-  if (WJEBoolF(schema, WJE_GET, NULL, FALSE, "%s.items.properties.name.hidden", schemapath))
-  {
-    WJEString(alloutput,"name",WJE_NEW,argv[0]);
-  }
 
   WJElement output = WJEObject(alloutput, "values", WJE_NEW);
 
@@ -67,7 +58,7 @@ WJElement generator(WJElement schema,  char * schemapath, char * commandname, ch
     }
   }
 
-  char * cuename = NULL;
+  /*char * cuename = NULL;
 
   for (int i = 0; i < argc; i++)
   {
@@ -86,7 +77,7 @@ WJElement generator(WJElement schema,  char * schemapath, char * commandname, ch
         }
       }
     }
-  }
+  }*/
 
-  return alloutput;
+  return output;
 }
