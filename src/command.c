@@ -138,6 +138,10 @@ int command(int argc, char *argv[])
     {
       forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,environ);
     }
+    else
+    {
+      forkexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,environ);
+    }
   }
   if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
   {

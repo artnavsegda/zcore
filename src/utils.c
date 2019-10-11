@@ -162,6 +162,17 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
   }
 }
 
+int forkexec(char * command, int argc, char *argv[], char *envp[])
+{
+  pid_t pid = fork();
+  int status;
+  if (pid == 0)
+  {
+    execve(command,argv,envp);
+    exit(0);
+  }
+}
+
 int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
 {
   FILE *jsonstream = my_popen_read(command, argv, envp);
