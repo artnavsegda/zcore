@@ -18,7 +18,7 @@
   }
  },
   "acquire": {
-    "shell": "/home/art/Coding/zcore/src/zfilter",
-    "args": ["zfilter", "switch.schema", "./switch.sh"]
+    "shell": "/home/art/Coding/zcore/src/switch.sh",
+    "args": ["switch.sh", "switch.schema"]
   }
 }

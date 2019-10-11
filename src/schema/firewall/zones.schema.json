@@ -85,7 +85,7 @@
     }
  },
  "acquire": {
-   "shell": "/home/art/Coding/zcore/src/zfilter",
-   "args": ["zfilter", "firewall.zones.schema", "./zones.sh"]
+   "shell": "/home/art/Coding/zcore/src/zones.sh",
+   "args": ["zones.sh", "firewall.zones.schema"]
  }
 }

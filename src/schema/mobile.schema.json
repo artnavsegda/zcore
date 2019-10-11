@@ -72,7 +72,7 @@
     }
 	},
   "acquire": {
-     "shell": "/home/art/Coding/zcore/src/zfilter",
-     "args": ["zfilter", "mobile.schema","./mobile-online.sh"]
+     "shell": "/home/art/Coding/zcore/src/mobile.sh",
+     "args": ["mobile.sh", "mobile.schema"]
    }
 }

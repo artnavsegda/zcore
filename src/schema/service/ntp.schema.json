@@ -20,7 +20,7 @@
     }
   },
   "acquire": {
-    "shell": "/home/art/Coding/zcore/src/zfilter",
-    "args": ["zfilter", "service.ntp.schema", "./ntp.sh"]
+    "shell": "/home/art/Coding/zcore/src/ntp.sh",
+    "args": ["ntp.sh", "service.ntp.schema"]
   }
 }

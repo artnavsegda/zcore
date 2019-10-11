@@ -117,7 +117,7 @@
     }
   },
   "acquire": {
-    "shell": "/home/art/Coding/zcore/src/zfilter",
-    "args": ["zfilter", "ethernet.schema", "./ethernet.sh"]
+    "shell": "/home/art/Coding/zcore/src/ethernet.sh",
+    "args": ["ethernet.sh", "ethernet.schema"]
   }
 }

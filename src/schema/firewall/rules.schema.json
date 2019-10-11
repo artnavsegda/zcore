@@ -104,7 +104,7 @@
    }
  },
  "acquire": {
-   "shell": "/home/art/Coding/zcore/src/zfilter",
-   "args": ["zfilter", "firewall.rules.schema","./rules.sh"]
+   "shell": "/home/art/Coding/zcore/src/rules.sh",
+   "args": ["rules.sh", "firewall.rules.schema"]
  }
 }
