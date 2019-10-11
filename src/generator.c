@@ -4,7 +4,7 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement generator(WJElement schema,  char * schemapath, char *values[])
+WJElement generator(WJElement schema,  char * schemapath, char *values[], valindex)
 {
   char * itemname;
   WJElement property = NULL;
