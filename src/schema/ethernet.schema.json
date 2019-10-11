@@ -99,7 +99,8 @@
        "args": ["add-ethernet.sh"],
        "argpass": true,
        "cue": ["vid"],
-       "reload": true
+       "reload": true,
+       "wait": true
     },
     "remove": {
        "command": "/home/art/Coding/zcore/src/remove.sh",
