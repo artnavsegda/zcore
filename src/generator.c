@@ -4,7 +4,7 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement generator(WJElement schema,  char * schemapath, char *values[], valindex)
+WJElement generator(WJElement schema,  char * schemapath, char *values[], int valindex)
 {
   char * itemname;
   WJElement property = NULL;
@@ -58,11 +58,12 @@ WJElement generator(WJElement schema,  char * schemapath, char *values[], valind
     }
   }
 
-  /*char * cuename = NULL;
+//  char * cuename = NULL;
 
-  for (int i = 0; i < argc; i++)
+  for (int i = 0; i < valindex; i++)
   {
-    if (cuename = WJEStringF(schema, WJE_GET, NULL, NULL, "%s.commands.%s.cue[%d]", schemapath, commandname, i))
+    puts(values[i]);
+/*    if (cuename = WJEStringF(schema, WJE_GET, NULL, NULL, "%s.commands.%s.cue[%d]", schemapath, commandname, i))
     {
       property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, cuename);
       if (!WJEBool(property, "hidden", WJE_GET, FALSE))
@@ -76,8 +77,8 @@ WJElement generator(WJElement schema,  char * schemapath, char *values[], valind
           WJEInt32(output,property->name,WJE_SET,atoi(argv[i]));
         }
       }
-    }
-  }*/
+    }*/
+  }
 
   return output;
 }

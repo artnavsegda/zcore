@@ -30,11 +30,6 @@ int main(int argc, char *argv[])
     }
   }
 
-  for (int i = 0; i < valindex; i++)
-  {
-    puts(values[i]);
-  }
-
   if (!argv[optind])
   {
     puts("syntax: zgen -o name=value -o name=value schema.path");
