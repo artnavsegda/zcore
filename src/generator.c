@@ -62,22 +62,24 @@ WJElement generator(WJElement schema,  char * schemapath, char *values[], int va
 
   for (int i = 0; i < valindex; i++)
   {
-    puts(values[i]);
-/*    if (cuename = WJEStringF(schema, WJE_GET, NULL, NULL, "%s.commands.%s.cue[%d]", schemapath, commandname, i))
+    char * name = values[i];
+    char * value = strchr(values[i], '=');
+    *value='\0';
+    value++;
+    if (property = WJEObjectF(schema, WJE_GET, NULL, "%s.patternProperties[0].properties.%s", schemapath, name))
     {
-      property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, cuename);
-      if (!WJEBool(property, "hidden", WJE_GET, FALSE))
-      {
+//    if (!WJEBool(property, "hidden", WJE_GET, FALSE))
+//    {
         if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
         {
-          WJEString(output,property->name,WJE_SET,argv[i]);
+          WJEString(output,property->name,WJE_SET,value);
         }
         else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
         {
-          WJEInt32(output,property->name,WJE_SET,atoi(argv[i]));
+          WJEInt32(output,property->name,WJE_SET,atoi(value));
         }
-      }
-    }*/
+//      }
+    }
   }
 
   return output;
