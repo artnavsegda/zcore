@@ -208,6 +208,14 @@ int zc_completion(int count, int key)
   int numberoftokens = arrlength(rl_tokarr);
   printf("one %d\n", one);
   printf("number of tokens %d\n", numberoftokens);
+
+  printf("what |%c|\n", rl_line_buffer[rl_point-1]);
+
+  if (rl_line_buffer[rl_point-1] == ' ')
+  {
+    puts("innouit\n");
+  }
+
   if (one)
   {
     printf("complete seq %s\n", rl_tokarr[one-1]);
@@ -222,6 +230,7 @@ int zc_completion(int count, int key)
     {
       printf("replacing string with %s\n", something[i-1]);
       rl_insert_text(&something[i-1][rl_point]);
+      rl_insert_text(" ");
     }
   }
   else
