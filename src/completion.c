@@ -149,6 +149,8 @@ char * character_name_generator(const char *text, int state)
 
 int zc_completion(int count, int key)
 {
+  init_completition();
+  rl_interpret(strdup(rl_line_buffer),rl_point,rl_end);
   printf("\nbuffer: |%s|\n", rl_line_buffer);
   printf("position: %d\n", rl_point);
   printf("buf len %d\n", rl_end);
