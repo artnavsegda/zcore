@@ -251,7 +251,7 @@ static void schema_free(WJElement schema, void *client) {
 
 int builtin_validate(int argc, char *argv[])
 {
-  if (domain == FACE)
+  if (domain == FACE || domain == OPTION)
   {
     puts("schema:");
     WJEDump(WJEGet(protojson,"schema",NULL));
