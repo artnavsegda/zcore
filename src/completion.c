@@ -147,3 +147,22 @@ char * character_name_generator(const char *text, int state)
   return NULL;
 }
 
+int zc_completion(int count, int key)
+{
+  char **something;
+  something = rl_completion_matches("s", character_name_generator);
+  if (something)
+  {
+    printf("\nhello kids\n");
+    int i = 0;
+    while (something[i])
+      puts(something[i++]);
+  }
+  printf("\n%d\n",count);
+  printf("buffer: %s\n", rl_line_buffer);
+  printf("position: %d\n", rl_point);
+  printf("buf len %d\n", rl_end);
+  rl_on_new_line();
+  rl_insert_text("puk");
+}
+
