@@ -82,8 +82,6 @@ int command(int argc, char *argv[])
     break;
     case OPTION:
       setenv("DOMAIN", "OPTION", 1);
-      WJEDump(protoface);
-      puts(elementname(protojson,protoface));
       setenv("FACE", elementname(protojson,protoface), 1);
       fillenv(protojson,protoface);
       //myenv[0] = "DOMAIN=OPTION";
