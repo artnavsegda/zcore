@@ -149,20 +149,31 @@ char * character_name_generator(const char *text, int state)
 
 int zc_completion(int count, int key)
 {
-  char **something;
-  something = rl_completion_matches("s", character_name_generator);
-  if (something)
+  char *rl_tokarr[100];
+  int one = parse(strdup(rl_line_buffer), rl_tokarr);
+  int numberoftokens = arrlength(rl_tokarr);
+
+  printf("\none %d\n", one);
+
+  printf("number of tokens %d\n", numberoftokens);
+
+  if (one)
   {
-    printf("\nhello kids\n");
-    int i = 0;
-    while (something[i])
-      puts(something[i++]);
+    printf("complete seq %s\n", rl_tokarr[one-1]);
+    char **something;
+    something = rl_completion_matches(rl_tokarr[one-1], character_name_generator);
+    if (something)
+    {
+      int i = 0;
+      while (something[i])
+        puts(something[i++]);
+    }
   }
-  printf("\n%d\n",count);
+
+  printf("count %d\n",count);
   printf("buffer: %s\n", rl_line_buffer);
   printf("position: %d\n", rl_point);
   printf("buf len %d\n", rl_end);
   rl_on_new_line();
-  rl_insert_text("puk");
+  //rl_insert_text("puk");
 }
-
