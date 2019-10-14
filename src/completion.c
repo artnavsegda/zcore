@@ -74,7 +74,51 @@ char ** character_name_completion(const char *text, int start, int end)
 
 char * rl_rootcommands(const char * text, int len)
 {
+  static char * builtinvalue = NULL;
+  static char * protovalue = NULL;
+  static char * facevalue = NULL;
+  static char * commandvalue = NULL;
+  static char * optionvalue = NULL;
+
   char * rootvalues = NULL;
+
+  while (1)
+  {
+    switch (domain)
+    {
+      case PROTO:
+        if (!builtinvalue && !protovalue)
+        {
+          builtinvalue = builtinvalues(text,len);
+          printf("bv1 %s\n",builtinvalue);
+          return builtinvalue;
+        }
+        if (builtinvalue && !protovalue)
+        {
+          builtinvalue = builtinvalues(text,len);
+          if (!builtinvalue)
+          {
+            protovalue = protovalues(text,len);
+            printf("pv1 %s\n",protovalue);
+            return protovalue;
+          }
+          printf("bv2 %s\n",builtinvalue);
+          return builtinvalue;
+        }
+        if (!builtinvalue && protovalue)
+        {
+          protovalue = protovalues(text,len);
+          printf("pv2 %s\n",protovalue);
+          return protovalue;
+        }
+      break;
+    }
+
+
+  }
+
+  return NULL;
+
   if ((rootvalues = builtinvalues(text,len)) == NULL)
   {
     switch (domain)
@@ -92,6 +136,7 @@ char * rl_rootcommands(const char * text, int len)
       break;
     }
   }
+  printf("out %s\n",rootvalues);
   return rootvalues;
 }
 
@@ -128,6 +173,7 @@ char * rl_subcommands(const char * text, int len, int state)
 
 char * character_name_generator(const char *text, int state)
 {
+  printf("CNG %s %d\n", text,state);
   static int list_index, len;
 
   if (!state) {
@@ -149,6 +195,8 @@ char * character_name_generator(const char *text, int state)
 
 int zc_completion(int count, int key)
 {
+  int i = 0;
+  char **something;
   init_completition();
   rl_interpret(strdup(rl_line_buffer),rl_point,rl_end);
   printf("\nbuffer: |%s|\n", rl_line_buffer);
@@ -163,9 +211,7 @@ int zc_completion(int count, int key)
   if (one)
   {
     printf("complete seq %s\n", rl_tokarr[one-1]);
-    char **something;
     something = rl_completion_matches(rl_tokarr[one-1], character_name_generator);
-    int i = 0;
     if (something)
     {
       while (something[i])
@@ -177,6 +223,16 @@ int zc_completion(int count, int key)
       printf("replacing string with %s\n", something[i-1]);
       rl_insert_text(&something[i-1][rl_point]);
     }
+  }
+  else
+  {
+    something = rl_completion_matches("", character_name_generator);
+    if (something)
+    {
+      while (something[i])
+        puts(something[i++]);
+    }
+    printf("matches count %d\n",i);
   }
   printf("count %d\n",count);
   printf("buffer: |%s|\n", rl_line_buffer);
