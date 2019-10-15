@@ -74,7 +74,7 @@ char ** character_name_completion(const char *text, int start, int end)
 
 enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
 enum staging emptystage[] = {START_STAGE, STOP_STAGE};
-enum staging protostage[] = {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, STOP_STAGE};
+enum staging protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging facestage[] = {START_STAGE, BUILTIN_STAGE, FACE_STAGE, COMMAND_STAGE, STOP_STAGE};
 enum staging optionstage[] = {START_STAGE, BUILTIN_STAGE, OPTION_STAGE, COMMAND_STAGE, STOP_STAGE};
 
