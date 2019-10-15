@@ -312,52 +312,6 @@ _rl_qsort_string_compare (s1, s2)
 #endif
 }
 
-
-static void
-memory_error_and_abort (fname)
-     char *fname;
-{
-  fprintf (stderr, "%s: out of virtual memory\n", fname);
-  exit (2);
-}
-
-/* Return a pointer to free()able block of memory large enough
-   to hold BYTES number of bytes.  If the memory cannot be allocated,
-   print an error message and abort. */
-PTR_T
-xmalloc (bytes)
-     size_t bytes;
-{
-  PTR_T temp;
-
-  temp = malloc (bytes);
-  if (temp == 0)
-    memory_error_and_abort ("xmalloc");
-  return (temp);
-}
-
-PTR_T
-xrealloc (pointer, bytes)
-     PTR_T pointer;
-     size_t bytes;
-{
-  PTR_T temp;
-
-  temp = pointer ? realloc (pointer, bytes) : malloc (bytes);
-
-  if (temp == 0)
-    memory_error_and_abort ("xrealloc");
-  return (temp);
-}
-
-void
-xfree (string)
-     PTR_T string;
-{
-  if (string)
-    free (string);
-}
-
 static int
 compute_lcd_of_matches (match_list, matches, text)
      char **match_list;
@@ -454,12 +408,12 @@ compute_lcd_of_matches (match_list, matches, text)
      value of matches[0]. */
   if (low == 0 && text && *text)
     {
-      match_list[0] = (char *)xmalloc (strlen (text) + 1);
+      match_list[0] = (char *)malloc (strlen (text) + 1);
       strcpy (match_list[0], text);
     }
   else
     {
-      match_list[0] = (char *)xmalloc (low + 1);
+      match_list[0] = (char *)malloc (low + 1);
 
       /* XXX - this might need changes in the presence of multibyte chars */
 
@@ -538,7 +492,7 @@ zc_completion_matches (text, entry_function)
 
   matches = 0;
   match_list_size = 10;
-  match_list = (char **)xmalloc ((match_list_size + 1) * sizeof (char *));
+  match_list = (char **)malloc ((match_list_size + 1) * sizeof (char *));
   match_list[1] = (char *)NULL;
 
   while (string = (*entry_function) (text, matches))
@@ -552,9 +506,9 @@ zc_completion_matches (text, entry_function)
 	  if (entry_function == rl_filename_completion_function)
 	    {
 	      for (i = 1; match_list[i]; i++)
-		xfree (match_list[i]);
+		free (match_list[i]);
 	    }
-	  xfree (match_list);
+	  free (match_list);
 	  match_list = 0;
 	  match_list_size = 0;
 	  matches = 0;
@@ -562,7 +516,7 @@ zc_completion_matches (text, entry_function)
 	}
 
       if (matches + 1 >= match_list_size)
-	match_list = (char **)xrealloc
+	match_list = (char **)realloc
 	  (match_list, ((match_list_size += 10) + 1) * sizeof (char *));
 
       if (match_list == 0)
@@ -578,7 +532,7 @@ zc_completion_matches (text, entry_function)
     compute_lcd_of_matches (match_list, matches, text);
   else				/* There were no matches. */
     {
-      xfree (match_list);
+      free (match_list);
       match_list = (char **)NULL;
     }
   return (match_list);
