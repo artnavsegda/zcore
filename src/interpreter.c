@@ -12,6 +12,7 @@
 #include "face.h"
 #include "command.h"
 #include "option.h"
+#include "domain.h"
 
 enum domains domain = PROTO;
 extern WJElement protojson;

@@ -10,6 +10,7 @@
 #include "prompt.h"
 #include "acquire.h"
 #include "utils.h"
+#include "domain.h"
 
 extern int protodepth;
 extern WJElement protojson;

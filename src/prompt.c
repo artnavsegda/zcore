@@ -4,6 +4,7 @@
 #include <wjelement.h>
 #include "interpreter.h"
 #include "utils.h"
+#include "domain.h"
 
 extern WJElement protojson;
 extern WJElement protoface;
