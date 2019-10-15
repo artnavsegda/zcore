@@ -351,8 +351,10 @@ int zc_completion(int count, int key)
         else
         {
           i = 1;
+          putchar('\n');
           while (something[i])
             puts(something[i++]);
+          rl_on_new_line();
         }
       }
     }
@@ -366,7 +368,7 @@ int zc_completion(int count, int key)
         i++;
         //puts(something[i++]);
     }
-   // printf("3matches count %d\n",i);
+    printf("3matches count %d\n",i);
   }
   //printf("count %d\n",count);
   //printf("buffer: |%s|\n", rl_line_buffer);
