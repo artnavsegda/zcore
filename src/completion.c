@@ -296,7 +296,7 @@ int zc_completion(int count, int key)
 
   if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
   {
-    //puts("\nsubcommand\n");
+//    puts("\nsubcommand\n");
     rl_interpret(strdup(rl_line_buffer),1,rl_end);
   }
   else
@@ -360,6 +360,10 @@ int zc_completion(int count, int key)
             rl_on_new_line();
           }
         }
+      }
+      else
+      {
+            rl_insert_text(" ");
       }
     }
   }
