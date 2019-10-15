@@ -296,7 +296,7 @@ int builtin(int argc, char *argv[])
   }
 }
 
-char *builtincommands[] = {"?","..","show","acquire","validate","/",NULL};
+char *builtincommands[] = {"show","acquire","validate",NULL};
 
 char * builtinvalues(const char * text, int len)
 {
