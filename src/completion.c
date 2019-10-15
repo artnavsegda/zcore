@@ -72,103 +72,185 @@ char ** character_name_completion(const char *text, int start, int end)
   return rl_completion_matches(text, character_name_generator);
 }
 
+enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
+enum staging emptystage[] = {START_STAGE, STOP_STAGE};
+enum staging protostage[] = {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, STOP_STAGE};
+enum staging facestage[] = {START_STAGE, BUILTIN_STAGE, FACE_STAGE, COMMAND_STAGE, STOP_STAGE};
+enum staging optionstage[] = {START_STAGE, BUILTIN_STAGE, OPTION_STAGE, COMMAND_STAGE, STOP_STAGE};
+
 char * rl_rootcommands(const char * text, int len)
 {
-  static char * builtinvalue = NULL;
-  static char * protovalue = NULL;
-  static char * facevalue = NULL;
-  static char * commandvalue = NULL;
-  static char * optionvalue = NULL;
-
+  static enum staging * cyclestaging = &emptystage[0];
   char * rootvalues = NULL;
 
   while (1)
   {
-    switch (domain)
+    switch (*cyclestaging)
     {
-      case PROTO:
-        if (!builtinvalue && !protovalue)
+      case START_STAGE:
+        switch (domain)
         {
-          builtinvalue = builtinvalues(text,len);
-          printf("bv1 %s\n",builtinvalue);
-          return builtinvalue;
+          case PROTO:
+            cyclestaging = &protostage[0];
+          break;
+          case FACE:
+            cyclestaging = &facestage[0];
+          break;
+          case OPTION:
+            cyclestaging = &optionstage[0];
+          break;
         }
-        if (builtinvalue && !protovalue)
+        cyclestaging++;
+      break;
+      case BUILTIN_STAGE:
+        if (rootvalues = builtinvalues(text,len))
         {
-          builtinvalue = builtinvalues(text,len);
-          if (!builtinvalue)
-          {
-            protovalue = protovalues(text,len);
-            printf("pv1 %s\n",protovalue);
-            return protovalue;
-          }
-          printf("bv2 %s\n",builtinvalue);
-          return builtinvalue;
+          printf("BS %s\n", rootvalues);
+          return rootvalues;
         }
-        if (!builtinvalue && protovalue)
+        else
+          cyclestaging++;
+      break;
+      case PROTO_STAGE:
+        if (rootvalues = protovalues(text,len))
         {
-          protovalue = protovalues(text,len);
-          printf("pv2 %s\n",protovalue);
-          return protovalue;
+          printf("PS %s\n", rootvalues);
+          return rootvalues;
         }
+        else
+          cyclestaging++;
+      break;
+      case FACE_STAGE:
+        if (rootvalues = facevalues(text,len))
+        {
+          printf("FS %s\n", rootvalues);
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case OPTION_STAGE:
+        if (rootvalues = optionvalues(text,len))
+        {
+          printf("OS %s\n", rootvalues);
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case COMMAND_STAGE:
+        if (rootvalues = commandvalues(text,len))
+        {
+          printf("CS %s\n", rootvalues);
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case STOP_STAGE:
+        cyclestaging = &emptystage[0];
+        return NULL;
       break;
     }
-
-
   }
-
-  return NULL;
-
-  if ((rootvalues = builtinvalues(text,len)) == NULL)
-  {
-    switch (domain)
-    {
-      case PROTO:
-        rootvalues = protovalues(text,len);
-      break;
-      case FACE:
-        if ((rootvalues = facevalues(text,len)) == NULL)
-          rootvalues = commandvalues(text,len);
-      break;
-      case OPTION:
-        if ((rootvalues = optionvalues(text,len)) == NULL)
-          rootvalues = commandvalues(text,len);
-      break;
-    }
-  }
-  printf("out %s\n",rootvalues);
-  return rootvalues;
 }
+
+enum staging sub_protostage[] = {START_STAGE, PROTO_STAGE, STOP_STAGE};
+enum staging sub_facestage[] = {START_STAGE, FACE_STAGE, STOP_STAGE};
+enum staging sub_optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, STOP_STAGE};
+enum staging sub_settingstage[] = {START_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
+enum staging sub_commandstage[] = {START_STAGE, COMMAND_STAGE, STOP_STAGE};
 
 char * rl_subcommands(const char * text, int len, int state)
 {
+  static enum staging * cyclestaging = &emptystage[0];
   char * subvalues = NULL;
-  switch (rl_domain)
+
+  while (1)
   {
-    case PROTO:
-    if ((subvalues = protovalues(text,len)) == NULL)
-      return NULL;
-    break;
-    case FACE:
-    if ((subvalues = facevalues(text,len)) == NULL)
-      return NULL;
-    break;
-    case OPTION:
-    if ((subvalues = optionvalues(text,len)) == NULL)
-      subvalues = commandvalues(text,len);
-    break;
-    case SETTING:
-    if ((subvalues = settingvalues(text,len,state)) == NULL)
-     subvalues = cuesettingvalues(text,len,state);
-//    if ((subvalues = cuesettingvalues(text,len,state)) == NULL)
-//      return NULL;
-    break;
-    case COMMAND:
-    if ((subvalues = cuecommandvalues(text,len,state)) == NULL)
-      return NULL;
-    break;
+    switch (*cyclestaging)
+    {
+      case START_STAGE:
+        switch (rl_domain)
+        {
+          case PROTO:
+            cyclestaging = &sub_protostage[0];
+          break;
+          case FACE:
+            cyclestaging = &sub_facestage[0];
+          break;
+          case OPTION:
+            cyclestaging = &sub_optionstage[0];
+          break;
+          case SETTING:
+            cyclestaging = &sub_settingstage[0];
+          break;
+          case COMMAND:
+            cyclestaging = &sub_commandstage[0];
+          break;
+        }
+        cyclestaging++;
+      break;
+      case PROTO_STAGE:
+        if (subvalues = protovalues(text,len))
+        {
+          printf("PS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case FACE_STAGE:
+        if (subvalues = facevalues(text,len))
+        {
+          printf("FS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case OPTION_STAGE:
+        if (subvalues = optionvalues(text,len))
+        {
+          printf("OS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case COMMAND_STAGE:
+        if (subvalues = commandvalues(text,len))
+        {
+          printf("CS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case SETTING_STAGE:
+        if (subvalues = settingvalues(text,len, state))
+        {
+          printf("SS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case CUESETTING_STAGE:
+        if (subvalues = cuesettingvalues(text,len, state))
+        {
+          printf("CSS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case STOP_STAGE:
+        cyclestaging = &emptystage[0];
+        return NULL;
+      break;
+    }
   }
-  return subvalues;
 }
 
 char * character_name_generator(const char *text, int state)
