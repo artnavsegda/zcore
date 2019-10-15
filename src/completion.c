@@ -283,14 +283,6 @@ int zc_completion(int count, int key)
   char **something;
   init_completition();
 
-  if (rl_line_buffer[rl_point-1] == ' ')
-  {
-    puts("\ninnouit\n");
-    rl_interpret(strdup(rl_line_buffer),1,rl_end);
-  }
-  else
-    rl_interpret(strdup(rl_line_buffer),0,rl_end);
-
   printf("buffer: |%s|\n", rl_line_buffer);
   printf("position: %d\n", rl_point);
   printf("buf len %d\n", rl_end);
@@ -301,6 +293,14 @@ int zc_completion(int count, int key)
   printf("one %d\n", one);
   printf("number of tokens %d\n", numberoftokens);
   printf("what |%c|\n", rl_line_buffer[rl_point-1]);
+
+  if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
+  {
+    puts("\nsubcommand\n");
+    rl_interpret(strdup(rl_line_buffer),1,rl_end);
+  }
+  else
+    rl_interpret(strdup(rl_line_buffer),0,rl_end);
 
   if (one)
   {
@@ -315,7 +315,7 @@ int zc_completion(int count, int key)
       printf("matches count %d\n",i);
       if (i == 1)
       {
-        printf("replacing string with %s\n", something[i-1]);
+        printf("1replacing string with %s\n", something[i-1]);
         rl_insert_text(something[i-1]);
         rl_insert_text(" ");
       }
@@ -332,8 +332,8 @@ int zc_completion(int count, int key)
       printf("matches count %d\n",i);
       if (i == 1)
       {
-        printf("replacing string with %s\n", something[i-1]);
-        rl_insert_text(&something[i-1][rl_point]);
+        printf("2replacing string with %s\n", something[i-1]);
+        rl_insert_text(&something[i-1][strlen(rl_tokarr[one-1])]);
         rl_insert_text(" ");
       }
     }
