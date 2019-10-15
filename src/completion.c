@@ -25,6 +25,7 @@ int rl_execute(int argc, char *argv[])
   }
   else if (rl_isproto(argv[0]))
   {
+    puts("switching to proto\n");
     rl_proto(argc,argv);
   }
   else if (rl_iscommand(argv[0]))
@@ -33,10 +34,12 @@ int rl_execute(int argc, char *argv[])
   }
   else if (rl_isface(argv[0]))
   {
+    puts("switching to face\n");
     rl_face(argc,argv);
   }
   else if (rl_isoption(argv[0]))
   {
+    puts("switching to option\n");
     rl_option(argc,argv);
   }
 }
@@ -163,8 +166,11 @@ enum staging sub_commandstage[] = {START_STAGE, COMMAND_STAGE, STOP_STAGE};
 
 char * rl_subcommands(const char * text, int len, int state)
 {
+  printf("rsc %s %d %d\n", text,len,state);
   static enum staging * cyclestaging = &emptystage[0];
   char * subvalues = NULL;
+
+  printf("rl_domain %d", rl_domain);
 
   while (1)
   {
@@ -174,12 +180,15 @@ char * rl_subcommands(const char * text, int len, int state)
         switch (rl_domain)
         {
           case PROTO:
+            printf("proto stage");
             cyclestaging = &sub_protostage[0];
           break;
           case FACE:
+            printf("face stage");
             cyclestaging = &sub_facestage[0];
           break;
           case OPTION:
+            printf("option stage");
             cyclestaging = &sub_optionstage[0];
           break;
           case SETTING:
@@ -312,7 +321,7 @@ int zc_completion(int count, int key)
         while (something[i])
           puts(something[i++]);
       }
-      printf("matches count %d\n",i);
+      printf("1matches count %d\n",i);
       if (i == 1)
       {
         printf("1replacing string with %s\n", something[i-1]);
@@ -329,7 +338,7 @@ int zc_completion(int count, int key)
         while (something[i])
           puts(something[i++]);
       }
-      printf("matches count %d\n",i);
+      printf("2matches count %d\n",i);
       if (i == 1)
       {
         printf("2replacing string with %s\n", something[i-1]);
@@ -346,7 +355,7 @@ int zc_completion(int count, int key)
       while (something[i])
         puts(something[i++]);
     }
-    printf("matches count %d\n",i);
+    printf("3matches count %d\n",i);
   }
   printf("count %d\n",count);
   printf("buffer: |%s|\n", rl_line_buffer);

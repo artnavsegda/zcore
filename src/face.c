@@ -36,10 +36,12 @@ int rl_isface(char * facename)
   {
     if (getelementbynameprop(rl_protojson, facename))
     {
+      printf("%s it is face\n", facename);
       return 1;
     }
     else
     {
+      printf("%s it is not face\n", facename);
       return 0;
     }
   }
@@ -69,6 +71,7 @@ int rl_face(int argc, char *argv[])
 {
   strcpy(rl_facename,argv[0]);
   rl_protoface = getelementbynameprop(rl_protojson, rl_facename);
+  puts("switching to option\n");
   rl_domain = OPTION;
   if (argc > 1)
   {
@@ -95,6 +98,7 @@ int listfaces(void)
 
 char * facevalues(const char * text, int len)
 {
+  printf("facevalues %s %d", text, len);
   static WJElement face = NULL;
   while (face = _WJEObject(rl_protojson, "data[]", WJE_GET, &face)) {
     if (strncmp(elementname(rl_protojson,face), text, len) == 0) {
