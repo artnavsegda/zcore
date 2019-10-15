@@ -337,24 +337,28 @@ int zc_completion(int count, int key)
       if (something)
       {
         while (something[i])
+        {
           i++;
           //puts(something[i++]);
-      }
-      //printf("2matches count %d\n",i);
-      if (i > 0)
-      {
-        //printf("2replacing string with %s\n", something[0]);
-        //putchar('\n');
-        rl_insert_text(&something[0][strlen(rl_tokarr[one-1])]);
-        if (i == 1)
-          rl_insert_text(" ");
-        else
+        }
+        //printf("2matches count %d\n",i);
+        if (i > 0)
         {
-          i = 1;
-          putchar('\n');
-          while (something[i])
-            puts(something[i++]);
-          rl_on_new_line();
+          //printf("2replacing string with %s\n", something[0]);
+          //putchar('\n');
+          rl_insert_text(&something[0][strlen(rl_tokarr[one-1])]);
+          if (i == 1)
+          {
+            rl_insert_text(" ");
+          }
+          else
+          {
+            i = 1;
+            putchar('\n');
+            while (something[i])
+              puts(something[i++]);
+            rl_on_new_line();
+          }
         }
       }
     }
@@ -365,10 +369,26 @@ int zc_completion(int count, int key)
     if (something)
     {
       while (something[i])
+      {
         i++;
         //puts(something[i++]);
+      }
+      if (i > 0)
+      {
+        if (i == 1)
+        {
+        }
+        else
+        {  
+          i = 1;
+          putchar('\n');
+          while (something[i])
+            puts(something[i++]);
+          rl_on_new_line();
+        }
+      }
+      //printf("3matches count %d\n",i);
     }
-    printf("3matches count %d\n",i);
   }
   //printf("count %d\n",count);
   //printf("buffer: |%s|\n", rl_line_buffer);
