@@ -310,24 +310,26 @@ int zc_completion(int count, int key)
       if (something)
       {
         while (something[i])
+        {
           i++;
           //puts(something[i++]);
-      }
-      //printf("1matches count %d\n",i);
-      if (i == 1)
-      {
-        //printf("1replacing string with %s\n", something[i-1]);
-        //putchar('\n');
-        rl_insert_text(something[i-1]);
-          rl_insert_text(" ");
-      }
-      else
-      {
-        i = 1;
-        putchar('\n');
-        while (something[i])
-          puts(something[i++]);
-        rl_on_new_line();
+        }
+        //printf("1matches count %d\n",i);
+        if (i == 1)
+        {
+          //printf("1replacing string with %s\n", something[i-1]);
+          //putchar('\n');
+          rl_insert_text(something[i-1]);
+            rl_insert_text(" ");
+        }
+        else
+        {
+          i = 1;
+          putchar('\n');
+          while (something[i])
+            puts(something[i++]);
+          rl_on_new_line();
+        }
       }
     }
     else
@@ -363,7 +365,8 @@ int zc_completion(int count, int key)
       }
       else
       {
-            rl_insert_text(" ");
+        //magic
+        rl_insert_text(" ");
       }
     }
   }
