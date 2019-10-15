@@ -4,27 +4,18 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement generator(WJElement schema,  char * schemapath, char * commandname, char * ubustype, char * ubusconfig, int argc, char *argv[])
+WJElement generator(WJElement schema,  char * schemapath, char *values[], int valindex)
 {
   char * itemname;
-  WJElement alloutput = WJEObject(NULL, "generatedname", WJE_NEW);
   WJElement property = NULL;
   WJElement reqstring = NULL;
   WJElement valuesoutput = NULL;
 
-  WJEString(alloutput,"config",WJE_NEW,ubusconfig);
-  WJEString(alloutput,"type",WJE_NEW,ubustype);
+  WJElement output = WJEObject(NULL, "values", WJE_NEW);
 
-  if (WJEBoolF(schema, WJE_GET, NULL, FALSE, "%s.items.properties.name.hidden", schemapath))
+  while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.patternProperties[0].required[]", schemapath))
   {
-    WJEString(alloutput,"name",WJE_NEW,argv[0]);
-  }
-
-  WJElement output = WJEObject(alloutput, "values", WJE_NEW);
-
-  while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.items.required[]", schemapath))
-  {
-    property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, itemname);
+    property = WJEObjectF(schema, WJE_GET, NULL, "%s.patternProperties[0].properties.%s", schemapath, itemname);
 
     if (!WJEBool(property, "hidden", WJE_GET, FALSE))
     {
@@ -67,26 +58,29 @@ WJElement generator(WJElement schema,  char * schemapath, char * commandname, ch
     }
   }
 
-  char * cuename = NULL;
+//  char * cuename = NULL;
 
-  for (int i = 0; i < argc; i++)
+  for (int i = 0; i < valindex; i++)
   {
-    if (cuename = WJEStringF(schema, WJE_GET, NULL, NULL, "%s.commands.%s.cue[%d]", schemapath, commandname, i))
+    char * name = values[i];
+    char * value = strchr(values[i], '=');
+    *value='\0';
+    value++;
+    if (property = WJEObjectF(schema, WJE_GET, NULL, "%s.patternProperties[0].properties.%s", schemapath, name))
     {
-      property = WJEObjectF(schema, WJE_GET, NULL, "%s.items.properties.%s", schemapath, cuename);
-      if (!WJEBool(property, "hidden", WJE_GET, FALSE))
-      {
+//    if (!WJEBool(property, "hidden", WJE_GET, FALSE))
+//    {
         if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
         {
-          WJEString(output,property->name,WJE_SET,argv[i]);
+          WJEString(output,property->name,WJE_SET,value);
         }
         else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
         {
-          WJEInt32(output,property->name,WJE_SET,atoi(argv[i]));
+          WJEInt32(output,property->name,WJE_SET,atoi(value));
         }
-      }
+//      }
     }
   }
 
-  return alloutput;
+  return output;
 }

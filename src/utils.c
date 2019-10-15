@@ -57,12 +57,35 @@ char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) 
 WJElement getelementbynameprop(WJElement container, char * text)
 {
   WJElement entity = NULL;
+  char * namesake = WJEString(container, "schema.namesake", WJE_GET, NULL);
   while (entity = _WJEObject(container, "data[]", WJE_GET, &entity)) {
-    if (strcmp(WJEString(entity, "name", WJE_GET, ""), text) == 0) {
-      return entity;
+    if (namesake)
+    {
+      if (strcmp(WJEString(entity, namesake, WJE_GET, ""), text) == 0) {
+        return entity;
+      }
+    }
+    else
+    {
+      if (strcmp(entity->name, text) == 0) {
+        return entity;
+      }
     }
   }
   return NULL;
+}
+
+char * elementname(WJElement proto, WJElement element)
+{
+  char * namesake = WJEString(proto, "schema.namesake", WJE_GET, NULL);
+  if (namesake)
+  {
+    return WJEString(element, namesake, WJE_GET, "");
+  }
+  else
+  { 
+    return element->name;
+  }
 }
 
 /*int ifacefound(char * ifacetosearch)
@@ -136,6 +159,17 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
   else
   {
     waitpid(pid, &status, 0);
+  }
+}
+
+int forkexec(char * command, int argc, char *argv[], char *envp[])
+{
+  pid_t pid = fork();
+  int status;
+  if (pid == 0)
+  {
+    execve(command,argv,envp);
+    exit(0);
   }
 }
 
@@ -225,11 +259,11 @@ int argcat(int argc, char *argout[], char *argin[])
 
 WJElement optionlist(WJElement schema)
 {
-  if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"array") == 0)
+  if (WJEGet(schema, "schema.patternProperties", NULL))
   {
-    return WJEObject(schema,"schema.items", WJE_GET);
+    return WJEObject(schema,"schema.patternProperties[0]", WJE_GET);
   }
-  else if (strcmp(WJEString(schema,"schema.type",WJE_GET,"unknown"),"object") == 0)
+  else if (WJEGet(schema, "schema.properties", NULL))
   {
     return WJEObject(schema,"schema", WJE_GET);
   }

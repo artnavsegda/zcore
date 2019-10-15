@@ -17,4 +17,6 @@ int arguments(WJElement argarray, char *argv[]);
 int argcat(int argc, char *argout[], char *argin[]);
 void fillenv(WJElement proto, WJElement face);
 WJElement optionlist(WJElement schema);
+char * elementname(WJElement proto, WJElement element);
+int forkexec(char * command, int argc, char *argv[], char *envp[]);
 

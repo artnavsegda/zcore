@@ -3,25 +3,27 @@
   "title": "switchports",
   "description": "switch port list",
   "hidden": true,
-  "type": "array",
-  "items": {
-    "type": "object",
-    "title": "Switch port entity",
-    "required": ["name"],
-    "properties": {
-      "name": {
-        "type": "string",
-        "description": "Switch port name"
-      },
-      "device": {
-        "type": "string",
-         "description": "Switch device",
-         "cue": ["switch"]
-      }
+  "type": "object",
+  "patternProperties": {
+    "^port_" : {
+      "type": "object",
+      "title": "Switch port entity",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Switch port name"
+        },
+        "device": {
+          "type": "string",
+           "description": "Switch device",
+           "cue": ["switch"]
+        }
+     }
    }
  },
   "acquire": {
-    "shell": "/home/art/Coding/zcore/src/zfilter",
-    "args": ["zfilter", "switchports.schema", "./switchports.sh"]
+    "shell": "/home/art/Coding/zcore/src/switchports.sh",
+    "args": ["switchports.sh", "switchports.schema"]
   }
 }

@@ -44,23 +44,17 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
 {
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
 
-  if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"array") == 0)
+  if (WJEGetF(schema,NULL,"%s.patternProperties",schemapath))
   {
-    WJElement output = WJEArray(NULL, NULL, WJE_NEW);
-    while (ifaceinput = _WJEObject(input,"values[]", WJE_GET, &ifaceinput))
+    WJElement output = WJEObject(NULL, NULL, WJE_NEW);
+    while (ifaceinput = _WJEObject(input,"[]", WJE_GET, &ifaceinput))
     {
-      ifaceoutput = WJEObject(output, "interface", WJE_NEW);
-      translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.items.properties[]");
-      if (WJEBool(ifaceinput, "[\".anonymous\"]", WJE_GET, FALSE))
-      {
-        WJEString(ifaceoutput,"section",WJE_NEW,ifaceinput->name);
-      }
-      if (!WJEGet(ifaceoutput, "name", NULL))
-        WJEString(ifaceoutput,"name",WJE_NEW,ifaceinput->name);
+      ifaceoutput = WJEObject(output, ifaceinput->name, WJE_NEW);
+      translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.patternProperties[0].properties[]");
     }
     return output;
   }
-  else if (strcmp(WJEStringF(schema,WJE_GET,NULL, NULL ,"%s.type", schemapath),"object") == 0)
+  else if (WJEGetF(schema,NULL,"%s.properties",schemapath))
   {
     WJElement output = WJEObject(NULL, NULL, WJE_NEW);
     translate(output, WJEObject(input, "values", WJE_GET), schema, schemapath, "%s.properties[]");

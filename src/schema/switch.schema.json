@@ -3,8 +3,9 @@
   "title": "switch",
   "description": "switch list",
   "hidden": true,
-  "type": "array",
-  "items": {
+  "type": "object",
+  "patternProperties": {
+    "^switch": {
     "type": "object",
     "title": "Switch entity",
     "required": ["name"],
@@ -14,9 +15,10 @@
         "description": "Switch name"
       }
    }
+  }
  },
   "acquire": {
-    "shell": "/home/art/Coding/zcore/src/zfilter",
-    "args": ["zfilter", "switch.schema", "./switch.sh"]
+    "shell": "/home/art/Coding/zcore/src/switch.sh",
+    "args": ["switch.sh", "switch.schema"]
   }
 }

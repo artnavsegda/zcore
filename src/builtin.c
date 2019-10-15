@@ -9,6 +9,7 @@
 #include "option.h"
 #include "prompt.h"
 #include "acquire.h"
+#include "utils.h"
 
 extern int protodepth;
 extern WJElement protojson;
@@ -35,11 +36,11 @@ int path_up()
       protojson = protojson->parent;
     break;
     case OPTION:
-      if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
+      if (WJEGet(protojson, "schema.patternProperties", NULL))
       {
         domain = FACE;
       }
-      else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
+      else if (WJEGet(protojson, "schema.properties", NULL))
       {
         domain = PROTO;
         protodepth--;
@@ -110,8 +111,8 @@ int printoption(WJElement proto, WJElement face, int depth)
       {
         printf("%s.", parentname(proto, i));
       }
-      if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
-        printf("%s.", WJEString(face, "name", WJE_GET, ""));
+      if (WJEGet(proto, "schema.patternProperties", NULL))
+        printf("%s.", elementname(proto,face));
       printf("%s = ", option->name);
 
       if (WJEGet(face,option->name,NULL))
@@ -161,13 +162,16 @@ int printoption3(WJElement protoinput, int depth)
   while ((proto = _WJEObject(protoinput, "[]", WJE_GET, &proto))) {
     if (WJEGet(proto, "schema", NULL))
     {
-      if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"array") == 0)
+      if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
       {
-        printoption2(proto, depth);
-      }
-      else if (strcmp(WJEString(proto,"schema.type",WJE_GET,"unknown"),"object") == 0)
-      {
-        printoption(proto,WJEObject(proto, "data", WJE_GET),depth);
+        if (WJEGet(proto, "schema.patternProperties", NULL))
+        {
+          printoption2(proto, depth);
+        }
+        else if (WJEGet(proto, "schema.properties", NULL))
+        {
+          printoption(proto,WJEObject(proto, "data", WJE_GET),depth);
+        }
       }
     }
     else
@@ -247,7 +251,7 @@ static void schema_free(WJElement schema, void *client) {
 
 int builtin_validate(int argc, char *argv[])
 {
-  if (domain == FACE)
+  if (domain == FACE || domain == OPTION)
   {
     puts("schema:");
     WJEDump(WJEGet(protojson,"schema",NULL));

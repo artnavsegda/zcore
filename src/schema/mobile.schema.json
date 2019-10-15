@@ -2,6 +2,9 @@
   "$schema": "http://json-schema.org/schema#",
   "title": "mobile",
   "description": "Interface list",
+  "type": "object",
+  "patternProperties": {
+    "^sim": {
     "type": "object",
     "title": "Interface entity",
     "required": ["name", "mode", "enable"],
@@ -43,14 +46,17 @@
           "type": "string",
           "enum": ["850","900","1800","1900","2100","2600"]
         }
+      }
     }
-  },
-    "commands": {
-      "apply": {
-        "command": "/home/art/Coding/zcore/src/zfilter2",
-        "args": ["zfilter2", "-smobile.schema", "-e./applyif.sh", "-cnetwork", "-tinterface", "-napply"],
+  }
+},
+  "commands": {
+    "apply": {
+        "command": "/home/art/Coding/zcore/src/apply-mobile.sh",
+        "args": ["apply-mobile.sh"],
         "argpass": true,
-        "json": "in"
+        "json": "in",
+        "reload": true
      },
     "revert": {
        "command": "/home/art/Coding/zcore/src/revert.sh",
@@ -65,9 +71,9 @@
       "argpass": true,
       "wait": true
     }
-	 },
-   "acquire": {
-     "shell": "/home/art/Coding/zcore/src/zfilter",
-     "args": ["zfilter", "mobile.schema","./mobile-online.sh"]
+	},
+  "acquire": {
+     "shell": "/home/art/Coding/zcore/src/mobile.sh",
+     "args": ["mobile.sh", "mobile.schema"]
    }
 }

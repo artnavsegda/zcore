@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
 #include <string.h>
 #include "zcore.h"
 #include "interpreter.h"
@@ -80,7 +82,7 @@ int command(int argc, char *argv[])
     break;
     case OPTION:
       setenv("DOMAIN", "OPTION", 1);
-      setenv("FACE", WJEString(protoface, "name", WJE_GET, ""), 1);
+      setenv("FACE", elementname(protojson,protoface), 1);
       fillenv(protojson,protoface);
       //myenv[0] = "DOMAIN=OPTION";
       //sprintf(facename,"FACE=%s", WJEString(protoface, "name", WJE_GET, ""));
@@ -136,10 +138,15 @@ int command(int argc, char *argv[])
     {
       forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,environ);
     }
+    else
+    {
+      forkexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,environ);
+    }
   }
   if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
   {
-    acquire(protojson);
+    //acquire(protojson);
+    alarm(3);
   }
   return 1;
 }
