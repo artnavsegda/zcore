@@ -105,7 +105,7 @@ char * rl_rootcommands(const char * text, int len)
       case BUILTIN_STAGE:
         if (rootvalues = builtinvalues(text,len))
         {
-          printf("BS %s\n", rootvalues);
+//          printf("BS %s\n", rootvalues);
           return rootvalues;
         }
         else
@@ -114,7 +114,7 @@ char * rl_rootcommands(const char * text, int len)
       case PROTO_STAGE:
         if (rootvalues = protovalues(text,len))
         {
-          printf("PS %s\n", rootvalues);
+//          printf("PS %s\n", rootvalues);
           return rootvalues;
         }
         else
@@ -123,7 +123,7 @@ char * rl_rootcommands(const char * text, int len)
       case FACE_STAGE:
         if (rootvalues = facevalues(text,len))
         {
-          printf("FS %s\n", rootvalues);
+//          printf("FS %s\n", rootvalues);
           return rootvalues;
         }
         else
@@ -132,7 +132,7 @@ char * rl_rootcommands(const char * text, int len)
       case OPTION_STAGE:
         if (rootvalues = optionvalues(text,len))
         {
-          printf("OS %s\n", rootvalues);
+//          printf("OS %s\n", rootvalues);
           return rootvalues;
         }
         else
@@ -141,7 +141,7 @@ char * rl_rootcommands(const char * text, int len)
       case COMMAND_STAGE:
         if (rootvalues = commandvalues(text,len))
         {
-          printf("CS %s\n", rootvalues);
+//          printf("CS %s\n", rootvalues);
           return rootvalues;
         }
         else
@@ -194,7 +194,7 @@ char * rl_subcommands(const char * text, int len, int state)
       case PROTO_STAGE:
         if (subvalues = protovalues(text,len))
         {
-          printf("PS %s\n", subvalues);
+//          printf("PS %s\n", subvalues);
           return subvalues;
         }
         else
@@ -203,7 +203,7 @@ char * rl_subcommands(const char * text, int len, int state)
       case FACE_STAGE:
         if (subvalues = facevalues(text,len))
         {
-          printf("FS %s\n", subvalues);
+//          printf("FS %s\n", subvalues);
           return subvalues;
         }
         else
@@ -212,7 +212,7 @@ char * rl_subcommands(const char * text, int len, int state)
       case OPTION_STAGE:
         if (subvalues = optionvalues(text,len))
         {
-          printf("OS %s\n", subvalues);
+//          printf("OS %s\n", subvalues);
           return subvalues;
         }
         else
@@ -221,7 +221,7 @@ char * rl_subcommands(const char * text, int len, int state)
       case COMMAND_STAGE:
         if (subvalues = commandvalues(text,len))
         {
-          printf("CS %s\n", subvalues);
+//          printf("CS %s\n", subvalues);
           return subvalues;
         }
         else
@@ -230,7 +230,7 @@ char * rl_subcommands(const char * text, int len, int state)
       case SETTING_STAGE:
         if (subvalues = settingvalues(text,len, state))
         {
-          printf("SS %s\n", subvalues);
+//          printf("SS %s\n", subvalues);
           return subvalues;
         }
         else
@@ -239,7 +239,7 @@ char * rl_subcommands(const char * text, int len, int state)
       case CUESETTING_STAGE:
         if (subvalues = cuesettingvalues(text,len, state))
         {
-          printf("CSS %s\n", subvalues);
+//          printf("CSS %s\n", subvalues);
           return subvalues;
         }
         else
@@ -255,7 +255,7 @@ char * rl_subcommands(const char * text, int len, int state)
 
 char * character_name_generator(const char *text, int state)
 {
-  printf("CNG %s %d\n", text,state);
+//  printf("CNG %s %d\n", text,state);
   static int list_index, len;
 
   if (!state) {
@@ -265,12 +265,12 @@ char * character_name_generator(const char *text, int state)
 
   if (rl_commandname == NULL)
   {
-    puts("return rRC");
+//    puts("return rRC");
     return rl_rootcommands(text,len);
   }
   else
   {
-    puts("return rSC");
+//    puts("return rSC");
     return rl_subcommands(text,len, state);
   }
 
@@ -283,20 +283,20 @@ int zc_completion(int count, int key)
   char **something;
   init_completition();
 
-  printf("buffer: |%s|\n", rl_line_buffer);
-  printf("position: %d\n", rl_point);
-  printf("buf len %d\n", rl_end);
+  //printf("buffer: |%s|\n", rl_line_buffer);
+  //printf("position: %d\n", rl_point);
+  //printf("buf len %d\n", rl_end);
   //rl_interpret(strdup(rl_line_buffer),1,0);
   char *rl_tokarr[100];
   int one = parse(strdup(rl_line_buffer), rl_tokarr);
   int numberoftokens = arrlength(rl_tokarr);
-  printf("one %d\n", one);
-  printf("number of tokens %d\n", numberoftokens);
-  printf("what |%c|\n", rl_line_buffer[rl_point-1]);
+  //printf("one %d\n", one);
+  //printf("number of tokens %d\n", numberoftokens);
+  //printf("what |%c|\n", rl_line_buffer[rl_point-1]);
 
   if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
   {
-    puts("\nsubcommand\n");
+    //puts("\nsubcommand\n");
     rl_interpret(strdup(rl_line_buffer),1,rl_end);
   }
   else
@@ -310,29 +310,33 @@ int zc_completion(int count, int key)
       if (something)
       {
         while (something[i])
-          puts(something[i++]);
+          i++;
+          //puts(something[i++]);
       }
-      printf("1matches count %d\n",i);
+      //printf("1matches count %d\n",i);
       if (i == 1)
       {
-        printf("1replacing string with %s\n", something[i-1]);
+        //printf("1replacing string with %s\n", something[i-1]);
+        //putchar('\n');
         rl_insert_text(something[i-1]);
         rl_insert_text(" ");
       }
     }
     else
     {
-      printf("complete seq %s\n", rl_tokarr[one-1]);
+      //printf("complete seq %s\n", rl_tokarr[one-1]);
       something = rl_completion_matches(rl_tokarr[one-1], character_name_generator);
       if (something)
       {
         while (something[i])
-          puts(something[i++]);
+          i++;
+          //puts(something[i++]);
       }
-      printf("2matches count %d\n",i);
+      //printf("2matches count %d\n",i);
       if (i > 0)
       {
-        printf("2replacing string with %s\n", something[0]);
+        //printf("2replacing string with %s\n", something[0]);
+        //putchar('\n');
         rl_insert_text(&something[0][strlen(rl_tokarr[one-1])]);
         if (i == 1)
         rl_insert_text(" ");
@@ -345,14 +349,16 @@ int zc_completion(int count, int key)
     if (something)
     {
       while (something[i])
-        puts(something[i++]);
+        i++;
+        //puts(something[i++]);
     }
-    printf("3matches count %d\n",i);
+    //printf("3matches count %d\n",i);
   }
-  printf("count %d\n",count);
-  printf("buffer: |%s|\n", rl_line_buffer);
-  printf("position: %d\n", rl_point);
-  printf("buf len %d\n", rl_end);
-  rl_on_new_line();
+  //printf("count %d\n",count);
+  //printf("buffer: |%s|\n", rl_line_buffer);
+  //printf("position: %d\n", rl_point);
+  //printf("buf len %d\n", rl_end);
+  //rl_on_new_line();
+  //rl_forced_update_display();
   //rl_insert_text("puk");
 }

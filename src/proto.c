@@ -130,12 +130,10 @@ int rl_proto(int argc, char *argv[])
     }
     else if(rl_isface(argv[i]))
     {
-      puts("switching to face\n");
       rl_face(argc-i, &argv[i]);
     }
     else if(rl_isoption(argv[i]))
     {
-      puts("switching to option\n");
       rl_option(argc-i, &argv[i]);
     }
   }
