@@ -198,7 +198,15 @@ int zc_completion(int count, int key)
   int i = 0;
   char **something;
   init_completition();
-  rl_interpret(strdup(rl_line_buffer),rl_point,rl_end);
+
+  if (rl_line_buffer[rl_point-1] == ' ')
+  {
+    puts("innouit\n");
+    rl_interpret(strdup(rl_line_buffer),0,rl_end);
+  }
+  else
+    rl_interpret(strdup(rl_line_buffer),1,rl_end);
+
   printf("\nbuffer: |%s|\n", rl_line_buffer);
   printf("position: %d\n", rl_point);
   printf("buf len %d\n", rl_end);
@@ -211,10 +219,6 @@ int zc_completion(int count, int key)
 
   printf("what |%c|\n", rl_line_buffer[rl_point-1]);
 
-  if (rl_line_buffer[rl_point-1] == ' ')
-  {
-    puts("innouit\n");
-  }
 
   if (one)
   {
