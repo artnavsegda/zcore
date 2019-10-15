@@ -265,10 +265,12 @@ char * character_name_generator(const char *text, int state)
 
   if (rl_commandname == NULL)
   {
+    puts("return rRC");
     return rl_rootcommands(text,len);
   }
   else
   {
+    puts("return rSC");
     return rl_subcommands(text,len, state);
   }
 
@@ -283,13 +285,13 @@ int zc_completion(int count, int key)
 
   if (rl_line_buffer[rl_point-1] == ' ')
   {
-    puts("innouit\n");
-    rl_interpret(strdup(rl_line_buffer),0,rl_end);
+    puts("\ninnouit\n");
+    rl_interpret(strdup(rl_line_buffer),1,rl_end);
   }
   else
-    rl_interpret(strdup(rl_line_buffer),1,rl_end);
+    rl_interpret(strdup(rl_line_buffer),0,rl_end);
 
-  printf("\nbuffer: |%s|\n", rl_line_buffer);
+  printf("buffer: |%s|\n", rl_line_buffer);
   printf("position: %d\n", rl_point);
   printf("buf len %d\n", rl_end);
   //rl_interpret(strdup(rl_line_buffer),1,0);
@@ -298,25 +300,42 @@ int zc_completion(int count, int key)
   int numberoftokens = arrlength(rl_tokarr);
   printf("one %d\n", one);
   printf("number of tokens %d\n", numberoftokens);
-
   printf("what |%c|\n", rl_line_buffer[rl_point-1]);
-
 
   if (one)
   {
-    printf("complete seq %s\n", rl_tokarr[one-1]);
-    something = rl_completion_matches(rl_tokarr[one-1], character_name_generator);
-    if (something)
+    if (rl_line_buffer[rl_point-1] == ' ')
     {
-      while (something[i])
-        puts(something[i++]);
+      something = rl_completion_matches("", character_name_generator);
+      if (something)
+      {
+        while (something[i])
+          puts(something[i++]);
+      }
+      printf("matches count %d\n",i);
+      if (i == 1)
+      {
+        printf("replacing string with %s\n", something[i-1]);
+        rl_insert_text(&something[i-1][rl_point]);
+        rl_insert_text(" ");
+      }
     }
-    printf("matches count %d\n",i);
-    if (i == 1)
+    else
     {
-      printf("replacing string with %s\n", something[i-1]);
-      rl_insert_text(&something[i-1][rl_point]);
-      rl_insert_text(" ");
+      printf("complete seq %s\n", rl_tokarr[one-1]);
+      something = rl_completion_matches(rl_tokarr[one-1], character_name_generator);
+      if (something)
+      {
+        while (something[i])
+          puts(something[i++]);
+      }
+      printf("matches count %d\n",i);
+      if (i == 1)
+      {
+        printf("replacing string with %s\n", something[i-1]);
+        rl_insert_text(&something[i-1][rl_point]);
+        rl_insert_text(" ");
+      }
     }
   }
   else
