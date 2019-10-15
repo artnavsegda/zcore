@@ -277,40 +277,6 @@ char * character_name_generator(const char *text, int state)
   return NULL;
 }
 
-int _rl_completion_case_fold = 0;
-#  define PTR_T void *
-typedef int QSFUNC (const void *, const void *);
-
-#define RL_CHECK_SIGNALS() \
-        do { \
-          if (_rl_caught_signal) _rl_signal_handler (_rl_caught_signal); \
-        } while (0)
-
-#define RL_SIG_RECEIVED() (_rl_caught_signal != 0)
-
-extern int volatile _rl_caught_signal;
-
-extern void _rl_signal_handler PARAMS((int));
-
-#  define FREE(x)    if (x) free (x)
-
-/* Stupid comparison routine for qsort () ing strings. */
-int
-_rl_qsort_string_compare (s1, s2)
-  char **s1, **s2;
-{
-#if defined (HAVE_STRCOLL)
-  return (strcoll (*s1, *s2));
-#else
-  int result;
-
-  result = **s1 - **s2;
-  if (result == 0)
-    result = strcmp (*s1, *s2);
-
-  return result;
-#endif
-}
 
 static int
 compute_lcd_of_matches (match_list, matches, text)
@@ -322,12 +288,6 @@ compute_lcd_of_matches (match_list, matches, text)
   int low;		/* Count of max-matched characters. */
   int lx;
   char *dtext;		/* dequoted TEXT, if needed */
-#if defined (HANDLE_MULTIBYTE)
-  int v;
-  size_t v1, v2;
-  mbstate_t ps1, ps2;
-  wchar_t wc1, wc2;
-#endif
 
   /* If only one match, just use that.  Otherwise, compare each
      member of the list with the next, finding out where they
@@ -341,63 +301,12 @@ compute_lcd_of_matches (match_list, matches, text)
 
   for (i = 1, low = 100000; i < matches; i++)
     {
-#if defined (HANDLE_MULTIBYTE)
-      if (MB_CUR_MAX > 1 && rl_byte_oriented == 0)
-	{
-	  memset (&ps1, 0, sizeof (mbstate_t));
-	  memset (&ps2, 0, sizeof (mbstate_t));
-	}
-#endif
-      if (_rl_completion_case_fold)
-	{
-	  for (si = 0;
-	       (c1 = _rl_to_lower(match_list[i][si])) &&
-	       (c2 = _rl_to_lower(match_list[i + 1][si]));
-	       si++)
-#if defined (HANDLE_MULTIBYTE)
-	    if (MB_CUR_MAX > 1 && rl_byte_oriented == 0)
-	      {
-		v1 = mbrtowc(&wc1, match_list[i]+si, strlen (match_list[i]+si), &ps1);
-		v2 = mbrtowc (&wc2, match_list[i+1]+si, strlen (match_list[i+1]+si), &ps2);
-		if (MB_INVALIDCH (v1) || MB_INVALIDCH (v2))
-		  {
-		    if (c1 != c2)	/* do byte comparison */
-		      break;
-		    continue;
-		  }
-		wc1 = towlower (wc1);
-		wc2 = towlower (wc2);
-		if (wc1 != wc2)
-		  break;
-		else if (v1 > 1)
-		  si += v1 - 1;
-	      }
-	    else
-#endif
-	    if (c1 != c2)
-	      break;
-	}
-      else
-	{
 	  for (si = 0;
 	       (c1 = match_list[i][si]) &&
 	       (c2 = match_list[i + 1][si]);
 	       si++)
-#if defined (HANDLE_MULTIBYTE)
-	    if (MB_CUR_MAX > 1 && rl_byte_oriented == 0)
-	      {
-		mbstate_t ps_back;
-		ps_back = ps1;
-		if (!_rl_compare_chars (match_list[i], si, &ps1, match_list[i+1], si, &ps2))
-		  break;
-		else if ((v = _rl_get_char_len (&match_list[i][si], &ps_back)) > 1)
-		  si += v - 1;
-	      }
-	    else
-#endif
 	    if (c1 != c2)
 	      break;
-	}
 
       if (low > si)
 	low = si;
@@ -414,57 +323,7 @@ compute_lcd_of_matches (match_list, matches, text)
   else
     {
       match_list[0] = (char *)malloc (low + 1);
-
-      /* XXX - this might need changes in the presence of multibyte chars */
-
-      /* If we are ignoring case, try to preserve the case of the string
-	 the user typed in the face of multiple matches differing in case. */
-      if (_rl_completion_case_fold)
-	{
-	  /* We're making an assumption here:
-		IF we're completing filenames AND
-		   the application has defined a filename dequoting function AND
-		   we found a quote character AND
-		   the application has requested filename quoting
-		THEN
-		   we assume that TEXT was dequoted before checking against
-		   the file system and needs to be dequoted here before we
-		   check against the list of matches
-		FI */
-	  dtext = (char *)NULL;
-	  if (rl_filename_completion_desired &&
-	      rl_filename_dequoting_function &&
-	      rl_completion_found_quote &&
-	      rl_filename_quoting_desired)
-	    {
-	      dtext = (*rl_filename_dequoting_function) ((char *)text, rl_completion_quote_character);
-	      text = dtext;
-	    }
-
-	  /* sort the list to get consistent answers. */
-	  qsort (match_list+1, matches, sizeof(char *), (QSFUNC *)_rl_qsort_string_compare);
-
-	  si = strlen (text);
-	  lx = (si <= low) ? si : low;	/* check shorter of text and matches */
-	  /* Try to preserve the case of what the user typed in the presence of
-	     multiple matches: check each match for something that matches
-	     what the user typed taking case into account; use it up to common
-	     length of matches if one is found.  If not, just use first match. */
-	  for (i = 1; i <= matches; i++)
-	    if (strncmp (match_list[i], text, lx) == 0)
-	      {
-		strncpy (match_list[0], match_list[i], low);
-		break;
-	      }
-	  /* no casematch, use first entry */
-	  if (i > matches)
-	    strncpy (match_list[0], match_list[1], low);
-
-	  FREE (dtext);
-	}
-      else
-        strncpy (match_list[0], match_list[1], low);
-
+      strncpy (match_list[0], match_list[1], low);
       match_list[0][low] = '\0';
     }
 
@@ -497,23 +356,6 @@ zc_completion_matches (text, entry_function)
 
   while (string = (*entry_function) (text, matches))
     {
-      if (RL_SIG_RECEIVED ())
-	{
-	  /* Start at 1 because we don't set matches[0] in this function.
-	     Only free the list members if we're building match list from
-	     rl_filename_completion_function, since we know that doesn't
-	     free the strings it returns. */
-	  if (entry_function == rl_filename_completion_function)
-	    {
-	      for (i = 1; match_list[i]; i++)
-		free (match_list[i]);
-	    }
-	  free (match_list);
-	  match_list = 0;
-	  match_list_size = 0;
-	  matches = 0;
-	  RL_CHECK_SIGNALS ();
-	}
 
       if (matches + 1 >= match_list_size)
 	match_list = (char **)realloc
