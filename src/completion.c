@@ -330,10 +330,7 @@ compute_lcd_of_matches (match_list, matches, text)
   return matches;
 }
 
-char **
-zc_completion_matches (text, entry_function)
-     const char *text;
-     rl_compentry_func_t *entry_function;
+char ** zc_completion_matches (const char *text, rl_compentry_func_t *entry_function)
 {
   register int i;
 
