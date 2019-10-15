@@ -319,7 +319,7 @@ int zc_completion(int count, int key)
         //printf("1replacing string with %s\n", something[i-1]);
         //putchar('\n');
         rl_insert_text(something[i-1]);
-        rl_insert_text(" ");
+          rl_insert_text(" ");
       }
     }
     else
@@ -339,7 +339,13 @@ int zc_completion(int count, int key)
         //putchar('\n');
         rl_insert_text(&something[0][strlen(rl_tokarr[one-1])]);
         if (i == 1)
-        rl_insert_text(" ");
+          rl_insert_text(" ");
+        else
+        {
+          i = 1;
+          while (something[i])
+            puts(something[i++]);
+        }
       }
     }
   }
