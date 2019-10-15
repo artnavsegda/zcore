@@ -316,7 +316,7 @@ int zc_completion(int count, int key)
       if (i == 1)
       {
         printf("replacing string with %s\n", something[i-1]);
-        rl_insert_text(&something[i-1][rl_point]);
+        rl_insert_text(something[i-1]);
         rl_insert_text(" ");
       }
     }
