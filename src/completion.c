@@ -277,12 +277,7 @@ char * character_name_generator(const char *text, int state)
   return NULL;
 }
 
-
-static int
-compute_lcd_of_matches (match_list, matches, text)
-     char **match_list;
-     int matches;
-     const char *text;
+static int compute_lcd_of_matches (char **match_list, int matches, const char *text)
 {
   register int i, c1, c2, si;
   int low;		/* Count of max-matched characters. */
