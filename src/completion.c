@@ -17,6 +17,54 @@
 enum domains rl_domain = PROTO;
 char *rl_commandname = NULL;
 
+cmpstr_t test1 = { .command = "hello" };
+
+cmpstr_t *callback(void)
+{
+  static int i = 0;
+  i++;
+  if (i < 10)
+    return &test1;
+  else
+    return NULL;
+}
+
+void array_allocate(callback_func_t *cb_func, cmplist_t * list)
+{
+  //cmplist_t list = { .complecount = 0};
+  cmpstr_t *element;
+  //string_list = (char **)malloc(sizeof (char *));
+
+  while (element = (*cb_func)())
+  {
+    list->complecount++;
+    list->complelist = (cmpstr_t **)realloc(list->complelist, sizeof(cmpstr_t *) * list->complecount);
+    list->complelist[list->complecount-1] = element;
+  }
+
+  for (int i = 0; i < list->complecount; i++)
+  {
+    puts(list->complelist[i]->command);
+  }
+  printf("%d\n",list->complecount);
+
+//    return counter;
+//  return list;
+}
+
+int test_array()
+{
+  cmplist_t list = { .complecount = 0};
+  array_allocate(callback, &list);
+//  cmpstr_t **list = array_allocate(callback);
+  printf("%d\n",list.complecount);
+  for (int i = 0; i < list.complecount; i++)
+    puts(list.complelist[i]->command);
+        return 0;
+}
+
+
+
 int rl_execute(int argc, char *argv[])
 {
   if (isbuiltin(argv[0]))
