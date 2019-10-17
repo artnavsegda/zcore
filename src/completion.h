@@ -22,7 +22,7 @@ struct complestruct
 
 typedef struct complestruct cmplist_t;
 
-typedef cmpstr_t *callback_func_t (void);
+typedef cmpstr_t *callback_func_t (char *);
 
 char **character_name_completion(const char *, int, int);
 char *character_name_generator(const char *, int);

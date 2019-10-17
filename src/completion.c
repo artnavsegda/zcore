@@ -19,7 +19,7 @@ char *rl_commandname = NULL;
 
 cmpstr_t test1 = { .command = "hello" };
 
-cmpstr_t *callback(void)
+cmpstr_t *callback(char * inputstring)
 {
   static int i = 0;
   i++;
@@ -35,7 +35,7 @@ void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * li
   cmpstr_t *element;
   //string_list = (char **)malloc(sizeof (char *));
 
-  while (element = (*cb_func)())
+  while (element = (*cb_func)(inputstring))
   {
     list->complecount++;
     list->complelist = (cmpstr_t **)realloc(list->complelist, sizeof(cmpstr_t *) * list->complecount);
