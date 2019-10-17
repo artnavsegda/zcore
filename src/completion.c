@@ -471,12 +471,10 @@ char ** zc_completion_matches (const char *text, rl_compentry_func_t *entry_func
 
 int zc_completion2(int count, int key)
 {
-//   puts("\ntest\n");
    cmplist_t list = { .complecount = 0 };
-//   array_allocate("hello", callback, &list);
-// //  cmpstr_t **list = array_allocate(callback);
+//   array_allocate("", callback, &list);
 //   printf("%d\n",list.complecount);
-//   //printf("%s\n",list.locode);
+//   printf("%s\n",list.locode);
 //   for (int i = 0; i < list.complecount; i++)
 //     puts(list.complelist[i]->command);
 //   return 0;
@@ -529,7 +527,7 @@ int zc_completion2(int count, int key)
         else
         {
           putchar('\n');
-          for (i = 1; i > list.complecount; i++)
+          for (i = 0; i < list.complecount; i++)
           puts(list.complelist[i]->command);
           //while (something[i])
             //puts(something[i++]);
@@ -563,7 +561,7 @@ int zc_completion2(int count, int key)
           {
             //i = 1;
             putchar('\n');
-            for (i = 1; i > list.complecount; i++)
+            for (i = 0; i < list.complecount; i++)
             //while (something[i])
               puts(list.complelist[i]->command);
             rl_on_new_line();
@@ -580,7 +578,8 @@ int zc_completion2(int count, int key)
   else
   {
     //something = zc_completion_matches("", character_name_generator);
-    array_allocate(rl_tokarr[one-1], callback, &list);
+    array_allocate("", callback, &list);
+    //printf("%d\n", list.complecount);
     if (list.complecount)
     {
       //while (something[i])
@@ -597,7 +596,7 @@ int zc_completion2(int count, int key)
         {
           //i = 1;
           putchar('\n');
-          for (i = 1; i > list.complecount; i++)
+          for (i = 0; i < list.complecount; i++)
           //while (something[i])
             puts(list.complelist[i]->command);
           rl_on_new_line();
