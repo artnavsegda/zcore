@@ -54,7 +54,7 @@ void array_allocate(callback_func_t *cb_func, cmplist_t * list)
 
 int test_array()
 {
-  cmplist_t list = { .complecount = 0};
+  cmplist_t list = { .complecount = 0 };
   array_allocate(callback, &list);
 //  cmpstr_t **list = array_allocate(callback);
   printf("%d\n",list.complecount);
@@ -418,6 +418,11 @@ char ** zc_completion_matches (const char *text, rl_compentry_func_t *entry_func
       match_list = (char **)NULL;
     }
   return (match_list);
+}
+
+int zc_completion2(int count, int key)
+{
+  puts("\ntest\n");
 }
 
 int zc_completion(int count, int key)

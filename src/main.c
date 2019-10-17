@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
   signal(SIGALRM, alarm_handler);
 //  rl_attempted_completion_function = character_name_completion;
   rl_bind_key('\t', zc_completion);
+  rl_bind_key('?', zc_completion2);
 
   root = WJEObject(NULL, NULL, WJE_NEW);
 
