@@ -17,18 +17,6 @@
 enum domains rl_domain = PROTO;
 char *rl_commandname = NULL;
 
-cmpstr_t *callback(char * inputstring)
-{
-  cmpstr_t * element;
-  element = (cmpstr_t *)malloc(sizeof(cmpstr_t));
-  element->command = builtinvalues(inputstring, strlen(inputstring));
-
-  if (element->command)
-    return element;
-  else
-    return NULL;
-}
-
 int compute_lcd_of_matches2 (cmplist_t * list, char *text)
 {
 //  char **match_list; int matches; const char *text;//remove
@@ -82,7 +70,7 @@ int compute_lcd_of_matches2 (cmplist_t * list, char *text)
 
 int sort_wrapper(const void *p1, const void *p2)
 {
-  return strcmp(((cmpstr_t *)p1)->command,((cmpstr_t *)p2)->command);
+  return strcmp((*(cmpstr_t **)p1)->command,(*(cmpstr_t **)p2)->command);
 }
 
 void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * list)
@@ -348,6 +336,18 @@ char * rl_subcommands(const char * text, int len, int state)
       break;
     }
   }
+}
+
+cmpstr_t *callback(char * inputstring)
+{
+  cmpstr_t * element;
+  element = (cmpstr_t *)malloc(sizeof(cmpstr_t));
+  element->command = rl_rootcommands(inputstring, strlen(inputstring));
+
+  if (element->command)
+    return element;
+  else
+    return NULL;
 }
 
 char * character_name_generator(const char *text, int state)
