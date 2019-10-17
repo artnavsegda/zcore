@@ -476,9 +476,10 @@ int zc_completion2(int count, int key)
   array_allocate("hello", callback, &list);
 //  cmpstr_t **list = array_allocate(callback);
   printf("%d\n",list.complecount);
+  printf("%s\n",list.locode);
   for (int i = 0; i < list.complecount; i++)
     puts(list.complelist[i]->command);
-        return 0;
+  return 0;
 }
 
 int zc_completion(int count, int key)
