@@ -17,16 +17,72 @@
 enum domains rl_domain = PROTO;
 char *rl_commandname = NULL;
 
-cmpstr_t test1 = { .command = "hello" };
-
 cmpstr_t *callback(char * inputstring)
 {
-  static int i = 0;
-  i++;
-  if (i < 10)
-    return &test1;
+  cmpstr_t * element;
+  element = (cmpstr_t *)malloc(sizeof(cmpstr_t));
+  element->command = builtinvalues(inputstring, strlen(inputstring));
+
+  if (element->command)
+    return element;
   else
     return NULL;
+}
+
+int compute_lcd_of_matches2 (cmplist_t * list, char *text)
+{
+//  char **match_list; int matches; const char *text;//remove
+  register int i, c1, c2, si;
+  int low;		/* Count of max-matched characters. */
+  int lx;
+
+  /* If only one match, just use that.  Otherwise, compare each
+     member of the list with the next, finding out where they
+     stop matching. */
+  if (list->complecount == 1)
+    {
+      list->locode = list->complelist[0]->command;
+      return 1;
+    }
+
+  for (i = 0, low = 100000; i < list->complecount-1; i++)
+    {
+	  for (si = 0;
+//	       (c1 = match_list[i][si]) &&
+	       (c1 = list->complelist[i]->command[si]) &&
+//	       (c2 = match_list[i + 1][si]);
+	       (c2 = list->complelist[i + 1]->command[si]);
+	       si++)
+	    if (c1 != c2)
+	      break;
+
+      if (low > si)
+	low = si;
+    }
+
+
+
+  /* If there were multiple matches, but none matched up to even the
+     first character, and the user typed something, use that as the
+     value of matches[0]. */
+  if (low == 0 && text && *text)
+    {
+      list->locode = (char *)malloc (strlen (text) + 1);
+      strcpy (list->locode, text);
+    }
+  else
+    {
+      list->locode = (char *)malloc (low + 1);
+      strncpy (list->locode, list->complelist[0]->command, low);
+      list->locode[low] = '\0';
+    }
+
+  return 0;
+}
+
+int sort_wrapper(const void *p1, const void *p2)
+{
+  return strcmp(((cmpstr_t *)p1)->command,((cmpstr_t *)p2)->command);
 }
 
 void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * list)
@@ -42,11 +98,17 @@ void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * li
     list->complelist[list->complecount-1] = element;
   }
 
-  for (int i = 0; i < list->complecount; i++)
+  if (list->complecount)
   {
-    puts(list->complelist[i]->command);
+    qsort(list->complelist, list->complecount, sizeof (cmpstr_t *), sort_wrapper);
+    compute_lcd_of_matches2(list, inputstring);
   }
-  printf("%d\n",list->complecount);
+
+//  for (int i = 0; i < list->complecount; i++)
+//  {
+//    puts(list->complelist[i]->command);
+//  }
+//  printf("%d\n",list->complecount);
 
 //    return counter;
 //  return list;
