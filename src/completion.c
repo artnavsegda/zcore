@@ -29,7 +29,7 @@ cmpstr_t *callback(void)
     return NULL;
 }
 
-void array_allocate(callback_func_t *cb_func, cmplist_t * list)
+void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * list)
 {
   //cmplist_t list = { .complecount = 0};
   cmpstr_t *element;
@@ -51,19 +51,6 @@ void array_allocate(callback_func_t *cb_func, cmplist_t * list)
 //    return counter;
 //  return list;
 }
-
-int test_array()
-{
-  cmplist_t list = { .complecount = 0 };
-  array_allocate(callback, &list);
-//  cmpstr_t **list = array_allocate(callback);
-  printf("%d\n",list.complecount);
-  for (int i = 0; i < list.complecount; i++)
-    puts(list.complelist[i]->command);
-        return 0;
-}
-
-
 
 int rl_execute(int argc, char *argv[])
 {
@@ -423,6 +410,13 @@ char ** zc_completion_matches (const char *text, rl_compentry_func_t *entry_func
 int zc_completion2(int count, int key)
 {
   puts("\ntest\n");
+  cmplist_t list = { .complecount = 0 };
+  array_allocate("hello", callback, &list);
+//  cmpstr_t **list = array_allocate(callback);
+  printf("%d\n",list.complecount);
+  for (int i = 0; i < list.complecount; i++)
+    puts(list.complelist[i]->command);
+        return 0;
 }
 
 int zc_completion(int count, int key)
