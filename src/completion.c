@@ -657,7 +657,7 @@ char ** zc_completion_matches (const char *text, rl_compentry_func_t *entry_func
 void print_cmp_list(cmplist_t *list)
 {
   int x = 1;
-  for (int i = BUILTIN; i < CUESETTING; i++)
+  for (int i = PROTO; i <= BUILTIN; i++)
   {
     if (x == 1)
     {
@@ -686,9 +686,25 @@ void print_cmp_list(cmplist_t *list)
   rl_on_new_line();
 }
 
+void zc_cleanup(cmplist_t *list)
+{
+  if (list->locode)
+  {
+    free(list->locode);
+  }
+  if (list->complecount > 1)
+  {
+    for (int i = 0; i < list->complecount; i++)
+    {
+      free(list->complelist[i]->command);
+      free(list->complelist[i]);
+    }
+  }
+}
+
 int zc_completion2(int count, int key)
 {
-   cmplist_t list = { .complecount = 0 };
+   cmplist_t list = { .complecount = 0, .locode = NULL };
 //   array_allocate("", callback, &list);
 //   printf("%d\n",list.complecount);
 //   printf("%s\n",list.locode);
@@ -825,6 +841,9 @@ int zc_completion2(int count, int key)
       //printf("3matches count %d\n",i);
     }
   }
+
+  zc_cleanup(&list);
+
   //printf("count %d\n",count);
   //printf("buffer: |%s|\n", rl_line_buffer);
   //printf("position: %d\n", rl_point);
