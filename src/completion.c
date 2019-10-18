@@ -656,6 +656,10 @@ char ** zc_completion_matches (const char *text, rl_compentry_func_t *entry_func
 
 void print_cmp_list(cmplist_t list)
 {
+  putchar('\n');
+  for (int i = 0; i < list.complecount; i++)
+    puts(list.complelist[i]->command);
+  rl_on_new_line();
 }
 
 int zc_completion2(int count, int key)
