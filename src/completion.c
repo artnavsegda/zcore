@@ -656,9 +656,26 @@ char ** zc_completion_matches (const char *text, rl_compentry_func_t *entry_func
 
 void print_cmp_list(cmplist_t *list)
 {
+  int x = 1;
   for (int i = BUILTIN; i < CUESETTING; i++)
   {
+    if (x == 1)
+    {
+      putchar('\n');
+      x = 0;
+    }
+    for (int y = 0; y < list->complecount; y++)
+    {
+      if(list->complelist[y]->domain == i)
+      {
+        printf("\t%s\n", list->complelist[y]->command);
+        x = 1;
+      }
+    }
   }
+  rl_on_new_line();
+
+  return;
 
 
   putchar('\n');
