@@ -19,7 +19,6 @@ char *rl_commandname = NULL;
 
 int compute_lcd_of_matches2 (cmplist_t * list, char *text)
 {
-//  char **match_list; int matches; const char *text;//remove
   register int i, c1, c2, si;
   int low;		/* Count of max-matched characters. */
   int lx;
@@ -36,9 +35,7 @@ int compute_lcd_of_matches2 (cmplist_t * list, char *text)
   for (i = 0, low = 100000; i < list->complecount-1; i++)
     {
 	  for (si = 0;
-//	       (c1 = match_list[i][si]) &&
 	       (c1 = list->complelist[i]->command[si]) &&
-//	       (c2 = match_list[i + 1][si]);
 	       (c2 = list->complelist[i + 1]->command[si]);
 	       si++)
 	    if (c1 != c2)
@@ -342,7 +339,12 @@ cmpstr_t *callback(char * inputstring)
 {
   cmpstr_t * element;
   element = (cmpstr_t *)malloc(sizeof(cmpstr_t));
-  element->command = rl_rootcommands(inputstring, strlen(inputstring));
+  element->command = NULL;
+
+  if (rl_commandname == NULL)
+    element->command = rl_rootcommands(inputstring, strlen(inputstring));
+  else
+    element->command = rl_subcommands(inputstring, strlen(inputstring), 0);
 
   if (element->command)
     return element;
