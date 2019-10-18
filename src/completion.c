@@ -160,6 +160,84 @@ enum staging protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_STAGE
 enum staging facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
 
+cmpstr_t * rl_rootcommands2(const char * text, int len)
+{
+  static enum staging * cyclestaging = &emptystage[0];
+  cmpstr_t * rootvalues = (cmpstr_t *)malloc(sizeof(cmpstr_t));
+
+  while (1)
+  {
+    switch (*cyclestaging)
+    {
+      case START_STAGE:
+        switch (domain)
+        {
+          case PROTO:
+            cyclestaging = &protostage[0];
+          break;
+          case FACE:
+            cyclestaging = &facestage[0];
+          break;
+          case OPTION:
+            cyclestaging = &optionstage[0];
+          break;
+        }
+        cyclestaging++;
+      break;
+      case BUILTIN_STAGE:
+        if (rootvalues->command = builtinvalues(text,len))
+        {
+//          printf("BS %s\n", rootvalues);
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case PROTO_STAGE:
+        if (rootvalues->command = protovalues(text,len))
+        {
+//          printf("PS %s\n", rootvalues);
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case FACE_STAGE:
+        if (rootvalues->command = facevalues(text,len))
+        {
+//          printf("FS %s\n", rootvalues);
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case OPTION_STAGE:
+        if (rootvalues->command = optionvalues(text,len))
+        {
+//          printf("OS %s\n", rootvalues);
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case COMMAND_STAGE:
+        if (rootvalues->command = commandvalues(text,len))
+        {
+//          printf("CS %s\n", rootvalues);
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case STOP_STAGE:
+        cyclestaging = &emptystage[0];
+        free(rootvalues);
+        return NULL;
+      break;
+    }
+  }
+}
+
 char * rl_rootcommands(const char * text, int len)
 {
   static enum staging * cyclestaging = &emptystage[0];
