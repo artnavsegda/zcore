@@ -188,6 +188,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         if (rootvalues->command = builtinvalues(text,len))
         {
 //          printf("BS %s\n", rootvalues);
+          rootvalues->domain = BUILTIN;
           return rootvalues;
         }
         else
@@ -197,6 +198,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         if (rootvalues->command = protovalues(text,len))
         {
 //          printf("PS %s\n", rootvalues);
+          rootvalues->domain = PROTO;
           return rootvalues;
         }
         else
@@ -206,6 +208,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         if (rootvalues->command = facevalues(text,len))
         {
 //          printf("FS %s\n", rootvalues);
+          rootvalues->domain = FACE;
           return rootvalues;
         }
         else
@@ -215,6 +218,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         if (rootvalues->command = optionvalues(text,len))
         {
 //          printf("OS %s\n", rootvalues);
+          rootvalues->domain = OPTION;
           return rootvalues;
         }
         else
@@ -224,6 +228,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         if (rootvalues->command = commandvalues(text,len))
         {
 //          printf("CS %s\n", rootvalues);
+          rootvalues->domain = COMMAND;
           return rootvalues;
         }
         else
@@ -355,6 +360,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         if (subvalues->command = protovalues(text,len))
         {
 //          printf("PS %s\n", subvalues);
+          subvalues->domain = PROTO;
           return subvalues;
         }
         else
@@ -364,6 +370,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         if (subvalues->command = facevalues(text,len))
         {
 //          printf("FS %s\n", subvalues);
+          subvalues->domain = FACE;
           return subvalues;
         }
         else
@@ -373,6 +380,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         if (subvalues->command = optionvalues(text,len))
         {
 //          printf("OS %s\n", subvalues);
+          subvalues->domain = OPTION;
           return subvalues;
         }
         else
@@ -382,6 +390,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         if (subvalues->command = commandvalues(text,len))
         {
 //          printf("CS %s\n", subvalues);
+          subvalues->domain = COMMAND;
           return subvalues;
         }
         else
@@ -391,6 +400,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         if (subvalues->command = settingvalues(text,len, state))
         {
 //          printf("SS %s\n", subvalues);
+          subvalues->domain = SETTING;
           return subvalues;
         }
         else
@@ -400,6 +410,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         if (subvalues->command = cuesettingvalues(text,len, state))
         {
 //          printf("CSS %s\n", subvalues);
+          subvalues->domain = CUESETTING;
           return subvalues;
         }
         else
