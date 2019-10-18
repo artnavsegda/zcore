@@ -719,12 +719,13 @@ int zc_completion2(int count, int key)
         }
         else
         {
-          putchar('\n');
-          for (i = 0; i < list.complecount; i++)
-          puts(list.complelist[i]->command);
-          //while (something[i])
-            //puts(something[i++]);
-          rl_on_new_line();
+          print_cmp_list(&list);
+//          putchar('\n');
+//          for (i = 0; i < list.complecount; i++)
+//          puts(list.complelist[i]->command);
+//          //while (something[i])
+//            //puts(something[i++]);
+//          rl_on_new_line();
         }
       }
     }
@@ -752,12 +753,13 @@ int zc_completion2(int count, int key)
           }
           else
           {
-            //i = 1;
-            putchar('\n');
-            for (i = 0; i < list.complecount; i++)
-            //while (something[i])
-              puts(list.complelist[i]->command);
-            rl_on_new_line();
+            print_cmp_list(&list);
+//            //i = 1;
+//            putchar('\n');
+//            for (i = 0; i < list.complecount; i++)
+//            //while (something[i])
+//              puts(list.complelist[i]->command);
+//            rl_on_new_line();
           }
       //  }
       }
@@ -787,12 +789,13 @@ int zc_completion2(int count, int key)
         }
         else
         {
-          //i = 1;
-          putchar('\n');
-          for (i = 0; i < list.complecount; i++)
-          //while (something[i])
-            puts(list.complelist[i]->command);
-          rl_on_new_line();
+          print_cmp_list(&list);
+//          //i = 1;
+//          putchar('\n');
+//          for (i = 0; i < list.complecount; i++)
+//          //while (something[i])
+//            puts(list.complelist[i]->command);
+//          rl_on_new_line();
         }
       }
       //printf("3matches count %d\n",i);
