@@ -658,7 +658,10 @@ void print_cmp_list(cmplist_t *list)
 {
   putchar('\n');
   for (int i = 0; i < list->complecount; i++)
+  {
     puts(list->complelist[i]->command);
+    printf("%d %s\n");
+  }
   rl_on_new_line();
 }
 
