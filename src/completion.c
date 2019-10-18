@@ -507,19 +507,21 @@ char * rl_subcommands(const char * text, int len, int state)
 
 cmpstr_t *callback(char * inputstring)
 {
-  cmpstr_t * element;
-  element = (cmpstr_t *)malloc(sizeof(cmpstr_t));
-  element->command = NULL;
+  //cmpstr_t * element;
+  //element = (cmpstr_t *)malloc(sizeof(cmpstr_t));
+  //element->command = NULL;
 
   if (rl_commandname == NULL)
-    element->command = rl_rootcommands(inputstring, strlen(inputstring));
+    return rl_rootcommands2(inputstring, strlen(inputstring));
+    //element->command = rl_rootcommands(inputstring, strlen(inputstring));
   else
-    element->command = rl_subcommands(inputstring, strlen(inputstring), 0);
+    return rl_subcommands2(inputstring, strlen(inputstring), 0);
+    //element->command = rl_subcommands(inputstring, strlen(inputstring), 0);
 
-  if (element->command)
-    return element;
-  else
-    return NULL;
+  //if (element->command)
+    //return element;
+  //else
+    //return NULL;
 }
 
 char * character_name_generator(const char *text, int state)
