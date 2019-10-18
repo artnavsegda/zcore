@@ -19,7 +19,7 @@ int acquire(json_object * proto)
     return 1;
   }
 
-  if (!(readjson = json_object_from_fd(jsonstream) != -1)) {
+  if ((readjson = json_object_from_fd(jsonstream)) == NULL) {
     puts("json failed to open");
     return 1;
   }
