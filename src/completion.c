@@ -321,6 +321,98 @@ enum staging sub_optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, STOP
 enum staging sub_settingstage[] = {START_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
 enum staging sub_commandstage[] = {START_STAGE, COMMAND_STAGE, STOP_STAGE};
 
+cmpstr_t * rl_subcommands2(const char * text, int len, int state)
+{
+  static enum staging * cyclestaging = &emptystage[0];
+  cmpstr_t * subvalues = (cmpstr_t *)malloc(sizeof(cmpstr_t));
+
+  while (1)
+  {
+    switch (*cyclestaging)
+    {
+      case START_STAGE:
+        switch (rl_domain)
+        {
+          case PROTO:
+            cyclestaging = &sub_protostage[0];
+          break;
+          case FACE:
+            cyclestaging = &sub_facestage[0];
+          break;
+          case OPTION:
+            cyclestaging = &sub_optionstage[0];
+          break;
+          case SETTING:
+            cyclestaging = &sub_settingstage[0];
+          break;
+          case COMMAND:
+            cyclestaging = &sub_commandstage[0];
+          break;
+        }
+        cyclestaging++;
+      break;
+      case PROTO_STAGE:
+        if (subvalues->command = protovalues(text,len))
+        {
+//          printf("PS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case FACE_STAGE:
+        if (subvalues->command = facevalues(text,len))
+        {
+//          printf("FS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case OPTION_STAGE:
+        if (subvalues->command = optionvalues(text,len))
+        {
+//          printf("OS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case COMMAND_STAGE:
+        if (subvalues->command = commandvalues(text,len))
+        {
+//          printf("CS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case SETTING_STAGE:
+        if (subvalues->command = settingvalues(text,len, state))
+        {
+//          printf("SS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case CUESETTING_STAGE:
+        if (subvalues->command = cuesettingvalues(text,len, state))
+        {
+//          printf("CSS %s\n", subvalues);
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case STOP_STAGE:
+        cyclestaging = &emptystage[0];
+        return NULL;
+      break;
+    }
+  }
+}
+
 char * rl_subcommands(const char * text, int len, int state)
 {
   static enum staging * cyclestaging = &emptystage[0];
