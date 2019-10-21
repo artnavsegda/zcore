@@ -5,7 +5,7 @@
 #include <readline/history.h>
 #include <unistd.h>
 #include <json-c/json.h>
-//#include "interpreter.h"
+#include "interpreter.h"
 //#include "completion.h"
 #include "config.h"
 #include "load.h"
