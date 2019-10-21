@@ -39,14 +39,11 @@ int loadeveryschema(json_object * loadroot, char * loadschemapath)
     {
       //puts(dirs[cnt]->d_name);
       json_object * schema = json_object_new_object();
-
-      //json_object_object_add(loadroot,"schema", schema);
-      json_object_object_add(loadroot,dirs[cnt]->d_name, schema);
-
-      //json_object_object_add(schema,dirs[cnt]->d_name, json_object_from_file(dirs[cnt]->d_name));
       json_object_object_add(schema,"schema", json_object_from_file(dirs[cnt]->d_name));
 
-      //json_object_object_add(loadroot,dirs[cnt]->d_name, json_object_from_file(dirs[cnt]->d_name));
+      //here
+
+      json_object_object_add(loadroot,dirs[cnt]->d_name, schema);
     }
   }
   else
