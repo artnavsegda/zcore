@@ -9,7 +9,7 @@
 #include <json-c/json.h>
 
 int protodepth = 0;
-// WJElement protojson = NULL;
+json_object * protojson = NULL;
 
 int rl_protodepth = 0;
 // WJElement rl_protojson = NULL;
