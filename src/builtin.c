@@ -61,11 +61,11 @@ int commandlist()
 {
   puts("tokens:");
   listbuiltins();
-  // switch (domain)
-  // {
-  //   case PROTO:
+  switch (domain)
+  {
+     case PROTO:
   //     listprotos();
-  //   break;
+     break;
   //   case FACE:
   //     listfaces();
   //     listcommands();
@@ -74,7 +74,7 @@ int commandlist()
   //     listoptions();
   //     listcommands();
   //   break;
-  // }
+  }
   return 1;
 }
 
