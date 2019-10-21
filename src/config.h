@@ -1,6 +1,6 @@
-#define CONFIGPATH "/etc/zenith.json"
+#define CONFIGPATH "/etc/zenith/zenith.json
 #define MAXPATH 255
-#define DEFAULTSCHEMAPATH "/var/lib/zenith/schema"
+#define DEFAULTSCHEMAPATH "/etc/zenith/schema"
 #define SCHEMAEXTENSION ".schema.json"
 
 struct configstruct_t
