@@ -8,7 +8,7 @@
 #include "utils.h"
 #include "interpreter.h"
 // #include "proto.h"
-// #include "builtin.h"
+#include "builtin.h"
 // #include "face.h"
 // #include "command.h"
 // #include "option.h"
