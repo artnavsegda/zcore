@@ -18,45 +18,45 @@
 // extern WJElement protoface;
 extern int protodepth;
 
-// int execute(int argc, char *argv[]) {
-//   int ret = 0;
-//   enum domains ret_domain = domain;
-//   WJElement ret_protojson = protojson;
-//   WJElement ret_protoface = protoface;
-//   int ret_protodepth = protodepth;
-//
-//   if (isbuiltin(argv[0]))
-//   {
-//     ret = builtin(argc,argv);
-//   }
-//   else if (isproto(argv[0]))
-//   {
-//     ret = proto(argc,argv);
-//   }
-//   else if (iscommand(argv[0]))
-//   {
-//     ret = command(argc,argv);
-//   }
-//   else if (isface(argv[0]))
-//   {
-//     ret = face(argc,argv);
-//   }
-//   else if (isoption(argv[0]))
-//   {
-//     ret = option(argc,argv);
-//   }
-//   else
-//   {
-//     puts("invalid input");
-//   }
-//   if (ret)
-//   {
-//     domain = ret_domain;
-//     protojson = ret_protojson;
-//     protoface = ret_protoface;
-//     protodepth = ret_protodepth;
-//   }
-// }
+int execute(int argc, char *argv[]) {
+  int ret = 0;
+  enum domains ret_domain = domain;
+  // WJElement ret_protojson = protojson;
+  // WJElement ret_protoface = protoface;
+  int ret_protodepth = protodepth;
+
+  // if (isbuiltin(argv[0]))
+  // {
+  //   ret = builtin(argc,argv);
+  // }
+  // else if (isproto(argv[0]))
+  // {
+  //   ret = proto(argc,argv);
+  // }
+  // else if (iscommand(argv[0]))
+  // {
+  //   ret = command(argc,argv);
+  // }
+  // else if (isface(argv[0]))
+  // {
+  //   ret = face(argc,argv);
+  // }
+  // else if (isoption(argv[0]))
+  // {
+  //   ret = option(argc,argv);
+  // }
+  // else
+  // {
+  //   puts("invalid input");
+  // }
+  if (ret)
+  {
+    domain = ret_domain;
+    // protojson = ret_protojson;
+    // protoface = ret_protoface;
+    protodepth = ret_protodepth;
+  }
+}
 
 int interpret(char * stringtointerpret)
 {
@@ -65,6 +65,6 @@ int interpret(char * stringtointerpret)
   int numberoftokens = arrlength(tokarr);
   if (numberoftokens > 0)
   {
-//    execute(numberoftokens,tokarr);
+    execute(numberoftokens,tokarr);
   }
 }
