@@ -20,9 +20,9 @@ extern json_object * root;
 
 int listprotos(void)
 {
-  // if (protodepth == 0)
-  //   protojson = root;
-  //
+  if (protodepth == 0)
+    protojson = root;
+  
   // WJElement proto = NULL;
   //
   puts("Protos:");
