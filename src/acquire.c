@@ -31,13 +31,14 @@ int acquireall(json_object * directory)
 {
   json_object_object_foreach(directory, key, val)
   {
-    if(json_object_object_get_ex(val,"schema",NULL))
-    {
-      acquire(val);
-    }
-    else
-    {
-      acquireall(val);
-    }
+    puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+//    if(json_object_object_get_ex(val,"schema",NULL))
+//    {
+//      acquire(val);
+//    }
+//    else
+//    {
+//      acquireall(val);
+//    }
   }
 }
