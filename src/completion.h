@@ -11,14 +11,20 @@ struct complement
   char * description;
 };
 
+typedef struct complement cmpstr_t;
+
 struct complestruct
 {
   char * locode;
   int complecount;
-  struct complement complelist[];
+  cmpstr_t **complelist;
 };
+
+typedef struct complestruct cmplist_t;
+
+typedef cmpstr_t *callback_func_t (char *);
 
 char **character_name_completion(const char *, int, int);
 char *character_name_generator(const char *, int);
 int zc_completion(int count, int key);
-
+int zc_completion2(int count, int key);
