@@ -6,6 +6,7 @@
 // #include "face.h"
 // #include "completion.h"
 // #include "option.h"
+#include <json-c/json.h>
 
 int protodepth = 0;
 // WJElement protojson = NULL;
@@ -15,6 +16,7 @@ int rl_protodepth = 0;
 
 // extern WJElement protoface;
 // extern WJElement rl_protoface;
+extern json_object * root;
 
 int listprotos(void)
 {
@@ -23,7 +25,13 @@ int listprotos(void)
   //
   // WJElement proto = NULL;
   //
-  // puts("Protos:");
+  puts("Protos:");
+
+  json_object_object_foreach(root, key, val)
+  {
+
+  }
+
   // while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
   //   if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
   //     puts(proto->name);
