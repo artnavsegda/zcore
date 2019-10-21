@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     if (!input)
       break;
     add_history(input);
-//    interpret(input);
+    interpret(input);
     free(input);
   }
 
