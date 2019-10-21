@@ -16,19 +16,19 @@ int rl_protodepth = 0;
 // extern WJElement protoface;
 // extern WJElement rl_protoface;
 
-// int listprotos(void)
-// {
-//   if (protodepth == 0)
-//     protojson = root;
-//
-//   WJElement proto = NULL;
-//
-//   puts("Protos:");
-//   while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
-//     if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
-//       puts(proto->name);
-//   }
-// }
+int listprotos(void)
+{
+  // if (protodepth == 0)
+  //   protojson = root;
+  //
+  // WJElement proto = NULL;
+  //
+  // puts("Protos:");
+  // while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
+  //   if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
+  //     puts(proto->name);
+  // }
+}
 
 // int isproto(char * protoname)
 // {

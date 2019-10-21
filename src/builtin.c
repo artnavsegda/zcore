@@ -2,7 +2,7 @@
 #include <string.h>
 #include "builtin.h"
 #include "interpreter.h"
-// #include "proto.h"
+#include "proto.h"
 // #include "zcore.h"
 // #include "face.h"
 // #include "command.h"
@@ -64,7 +64,7 @@ int commandlist()
   switch (domain)
   {
      case PROTO:
-  //     listprotos();
+       listprotos();
      break;
   //   case FACE:
   //     listfaces();

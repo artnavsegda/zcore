@@ -13,7 +13,7 @@
 // #include "command.h"
 // #include "option.h"
 
-// enum domains domain = PROTO;
+enum domains domain = PROTO;
 // extern WJElement protojson;
 // extern WJElement protoface;
 //extern int protodepth;
