@@ -13,7 +13,7 @@
 //#include "prompt.h"
 
 json_object * root = NULL;
-char zcore_prompt[255];
+char zcore_prompt[255] = "";
 
 int main(int argc, char *argv[])
 {
@@ -26,18 +26,18 @@ int main(int argc, char *argv[])
   acquireall(root);
 
   puts(json_object_to_json_string_ext(root, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-//  WJEDump(root);
 
-//  while (1)
-//  {
+  while (1)
+  {
 //    generateprompt(zcore_prompt);
 //    char * input = readline(zcore_prompt);
-//    if (!input)
-//      break;
-//    add_history(input);
+    char * input = readline(zcore_prompt);
+    if (!input)
+      break;
+    add_history(input);
 //    interpret(input);
-//    free(input);
-//  }
+    free(input);
+  }
 
   return 0;
 }
