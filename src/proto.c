@@ -29,7 +29,7 @@ int listprotos(void)
 
   json_object_object_foreach(root, key, val)
   {
-
+    puts(key);
   }
 
   // while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
