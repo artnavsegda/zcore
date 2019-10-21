@@ -1,16 +1,20 @@
 #include <stdio.h>
 #include <string.h>
-#include "zcore.h"
 #include "interpreter.h"
 #include "proto.h"
 #include "face.h"
 #include "completion.h"
+#include "option.h"
+#include "zcore.h"
 
 int protodepth = 0;
 WJElement protojson = NULL;
 
 int rl_protodepth = 0;
 WJElement rl_protojson = NULL;
+
+extern WJElement protoface;
+extern WJElement rl_protoface;
 
 int listprotos(void)
 {
@@ -21,7 +25,8 @@ int listprotos(void)
 
   puts("Protos:");
   while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
-    puts(proto->name);
+    if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
+      puts(proto->name);
   }
 }
 
@@ -74,16 +79,29 @@ int proto(int argc, char *argv[])
       protojson = WJEObject(protojson, argv[i], WJE_GET);
       if (WJEGet(protojson, "schema", NULL))
       {
-        domain = FACE;
+        if (WJEGet(protojson, "schema.patternProperties", NULL))
+        {
+          domain = FACE;
+        }
+        else if (WJEGet(protojson, "schema.properties", NULL))
+        {
+          domain = OPTION;
+          protoface = WJEObject(protojson, "data", WJE_GET);
+        }
       }
     }
     else if(isface(argv[i]))
     {
       return face(argc-i, &argv[i]);
     }
+    else if(isoption(argv[i]))
+    {
+      return option(argc-i, &argv[i]);
+    }
     else
     {
       printf("%s unavalible\n", argv[i]);
+      return 1;
     }
   }
   return 0;
@@ -99,12 +117,24 @@ int rl_proto(int argc, char *argv[])
       rl_protojson = WJEObject(rl_protojson, argv[i], WJE_GET);
       if (WJEGet(rl_protojson, "schema", NULL))
       {
-        rl_domain = FACE;
+        if (WJEGet(rl_protojson, "schema.patternProperties", NULL))
+        {
+          rl_domain = FACE;
+        }
+        else if (WJEGet(rl_protojson, "schema.properties", NULL))
+        {
+          rl_protoface = WJEObject(rl_protojson, "data", WJE_GET);
+          rl_domain = OPTION;
+        }
       }
     }
     else if(rl_isface(argv[i]))
     {
       rl_face(argc-i, &argv[i]);
+    }
+    else if(rl_isoption(argv[i]))
+    {
+      rl_option(argc-i, &argv[i]);
     }
   }
 }
@@ -117,6 +147,8 @@ char * protovalues(const char * text, int len)
   static WJElement proto = NULL;
 
   while (proto = _WJEObject(rl_protojson, "[]", WJE_GET, &proto)) {
+    if (WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
+      return protovalues(text,len);
     if (strncmp(proto->name, text, len) == 0) {
       return strdup(proto->name);
     }

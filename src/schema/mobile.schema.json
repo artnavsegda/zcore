@@ -2,11 +2,12 @@
   "$schema": "http://json-schema.org/schema#",
   "title": "mobile",
   "description": "Interface list",
-  "type": "array",
-  "items": {
+  "type": "object",
+  "patternProperties": {
+    "^sim": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name"],
+    "required": ["name", "mode", "enable"],
     "properties": {
       "name": {
         "type": "string",
@@ -15,7 +16,8 @@
       },
       "enable": {
         "type": "boolean",
-        "description": "Enable cellulare interface"
+        "description": "Enable cellular interface",
+        "example": true
       },
       "apn": {
         "type": "string",
@@ -30,30 +32,48 @@
         "description": "Password",
         "hidden": true
       },
-        "mode": {
+      "mode": {
         "type": "string",
         "enum": ["auto","edge","umts","lte"],
-        "description": "Network access mode"
+        "description": "Network access mode",
+        "example": "auto"
+      },
+      "bands": {
+        "type": "array",
+        "uniqueItems": true,
+        "description": "Freq bands allowed",
+        "items": {
+          "type": "string",
+          "enum": ["850","900","1800","1900","2100","2600"]
+        }
       }
     }
-  },
-    "commands": {
-      "apply": {
-        "type": "string",
-        "command": "./apply.sh applymobile %s",
-        "json": true
-      },
-      "commit": {
-        "type": "string",
-        "command": "./mobile.sh commit %n"
-      },
-      "revert": {
-        "type": "string",
-        "command": "./mobile.sh revert %@name@%",
-        "json": false
-      }
-	 },
-   "acquire": {
-     "shell": "./mobile ./mobile.sh"
+  }
+},
+  "commands": {
+    "apply": {
+        "command": "/home/art/Coding/zcore/src/apply-mobile.sh",
+        "args": ["apply-mobile.sh"],
+        "argpass": true,
+        "json": "in",
+        "reload": true
+     },
+    "revert": {
+       "command": "/home/art/Coding/zcore/src/revert.sh",
+       "args": ["revert"],
+       "argpass": true,
+       "wait": true,
+       "reload": true
+    },
+    "env": {
+      "command": "/usr/bin/env",
+      "args": ["env"],
+      "argpass": true,
+      "wait": true
+    }
+	},
+  "acquire": {
+     "shell": "/home/art/Coding/zcore/src/mobile.sh",
+     "args": ["mobile.sh", "mobile.schema"]
    }
 }

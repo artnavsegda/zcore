@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "ethernet",
+  "description": "Interface list",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Interface entity",
+    "required": ["name", "vid", "ip", "macaddr", "defaultroute", "proto", "switch"],
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Interface name",
+        "hidden": true
+      },
+      "vid": {
+        "type": "number",
+        "description": "VLAN ID",
+        "default": 13
+      },
+      "switch": {
+        "type": "string",
+        "description": "Switch device",
+        "default": "switch0"
+      },
+      "untagged":{
+        "type": "array",
+        "description": "Tagged ports"
+      },
+      "ip": {
+        "type": "string",
+        "description": "IP address config",
+        "default": "dhcp"
+      },
+      "defaultroute": {
+        "type": "boolean",
+        "description": "Use as defaultroute",
+        "default": false
+      },
+      "macaddr": {
+        "type": "string",
+        "description": "MAC address",
+        "default": "de:ad:be:ef:12:34"
+      },
+      "mtu": {
+        "type": "number",
+        "description": "MTU"
+      },
+      "metric": {
+        "type": "number",
+        "description": "Network metric"
+      },
+      "proto": {
+        "type": "string",
+        "default": "vlan"
+      },
+      "zone": {
+        "type": "string",
+        "cue": ["firewall.zones"]
+      },
+      "section": {
+        "type": "string",
+        "description": "Internal generated UBUS name",
+        "hidden": true
+      }
+   }
+ },
+   "commands": {
+     "apply": {
+       "command": "/home/art/Coding/zcore/src/zfilter2",
+       "args": ["zfilter2", "-sethernet.schema", "-e./applyif.sh", "-cnetwork", "-tinterface", "-napply"],
+       "json": "in"
+    },
+    "add": {
+       "command": "/home/art/Coding/zcore/src/zgen",
+       "args": ["zgen", "-sethernet.schema", "-e./add.sh", "-cnetwork", "-tinterface", "-nadd"],
+       "argpass": true,
+       "cue": ["name", "vid","switch"],
+       "json": "out"
+    },
+    "remove": {
+       "command": "/home/art/Coding/zcore/src/remove.sh",
+       "args": ["remove", "network", "interface"],
+       "argpass": true,
+       "wait": true,
+       "reload": true
+    },
+    "env": {
+      "command": "/usr/bin/env",
+      "args": ["env"],
+      "argpass": true,
+      "wait": true
+    }
+  },
+  "acquire": {
+    "shell": "/usr/bin/zfilter",
+    "args": ["zfilter", "ethernet.schema", "/root/scripts/ethernet.sh"]
+  }
+}

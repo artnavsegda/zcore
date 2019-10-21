@@ -3,7 +3,7 @@
   "title": "ntp",
   "type": "object",
   "properties": {
-    "enable": {
+    "enabled": {
       "type": "boolean",
       "description": "Enable update time from Internet"
     },
@@ -18,5 +18,9 @@
         "type": "string"
       }
     }
+  },
+  "acquire": {
+    "shell": "/home/art/Coding/zcore/src/ntp.sh",
+    "args": ["ntp.sh", "service.ntp.schema"]
   }
 }

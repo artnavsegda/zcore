@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "zones",
+  "description": "Firewall zones list",
+  "type": "object",
+  "namesake": "name",
+  "patternProperties": {
+    "^cfg": {
+      "type": "object",
+      "title": "Interface entity",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Unique zone name"
+        },
+        "network": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Interface name",
+            "cue": [ "mobile", "ethernet" ],
+            "default": "loopback"
+          },
+          "description": "List of interfaces attached to this zone"
+        },
+        "masq": {
+          "type": "boolean",
+          "description": "Specifies whether outgoing zone traffic should be masqueraded"
+        },
+        "conntack": {
+          "type": "boolean",
+          "description": "Force connection tracking for this zone"
+        },
+        "mtu_fix": {
+          "type": "boolean",
+          "description": "Enable MSS clamping for outgoing zone traffic"
+        },
+        "input": {
+          "type": "string",
+          "enum": ["ACCEPT", "DROP", "REJECT"],
+          "description": "Default action for INPUT chain",
+          "default": "ACCEPT"
+        },
+        "output": {
+          "type": "string",
+          "enum": ["ACCEPT", "DROP", "REJECT"],
+          "description": "Default action for DROP chain",
+          "default": "ACCEPT"
+        },
+        "forward": {
+          "type": "string",
+          "enum": ["ACCEPT", "DROP", "REJECT"],
+          "description": "Default action for REJECT chain",
+          "default": "ACCEPT"
+        }
+     }
+  }
+ },
+ "commands": {
+   "apply": {
+     "command": "/home/art/Coding/zcore/src/zfilter2",
+     "args": ["zfilter2", "-sfirewall.zones.schema", "-e./apply.sh", "-tzone", "-cfirewall", "-napply"],
+     "json": "in"
+   },
+   "add": {
+     "command": "/home/art/Coding/zcore/src/zgen",
+     "args": ["zgen", "-sfirewall.zones.schema", "-e./add.sh", "-tzone", "-cfirewall", "-nadd"],
+     "argpass": true,
+     "cue": ["name"],
+     "reload": true,
+     "wait": true
+   },
+   "remove": {
+     "command": "/home/art/Coding/zcore/src/remove2.sh",
+     "args": ["remove", "firewall", "zone"],
+     "argpass": true,
+     "reload": true,
+     "wait": true
+    }
+ },
+ "acquire": {
+   "shell": "/home/art/Coding/zcore/src/zones.sh",
+   "args": ["zones.sh", "firewall.zones.schema"]
+ }
+}

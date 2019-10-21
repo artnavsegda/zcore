@@ -3,6 +3,8 @@
 #include <limits.h>
 #include <wjelement.h>
 #include "interpreter.h"
+#include "utils.h"
+#include "domain.h"
 
 extern WJElement protojson;
 extern WJElement protoface;
@@ -36,8 +38,11 @@ void generateprompt(char * prompt)
   }
   if (domain == OPTION)
   {
-    strcat(prompt, "/");
-    strcat(prompt, WJEString(protoface, "name", WJE_GET, ""));
+    if (WJEGet(protojson, "schema.patternProperties", NULL))
+    {
+      strcat(prompt, "/");
+      strcat(prompt, elementname(protojson,protoface));
+    }
   }
   strcat(prompt, ">");
 }

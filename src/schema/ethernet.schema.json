@@ -1,51 +1,123 @@
 {
   "$schema": "http://json-schema.org/schema#",
   "title": "ethernet",
+  "namesake": "name",
   "description": "Interface list",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "title": "Interface entity",
-    "required": ["name"],
-    "properties": {
-      "name": {
-        "type": "string",
-        "description": "Interface name"
-      },
-      "vid": {
-        "type": "number",
-        "description": "VLAN ID"
-      },
-      "ip": {
-        "type": "string",
-        "description": "IP address config"
-      },
-      "defaultroute": {
-        "type": "boolean",
-        "description": "Use as defaultroute"
-      },
-      "macaddr": {
-        "type": "string",
-        "description": "MAC address"
-      },
-      "mtu": {
-        "type": "number",
-        "description": "MTU"
-      },
-      "metric": {
-        "type": "number",
-        "description": "Network metric"
-      }
+  "type": "object",
+  "patternProperties": {
+    "^vlan": {
+      "type": "object",
+      "title": "Interface entity",
+      "required": ["name", "vid", "ip", "proto", "switch", "master_port"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Interface name",
+          "hidden": true
+        },
+        "vid": {
+          "type": "number",
+          "description": "VLAN ID",
+          "default": 13
+        },
+        "switch": {
+          "type": "string",
+          "description": "Switch device",
+          "default": "switch0"
+        },
+        "master_port": {
+          "type": "string",
+          "description": "Master port",
+          "default": "eth0"
+        },
+        "tagged_ports":{
+          "type": "array",
+          "description": "Tagged ports",
+          "items": {
+            "type": "string",
+            "description": "Tagged port"
+          }
+        },
+        "untagged_ports":{
+          "type": "array",
+          "description": "Untagged ports",
+          "items": {
+            "type": "string",
+            "description": "Untagged port"
+          }
+        },
+        "ip": {
+          "type": "string",
+          "description": "IP address config",
+          "default": "dhcp"
+        },
+        "defaultroute": {
+          "type": "boolean",
+          "description": "Use as defaultroute",
+          "default": false
+        },
+        "macaddr": {
+          "type": "string",
+          "description": "MAC address",
+          "default": "de:ad:be:ef:12:34"
+        },
+        "mtu": {
+          "type": "number",
+          "description": "MTU",
+          "maximum": 65507,
+          "minimum": 500
+        },
+        "metric": {
+          "type": "number",
+          "description": "Network metric"
+        },
+        "proto": {
+          "type": "string",
+          "default": "vlan"
+        },
+        "zone": {
+          "type": "string",
+          "cue": ["firewall.zones"]
+        },
+        "section": {
+          "type": "string",
+          "description": "Internal generated UBUS name",
+          "hidden": true
+        }
+    }
    }
  },
    "commands": {
      "apply": {
-       "type": "string",
-       "command": "./apply.sh applyethernet %s",
-       "json": true
+       "command": "/home/art/Coding/zcore/src/apply-ethernet.sh",
+       "args": ["apply-ethernet.sh"],
+       "json": "in",
+       "reload": true
+    },
+    "add": {
+       "command": "/home/art/Coding/zcore/src/add-ethernet.sh",
+       "args": ["add-ethernet.sh"],
+       "argpass": true,
+       "cue": ["vid"],
+       "reload": true,
+       "wait": true
+    },
+    "remove": {
+       "command": "/home/art/Coding/zcore/src/remove.sh",
+       "args": ["remove", "network", "interface"],
+       "argpass": true,
+       "wait": true,
+       "reload": true
+    },
+    "env": {
+      "command": "/usr/bin/env",
+      "args": ["env"],
+      "argpass": true,
+      "wait": true
     }
   },
   "acquire": {
-    "shell": "./ethernet ./ethernet.sh"
+    "shell": "/home/art/Coding/zcore/src/ethernet.sh",
+    "args": ["ethernet.sh", "ethernet.schema"]
   }
 }

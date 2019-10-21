@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "utils",
+  "type": "object",
+  "namesake": "name",
+  "properties": {
+  },
+  "commands": {
+    "ping": {
+      "command": "/usr/bin/ping",
+      "args": ["ping", "-c 10"],
+      "argpass": true,
+      "wait": true
+    },
+    "env": {
+      "command": "/usr/bin/env",
+      "args": ["env"],
+      "argpass": true,
+      "wait": true
+    }
+  }
+}

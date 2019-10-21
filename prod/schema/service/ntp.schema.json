@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "ntp",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "Enable update time from Internet"
+    },
+    "enable_server": {
+      "type": "boolean",
+      "description": "Enable time server on this host"
+    },
+    "server": {
+      "type": "array",
+      "description": "Servers addresses for time sync",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "acquire": {
+    "shell": "/usr/bin/zfilter",
+    "args": ["zfilter", "service.ntp.schema", "/root/scripts/ntp.sh"]
+  }
+}

@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <wjelement.h>
+#include <wjreader.h>
+#include "generator.h"
+#include "config.h"
+#include "load.h"
+
+WJElement doc = NULL;
+WJElement doc2 = NULL;
+WJElement root = NULL;
+
+int main(int argc, char *argv[])
+{
+  int opt;
+  char *ubusconfig = NULL, *ubustype = NULL, *schema = NULL, *execmd = NULL, *namecmd = NULL;
+
+  while ((opt = getopt(argc, argv, "n:e:s:c:t:")) != -1)
+  {
+    switch (opt)
+    {
+      case 'n':
+        namecmd = optarg;
+        break;
+      case 'e': // execmd
+        execmd = optarg;
+        break;
+      case 's': // schema
+        schema = optarg;
+        break;
+      case 'c': // config
+        ubusconfig = optarg;
+        break;
+      case 't': // type
+        ubustype = optarg;
+        break;
+    }
+  }
+
+  setuid(0);
+  root = WJEObject(NULL, NULL, WJE_NEW);
+
+  readconfig();
+  loadeveryschema(root,config.schemapath);
+
+  doc = generator(root, schema, namecmd, ubustype, ubusconfig, argc-optind, &argv[optind]);
+
+  FILE *jsonstream;
+
+  if (!(jsonstream = popen(execmd, "w"))) {
+    puts("handle error");
+    return 1;
+  }
+
+  WJEWriteFILE(doc, jsonstream);
+
+  sleep(1);
+
+  return 0;
+}
