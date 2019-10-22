@@ -1,7 +1,7 @@
 #include <wjelement.h>
 
 int listoptions(void);
-WJElement optionlist(WJElement schema);
+//WJElement optionlist(WJElement schema);
 int isoption(char * optionname);
 int rl_isoption(char * optionname);
 int option(int argc, char *argv[]);

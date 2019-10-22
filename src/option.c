@@ -7,7 +7,7 @@
 #include "utils.h"
 // #include "completion.h"
 
-// extern WJElement protojson;
+extern json_object * protojson;
 // extern WJElement protoface;
 // extern WJElement rl_protojson;
 // extern WJElement rl_protoface;
@@ -21,6 +21,13 @@ int listoptions(void)
 
   puts("Options:");
 
+  if (json_object_object_get_ex(optionlist(protojson), "properties", &options))
+  {
+    json_object_object_foreach(options, key, val)
+    {
+      puts(key);
+    }
+  }
   
 
 //   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
