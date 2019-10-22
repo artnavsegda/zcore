@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include "utils.h"
 #include "option.h"
+#include "command.h"
 
 extern WJElement doc, schema;
 
@@ -83,7 +84,7 @@ char * elementname(WJElement proto, WJElement element)
     return WJEString(element, namesake, WJE_GET, "");
   }
   else
-  { 
+  {
     return element->name;
   }
 }
@@ -153,6 +154,7 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
   int status;
   if (pid == 0)
   {
+    setup_environment();
     execve(command,argv,envp);
     exit(0);
   }
@@ -168,6 +170,7 @@ int forkexec(char * command, int argc, char *argv[], char *envp[])
   int status;
   if (pid == 0)
   {
+    setup_environment();
     execve(command,argv,envp);
     exit(0);
   }
@@ -201,6 +204,7 @@ FILE * my_popen_read (char * command, char *argv[], char *envp[])
     write_fd = fd[1];
     pid = fork();
     if (pid == 0) {
+        setup_environment();
         close(read_fd);
         dup2(write_fd,1);
         close(write_fd);
@@ -222,6 +226,7 @@ FILE * my_popen_write (char * command, char *argv[], char *envp[])
     write_fd = fd[1];
     pid = fork();
     if (pid == 0) {
+        setup_environment();
         close(write_fd);
         dup2(read_fd,0);
         close(read_fd);
@@ -296,5 +301,3 @@ void fillenv(WJElement proto, WJElement face)
       }
   }
 }
-
-

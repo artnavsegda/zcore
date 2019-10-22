@@ -62,12 +62,9 @@ int rl_iscommand(char * commandname)
   return 0;
 }
 
-int command(int argc, char *argv[])
+int setup_environment(void)
 {
-  char *myenv[100];
-  char facename[100] = "";
-  clearenv();
-
+  //clearenv();
   switch(domain)
   {
     case PROTO:
@@ -100,6 +97,12 @@ int command(int argc, char *argv[])
       //myenv[1] = NULL;
     break;
   }
+}
+
+int command(int argc, char *argv[])
+{
+  char *myenv[100];
+  char facename[100] = "";
 
   char *args[100];
   WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
@@ -186,4 +189,3 @@ char * cuecommandvalues(const char * text, int len, int state)
   }
   return NULL;
 }
-
