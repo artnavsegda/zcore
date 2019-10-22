@@ -77,15 +77,19 @@ json_object * getelementbynameprop(json_object * container, char * text)
 {
   json_object * entity = NULL;
   json_object * namesake = NULL;
-  if (json_pointer_get(container, "/schema/namesake", &namesake))
+  if (!json_pointer_get(container, "/schema/namesake", &namesake))
   {
   }
   else
   {
-    if (json_pointer_getf(container, &entity, "/data/%s", text))
+    if (!json_pointer_getf(container, &entity, "/data/%s", text))
+    {
       return entity;
+    }
     else
+    {
       return NULL;
+    }
   }
   return NULL;
 }
