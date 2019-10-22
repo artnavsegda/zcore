@@ -49,11 +49,11 @@ int isface(char * facename)
 //   return 0;
 // }
 
-// int face(int argc, char *argv[])
-// {
-//   strcpy(facename,argv[0]);
-//   protoface = getelementbynameprop(protojson, facename);
-//   domain = OPTION;
+int face(int argc, char *argv[])
+{
+  strcpy(facename,argv[0]);
+  protoface = getelementbynameprop(protojson, facename);
+  domain = OPTION;
 //   if (argc > 1)
 //   {
 //     if(isoption(argv[1]))
@@ -65,8 +65,8 @@ int isface(char * facename)
 //       return command(argc-1, &argv[1]);
 //     }
 //   }
-//   return 0;
-// }
+  return 0;
+}
 
 // int rl_face(int argc, char *argv[])
 // {

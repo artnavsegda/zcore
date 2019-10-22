@@ -39,7 +39,7 @@ int execute(int argc, char *argv[]) {
   // }
   else if (isface(argv[0]))
   {
-    //ret = face(argc,argv);
+    ret = face(argc,argv);
   }
   // else if (isoption(argv[0]))
   // {
