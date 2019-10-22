@@ -44,15 +44,15 @@ int isproto(char * protoname)
   {
     if (protodepth == 0)
       protojson = root;
-//
-//     if (WJEGet(protojson, protoname, NULL))
-//     {
-//       return 1;
-//     }
-//     else
-//     {
-//       return 0;
-//     }
+
+    if (json_object_object_get_ex(protojson, protoname, NULL))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
   }
   return 0;
 }
