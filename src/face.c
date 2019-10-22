@@ -81,14 +81,14 @@ char rl_facename[100] = "";
 //   return 0;
 // }
 
-// int listfaces(void)
-// {
+int listfaces(void)
+{
 //   WJElement face = NULL;
-//   puts("Faces:");
+  puts("Faces:");
 //   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
 //     puts(WJEString(face, "name", WJE_GET, ""));
 //   }
-// }
+}
 
 // char * facevalues(const char * text, int len)
 // {

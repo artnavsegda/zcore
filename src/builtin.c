@@ -4,7 +4,7 @@
 #include "interpreter.h"
 #include "proto.h"
 // #include "zcore.h"
-// #include "face.h"
+#include "face.h"
 // #include "command.h"
 // #include "option.h"
 // #include "prompt.h"
@@ -67,7 +67,7 @@ int commandlist()
       listprotos();
     break;
     case FACE:
-  //     listfaces();
+      listfaces();
   //     listcommands();
     break;
   //   case OPTION:
