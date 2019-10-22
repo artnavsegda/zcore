@@ -38,12 +38,12 @@ int listprotos(void)
   // }
 }
 
-// int isproto(char * protoname)
-// {
-//   if (domain == PROTO)
-//   {
-//     if (protodepth == 0)
-//       protojson = root;
+int isproto(char * protoname)
+{
+  if (domain == PROTO)
+  {
+    if (protodepth == 0)
+      protojson = root;
 //
 //     if (WJEGet(protojson, protoname, NULL))
 //     {
@@ -53,9 +53,9 @@ int listprotos(void)
 //     {
 //       return 0;
 //     }
-//   }
-//   return 0;
-// }
+  }
+  return 0;
+}
 
 // int rl_isproto(char * rl_protoname)
 // {
