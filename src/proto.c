@@ -88,7 +88,7 @@ int proto(int argc, char *argv[])
       {
 //         if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
 //         {
-//           domain = FACE;
+          domain = FACE;
 //         }
 //         else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
 //         {
