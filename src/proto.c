@@ -84,8 +84,8 @@ int proto(int argc, char *argv[])
     {
       protodepth++;
       json_object_object_get_ex(protojson,argv[i],&protojson);
-//       if (WJEGet(protojson, "schema", NULL))
-//       {
+      if (json_object_object_get_ex(protojson, "schema", NULL))
+      {
 //         if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
 //         {
 //           domain = FACE;
@@ -95,8 +95,8 @@ int proto(int argc, char *argv[])
 //           domain = OPTION;
 //           protoface = WJEObject(protojson, "data", WJE_GET);
 //         }
-//       }
-//     }
+      }
+    }
 //     else if(isface(argv[i]))
 //     {
 //       return face(argc-i, &argv[i]);
@@ -109,7 +109,7 @@ int proto(int argc, char *argv[])
 //     {
 //       printf("%s unavalible\n", argv[i]);
 //       return 1;
-    }
+//     }
   }
   return 0;
 }
