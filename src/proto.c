@@ -75,6 +75,7 @@ int proto(int argc, char *argv[])
     if (argv[i][0] == '?')
     {
       puts("Display description here");
+      puts(protohelp("ethernet"));
       return 1;
     }
     else if (isproto(argv[i]))
@@ -170,7 +171,7 @@ void incom_proto(void)
 
 char * protohelp(const char * commandname)
 {
-
+  return "Help description";
 }
 
 
