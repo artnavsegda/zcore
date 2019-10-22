@@ -19,4 +19,4 @@ int arguments(json_object * argarray, const char *argv[]);
 // int argcat(int argc, char *argout[], char *argin[]);
 // void fillenv(WJElement proto, WJElement face);
 // WJElement optionlist(WJElement schema);
-//
+json_object * optionlist(json_object * schema);

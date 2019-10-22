@@ -269,11 +269,11 @@ json_object * optionlist(json_object * schema)
   json_object * patternprop = NULL;
   if(json_object_object_get_ex(schema, "schema", &elementlist))
   {
-    if(json_object_object_get_ex(schema, "properties", NULL))
+    if(json_object_object_get_ex(elementlist, "properties", NULL))
     {
       return elementlist;
     }
-    else if (json_object_object_get_ex(schema, "patternProperties", &patternprop))
+    else if (json_object_object_get_ex(elementlist, "patternProperties", &patternprop))
     {
       json_object_object_foreach(patternprop, key, val)
       {
