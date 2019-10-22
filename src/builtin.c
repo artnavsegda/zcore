@@ -11,8 +11,8 @@
 // #include "acquire.h"
 
 extern int protodepth;
-// extern WJElement protojson;
-// extern WJElement protoface;
+extern json_object * protojson;
+extern json_object * protoface;
 
 // int path_up()
 // {
