@@ -263,6 +263,10 @@ int argcat(int argc, char *argout[], char *argin[])
 //   }
 // }
 
+json_object * optionlist(json_object * schema)
+{
+}
+
 // void fillenv(WJElement proto, WJElement face)
 // {
 //   int i = 0;
