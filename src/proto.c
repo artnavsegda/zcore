@@ -76,12 +76,12 @@ int isproto(char * protoname)
 //   return 0;
 // }
 
-// int proto(int argc, char *argv[])
-// {
-//   for (int i = 0; i < argc; i++)
-//   {
-//     if (isproto(argv[i]))
-//     {
+int proto(int argc, char *argv[])
+{
+  for (int i = 0; i < argc; i++)
+  {
+    if (isproto(argv[i]))
+    {
 //       //strcpy(protoname,argv[i]);
 //       protodepth++;
 //       protojson = WJEObject(protojson, argv[i], WJE_GET);
@@ -110,10 +110,10 @@ int isproto(char * protoname)
 //     {
 //       printf("%s unavalible\n", argv[i]);
 //       return 1;
-//     }
-//   }
-//   return 0;
-// }
+    }
+  }
+  return 0;
+}
 
 // int rl_proto(int argc, char *argv[])
 // {

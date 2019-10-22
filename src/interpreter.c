@@ -7,7 +7,7 @@
 // #include <wjreader.h>
 #include "utils.h"
 #include "interpreter.h"
-// #include "proto.h"
+#include "proto.h"
 #include "builtin.h"
 // #include "face.h"
 // #include "command.h"
@@ -29,10 +29,10 @@ int execute(int argc, char *argv[]) {
   {
     ret = builtin(argc,argv);
   }
-  // else if (isproto(argv[0]))
-  // {
-  //   ret = proto(argc,argv);
-  // }
+  else if (isproto(argv[0]))
+  {
+    ret = proto(argc,argv);
+  }
   // else if (iscommand(argv[0]))
   // {
   //   ret = command(argc,argv);
