@@ -191,6 +191,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         {
 //          printf("PS %s\n", rootvalues);
           rootvalues->domain = PROTO;
+//          rootvalues->description = protohelp(rootvalues->command);
           return rootvalues;
         }
         else

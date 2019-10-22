@@ -163,3 +163,9 @@ void incom_proto(void)
   rl_protodepth = protodepth;
 }
 
+char * protohelp(const char * commandname)
+{
+
+}
+
+
