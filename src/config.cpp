@@ -28,5 +28,6 @@ int readconfig(void)
     configjson = json_object_new_object();
   }
   parseconfig(configjson);
+  return 0;
 }
 

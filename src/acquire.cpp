@@ -16,7 +16,7 @@ int acquire(json_object * proto)
   json_object * jsoncommand = NULL;
   if (!json_pointer_get(proto, "/schema/acquire/shell", &jsoncommand))
   {
-    if (!(jsonstream = my_popen_read(json_object_get_string(jsoncommand), argv,  NULL))) {
+    if (!(jsonstream = my_popen_read((char *)json_object_get_string(jsoncommand), argv,  NULL))) {
       puts("handle error");
       return 1;
     }
@@ -28,6 +28,7 @@ int acquire(json_object * proto)
 
     json_object_object_add(proto, "data", readjson);
   }
+  return 0;
 }
 
 int acquireall(json_object * directory)
@@ -43,4 +44,5 @@ int acquireall(json_object * directory)
       acquireall(val);
     }
   }
+  return 0;
 }

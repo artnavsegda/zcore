@@ -57,6 +57,7 @@ int path_root()
   domain = PROTO;
   protodepth = 0;
   protojson = root;
+  return 0;
 }
 
 int commandlist()
@@ -225,6 +226,7 @@ int builtin(int argc, char *argv[])
   // {
   //   return builtin_acquire(argc,argv);
   // }
+  return 0;
 }
 
 char *builtincommands[] = {"?","..","show","acquire","/",NULL};

@@ -13,7 +13,7 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[]);
 int my_popen_read (char * command, char *argv[], char *envp[]);
 FILE * my_popen_write (char * command, char *argv[], char *envp[]);
 int streamintocommand(char * command, char *argv[], char *envp[], char * stream);
-int arguments(json_object * argarray, const char *argv[]);
+int arguments(json_object * argarray, char *argv[]);
 int argcat(int argc, char *argout[], char *argin[]);
 // void fillenv(WJElement proto, WJElement face);
 json_object * optionlist(json_object * schema);

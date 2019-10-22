@@ -31,6 +31,7 @@ int listoptions(void)
 //     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
 //       puts(option->name);
 //   }
+  return 0;
 }
 
 int isoption(char * optionname)

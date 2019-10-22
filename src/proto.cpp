@@ -34,6 +34,7 @@ int listprotos(void)
   //   if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
   //     puts(proto->name);
   // }
+  return 0;
 }
 
 int isproto(char * protoname)

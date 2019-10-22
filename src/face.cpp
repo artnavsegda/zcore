@@ -98,6 +98,7 @@ int listfaces(void)
 //   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
 //     puts(WJEString(face, "name", WJE_GET, ""));
 //   }
+  return 0;
 }
 
 // char * facevalues(const char * text, int len)

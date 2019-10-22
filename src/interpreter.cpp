@@ -54,6 +54,7 @@ int execute(int argc, char *argv[]) {
     protoface = ret_protoface;
     protodepth = ret_protodepth;
   }
+  return 0;
 }
 
 int interpret(char * stringtointerpret)
@@ -65,4 +66,5 @@ int interpret(char * stringtointerpret)
   {
     execute(numberoftokens,tokarr);
   }
+  return 0;
 }

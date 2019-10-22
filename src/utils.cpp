@@ -151,6 +151,7 @@ int streamintocommand(char * command, char *argv[], char *envp[], char * stream)
   }
   fwrite(stream,strlen(stream),1,jsonstream);
   pclose(jsonstream);
+  return 0;
 }
 
 int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
@@ -166,6 +167,7 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
   {
     waitpid(pid, &status, 0);
   }
+  return 0;
 }
 
 // int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
@@ -228,11 +230,11 @@ FILE * my_popen_write (char * command, char *argv[], char *envp[])
     }
 }
 
-int arguments(json_object * argarray, const char *argv[])
+int arguments(json_object * argarray, char *argv[])
 {
   int i = 0;
 
-  while (argv[i] = json_object_get_string(json_object_array_get_idx(argarray,i)))
+  while (argv[i] = (char *)json_object_get_string(json_object_array_get_idx(argarray,i)))
   {
     i++;
   }
@@ -281,6 +283,7 @@ json_object * optionlist(json_object * schema)
       }
     }
   }
+  return 0;
 }
 
 // void fillenv(WJElement proto, WJElement face)

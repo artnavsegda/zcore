@@ -10,7 +10,7 @@
 
 static int fileselect(const struct dirent *entry)
 {
-  char *ptr = rindex(entry->d_name, '.');
+  char *ptr = rindex((char *)entry->d_name, '.');
   if ((ptr!=NULL) && ((strcmp(ptr,".json")==0)))
     return 1;
   else
@@ -66,4 +66,5 @@ int loadeveryschema(json_object * loadroot, char * loadschemapath)
   }
 
   chdir(path);
+  return 0;
 }
