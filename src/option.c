@@ -25,10 +25,10 @@ int listoptions(void)
 //   }
 }
 
-// int isoption(char * optionname)
-// {
-//   if (domain == OPTION)
-//   {
+int isoption(char * optionname)
+{
+  if (domain == OPTION)
+  {
 //     if (WJEGetF(optionlist(protojson), NULL, "properties.%s", optionname))
 //     {
 //       return 1;
@@ -37,9 +37,9 @@ int listoptions(void)
 //     {
 //       return 0;
 //     }
-//   }
-//   return 0;
-// }
+  }
+  return 0;
+}
 
 // int rl_isoption(char * optionname)
 // {
@@ -57,8 +57,8 @@ int listoptions(void)
 //   return 0;
 // }
 
-// int option(int argc, char *argv[])
-// {
+int option(int argc, char *argv[])
+{
 //   WJElement parameter;
 //   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
 //   if (argc == 1)
@@ -133,8 +133,8 @@ int listoptions(void)
 //       puts("Not implemeted");
 //     }
 //   }
-//   return 1;
-// }
+  return 1;
+}
 
 // int rl_option(int argc, char *argv[])
 // {
