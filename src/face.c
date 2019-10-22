@@ -4,34 +4,34 @@
 // #include "zcore.h"
 #include "interpreter.h"
 #include "face.h"
-// #include "utils.h"
+#include "utils.h"
 // #include "option.h"
 // #include "completion.h"
 // #include "command.h"
 
 // extern WJElement protojson;
 // extern WJElement rl_protojson;
-// WJElement protoface = NULL;
+json_object * protoface = NULL;
 // WJElement rl_protoface = NULL;
 extern json_object * protojson;
 char facename[100] = "";
 char rl_facename[100] = "";
 
-// int isface(char * facename)
-// {
-//   if (domain == FACE)
-//   {
-//     if (getelementbynameprop(protojson, facename))
-//     {
-//       return 1;
-//     }
-//     else
-//     {
-//       return 0;
-//     }
-//   }
-//   return 0;
-// }
+int isface(char * facename)
+{
+  if (domain == FACE)
+  {
+    if (getelementbynameprop(protojson, facename))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  return 0;
+}
 
 // int rl_isface(char * facename)
 // {
