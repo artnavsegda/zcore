@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
   loadeveryschema(root,config.schemapath);
   acquireall(root);
 
-//  puts(json_object_to_json_string_ext(root, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+  puts(json_object_to_json_string_ext(root, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
 
   while (1)
   {

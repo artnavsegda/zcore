@@ -86,11 +86,15 @@ char rl_facename[100] = "";
 int listfaces(void)
 {
 //   WJElement face = NULL;
-  puts("Faces:");
+  json_object * faces = NULL;
 
-  json_object_object_foreach(protojson, key, val)
+  if (json_object_object_get_ex(protojson, "data", &faces))
   {
-    puts(key);
+    puts("Faces:");
+    json_object_object_foreach(faces, key, val)
+    {
+      puts(key);
+    }
   }
 
 //   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
