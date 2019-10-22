@@ -14,6 +14,7 @@
 extern int protodepth;
 extern json_object * protojson;
 extern json_object * protoface;
+extern json_object * root;
 
 // int path_up()
 // {
@@ -51,12 +52,12 @@ extern json_object * protoface;
 //   return 0;
 // }
 
-// int path_root()
-// {
-//   domain = PROTO;
-//   protodepth = 0;
-//   protojson = root;
-// }
+int path_root()
+{
+  domain = PROTO;
+  protodepth = 0;
+  protojson = root;
+}
 
 int commandlist()
 {
@@ -208,10 +209,10 @@ int builtin(int argc, char *argv[])
   {
     return commandlist();
   }
-  // else if (argv[0][0]=='/')
-  // {
-  //   return path_root();
-  // }
+  else if (argv[0][0]=='/')
+  {
+    return path_root();
+  }
   // else if (strcmp(argv[0],"..") == 0)
   // {
   //   return path_up();
