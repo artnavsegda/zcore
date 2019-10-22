@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
   "title": "ethernet",
-  "namesake": "name",
   "description": "Interface list",
   "type": "object",
   "patternProperties": {
@@ -10,11 +9,6 @@
       "title": "Interface entity",
       "required": ["name", "vid", "ip", "proto", "switch", "master_port"],
       "properties": {
-        "name": {
-          "type": "string",
-          "description": "Interface name",
-          "hidden": true
-        },
         "vid": {
           "type": "number",
           "description": "VLAN ID",
@@ -91,6 +85,7 @@
      "apply": {
        "command": "/home/art/Coding/zcore/src/apply-ethernet.sh",
        "args": ["apply-ethernet.sh"],
+       "argpass": true,
        "json": "in",
        "reload": true
     },
