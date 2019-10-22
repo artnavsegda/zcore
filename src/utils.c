@@ -266,13 +266,20 @@ int argcat(int argc, char *argout[], char *argin[])
 json_object * optionlist(json_object * schema)
 {
   json_object * elementlist = NULL;
+  json_object * patternprop = NULL;
   if(json_object_object_get_ex(schema, "schema", &elementlist))
   {
     if(json_object_object_get_ex(schema, "properties", NULL))
     {
       return elementlist;
     }
-//    else if (
+    else if (json_object_object_get_ex(schema, "patternProperties", &patternprop))
+    {
+      json_object_object_foreach(patternprop, key, val)
+      {
+        return val;
+      }
+    }
   }
 }
 
