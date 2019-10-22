@@ -59,7 +59,7 @@ int path_root()
   protojson = root;
 }
 
-int commandlist()
+int commandlist(int argc, char *argv[])
 {
   puts("tokens:");
   listbuiltins();
@@ -273,7 +273,7 @@ int builtin(int argc, char *argv[])
 {
   if (argv[0][0]=='?')
   {
-    return commandlist();
+    return commandlist(argc,argv);
   }
   else if (argv[0][0]=='/')
   {
