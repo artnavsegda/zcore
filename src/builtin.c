@@ -62,7 +62,7 @@ int path_root()
 int commandlist(int argc, char *argv[])
 {
   puts("tokens:");
-  listbuiltins(argc-i, &argv[i]);
+  listbuiltins(argc-1, &argv[1]);
   switch (domain)
   {
     case PROTO:
@@ -79,6 +79,8 @@ int commandlist(int argc, char *argv[])
   }
   return 1;
 }
+
+char *builtincommands[] = {"show","acquire","validate",NULL};
 
 void listbuiltins(int argc, char *argv[])
 {
@@ -296,8 +298,6 @@ int builtin(int argc, char *argv[])
     return builtin_validate(argc,argv);
   }
 }
-
-char *builtincommands[] = {"show","acquire","validate",NULL};
 
 char * builtinvalues(const char * text, int len)
 {
