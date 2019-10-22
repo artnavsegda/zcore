@@ -265,6 +265,15 @@ int argcat(int argc, char *argout[], char *argin[])
 
 json_object * optionlist(json_object * schema)
 {
+  json_object * elementlist = NULL;
+  if(json_object_object_get_ex(schema, "schema", &elementlist))
+  {
+    if(json_object_object_get_ex(schema, "properties", NULL))
+    {
+      return elementlist;
+    }
+//    else if (
+  }
 }
 
 // void fillenv(WJElement proto, WJElement face)
