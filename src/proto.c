@@ -72,7 +72,11 @@ int proto(int argc, char *argv[])
 {
   for (int i = 0; i < argc; i++)
   {
-    if (isproto(argv[i]))
+    if (argv[i][0] == '?')
+    {
+      puts("Display description here");
+    }
+    else if (isproto(argv[i]))
     {
       //strcpy(protoname,argv[i]);
       protodepth++;
