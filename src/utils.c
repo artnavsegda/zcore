@@ -63,6 +63,11 @@ char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) 
 //   return NULL;
 // }
 
+json_object * getelementbynameprop(json_object * container, char * text)
+{
+  return NULL;
+}
+
 /*int ifacefound(char * ifacetosearch)
 {
   if (getelementbynameprop(doc,ifacetosearch))
