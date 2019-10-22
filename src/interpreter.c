@@ -9,7 +9,7 @@
 #include "interpreter.h"
 #include "proto.h"
 #include "builtin.h"
-// #include "face.h"
+#include "face.h"
 // #include "command.h"
 // #include "option.h"
 
@@ -37,10 +37,10 @@ int execute(int argc, char *argv[]) {
   // {
   //   ret = command(argc,argv);
   // }
-  // else if (isface(argv[0]))
-  // {
-  //   ret = face(argc,argv);
-  // }
+  else if (isface(argv[0]))
+  {
+    //ret = face(argc,argv);
+  }
   // else if (isoption(argv[0]))
   // {
   //   ret = option(argc,argv);
