@@ -63,13 +63,13 @@ int commandlist()
   listbuiltins();
   switch (domain)
   {
-     case PROTO:
-       listprotos();
-     break;
-  //   case FACE:
+    case PROTO:
+      listprotos();
+    break;
+    case FACE:
   //     listfaces();
   //     listcommands();
-  //   break;
+    break;
   //   case OPTION:
   //     listoptions();
   //     listcommands();
