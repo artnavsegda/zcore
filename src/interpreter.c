@@ -3,26 +3,24 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-// #include <wjelement.h>
-// #include <wjreader.h>
 #include "utils.h"
 #include "interpreter.h"
 #include "proto.h"
 #include "builtin.h"
 #include "face.h"
 // #include "command.h"
-// #include "option.h"
+#include "option.h"
 
 enum domains domain = PROTO;
-// extern WJElement protojson;
-// extern WJElement protoface;
+extern json_object * protojson;
+extern json_object * protoface;
 extern int protodepth;
 
 int execute(int argc, char *argv[]) {
   int ret = 0;
   enum domains ret_domain = domain;
-  // WJElement ret_protojson = protojson;
-  // WJElement ret_protoface = protoface;
+  json_object * ret_protojson = protojson;
+  json_object * ret_protoface = protoface;
   int ret_protodepth = protodepth;
 
   if (isbuiltin(argv[0]))
@@ -52,8 +50,8 @@ int execute(int argc, char *argv[]) {
   if (ret)
   {
     domain = ret_domain;
-    // protojson = ret_protojson;
-    // protoface = ret_protoface;
+    protojson = ret_protojson;
+    protoface = ret_protoface;
     protodepth = ret_protodepth;
   }
 }
