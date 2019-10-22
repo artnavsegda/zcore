@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <json-c/json.h>
 // #include "zcore.h"
 #include "interpreter.h"
 #include "face.h"
@@ -12,6 +13,7 @@
 // extern WJElement rl_protojson;
 // WJElement protoface = NULL;
 // WJElement rl_protoface = NULL;
+extern json_object * protojson;
 char facename[100] = "";
 char rl_facename[100] = "";
 
@@ -85,6 +87,12 @@ int listfaces(void)
 {
 //   WJElement face = NULL;
   puts("Faces:");
+
+  json_object_object_foreach(protojson, key, val)
+  {
+    puts(key);
+  }
+
 //   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
 //     puts(WJEString(face, "name", WJE_GET, ""));
 //   }
