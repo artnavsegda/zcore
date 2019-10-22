@@ -27,7 +27,7 @@ int listprotos(void)
   //
   puts("Protos:");
 
-  json_object_object_foreach(root, key, val)
+  json_object_object_foreach(protojson, key, val)
   {
     puts(key);
   }
@@ -83,7 +83,8 @@ int proto(int argc, char *argv[])
     if (isproto(argv[i]))
     {
 //       //strcpy(protoname,argv[i]);
-//       protodepth++;
+      protodepth++;
+      json_object_object_get_ex(protojson,argv[i],&protojson);
 //       protojson = WJEObject(protojson, argv[i], WJE_GET);
 //       if (WJEGet(protojson, "schema", NULL))
 //       {
