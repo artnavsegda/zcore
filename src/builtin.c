@@ -62,7 +62,7 @@ int path_root()
 int commandlist(int argc, char *argv[])
 {
   puts("tokens:");
-  listbuiltins();
+  listbuiltins(argc-i, &argv[i]);
   switch (domain)
   {
     case PROTO:
@@ -80,7 +80,7 @@ int commandlist(int argc, char *argv[])
   return 1;
 }
 
-void listbuiltins()
+void listbuiltins(int argc, char *argv[])
 {
   puts("?");
   puts("..");
