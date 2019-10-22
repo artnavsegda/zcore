@@ -14,16 +14,16 @@
 // extern WJElement rl_optionjson;
 // WJElement rl_parameter;
 
-// int listoptions(void)
-// {
+int listoptions(void)
+{
 //   WJElement option = NULL;
-//   puts("Options:");
+  puts("Options:");
 //
 //   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
 //     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
 //       puts(option->name);
 //   }
-// }
+}
 
 // int isoption(char * optionname)
 // {

@@ -6,7 +6,7 @@
 // #include "zcore.h"
 #include "face.h"
 // #include "command.h"
-// #include "option.h"
+#include "option.h"
 // #include "prompt.h"
 // #include "acquire.h"
 
@@ -70,10 +70,10 @@ int commandlist()
       listfaces();
   //     listcommands();
     break;
-  //   case OPTION:
-  //     listoptions();
+    case OPTION:
+      listoptions();
   //     listcommands();
-  //   break;
+    break;
   }
   return 1;
 }
