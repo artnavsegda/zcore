@@ -17,8 +17,12 @@
 int listoptions(void)
 {
 //   WJElement option = NULL;
+  json_object * options = NULL;
+
   puts("Options:");
-//
+
+  
+
 //   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
 //     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
 //       puts(option->name);
