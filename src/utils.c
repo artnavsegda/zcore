@@ -55,9 +55,19 @@ char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) 
 // WJElement getelementbynameprop(WJElement container, char * text)
 // {
 //   WJElement entity = NULL;
+//   char * namesake = WJEString(container, "schema.namesake", WJE_GET, NULL);
 //   while (entity = _WJEObject(container, "data[]", WJE_GET, &entity)) {
-//     if (strcmp(WJEString(entity, "name", WJE_GET, ""), text) == 0) {
-//       return entity;
+//     if (namesake)
+//     {
+//       if (strcmp(WJEString(entity, namesake, WJE_GET, ""), text) == 0) {
+//         return entity;
+//       }
+//     }
+//     else
+//     {
+//       if (strcmp(entity->name, text) == 0) {
+//         return entity;
+//       }
 //     }
 //   }
 //   return NULL;
