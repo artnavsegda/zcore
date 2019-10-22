@@ -14,7 +14,7 @@ json_object * protojson = NULL;
 int rl_protodepth = 0;
 // WJElement rl_protojson = NULL;
 
-// extern WJElement protoface;
+extern json_object * protoface;
 // extern WJElement rl_protoface;
 extern json_object * root;
 
@@ -23,8 +23,6 @@ int listprotos(void)
   if (protodepth == 0)
     protojson = root;
   
-  // WJElement proto = NULL;
-  //
   puts("Protos:");
 
   json_object_object_foreach(protojson, key, val)

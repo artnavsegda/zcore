@@ -5,11 +5,10 @@
 #include "interpreter.h"
 #include "face.h"
 #include "utils.h"
-// #include "option.h"
+#include "option.h"
 // #include "completion.h"
 // #include "command.h"
 
-// extern WJElement protojson;
 // extern WJElement rl_protojson;
 json_object * protoface = NULL;
 // WJElement rl_protoface = NULL;
@@ -85,7 +84,6 @@ int face(int argc, char *argv[])
 
 int listfaces(void)
 {
-//   WJElement face = NULL;
   json_object * faces = NULL;
 
   if (json_object_object_get_ex(protojson, "data", &faces))

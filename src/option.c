@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-// #include <wjelement.h>
 // #include "zcore.h"
 #include "interpreter.h"
 #include "option.h"
@@ -8,7 +7,7 @@
 // #include "completion.h"
 
 extern json_object * protojson;
-// extern WJElement protoface;
+extern json_object * protoface;
 // extern WJElement rl_protojson;
 // extern WJElement rl_protoface;
 // extern WJElement rl_optionjson;
@@ -16,7 +15,6 @@ extern json_object * protojson;
 
 int listoptions(void)
 {
-//   WJElement option = NULL;
   json_object * options = NULL;
 
   puts("Options:");
@@ -28,7 +26,6 @@ int listoptions(void)
       puts(key);
     }
   }
-  
 
 //   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
 //     if (!WJEBool(option, "hidden", WJE_GET, FALSE))

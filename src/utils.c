@@ -7,7 +7,7 @@
 #include <sys/wait.h>
 #include <json-c/json.h>
 #include "utils.h"
-//#include "option.h"
+#include "option.h"
 
 
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
