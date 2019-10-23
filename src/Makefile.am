@@ -5,3 +5,4 @@ zcore_SOURCES = main.c utils.c config.c load.c acquire.c interpreter.c proto.c b
 #zgen_SOURCES = plug4.c generator.c config.c load.c
 zfilter_SOURCES = zfilter.c filter.c config.c load.c
 zgen_SOURCES = zgen.c generator.c config.c load.c
+CFLAGS +=-std=gnu99
