@@ -9,6 +9,7 @@
 
 extern WJElement protojson;
 extern WJElement rl_protojson;
+extern enum domains domain;
 WJElement protoface = NULL;
 WJElement rl_protoface = NULL;
 char facename[100] = "";
@@ -91,6 +92,7 @@ int listfaces(void)
   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
     puts(elementname(protojson,face));
   }
+  return 0;
 }
 
 char * facevalues(const char * text, int len)

@@ -16,6 +16,7 @@ extern WJElement protojson;
 extern WJElement protoface;
 extern WJElement rl_protojson;
 extern WJElement rl_parameter;
+extern enum domains domain;
 
 WJElement rl_commjson = NULL;
 int rl_argcount = 0;
@@ -28,6 +29,7 @@ int listcommands(void)
   while ((command = _WJEObject(protojson, "schema.commands[]", WJE_GET, &command))) {
     puts(command->name);
   }
+  return 0;
 }
 
 int iscommand(char * commandname)

@@ -12,6 +12,7 @@ extern WJElement protoface;
 extern WJElement rl_protojson;
 extern WJElement rl_protoface;
 extern WJElement rl_optionjson;
+extern enum domains domain;
 WJElement rl_parameter;
 
 int listoptions(void)
@@ -23,6 +24,7 @@ int listoptions(void)
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
       puts(option->name);
   }
+  return 0;
 }
 
 int isoption(char * optionname)

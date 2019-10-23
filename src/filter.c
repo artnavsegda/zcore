@@ -60,4 +60,5 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
     translate(output, WJEObject(input, "values", WJE_GET), schema, schemapath, "%s.properties[]");
     return output;
   }
+  return NULL;
 }

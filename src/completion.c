@@ -15,6 +15,7 @@
 #include "interpreter.h"
 
 enum domains rl_domain = PROTO;
+extern enum domains domain;
 char *rl_commandname = NULL;
 
 int compute_lcd_of_matches2 (cmplist_t * list, char *text)
@@ -121,6 +122,7 @@ int rl_execute(int argc, char *argv[])
   {
     rl_option(argc,argv);
   }
+  return 0;
 }
 
 int rl_interpret(char * stringtointerpret, int start, int end)
@@ -139,6 +141,7 @@ int rl_interpret(char * stringtointerpret, int start, int end)
     }
   }
   rl_commandname = NULL;
+  return 0;
 }
 
 void init_completition(void)
@@ -409,7 +412,7 @@ void zc_cleanup(cmplist_t *list)
 
 int zc_completion2(int count, int key)
 {
-   cmplist_t list = { .complecount = 0, .locode = NULL };
+   cmplist_t list = { .complecount = 0 };
 //   array_allocate("", callback, &list);
 //   printf("%d\n",list.complecount);
 //   printf("%s\n",list.locode);
@@ -557,6 +560,6 @@ int zc_completion2(int count, int key)
   //rl_forced_update_display();
   //rl_insert_text("puk");
 
-
+  return 0;
 }
 

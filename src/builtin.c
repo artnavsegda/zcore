@@ -15,6 +15,7 @@
 extern int protodepth;
 extern WJElement protojson;
 extern WJElement protoface;
+extern enum domains domain;
 
 int path_up()
 {
@@ -148,6 +149,7 @@ int printoption(WJElement proto, WJElement face, int depth)
       puts("");
     }
   }
+  return 0;
 }
 
 int printoption2(WJElement proto, int depth)
@@ -156,6 +158,7 @@ int printoption2(WJElement proto, int depth)
   while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
     printoption(proto,face, depth);
   }
+  return 0;
 }
 
 int printoption3(WJElement protoinput, int depth)
@@ -182,6 +185,7 @@ int printoption3(WJElement protoinput, int depth)
       printoption3(proto, depth);
     }
   }
+  return 0;
 }
 
 int builtin_show(int argc, char *argv[])
@@ -202,11 +206,13 @@ int builtin_show(int argc, char *argv[])
   }
   else
     puts("Not implemented");
+  return 0;
 }
 
 int builtin_acquire(int argc, char *argv[])
 {
   acquire(WJEObject(root, argv[1], WJE_GET));
+  return 0;
 }
 
 static void schema_error(void *client, const char *format, ...) {
@@ -228,7 +234,7 @@ static WJElement schema_load(const char *name, void *client,
 	schema = NULL;
 	if(client && name) {
 		format = (char *)client;
-		path = malloc(strlen(format) + strlen(name));
+		path = (char *)malloc(strlen(format) + strlen(name));
 		sprintf(path, format, name);
 
 		if ((schemafile = fopen(path, "r"))) {
@@ -269,6 +275,7 @@ int builtin_validate(int argc, char *argv[])
       puts("schema invalid");
     }
   }
+  return 0;
 }
 
 int builtin(int argc, char *argv[])
@@ -297,6 +304,7 @@ int builtin(int argc, char *argv[])
   {
     return builtin_validate(argc,argv);
   }
+  return 0;
 }
 
 char * builtinvalues(const char * text, int len)

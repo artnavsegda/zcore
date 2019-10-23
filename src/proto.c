@@ -15,6 +15,7 @@ WJElement rl_protojson = NULL;
 
 extern WJElement protoface;
 extern WJElement rl_protoface;
+extern enum domains domain;
 
 int listprotos(void)
 {
@@ -31,6 +32,7 @@ int listprotos(void)
 //      puts(protohelp(proto->name));
     }
   }
+  return 0;
 }
 
 int isproto(char * protoname)
@@ -146,6 +148,7 @@ int rl_proto(int argc, char *argv[])
       rl_option(argc-i, &argv[i]);
     }
   }
+  return 0;
 }
 
 char * protovalues(const char * text, int len)

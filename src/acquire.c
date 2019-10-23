@@ -26,6 +26,7 @@ int acquire(WJElement proto)
   WJERename(jsondata,"data");
   WJEAttach(proto,jsondata);
 //  WJEDump(jsondata);
+  return 0;
 }
 
 int acquireall(WJElement directory)
@@ -42,4 +43,5 @@ int acquireall(WJElement directory)
       acquireall(proto);
     }
   }
+  return 0;
 }

@@ -22,6 +22,7 @@ int readconfig(void)
     configjson = WJEObject(NULL, NULL, WJE_NEW);
 
   parseconfig(configjson);
+  return 0;
 }
 
 

@@ -146,6 +146,7 @@ int streamintocommand(char * command, char *argv[], char *envp[], char * stream)
   }
   fwrite(stream,strlen(stream),1,jsonstream);
   pclose(jsonstream);
+  return 0;
 }
 
 int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
@@ -161,6 +162,7 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
   {
     waitpid(pid, &status, 0);
   }
+  return 0;
 }
 
 int forkexec(char * command, int argc, char *argv[], char *envp[])
@@ -172,6 +174,7 @@ int forkexec(char * command, int argc, char *argv[], char *envp[])
     execve(command,argv,envp);
     exit(0);
   }
+  return 0;
 }
 
 int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
@@ -190,6 +193,7 @@ int streamfromcommand(char * command, char *argv[], char *envp[], WJElement json
   }
   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
   WJEAttach(jsonparent,jsondata);
+  return 0;
 }
 
 FILE * my_popen_read (char * command, char *argv[], char *envp[])
@@ -268,6 +272,7 @@ WJElement optionlist(WJElement schema)
   {
     return WJEObject(schema,"schema", WJE_GET);
   }
+  return NULL;
 }
 
 void fillenv(WJElement proto, WJElement face)
