@@ -16,21 +16,21 @@ extern json_object * protojson;
 extern json_object * protoface;
 extern json_object * root;
 
-// int path_up()
-// {
-//   switch (domain)
-//   {
-//     case PROTO:
-//       if (protodepth == 0)
-//       {
-//         printf("Already at the command root\n");
-//       }
-//       else
-//       {
-//         protodepth--;
+int path_up()
+{
+  switch (domain)
+  {
+    case PROTO:
+      if (protodepth == 0)
+      {
+        printf("Already at the command root\n");
+      }
+      else
+      {
+        protodepth--;
 //         protojson = protojson->parent;
-//       }
-//     break;
+      }
+    break;
 //     case FACE:
 //       domain = PROTO;
 //       protodepth--;
@@ -48,9 +48,9 @@ extern json_object * root;
 //         protojson = protojson->parent;
 //       }
 //     break;
-//   }
-//   return 0;
-// }
+  }
+  return 0;
+}
 
 int path_root()
 {
