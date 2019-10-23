@@ -3,6 +3,7 @@
 //#include "zcore.h"
 #include "interpreter.h"
 #include "proto.h"
+#include "builtin.h"
 // #include "face.h"
 // #include "completion.h"
 // #include "option.h"
@@ -10,6 +11,8 @@
 
 int protodepth = 0;
 json_object * protojson = NULL;
+
+extern path_t * path;
 
 int rl_protodepth = 0;
 // WJElement rl_protojson = NULL;
@@ -22,7 +25,7 @@ int listprotos(void)
 {
   if (protodepth == 0)
     protojson = root;
-  
+
   puts("Protos:");
 
   json_object_object_foreach(protojson, key, val)
@@ -82,7 +85,12 @@ int proto(int argc, char *argv[])
     if (isproto(argv[i]))
     {
       protodepth++;
+
+      struct path_s* tmp = (struct path_s*)malloc(sizeof(struct path_s));
+      tmp->parent = path;
       json_object_object_get_ex(protojson,argv[i],&protojson);
+      tmp->element = protojson;
+      path = tmp;
       if (json_object_object_get_ex(protojson, "schema", NULL))
       {
 //         if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)

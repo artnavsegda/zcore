@@ -16,13 +16,9 @@ extern json_object * protojson;
 extern json_object * protoface;
 extern json_object * root;
 
-struct path_s
-{
-    json_object * element;
-    struct path_s * parent;
-};
-struct path_s root_path = { .element = root };
-struct path_s * path = &root_path;
+path_t root_path = { .element = root };
+
+path_t * path = &root_path;
 
 int path_up()
 {
@@ -36,19 +32,20 @@ int path_up()
       else
       {
         protodepth--;
-        //protojson = protojson->parent;
         path = path->parent;
+        protojson = path->element;
       }
     break;
-//     case FACE:
-//       domain = PROTO;
-//       protodepth--;
-//       protojson = protojson->parent;
-//     break;
-//     case OPTION:
+     case FACE:
+       domain = PROTO;
+       protodepth--;
+       path = path->parent;
+       protojson = path->element;
+     break;
+     case OPTION:
 //       if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
 //       {
-//         domain = FACE;
+         domain = FACE;
 //       }
 //       else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
 //       {
@@ -56,7 +53,7 @@ int path_up()
 //         protodepth--;
 //         protojson = protojson->parent;
 //       }
-//     break;
+     break;
   }
   return 0;
 }
@@ -223,10 +220,10 @@ int builtin(int argc, char *argv[])
   {
     return path_root();
   }
-  // else if (strcmp(argv[0],"..") == 0)
-  // {
-  //   return path_up();
-  // }
+  else if (strcmp(argv[0],"..") == 0)
+  {
+   return path_up();
+  }
   // else if (strcmp(argv[0],"show") == 0)
   // {
   //   return builtin_show(argc,argv);
