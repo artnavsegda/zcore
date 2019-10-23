@@ -73,16 +73,13 @@ int setup_environment(char *envp[])
       //myenv[1] = NULL;
     break;
     case FACE:
-      clearenv();
       setenv("DOMAIN", "FACE", 1);
       //setenv("DOM", "FA", 1);
       //myenv[0] = "DOMAIN=FACE";
       //myenv[1] = NULL;
     break;
     case OPTION:
-      setenv("TEST", "ABCD", 1);
-      setenv("ETTS", "DBCA", 1);
-      //setenv("DOMAIN", "OPTION", 1);
+      setenv("DOMAIN", "OPTION", 1);
       //setenv("FACE", elementname(protojson,protoface), 1);
       //setenv("FACE", "test1", 1);
       //fillenv(protojson,protoface);
