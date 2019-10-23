@@ -16,6 +16,12 @@ extern json_object * protojson;
 extern json_object * protoface;
 extern json_object * root;
 
+struct path
+{
+    json_object * element = root;
+    struct node* parent;
+};
+
 int path_up()
 {
   switch (domain)
@@ -28,7 +34,8 @@ int path_up()
       else
       {
         protodepth--;
-//         protojson = protojson->parent;
+        //protojson = protojson->parent;
+        path = path.parent;
       }
     break;
 //     case FACE:
