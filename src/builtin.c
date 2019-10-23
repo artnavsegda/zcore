@@ -84,9 +84,9 @@ char *builtincommands[] = {"show","acquire","validate",NULL};
 
 void listbuiltins(int argc, char *argv[])
 {
-  puts("?");
-  puts("..");
-  puts("/");
+//  puts("?");
+//  puts("..");
+//  puts("/");
   puts("show");
   puts("acquire");
   puts("validate");

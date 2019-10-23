@@ -28,7 +28,7 @@ int listprotos(void)
     if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
     {
       puts(proto->name);
-      puts(protohelp(proto->name));
+//      puts(protohelp(proto->name));
     }
   }
 }
