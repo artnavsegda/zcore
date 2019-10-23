@@ -74,6 +74,7 @@ int setup_environment(char *envp[])
       //myenv[1] = NULL;
     break;
     case FACE:
+      envp[0] = "DOMAIN=FACE";
       //setenv("DOMAIN", "FACE", 1);
       //setenv("DOM", "FA", 1);
       //myenv[0] = "DOMAIN=FACE";
@@ -143,7 +144,8 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
     {
-      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,environ);
+      setup_environment(myenv);
+      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,myenv);
     }
     else
     {
