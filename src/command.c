@@ -68,18 +68,19 @@ int setup_environment(char *envp[])
   switch(domain)
   {
     case PROTO:
-      setenv("DOMAIN", "PROTO", 1);
+      envp[0] = "DOMAIN=PROTO";
+      //setenv("DOMAIN", "PROTO", 1);
       //myenv[0] = "DOMAIN=PROTO";
       //myenv[1] = NULL;
     break;
     case FACE:
-      setenv("DOMAIN", "FACE", 1);
+      //setenv("DOMAIN", "FACE", 1);
       //setenv("DOM", "FA", 1);
       //myenv[0] = "DOMAIN=FACE";
       //myenv[1] = NULL;
     break;
     case OPTION:
-      setenv("DOMAIN", "OPTION", 1);
+      //setenv("DOMAIN", "OPTION", 1);
       //setenv("FACE", elementname(protojson,protoface), 1);
       //setenv("FACE", "test1", 1);
       //fillenv(protojson,protoface);
@@ -89,12 +90,12 @@ int setup_environment(char *envp[])
       //myenv[2] = NULL;
     break;
     case SETTING:
-      setenv("DOMAIN", "SETTING", 1);
+      //setenv("DOMAIN", "SETTING", 1);
       //myenv[0] = "DOMAIN=SETTING";
       //myenv[1] = NULL;
     break;
     case COMMAND:
-      setenv("DOMAIN", "COMMAND", 1);
+      //setenv("DOMAIN", "COMMAND", 1);
       //myenv[0] = "DOMAIN=COMMAND";
       //myenv[1] = NULL;
     break;
