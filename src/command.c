@@ -62,7 +62,7 @@ int rl_iscommand(char * commandname)
   return 0;
 }
 
-int setup_environment(void)
+int setup_environment(char *envp[])
 {
   //clearenv();
   switch(domain)
@@ -73,14 +73,19 @@ int setup_environment(void)
       //myenv[1] = NULL;
     break;
     case FACE:
+      clearenv();
       setenv("DOMAIN", "FACE", 1);
+      //setenv("DOM", "FA", 1);
       //myenv[0] = "DOMAIN=FACE";
       //myenv[1] = NULL;
     break;
     case OPTION:
-      setenv("DOMAIN", "OPTION", 1);
-      setenv("FACE", elementname(protojson,protoface), 1);
-      fillenv(protojson,protoface);
+      setenv("TEST", "ABCD", 1);
+      setenv("ETTS", "DBCA", 1);
+      //setenv("DOMAIN", "OPTION", 1);
+      //setenv("FACE", elementname(protojson,protoface), 1);
+      //setenv("FACE", "test1", 1);
+      //fillenv(protojson,protoface);
       //myenv[0] = "DOMAIN=OPTION";
       //sprintf(facename,"FACE=%s", WJEString(protoface, "name", WJE_GET, ""));
       //myenv[1] = facename;
@@ -97,6 +102,7 @@ int setup_environment(void)
       //myenv[1] = NULL;
     break;
   }
+  return 0;
 }
 
 int command(int argc, char *argv[])
