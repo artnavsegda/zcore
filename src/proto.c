@@ -26,7 +26,10 @@ int listprotos(void)
   puts("Protos:");
   while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
     if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
+    {
       puts(proto->name);
+      puts(protohelp(proto->name));
+    }
   }
 }
 
@@ -72,7 +75,13 @@ int proto(int argc, char *argv[])
 {
   for (int i = 0; i < argc; i++)
   {
-    if (isproto(argv[i]))
+    if (argv[i][0] == '?')
+    {
+      puts("Display description here");
+      puts(protohelp("ethernet"));
+      return 1;
+    }
+    else if (isproto(argv[i]))
     {
       //strcpy(protoname,argv[i]);
       protodepth++;
@@ -162,4 +171,10 @@ void incom_proto(void)
   rl_protojson = protojson;
   rl_protodepth = protodepth;
 }
+
+char * protohelp(const char * commandname)
+{
+  return "Help description";
+}
+
 

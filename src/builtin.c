@@ -59,10 +59,10 @@ int path_root()
   protojson = root;
 }
 
-int commandlist()
+int commandlist(int argc, char *argv[])
 {
   puts("tokens:");
-  listbuiltins();
+  listbuiltins(argc-1, &argv[1]);
   switch (domain)
   {
     case PROTO:
@@ -80,7 +80,9 @@ int commandlist()
   return 1;
 }
 
-void listbuiltins()
+char *builtincommands[] = {"show","acquire","validate",NULL};
+
+void listbuiltins(int argc, char *argv[])
 {
   puts("?");
   puts("..");
@@ -273,7 +275,7 @@ int builtin(int argc, char *argv[])
 {
   if (argv[0][0]=='?')
   {
-    return commandlist();
+    return commandlist(argc,argv);
   }
   else if (argv[0][0]=='/')
   {
@@ -296,8 +298,6 @@ int builtin(int argc, char *argv[])
     return builtin_validate(argc,argv);
   }
 }
-
-char *builtincommands[] = {"show","acquire","validate",NULL};
 
 char * builtinvalues(const char * text, int len)
 {
