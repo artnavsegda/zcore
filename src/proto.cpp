@@ -18,6 +18,12 @@ extern json_object * protoface;
 // extern WJElement rl_protoface;
 extern json_object * root;
 
+struct path
+{
+    json_object * element = root;
+    struct node* parent;
+};
+
 int listprotos(void)
 {
   if (protodepth == 0)
