@@ -55,6 +55,7 @@ int path_up()
 
 int path_root()
 {
+  puts("root");
   domain = PROTO;
   protodepth = 0;
   protojson = root;
