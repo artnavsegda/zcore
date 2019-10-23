@@ -88,7 +88,7 @@ int setup_environment(char *envp[])
     break;
     case OPTION:
       envp[0] = "DOMAIN=OPTION";
-      sprintf(faceenv,"SECTION=%s", elementname(protojson,protoface));
+      sprintf(faceenv,"SECTION=%s", protoface->name);
       envp[1] = faceenv;
       envp[2] = NULL;
       //setenv("DOMAIN", "OPTION", 1);

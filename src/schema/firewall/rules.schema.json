@@ -84,9 +84,11 @@
  },
  "commands": {
   "apply": {
-     "command": "/home/art/Coding/zcore/src/zfilter2",
-     "args": ["zfilter2", "-sfirewall.rules.schema", "-e./apply.sh", "-trule", "-cfirewall", "-napply"],
-     "json": "in"
+    "command": "/home/art/Coding/zcore/src/apply-rules.sh",
+    "args": ["apply-rules.sh"],
+    "argpass": true,
+    "json": "in",
+    "reload": true
   },
   "add": {
     "command": "/home/art/Coding/zcore/src/zgen",
