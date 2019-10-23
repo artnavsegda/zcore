@@ -77,9 +77,11 @@ int option_print_value(WJElement parameter)
   }
   else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
     WJElement array = NULL;
-    char * entity = NULL;
-    while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
-      puts(entity);
+    if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+      char * entity = NULL;
+      while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
+        puts(entity);
+    }
   }
   else
   {
