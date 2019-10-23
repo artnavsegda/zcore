@@ -95,11 +95,15 @@ int setup_environment(char *envp[])
       //myenv[2] = NULL;
     break;
     case SETTING:
+      envp[0] = "DOMAIN=OPTION";
+      envp[1] = NULL;
       //setenv("DOMAIN", "SETTING", 1);
       //myenv[0] = "DOMAIN=SETTING";
       //myenv[1] = NULL;
     break;
     case COMMAND:
+      envp[0] = "DOMAIN=OPTION";
+      envp[1] = NULL;
       //setenv("DOMAIN", "COMMAND", 1);
       //myenv[0] = "DOMAIN=COMMAND";
       //myenv[1] = NULL;
@@ -111,6 +115,7 @@ int setup_environment(char *envp[])
 int command(int argc, char *argv[])
 {
   char *myenv[100];
+  setup_environment(myenv);
   char facename[100] = "";
 
   char *args[100];
@@ -124,19 +129,19 @@ int command(int argc, char *argv[])
 
   if (strcmp(WJEString(command,"json", WJE_GET, "none"),"out") == 0)
   {
-    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,environ,WJEArray(protojson, "data", WJE_GET));
+    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,myenv,WJEArray(protojson, "data", WJE_GET));
   }
   else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
   {
     if (domain == OPTION)
     {
-      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,environ,WJEToString(protoface,TRUE));
+      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,myenv,WJEToString(protoface,TRUE));
     }
     else if (domain == FACE)
     {
       WJElement face = NULL;
       while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,environ,WJEToString(face,TRUE));
+        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,myenv,WJEToString(face,TRUE));
       }
     }
     else
@@ -148,12 +153,11 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
     {
-      setup_environment(myenv);
       forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,myenv);
     }
     else
     {
-      forkexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,environ);
+      forkexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,myenv);
     }
   }
   if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
