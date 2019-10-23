@@ -63,6 +63,7 @@ int path_root()
   domain = PROTO;
   protodepth = 0;
   protojson = root;
+  path = &root_path;
   return 0;
 }
 
