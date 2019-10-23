@@ -62,6 +62,8 @@ int rl_iscommand(char * commandname)
   return 0;
 }
 
+char faceenv[100] = "";
+
 int setup_environment(char *envp[])
 {
   //clearenv();
@@ -84,13 +86,14 @@ int setup_environment(char *envp[])
     break;
     case OPTION:
       envp[0] = "DOMAIN=OPTION";
-      envp[1] = NULL;
+      sprintf(faceenv,"FACE=%s", elementname(protojson,protoface));
+      envp[1] = faceenv;
+      envp[2] = NULL;
       //setenv("DOMAIN", "OPTION", 1);
       //setenv("FACE", elementname(protojson,protoface), 1);
       //setenv("FACE", "test1", 1);
       //fillenv(protojson,protoface);
       //myenv[0] = "DOMAIN=OPTION";
-      //sprintf(facename,"FACE=%s", WJEString(protoface, "name", WJE_GET, ""));
       //myenv[1] = facename;
       //myenv[2] = NULL;
     break;
@@ -116,7 +119,6 @@ int command(int argc, char *argv[])
 {
   char *myenv[100];
   setup_environment(myenv);
-  char facename[100] = "";
 
   char *args[100];
   WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
