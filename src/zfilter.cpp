@@ -18,17 +18,17 @@ int main(int argc, char *argv[])
 	readconfig();
 	loadeveryschema(root,config.schemapath);
 
-	// WJReader readjson;
-	// if (!(readjson = WJROpenFILEDocument(stdin, NULL, 0))) {
-  //   puts("json failed to open");
-  //   return 1;
-  // }
-	//
-	// //WJElement input = WJEOpenDocument(readjson, NULL, NULL, NULL);
-	// //WJEDump(input);
-	// //WJElement doc = filter(input,root, argv[1]);
-	// //(doc);
-	//
+  json_object * readjson = NULL;
+  if ((readjson = json_object_from_fd(stdin)) == NULL) {
+    puts("json failed to open");
+    return 1;
+  }
+
+	//WJElement input = WJEOpenDocument(readjson, NULL, NULL, NULL);
+	//WJEDump(input);
+	//WJElement doc = filter(input,root, argv[1]);
+	//(doc);
+
 	// WJEDump(filter(WJEOpenDocument(readjson, NULL, NULL, NULL),root, argv[1]));
 
 	return 0;
