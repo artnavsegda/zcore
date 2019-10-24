@@ -9,10 +9,13 @@
 // #include "completion.h"
 // #include "command.h"
 
+extern enum domains rl_domain;
+
 // extern WJElement rl_protojson;
 json_object * protoface = NULL;
 json_object * rl_protoface = NULL;
 extern json_object * protojson;
+extern json_object * rl_protojson;
 char facename[100] = "";
 char rl_facename[100] = "";
 
@@ -32,21 +35,21 @@ int isface(char * facename)
   return 0;
 }
 
-// int rl_isface(char * facename)
-// {
-//   if (rl_domain == FACE)
-//   {
-//     if (getelementbynameprop(rl_protojson, facename))
-//     {
-//       return 1;
-//     }
-//     else
-//     {
-//       return 0;
-//     }
-//   }
-//   return 0;
-// }
+int rl_isface(char * facename)
+{
+  if (rl_domain == FACE)
+  {
+    if (getelementbynameprop(rl_protojson, facename))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  return 0;
+}
 
 int face(int argc, char *argv[])
 {
