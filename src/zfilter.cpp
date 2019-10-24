@@ -25,14 +25,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-	//WJElement input = WJEOpenDocument(readjson, NULL, NULL, NULL);
-	//WJEDump(input);
-	//WJElement doc = filter(input,root, argv[1]);
-	//(doc);
-
-	// WJEDump(filter(WJEOpenDocument(readjson, NULL, NULL, NULL),root, argv[1]));
-
-  puts(json_object_to_json_string_ext(readjson, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+  puts(json_object_to_json_string_ext(filter(readjson,root, argv[1]), JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
 
 	return 0;
 }
