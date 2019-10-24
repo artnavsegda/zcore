@@ -10,10 +10,10 @@
 #include "face.h"
 
 extern char **environ;
-// extern WJElement protojson;
-// extern WJElement protoface;
-// extern WJElement rl_protojson;
-// extern WJElement rl_parameter;
+extern json_object * protojson;
+extern json_object * protoface;
+extern json_object * rl_protojson;
+extern json_object * rl_parameter;
 
 // WJElement rl_commjson = NULL;
 int rl_argcount = 0;
