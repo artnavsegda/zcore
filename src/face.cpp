@@ -70,20 +70,20 @@ int face(int argc, char *argv[])
   return 0;
 }
 
-// int rl_face(int argc, char *argv[])
-// {
-//   strcpy(rl_facename,argv[0]);
-//   rl_protoface = getelementbynameprop(rl_protojson, rl_facename);
-//   rl_domain = OPTION;
-//   if (argc > 1)
-//   {
-//     if(rl_isoption(argv[1]))
-//     {
-//       return rl_option(argc-1, &argv[1]);
-//     }
-//   }
-//   return 0;
-// }
+int rl_face(int argc, char *argv[])
+{
+  strcpy(rl_facename,argv[0]);
+  rl_protoface = getelementbynameprop(rl_protojson, rl_facename);
+  rl_domain = OPTION;
+  // if (argc > 1)
+  // {
+  //   if(rl_isoption(argv[1]))
+  //   {
+  //     return rl_option(argc-1, &argv[1]);
+  //   }
+  // }
+  return 0;
+}
 
 int listfaces(void)
 {
