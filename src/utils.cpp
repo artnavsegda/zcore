@@ -52,27 +52,6 @@ char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) 
     return lead;
 }
 
-// WJElement getelementbynameprop(WJElement container, char * text)
-// {
-//   WJElement entity = NULL;
-//   char * namesake = WJEString(container, "schema.namesake", WJE_GET, NULL);
-//   while (entity = _WJEObject(container, "data[]", WJE_GET, &entity)) {
-//     if (namesake)
-//     {
-//       if (strcmp(WJEString(entity, namesake, WJE_GET, ""), text) == 0) {
-//         return entity;
-//       }
-//     }
-//     else
-//     {
-//       if (strcmp(entity->name, text) == 0) {
-//         return entity;
-//       }
-//     }
-//   }
-//   return NULL;
-// }
-
 json_object * getelementbynameprop(json_object * container, char * text)
 {
   json_object * entity = NULL;
@@ -93,22 +72,6 @@ json_object * getelementbynameprop(json_object * container, char * text)
   }
   return NULL;
 }
-
-/*int ifacefound(char * ifacetosearch)
-{
-  if (getelementbynameprop(doc,ifacetosearch))
-      return 1;
-  else
-      return 0;
-}*/
-
-/*int commandfound(char * commandtosearch)
-{
-  if (WJEObjectF(schema, WJE_GET, NULL, "commands.%s", commandtosearch))
-    return 1;
-  else
-    return 0;
-}*/
 
 char * cutquot(char * stringtocut)
 {
@@ -252,18 +215,6 @@ int argcat(int argc, char *argout[], char *argin[])
   }
   return argc;
 }
-
-// WJElement optionlist(WJElement schema)
-// {
-//   if (WJEGet(schema, "schema.patternProperties", NULL))
-//   {
-//     return WJEObject(schema,"schema.patternProperties[0]", WJE_GET);
-//   }
-//   else if (WJEGet(schema, "schema.properties", NULL))
-//   {
-//     return WJEObject(schema,"schema", WJE_GET);
-//   }
-// }
 
 json_object * optionlist(json_object * schema)
 {
