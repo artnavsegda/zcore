@@ -1,5 +1,2 @@
-#include <wjelement.h>
-#include <wjreader.h>
-
-WJElement generator(WJElement schema,  char * schemapath, char *values[], int valindex);
+json_object * generator(json_object * schema,  char * schemapath, char *values[], int valindex);
 
