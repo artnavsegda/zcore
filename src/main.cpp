@@ -10,7 +10,7 @@
 #include "config.h"
 #include "load.h"
 #include "acquire.h"
-//#include "prompt.h"
+#include "prompt.h"
 
 json_object * root = NULL;
 char zcore_prompt[255] = "";
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
   while (1)
   {
-//    generateprompt(zcore_prompt);
+    generateprompt(zcore_prompt);
 //    char * input = readline(zcore_prompt);
     char * input = readline(">");
     if (!input)

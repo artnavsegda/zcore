@@ -18,8 +18,8 @@ extern enum domains domain;
 //   return element->name;
 // }
 
-// void generateprompt(char * prompt)
-// {
+void generateprompt(char * prompt)
+{
 //   char hostname[HOST_NAME_MAX];
 //   gethostname(hostname, HOST_NAME_MAX);
 // //  sprintf(prompt, "[%s@%s]/%s>", getlogin(), hostname, protoname);
@@ -43,4 +43,4 @@ extern enum domains domain;
 //     }
 //   }
 //   strcat(prompt, ">");
-// }
+}
