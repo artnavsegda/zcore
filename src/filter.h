@@ -1,5 +1,4 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-WJElement filter(WJElement input, WJElement schema, char * schemapath);
-
+json_object * filter(json_object * input, json_object * schema, char * schemapath);

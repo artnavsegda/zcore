@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <json-c/json.h>
-// #include "filter.h"
+#include "filter.h"
 #include "config.h"
 #include "load.h"
 
