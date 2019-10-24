@@ -54,14 +54,14 @@ int rl_iscommand(char * commandname)
 {
   if (domain == FACE || domain == OPTION)
   {
-  //   if (WJEGetF(rl_protojson, NULL, "schema.commands.%s", commandname))
-  //   {
-  //     return 1;
-  //   }
-  //   else
-  //   {
-  //     return 0;
-  //   }
+    if (!json_pointer_getf(rl_protojson, NULL, "/schema/commands/%s", commandname))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
   }
   return 0;
 }
