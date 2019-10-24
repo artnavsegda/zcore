@@ -95,7 +95,7 @@ int proto(int argc, char *argv[])
         else if (json_object_object_get_ex(schema, "properties", NULL))
         {
           domain = OPTION;
-//           protoface = WJEObject(protojson, "data", WJE_GET);
+          json_object_object_get_ex(protojson, "data", &protoface);
         }
       }
     }
@@ -137,7 +137,7 @@ int rl_proto(int argc, char *argv[])
         }
         else if (json_object_object_get_ex(schema, "properties", NULL))
         {
-        //   rl_protoface = WJEObject(rl_protojson, "data", WJE_GET);
+          json_object_object_get_ex(rl_protojson, "data", &rl_protoface);
           rl_domain = OPTION;
         }
       }
