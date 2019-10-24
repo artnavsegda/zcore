@@ -27,11 +27,6 @@ int listoptions(void)
       puts(key);
     }
   }
-
-//   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
-//     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
-//       puts(option->name);
-//   }
   return 0;
 }
 
@@ -39,14 +34,14 @@ int isoption(char * optionname)
 {
   if (domain == OPTION)
   {
-//     if (WJEGetF(optionlist(protojson), NULL, "properties.%s", optionname))
-//     {
-//       return 1;
-//     }
-//     else
-//     {
-//       return 0;
-//     }
+    if (!json_pointer_getf(optionlist(protojson), NULL, "properties/%s", optionname))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
   }
   return 0;
 }
@@ -55,14 +50,14 @@ int rl_isoption(char * optionname)
 {
   if (rl_domain == OPTION)
   {
-    // if (WJEGetF(optionlist(rl_protojson), NULL, "properties.%s", optionname))
-    // {
-    //   return 1;
-    // }
-    // else
-    // {
-    //   return 0;
-    // }
+    if (!json_pointer_getf(optionlist(rl_protojson), NULL, "properties/%s", optionname))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
   }
   return 0;
 }
