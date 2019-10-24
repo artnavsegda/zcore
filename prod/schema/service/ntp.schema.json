@@ -20,7 +20,7 @@
     }
   },
   "acquire": {
-    "shell": "/usr/bin/zfilter",
-    "args": ["zfilter", "service.ntp.schema", "/root/scripts/ntp.sh"]
+    "shell": "/root/ntp.sh",
+    "args": ["ntp.sh", "service.ntp.schema"]
   }
 }
