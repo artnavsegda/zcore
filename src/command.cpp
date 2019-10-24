@@ -20,12 +20,17 @@ int rl_argcount = 0;
 
 int listcommands(void)
 {
-  // WJElement command = NULL;
-  // puts("Commands:");
-  //
-  // while ((command = _WJEObject(protojson, "schema.commands[]", WJE_GET, &command))) {
-  //   puts(command->name);
-  // }
+  json_object * commands = NULL;
+
+  if (!json_pointer_get(protojson, "/schema/commands", &commands))
+  {
+    puts("Commands:");
+    json_object_object_foreach(commands, key, val)
+    {
+      puts(key);
+    }
+  }
+
   return 0;
 }
 
