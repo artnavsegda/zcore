@@ -79,11 +79,11 @@ int commandlist()
     break;
     case FACE:
       listfaces();
-     listcommands();
+      listcommands();
     break;
     case OPTION:
       listoptions();
-     listcommands();
+      listcommands();
     break;
   }
   return 1;
