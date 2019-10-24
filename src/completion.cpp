@@ -3,8 +3,7 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <wjelement.h>
-#include <wjreader.h>
+#include <json-c/json.h>
 #include "completion.h"
 #include "utils.h"
 #include "proto.h"
@@ -23,22 +22,23 @@ int rl_execute(int argc, char *argv[])
   {
     //builtin(argc,argv);
   }
-  else if (rl_isproto(argv[0]))
-  {
-    rl_proto(argc,argv);
-  }
-  else if (rl_iscommand(argv[0]))
-  {
-    rl_command(argc,argv);
-  }
-  else if (rl_isface(argv[0]))
-  {
-    rl_face(argc,argv);
-  }
-  else if (rl_isoption(argv[0]))
-  {
-    rl_option(argc,argv);
-  }
+//  else if (rl_isproto(argv[0]))
+//  {
+//    rl_proto(argc,argv);
+//  }
+//  else if (rl_iscommand(argv[0]))
+//  {
+//    rl_command(argc,argv);
+//  }
+//  else if (rl_isface(argv[0]))
+//  {
+//    rl_face(argc,argv);
+//  }
+//  else if (rl_isoption(argv[0]))
+//  {
+//    rl_option(argc,argv);
+//  }
+  return 0;
 }
 
 int rl_interpret(char * stringtointerpret, int start, int end)
@@ -57,11 +57,12 @@ int rl_interpret(char * stringtointerpret, int start, int end)
     }
   }
   rl_commandname = NULL;
+  return 0;
 }
 
 void init_completition(void)
 {
-  incom_proto();
+//  incom_proto();
 }
 
 char ** character_name_completion(const char *text, int start, int end)
@@ -75,54 +76,54 @@ char ** character_name_completion(const char *text, int start, int end)
 char * rl_rootcommands(const char * text, int len)
 {
   char * rootvalues = NULL;
-  if ((rootvalues = builtinvalues(text,len)) == NULL)
-  {
-    switch (domain)
-    {
-      case PROTO:
-        rootvalues = protovalues(text,len);
-      break;
-      case FACE:
-        if ((rootvalues = facevalues(text,len)) == NULL)
-          rootvalues = commandvalues(text,len);
-      break;
-      case OPTION:
-        if ((rootvalues = optionvalues(text,len)) == NULL)
-          rootvalues = commandvalues(text,len);
-      break;
-    }
-  }
+  // if ((rootvalues = builtinvalues(text,len)) == NULL)
+  // {
+  //   switch (domain)
+  //   {
+  //     case PROTO:
+  //       rootvalues = protovalues(text,len);
+  //     break;
+  //     case FACE:
+  //       if ((rootvalues = facevalues(text,len)) == NULL)
+  //         rootvalues = commandvalues(text,len);
+  //     break;
+  //     case OPTION:
+  //       if ((rootvalues = optionvalues(text,len)) == NULL)
+  //         rootvalues = commandvalues(text,len);
+  //     break;
+  //   }
+  // }
   return rootvalues;
 }
 
 char * rl_subcommands(const char * text, int len, int state)
 {
   char * subvalues = NULL;
-  switch (rl_domain)
-  {
-    case PROTO:
-    if ((subvalues = protovalues(text,len)) == NULL)
-      return NULL;
-    break;
-    case FACE:
-    if ((subvalues = facevalues(text,len)) == NULL)
-      return NULL;
-    break;
-    case OPTION:
-    if ((subvalues = optionvalues(text,len)) == NULL)
-      return NULL;
-    break;
-    case SETTING:
-    if ((subvalues = settingvalues(text,len,state)) == NULL)
-     subvalues = cuesettingvalues(text,len,state);
-//    if ((subvalues = cuesettingvalues(text,len,state)) == NULL)
-//      return NULL;
-    break;
-    case COMMAND:
-    if ((subvalues = cuecommandvalues(text,len,state)) == NULL)
-      return NULL;
-    break;
-  }
+//   switch (rl_domain)
+//   {
+//     case PROTO:
+//     if ((subvalues = protovalues(text,len)) == NULL)
+//       return NULL;
+//     break;
+//     case FACE:
+//     if ((subvalues = facevalues(text,len)) == NULL)
+//       return NULL;
+//     break;
+//     case OPTION:
+//     if ((subvalues = optionvalues(text,len)) == NULL)
+//       return NULL;
+//     break;
+//     case SETTING:
+//     if ((subvalues = settingvalues(text,len,state)) == NULL)
+//      subvalues = cuesettingvalues(text,len,state);
+// //    if ((subvalues = cuesettingvalues(text,len,state)) == NULL)
+// //      return NULL;
+//     break;
+//     case COMMAND:
+//     if ((subvalues = cuecommandvalues(text,len,state)) == NULL)
+//       return NULL;
+//     break;
+//   }
   return subvalues;
 }
 
@@ -146,4 +147,3 @@ char * character_name_generator(const char *text, int state)
 
   return NULL;
 }
-

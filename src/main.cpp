@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <json-c/json.h>
 #include "interpreter.h"
-//#include "completion.h"
+#include "completion.h"
 #include "config.h"
 #include "load.h"
 #include "acquire.h"
@@ -17,7 +17,7 @@ char zcore_prompt[255] = "";
 
 int main(int argc, char *argv[])
 {
-//  rl_attempted_completion_function = character_name_completion;
+  rl_attempted_completion_function = character_name_completion;
 
   root = json_object_new_object();
 

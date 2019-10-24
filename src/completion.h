@@ -4,5 +4,5 @@
 char **character_name_completion(const char *, int, int);
 char *character_name_generator(const char *, int);
 
-extern enum domains rl_domain;
+// extern enum domains rl_domain;
 
