@@ -4,14 +4,15 @@
 #include "interpreter.h"
 #include "option.h"
 #include "utils.h"
-// #include "completion.h"
+#include "completion.h"
 
 extern json_object * protojson;
 extern json_object * protoface;
-// extern WJElement rl_protojson;
-// extern WJElement rl_protoface;
+extern json_object * rl_protojson;
+extern json_object * rl_protoface;
 // extern WJElement rl_optionjson;
 // WJElement rl_parameter;
+extern enum domains rl_domain;
 
 int listoptions(void)
 {
@@ -50,21 +51,21 @@ int isoption(char * optionname)
   return 0;
 }
 
-// int rl_isoption(char * optionname)
-// {
-//   if (rl_domain == OPTION)
-//   {
-//     if (WJEGetF(optionlist(rl_protojson), NULL, "properties.%s", optionname))
-//     {
-//       return 1;
-//     }
-//     else
-//     {
-//       return 0;
-//     }
-//   }
-//   return 0;
-// }
+int rl_isoption(char * optionname)
+{
+  if (rl_domain == OPTION)
+  {
+    // if (WJEGetF(optionlist(rl_protojson), NULL, "properties.%s", optionname))
+    // {
+    //   return 1;
+    // }
+    // else
+    // {
+    //   return 0;
+    // }
+  }
+  return 0;
+}
 
 int option(int argc, char *argv[])
 {
@@ -145,12 +146,12 @@ int option(int argc, char *argv[])
   return 1;
 }
 
-// int rl_option(int argc, char *argv[])
-// {
-//   rl_parameter = WJEObjectF(optionlist(rl_protojson), WJE_GET, NULL, "properties.%s",argv[0]);
-//   rl_domain = SETTING;
-//   return 1;
-// }
+int rl_option(int argc, char *argv[])
+{
+  // rl_parameter = WJEObjectF(optionlist(rl_protojson), WJE_GET, NULL, "properties.%s",argv[0]);
+  // rl_domain = SETTING;
+  return 1;
+}
 
 // char * optionvalues(const char * text, int len)
 // {
