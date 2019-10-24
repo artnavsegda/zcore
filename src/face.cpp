@@ -61,10 +61,10 @@ int face(int argc, char *argv[])
     {
       return option(argc-1, &argv[1]);
     }
-//     else if (iscommand(argv[1]))
-//     {
-//       return command(argc-1, &argv[1]);
-//     }
+    else if (iscommand(argv[1]))
+    {
+      return command(argc-1, &argv[1]);
+    }
   }
   return 0;
 }
