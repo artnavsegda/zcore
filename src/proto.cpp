@@ -4,9 +4,9 @@
 #include "interpreter.h"
 #include "proto.h"
 #include "builtin.h"
-// #include "face.h"
-// #include "completion.h"
-// #include "option.h"
+#include "face.h"
+#include "completion.h"
+#include "option.h"
 #include <json-c/json.h>
 
 int protodepth = 0;
@@ -98,19 +98,19 @@ int proto(int argc, char *argv[])
 //         }
       }
     }
-//     else if(isface(argv[i]))
-//     {
-//       return face(argc-i, &argv[i]);
-//     }
-//     else if(isoption(argv[i]))
-//     {
-//       return option(argc-i, &argv[i]);
-//     }
-//     else
-//     {
-//       printf("%s unavalible\n", argv[i]);
-//       return 1;
-//     }
+    else if(isface(argv[i]))
+    {
+      return face(argc-i, &argv[i]);
+    }
+    else if(isoption(argv[i]))
+    {
+      return option(argc-i, &argv[i]);
+    }
+    else
+    {
+      printf("%s unavalible\n", argv[i]);
+      return 1;
+    }
   }
   return 0;
 }
