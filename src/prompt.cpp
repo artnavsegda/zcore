@@ -1,11 +1,11 @@
 #include <string.h>
 #include <unistd.h>
 #include <limits.h>
-// #include <wjelement.h>
+#include <json-c/json.h>
 #include "interpreter.h"
 
-// extern WJElement protojson;
-// extern WJElement protoface;
+extern json_object * protojson;
+extern json_object * protoface;
 extern int protodepth;
 extern enum domains domain;
 
