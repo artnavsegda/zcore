@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <unistd.h>
-// #include <wjelement.h>
-// #include <wjreader.h>
+#include <json-c/json.h>
 // #include "generator.h"
-// #include "config.h"
-// #include "load.h"
+#include "config.h"
+#include "load.h"
 
-// WJElement root = NULL;
+json_object * root = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -34,11 +33,11 @@ int main(int argc, char *argv[])
   {
     puts("syntax: zgen -o name=value -o name=value schema.path");
   }
-	//
-  // root = WJEObject(NULL, NULL, WJE_NEW);
-  // readconfig();
-  // loadeveryschema(root,config.schemapath);
-	//
+
+  root = json_object_new_object();
+  readconfig();
+  loadeveryschema(root,config.schemapath);
+
   // WJElement doc = NULL;
   // doc = generator(root, argv[optind], values, valindex);
   // WJEDump(doc);
