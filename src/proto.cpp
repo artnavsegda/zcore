@@ -93,7 +93,6 @@ int proto(int argc, char *argv[])
           domain = FACE;
         }
         else if (json_object_object_get_ex(schema, "properties", NULL))
-//         else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
         {
           domain = OPTION;
 //           protoface = WJEObject(protojson, "data", WJE_GET);
@@ -129,17 +128,18 @@ int rl_proto(int argc, char *argv[])
       json_object_object_get_ex(rl_protojson,argv[i],&rl_protojson);
       tmp->element = rl_protojson;
       rl_path = tmp;
-      if (json_object_object_get_ex(rl_protojson, "schema", NULL))
+      json_object * schema = NULL;
+      if (json_object_object_get_ex(rl_protojson, "schema", &schema))
       {
-        // if (strcmp(WJEString(rl_protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
-        // {
+        if (json_object_object_get_ex(schema, "patternProperties", NULL))
+        {
           rl_domain = FACE;
-        // }
-        // else if (strcmp(WJEString(rl_protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
-        // {
+        }
+        else if (json_object_object_get_ex(schema, "properties", NULL))
+        {
         //   rl_protoface = WJEObject(rl_protojson, "data", WJE_GET);
-        //   rl_domain = OPTION;
-        // }
+          rl_domain = OPTION;
+        }
       }
     }
     else if(rl_isface(argv[i]))
