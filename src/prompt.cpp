@@ -20,15 +20,15 @@ extern enum domains domain;
 
 void generateprompt(char * prompt)
 {
-//   char hostname[HOST_NAME_MAX];
-//   gethostname(hostname, HOST_NAME_MAX);
-// //  sprintf(prompt, "[%s@%s]/%s>", getlogin(), hostname, protoname);
-//   prompt[0] = '\0';
-//   strcat(prompt, "[");
-//   strcat(prompt, getlogin());
-//   strcat(prompt, "@");
-//   strcat(prompt, hostname);
-//   strcat(prompt, "]");
+  char hostname[HOST_NAME_MAX];
+  gethostname(hostname, HOST_NAME_MAX);
+//  sprintf(prompt, "[%s@%s]/%s>", getlogin(), hostname, protoname);
+  prompt[0] = '\0';
+  strcat(prompt, "[");
+  strcat(prompt, getlogin());
+  strcat(prompt, "@");
+  strcat(prompt, hostname);
+  strcat(prompt, "]");
 //   for (int i = protodepth; i > 0; i--)
 //   {
 //     strcat(prompt, "/");
@@ -42,5 +42,5 @@ void generateprompt(char * prompt)
 //       strcat(prompt, WJEString(protoface, "name", WJE_GET, ""));
 //     }
 //   }
-//   strcat(prompt, ">");
+  strcat(prompt, ">");
 }
