@@ -11,7 +11,7 @@
 
 // extern WJElement rl_protojson;
 json_object * protoface = NULL;
-// WJElement rl_protoface = NULL;
+json_object * rl_protoface = NULL;
 extern json_object * protojson;
 char facename[100] = "";
 char rl_facename[100] = "";

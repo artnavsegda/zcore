@@ -15,10 +15,10 @@ json_object * protojson = NULL;
 extern path_t * path;
 
 int rl_protodepth = 0;
-// WJElement rl_protojson = NULL;
+json_object * rl_protojson = NULL;
 
 extern json_object * protoface;
-// extern WJElement rl_protoface;
+extern json_object * rl_protoface;
 extern json_object * root;
 
 int listprotos(void)
