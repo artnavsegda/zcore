@@ -11,15 +11,13 @@
 
 int protodepth = 0;
 json_object * protojson = NULL;
-
 extern path_t * path;
-
 int rl_protodepth = 0;
 json_object * rl_protojson = NULL;
-
 extern json_object * protoface;
 extern json_object * rl_protoface;
 extern json_object * root;
+extern enum domains rl_domain;
 
 int listprotos(void)
 {
@@ -55,24 +53,24 @@ int isproto(char * protoname)
   return 0;
 }
 
-// int rl_isproto(char * rl_protoname)
-// {
-//   if (rl_domain == PROTO)
-//   {
-//     if (rl_protodepth == 0)
-//       rl_protojson = root;
-//
-//     if (WJEGet(rl_protojson, rl_protoname, NULL))
-//     {
-//       return 1;
-//     }
-//     else
-//     {
-//       return 0;
-//     }
-//   }
-//   return 0;
-// }
+int rl_isproto(char * rl_protoname)
+{
+  if (rl_domain == PROTO)
+  {
+    if (rl_protodepth == 0)
+      rl_protojson = root;
+
+    if (json_object_object_get_ex(rl_protojson, rl_protoname, NULL))
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  return 0;
+}
 
 int proto(int argc, char *argv[])
 {
