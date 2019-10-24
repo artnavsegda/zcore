@@ -33,10 +33,6 @@ int listprotos(void)
     puts(key);
   }
 
-  // while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
-  //   if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
-  //     puts(proto->name);
-  // }
   return 0;
 }
 
