@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <json-c/json.h>
 // #include "filter.h"
 #include "config.h"
@@ -19,7 +20,7 @@ int main(int argc, char *argv[])
 	loadeveryschema(root,config.schemapath);
 
   json_object * readjson = NULL;
-  if ((readjson = json_object_from_fd(stdin)) == NULL) {
+  if ((readjson = json_object_from_fd(STDIN_FILENO)) == NULL) {
     puts("json failed to open");
     return 1;
   }
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
 	//(doc);
 
 	// WJEDump(filter(WJEOpenDocument(readjson, NULL, NULL, NULL),root, argv[1]));
+
+  puts(json_object_to_json_string_ext(readjson, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
 
 	return 0;
 }
