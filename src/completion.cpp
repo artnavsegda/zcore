@@ -78,20 +78,20 @@ char * rl_rootcommands(const char * text, int len)
   char * rootvalues = NULL;
   if ((rootvalues = builtinvalues(text,len)) == NULL)
   {
-  //   switch (domain)
-  //   {
-  //     case PROTO:
+    switch (domain)
+    {
+      case PROTO:
   //       rootvalues = protovalues(text,len);
-  //     break;
-  //     case FACE:
+      break;
+      case FACE:
   //       if ((rootvalues = facevalues(text,len)) == NULL)
   //         rootvalues = commandvalues(text,len);
-  //     break;
-  //     case OPTION:
+      break;
+      case OPTION:
   //       if ((rootvalues = optionvalues(text,len)) == NULL)
   //         rootvalues = commandvalues(text,len);
-  //     break;
-  //   }
+      break;
+    }
   }
   return rootvalues;
 }
@@ -99,31 +99,31 @@ char * rl_rootcommands(const char * text, int len)
 char * rl_subcommands(const char * text, int len, int state)
 {
   char * subvalues = NULL;
-//   switch (rl_domain)
-//   {
-//     case PROTO:
+  switch (rl_domain)
+  {
+    case PROTO:
 //     if ((subvalues = protovalues(text,len)) == NULL)
 //       return NULL;
-//     break;
-//     case FACE:
+    break;
+    case FACE:
 //     if ((subvalues = facevalues(text,len)) == NULL)
 //       return NULL;
-//     break;
-//     case OPTION:
+    break;
+    case OPTION:
 //     if ((subvalues = optionvalues(text,len)) == NULL)
 //       return NULL;
-//     break;
-//     case SETTING:
+    break;
+    case SETTING:
 //     if ((subvalues = settingvalues(text,len,state)) == NULL)
 //      subvalues = cuesettingvalues(text,len,state);
 // //    if ((subvalues = cuesettingvalues(text,len,state)) == NULL)
 // //      return NULL;
-//     break;
-//     case COMMAND:
+    break;
+    case COMMAND:
 //     if ((subvalues = cuecommandvalues(text,len,state)) == NULL)
 //       return NULL;
-//     break;
-//   }
+    break;
+  }
   return subvalues;
 }
 
