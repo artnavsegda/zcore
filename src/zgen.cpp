@@ -16,24 +16,24 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-  // char * values[100];
-  // int valindex = 0;
-  // int opt;
-	//
-  // while ((opt = getopt(argc, argv, "o:")) != -1)
-  // {
-  //   switch (opt)
-  //   {
-  //     case 'o':
-  //       values[valindex++] = optarg;
-  //       break;
-  //   }
-  // }
-	//
-  // if (!argv[optind])
-  // {
-  //   puts("syntax: zgen -o name=value -o name=value schema.path");
-  // }
+  char * values[100];
+  int valindex = 0;
+  int opt;
+
+  while ((opt = getopt(argc, argv, "o:")) != -1)
+  {
+    switch (opt)
+    {
+      case 'o':
+        values[valindex++] = optarg;
+        break;
+    }
+  }
+
+  if (!argv[optind])
+  {
+    puts("syntax: zgen -o name=value -o name=value schema.path");
+  }
 	//
   // root = WJEObject(NULL, NULL, WJE_NEW);
   // readconfig();
