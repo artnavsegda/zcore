@@ -10,7 +10,7 @@ json_object * generator(json_object * schema,  char * schemapath, char *values[]
   json_object * reqstring = NULL;
   json_object * valuesoutput = NULL;
 
-//   WJElement output = WJEObject(NULL, "values", WJE_NEW);
+  json_object * output = json_object_new_object();
 //
 //   while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.patternProperties[0].required[]", schemapath))
 //   {
@@ -81,6 +81,5 @@ json_object * generator(json_object * schema,  char * schemapath, char *values[]
 //     }
 //   }
 //
-//   return output;
-  return NULL;
+   return output;
 }
