@@ -8,7 +8,7 @@
 #include "proto.h"
 #include "builtin.h"
 #include "face.h"
-// #include "command.h"
+#include "command.h"
 #include "option.h"
 
 enum domains domain = PROTO;
@@ -31,10 +31,10 @@ int execute(int argc, char *argv[]) {
   {
     ret = proto(argc,argv);
   }
-  // else if (iscommand(argv[0]))
-  // {
-  //   ret = command(argc,argv);
-  // }
+  else if (iscommand(argv[0]))
+  {
+    ret = command(argc,argv);
+  }
   else if (isface(argv[0]))
   {
     ret = face(argc,argv);
