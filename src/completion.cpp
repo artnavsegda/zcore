@@ -22,22 +22,22 @@ int rl_execute(int argc, char *argv[])
   {
     //builtin(argc,argv);
   }
-//  else if (rl_isproto(argv[0]))
-//  {
-//    rl_proto(argc,argv);
-//  }
+  else if (rl_isproto(argv[0]))
+  {
+    rl_proto(argc,argv);
+  }
 //  else if (rl_iscommand(argv[0]))
 //  {
 //    rl_command(argc,argv);
 //  }
-//  else if (rl_isface(argv[0]))
-//  {
-//    rl_face(argc,argv);
-//  }
-//  else if (rl_isoption(argv[0]))
-//  {
-//    rl_option(argc,argv);
-//  }
+  else if (rl_isface(argv[0]))
+  {
+    rl_face(argc,argv);
+  }
+  else if (rl_isoption(argv[0]))
+  {
+    rl_option(argc,argv);
+  }
   return 0;
 }
 
