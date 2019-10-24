@@ -1,11 +1,10 @@
 #include <stdio.h>
-// #include <wjelement.h>
-// #include <wjreader.h>
+#include <json-c/json.h>
 // #include "filter.h"
-// #include "config.h"
-// #include "load.h"
-//
-// WJElement root = NULL;
+#include "config.h"
+#include "load.h"
+
+json_object * root = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -15,9 +14,10 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	// root = WJEObject(NULL, NULL, WJE_NEW);
-	// readconfig();
-	// loadeveryschema(root,config.schemapath);
+	root = json_object_new_object();
+	readconfig();
+	loadeveryschema(root,config.schemapath);
+
 	// WJReader readjson;
 	// if (!(readjson = WJROpenFILEDocument(stdin, NULL, 0))) {
   //   puts("json failed to open");
