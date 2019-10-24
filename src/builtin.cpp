@@ -6,10 +6,10 @@
 #include "proto.h"
 // #include "zcore.h"
 #include "face.h"
-// #include "command.h"
+#include "command.h"
 #include "option.h"
-// #include "prompt.h"
-// #include "acquire.h"
+#include "prompt.h"
+#include "acquire.h"
 
 extern int protodepth;
 extern json_object * protojson;
@@ -79,11 +79,11 @@ int commandlist()
     break;
     case FACE:
       listfaces();
-  //     listcommands();
+     listcommands();
     break;
     case OPTION:
       listoptions();
-  //     listcommands();
+     listcommands();
     break;
   }
   return 1;

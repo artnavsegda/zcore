@@ -18,50 +18,51 @@ extern char **environ;
 // WJElement rl_commjson = NULL;
 int rl_argcount = 0;
 
-// int listcommands(void)
-// {
-//   WJElement command = NULL;
-//   puts("Commands:");
-//
-//   while ((command = _WJEObject(protojson, "schema.commands[]", WJE_GET, &command))) {
-//     puts(command->name);
-//   }
-// }
+int listcommands(void)
+{
+  // WJElement command = NULL;
+  // puts("Commands:");
+  //
+  // while ((command = _WJEObject(protojson, "schema.commands[]", WJE_GET, &command))) {
+  //   puts(command->name);
+  // }
+  return 0;
+}
 
-// int iscommand(char * commandname)
-// {
-//   if (domain == FACE || domain == OPTION)
-//   {
-//     if (WJEGetF(protojson, NULL, "schema.commands.%s", commandname))
-//     {
-//       return 1;
-//     }
-//     else
-//     {
-//       return 0;
-//     }
-//   }
-//   return 0;
-// }
+int iscommand(char * commandname)
+{
+  // if (domain == FACE || domain == OPTION)
+  // {
+  //   if (WJEGetF(protojson, NULL, "schema.commands.%s", commandname))
+  //   {
+  //     return 1;
+  //   }
+  //   else
+  //   {
+  //     return 0;
+  //   }
+  // }
+  return 0;
+}
 
-// int rl_iscommand(char * commandname)
-// {
-//   if (domain == FACE || domain == OPTION)
-//   {
-//     if (WJEGetF(rl_protojson, NULL, "schema.commands.%s", commandname))
-//     {
-//       return 1;
-//     }
-//     else
-//     {
-//       return 0;
-//     }
-//   }
-//   return 0;
-// }
+int rl_iscommand(char * commandname)
+{
+  // if (domain == FACE || domain == OPTION)
+  // {
+  //   if (WJEGetF(rl_protojson, NULL, "schema.commands.%s", commandname))
+  //   {
+  //     return 1;
+  //   }
+  //   else
+  //   {
+  //     return 0;
+  //   }
+  // }
+  return 0;
+}
 
-// int command(int argc, char *argv[])
-// {
+int command(int argc, char *argv[])
+{
 //   char *myenv[100];
 //   char facename[100] = "";
 //   clearenv();
@@ -141,30 +142,30 @@ int rl_argcount = 0;
 //   {
 //     acquire(protojson);
 //   }
-//   return 1;
-// }
+  return 1;
+}
 
-// int rl_command(int argc, char *argv[])
-// {
+int rl_command(int argc, char *argv[])
+{
 //   rl_commjson = WJEObjectF(rl_protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
 //   rl_domain = COMMAND;
 //   rl_argcount = argc-1;
-//   return 1;
-// }
+  return 1;
+}
 
-// char * commandvalues(const char * text, int len)
-// {
+char * commandvalues(const char * text, int len)
+{
 //   static WJElement command = NULL;
 //   while (command = _WJEObject(rl_protojson, "schema.commands[]", WJE_GET, &command)) {
 //     if (strncmp(command->name, text, len) == 0) {
 //       return strdup(command->name);
 //     }
 //   }
-//   return NULL;
-// }
+  return NULL;
+}
 
-// char * cuecommandvalues(const char * text, int len, int state)
-// {
+char * cuecommandvalues(const char * text, int len, int state)
+{
 //   //printf("arg num %d\n",rl_argcount);
 //   char * cuename = NULL;
 //   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
@@ -177,5 +178,5 @@ int rl_argcount = 0;
 //   {
 //     return facevalues(text,len);
 //   }
-//   return NULL;
-// }
+  return NULL;
+}

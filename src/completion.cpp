@@ -26,10 +26,10 @@ int rl_execute(int argc, char *argv[])
   {
     rl_proto(argc,argv);
   }
-//  else if (rl_iscommand(argv[0]))
-//  {
-//    rl_command(argc,argv);
-//  }
+  else if (rl_iscommand(argv[0]))
+  {
+    rl_command(argc,argv);
+  }
   else if (rl_isface(argv[0]))
   {
     rl_face(argc,argv);
