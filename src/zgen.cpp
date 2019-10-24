@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
   readconfig();
   loadeveryschema(root,config.schemapath);
 
-  // WJElement doc = NULL;
-  // doc = generator(root, argv[optind], values, valindex);
-  // WJEDump(doc);
+	json_object * doc = NULL;
+	// doc = generator(root, argv[optind], values, valindex);
+	//puts(json_object_to_json_string_ext(doc, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
 
 	return 0;
 }
