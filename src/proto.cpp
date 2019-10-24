@@ -85,17 +85,19 @@ int proto(int argc, char *argv[])
       json_object_object_get_ex(protojson,argv[i],&protojson);
       tmp->element = protojson;
       path = tmp;
-      if (json_object_object_get_ex(protojson, "schema", NULL))
+      json_object * schema = NULL;
+      if (json_object_object_get_ex(protojson, "schema", &schema))
       {
-//         if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
-//         {
+        if (json_object_object_get_ex(schema, "patternProperties", NULL))
+        {
           domain = FACE;
-//         }
+        }
+        else if (json_object_object_get_ex(schema, "properties", NULL))
 //         else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
-//         {
-//           domain = OPTION;
+        {
+          domain = OPTION;
 //           protoface = WJEObject(protojson, "data", WJE_GET);
-//         }
+        }
       }
     }
     else if(isface(argv[i]))
