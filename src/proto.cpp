@@ -154,10 +154,10 @@ int rl_proto(int argc, char *argv[])
   return 0;
 }
 
-// char * protovalues(const char * text, int len)
-// {
-//   if (rl_protodepth == 0)
-//     rl_protojson = root;
+char * protovalues(const char * text, int len)
+{
+  if (rl_protodepth == 0)
+    rl_protojson = root;
 //
 //   static WJElement proto = NULL;
 //
@@ -168,8 +168,8 @@ int rl_proto(int argc, char *argv[])
 //       return strdup(proto->name);
 //     }
 //   }
-//   return NULL;
-// }
+  return NULL;
+}
 
 void incom_proto(void)
 {

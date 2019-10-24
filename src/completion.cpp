@@ -81,7 +81,7 @@ char * rl_rootcommands(const char * text, int len)
     switch (domain)
     {
       case PROTO:
-  //       rootvalues = protovalues(text,len);
+        rootvalues = protovalues(text,len);
       break;
       case FACE:
   //       if ((rootvalues = facevalues(text,len)) == NULL)
