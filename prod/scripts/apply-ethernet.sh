@@ -1,4 +1,10 @@
 #!/bin/sh
+
+echo $1 $2 $3
+echo sobake
+echo $@
+
 SETARRAY=`cat`
-ubus call uci set "{\"config\":\"network\", \"section\":\"$1\", \"type\":\"interface\", \"values\":$SETARRAY }"
+ubus call uci set "{\"config\":\"network\", \"section\":\"$FACE\", \"type\":\"interface\", \"values\":$SETARRAY }"
+ifup $FACE
 
