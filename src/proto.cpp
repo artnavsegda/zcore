@@ -149,6 +149,7 @@ int rl_proto(int argc, char *argv[])
       rl_option(argc-i, &argv[i]);
     }
   }
+  return 0;
 }
 
 // char * protovalues(const char * text, int len)
