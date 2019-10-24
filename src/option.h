@@ -1,5 +1,3 @@
-#include <wjelement.h>
-
 int listoptions(void);
 //WJElement optionlist(WJElement schema);
 int isoption(char * optionname);
