@@ -158,6 +158,14 @@ char * protovalues(const char * text, int len)
 {
   if (rl_protodepth == 0)
     rl_protojson = root;
+
+    // json_object_object_foreach(protojson, key, val)
+    // {
+    //   if (strncmp(key, text, len) == 0) {
+    //     return strdup(key);
+    //   }
+    // }
+
 //
 //   static WJElement proto = NULL;
 //
