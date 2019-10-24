@@ -36,8 +36,8 @@ int listcommands(void)
 
 int iscommand(char * commandname)
 {
-  // if (domain == FACE || domain == OPTION)
-  // {
+  if (domain == FACE || domain == OPTION)
+  {
   //   if (WJEGetF(protojson, NULL, "schema.commands.%s", commandname))
   //   {
   //     return 1;
@@ -46,14 +46,14 @@ int iscommand(char * commandname)
   //   {
   //     return 0;
   //   }
-  // }
+  }
   return 0;
 }
 
 int rl_iscommand(char * commandname)
 {
-  // if (domain == FACE || domain == OPTION)
-  // {
+  if (domain == FACE || domain == OPTION)
+  {
   //   if (WJEGetF(rl_protojson, NULL, "schema.commands.%s", commandname))
   //   {
   //     return 1;
@@ -62,7 +62,7 @@ int rl_iscommand(char * commandname)
   //   {
   //     return 0;
   //   }
-  // }
+  }
   return 0;
 }
 
