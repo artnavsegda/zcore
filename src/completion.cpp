@@ -76,8 +76,8 @@ char ** character_name_completion(const char *text, int start, int end)
 char * rl_rootcommands(const char * text, int len)
 {
   char * rootvalues = NULL;
-  // if ((rootvalues = builtinvalues(text,len)) == NULL)
-  // {
+  if ((rootvalues = builtinvalues(text,len)) == NULL)
+  {
   //   switch (domain)
   //   {
   //     case PROTO:
@@ -92,7 +92,7 @@ char * rl_rootcommands(const char * text, int len)
   //         rootvalues = commandvalues(text,len);
   //     break;
   //   }
-  // }
+  }
   return rootvalues;
 }
 
