@@ -6,12 +6,11 @@
 #include "face.h"
 #include "utils.h"
 #include "option.h"
-// #include "completion.h"
-// #include "command.h"
+#include "completion.h"
+#include "command.h"
 
 extern enum domains rl_domain;
 
-// extern WJElement rl_protojson;
 json_object * protoface = NULL;
 json_object * rl_protoface = NULL;
 extern json_object * protojson;
@@ -56,17 +55,17 @@ int face(int argc, char *argv[])
   strcpy(facename,argv[0]);
   protoface = getelementbynameprop(protojson, facename);
   domain = OPTION;
-//   if (argc > 1)
-//   {
-//     if(isoption(argv[1]))
-//     {
-//       return option(argc-1, &argv[1]);
-//     }
+  if (argc > 1)
+  {
+    if(isoption(argv[1]))
+    {
+      return option(argc-1, &argv[1]);
+    }
 //     else if (iscommand(argv[1]))
 //     {
 //       return command(argc-1, &argv[1]);
 //     }
-//   }
+  }
   return 0;
 }
 
@@ -75,13 +74,13 @@ int rl_face(int argc, char *argv[])
   strcpy(rl_facename,argv[0]);
   rl_protoface = getelementbynameprop(rl_protojson, rl_facename);
   rl_domain = OPTION;
-  // if (argc > 1)
-  // {
-  //   if(rl_isoption(argv[1]))
-  //   {
-  //     return rl_option(argc-1, &argv[1]);
-  //   }
-  // }
+  if (argc > 1)
+  {
+    if(rl_isoption(argv[1]))
+    {
+      return rl_option(argc-1, &argv[1]);
+    }
+  }
   return 0;
 }
 
@@ -97,10 +96,6 @@ int listfaces(void)
       puts(key);
     }
   }
-
-//   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-//     puts(WJEString(face, "name", WJE_GET, ""));
-//   }
   return 0;
 }
 
