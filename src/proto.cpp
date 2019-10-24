@@ -164,9 +164,9 @@ int proto(int argc, char *argv[])
 //   return NULL;
 // }
 
-// void incom_proto(void)
-// {
-// //  puts("proto completition init");
-//   rl_protojson = protojson;
-//   rl_protodepth = protodepth;
-// }
+void incom_proto(void)
+{
+//  puts("proto completition init");
+  rl_protojson = protojson;
+  rl_protodepth = protodepth;
+}

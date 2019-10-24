@@ -62,7 +62,7 @@ int rl_interpret(char * stringtointerpret, int start, int end)
 
 void init_completition(void)
 {
-//  incom_proto();
+  incom_proto();
 }
 
 char ** character_name_completion(const char *text, int start, int end)
