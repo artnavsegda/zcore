@@ -64,10 +64,15 @@ int rl_iscommand(char * commandname)
   return 0;
 }
 
-char faceenv[100] = "";
-
-int setup_environment(char *envp[])
+int command(int argc, char *argv[])
 {
+  char *envp[100];
+
+  char *args[100];
+  WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
+  int argsc = arguments(WJEArray(command, "args", WJE_GET),args);
+
+  char faceenv[100] = "";
   int i = 0;
   //clearenv();
   switch(domain)
@@ -110,18 +115,8 @@ int setup_environment(char *envp[])
       //myenv[1] = NULL;
     break;
   }
+  envp[i++] = "CUE=something something";
   envp[i++] = NULL;
-  return 0;
-}
-
-int command(int argc, char *argv[])
-{
-  char *myenv[100];
-  setup_environment(myenv);
-
-  char *args[100];
-  WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
-  int argsc = arguments(WJEArray(command, "args", WJE_GET),args);
 
   if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
   {
@@ -130,19 +125,19 @@ int command(int argc, char *argv[])
 
   if (strcmp(WJEString(command,"json", WJE_GET, "none"),"out") == 0)
   {
-    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,myenv,WJEArray(protojson, "data", WJE_GET));
+    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,envp,WJEArray(protojson, "data", WJE_GET));
   }
   else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
   {
     if (domain == OPTION)
     {
-      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,myenv,WJEToString(protoface,TRUE));
+      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,envp,WJEToString(protoface,TRUE));
     }
     else if (domain == FACE)
     {
       WJElement face = NULL;
       while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,myenv,WJEToString(face,TRUE));
+        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,envp,WJEToString(face,TRUE));
       }
     }
     else
@@ -154,11 +149,11 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
     {
-      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,myenv);
+      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,envp);
     }
     else
     {
-      forkexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,myenv);
+      forkexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,envp);
     }
   }
   if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
