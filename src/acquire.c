@@ -9,6 +9,12 @@ int acquire(WJElement proto)
   char *argv[100];
   int argc = arguments(WJEArray(proto, "schema.acquire.args", WJE_GET), argv);
 
+  WJElement data = NULL;
+  if (data = WJEGet(proto,"data",NULL))
+  {
+    WJEDettach(data);
+  }
+
   //printf("acquire %s\n", proto->name);
   //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"));
 
