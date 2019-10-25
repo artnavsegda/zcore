@@ -107,6 +107,7 @@
     "env": {
       "command": "/usr/bin/env",
       "args": ["env"],
+      "cue": ["raz", "dva", "tri"],
       "argpass": true,
       "wait": true
     }

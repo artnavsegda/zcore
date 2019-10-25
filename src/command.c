@@ -115,16 +115,19 @@ int command(int argc, char *argv[])
       //myenv[1] = NULL;
     break;
   }
-  envp[i++] = "CUE=something something";
-  envp[i++] = NULL;
 
+  char cuestring[100] = "CUE=";
   char * cuename = NULL;
   WJElement cue = NULL;
 
   while (cuename = _WJEString(command, "cue[]", WJE_GET, &cue, NULL))
   {
-    // do to someting
+    puts(cuename);
   }
+
+  envp[i++] = "CUE=";
+
+  envp[i++] = NULL;
 
   if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
   {
