@@ -118,6 +118,14 @@ int command(int argc, char *argv[])
   envp[i++] = "CUE=something something";
   envp[i++] = NULL;
 
+  char * cuename = NULL;
+  WJElement cue = NULL;
+
+  while (cuename = _WJEString(command, "cue[]", WJE_GET, &cue, NULL))
+  {
+    // do to someting
+  }
+
   if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
   {
     argsc = argcat(argsc, args, &argv[1]);
