@@ -156,28 +156,22 @@ int rl_proto(int argc, char *argv[])
 
 char * protovalues(const char * text, int len)
 {
-  static json_object_iter iter;
+  static lh_entry * entry;
 
   if (rl_protodepth == 0)
     rl_protojson = root;
 
-  if (iter.entry == NULL)
+  if (entry == NULL)
   {
-    iter.entry = json_object_get_object(rl_protojson)->head;
+    entry = json_object_get_object(rl_protojson)->head;
   }
 
-  //json_object_object_foreachC(rl_protojson, iter)
-  //iter.entry ? (
-    iter.key = (char*)lh_entry_k(iter.entry);
-  //  iter.val = (struct json_object*)lh_entry_v(iter.entry);
-  //  , iter.entry) : 0);
-
-  if (strncmp(iter.key, text, len) == 0) {
-    iter.entry = iter.entry->next;
-    if (iter.entry == NULL)
+  if (strncmp((char*)lh_entry_k(entry), text, len) == 0) {
+    entry = entry->next;
+    if (entry == NULL)
       return NULL;
     else
-      return strdup(iter.key);
+      return strdup((char*)lh_entry_k(entry));
   }
 
 //  iter.entry = iter.entry->next;
