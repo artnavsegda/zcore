@@ -169,7 +169,7 @@ char * protovalues(const char * text, int len)
   //json_object_object_foreachC(rl_protojson, iter)
   //iter.entry ? (
     iter.key = (char*)lh_entry_k(iter.entry);
-    iter.val = (struct json_object*)lh_entry_v(iter.entry);
+  //  iter.val = (struct json_object*)lh_entry_v(iter.entry);
   //  , iter.entry) : 0);
 
   if (strncmp(iter.key, text, len) == 0) {
