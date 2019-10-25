@@ -173,11 +173,14 @@ char * protovalues(const char * text, int len)
   //  , iter.entry) : 0);
 
   if (strncmp(iter.key, text, len) == 0) {
-    puts(iter.key);
-    //return strdup(iter.key);
+    iter.entry = iter.entry->next;
+    if (iter.entry == NULL)
+      return NULL;
+    else
+      return strdup(iter.key);
   }
 
-  iter.entry = iter.entry->next;
+//  iter.entry = iter.entry->next;
 
 //
 //   static WJElement proto = NULL;
