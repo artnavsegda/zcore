@@ -68,29 +68,27 @@ char faceenv[100] = "";
 
 int setup_environment(char *envp[])
 {
+  int i = 0;
   //clearenv();
   switch(domain)
   {
     case PROTO:
-      envp[0] = "DOMAIN=PROTO";
-      envp[1] = NULL;
+      envp[i++] = "DOMAIN=PROTO";
       //setenv("DOMAIN", "PROTO", 1);
       //myenv[0] = "DOMAIN=PROTO";
       //myenv[1] = NULL;
     break;
     case FACE:
-      envp[0] = "DOMAIN=FACE";
-      envp[1] = NULL;
+      envp[i++] = "DOMAIN=FACE";
       //setenv("DOMAIN", "FACE", 1);
       //setenv("DOM", "FA", 1);
       //myenv[0] = "DOMAIN=FACE";
       //myenv[1] = NULL;
     break;
     case OPTION:
-      envp[0] = "DOMAIN=OPTION";
+      envp[i++] = "DOMAIN=OPTION";
       sprintf(faceenv,"SECTION=%s", protoface->name);
-      envp[1] = faceenv;
-      envp[2] = NULL;
+      envp[i++] = faceenv;
       //setenv("DOMAIN", "OPTION", 1);
       //setenv("FACE", elementname(protojson,protoface), 1);
       //setenv("FACE", "test1", 1);
@@ -100,20 +98,19 @@ int setup_environment(char *envp[])
       //myenv[2] = NULL;
     break;
     case SETTING:
-      envp[0] = "DOMAIN=OPTION";
-      envp[1] = NULL;
+      envp[i++] = "DOMAIN=OPTION";
       //setenv("DOMAIN", "SETTING", 1);
       //myenv[0] = "DOMAIN=SETTING";
       //myenv[1] = NULL;
     break;
     case COMMAND:
-      envp[0] = "DOMAIN=OPTION";
-      envp[1] = NULL;
+      envp[i++] = "DOMAIN=OPTION";
       //setenv("DOMAIN", "COMMAND", 1);
       //myenv[0] = "DOMAIN=COMMAND";
       //myenv[1] = NULL;
     break;
   }
+  envp[i++] = NULL;
   return 0;
 }
 
