@@ -156,7 +156,7 @@ int rl_proto(int argc, char *argv[])
 
 char * protovalues(const char * text, int len)
 {
-  static lh_entry * entry;
+  static lh_entry * entry = NULL;
 
   if (rl_protodepth == 0)
     rl_protojson = root;
@@ -166,12 +166,14 @@ char * protovalues(const char * text, int len)
     entry = json_object_get_object(rl_protojson)->head;
   }
 
-  if (strncmp((char*)lh_entry_k(entry), text, len) == 0) {
+  char * keyname = (char*)lh_entry_k(entry);
+
+  if (strncmp(keyname, text, len) == 0) {
     entry = entry->next;
     if (entry == NULL)
       return NULL;
     else
-      return strdup((char*)lh_entry_k(entry));
+      return strdup(keyname);
   }
 
 //  iter.entry = iter.entry->next;
