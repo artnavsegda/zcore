@@ -145,6 +145,7 @@ int streamintocommand(char * command, char *argv[], char *envp[], char * stream)
     return 1;
   }
   fwrite(stream,strlen(stream),1,jsonstream);
+  fflush(jsonstream);
   pclose(jsonstream);
   return 0;
 }
