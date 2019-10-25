@@ -119,14 +119,12 @@ int command(int argc, char *argv[])
   char cuestring[100] = "CUE=";
   char * cuename = NULL;
   WJElement cue = NULL;
-
   while (cuename = _WJEString(command, "cue[]", WJE_GET, &cue, NULL))
   {
-    puts(cuename);
+    strcat(cuestring, cuename);
+    strcat(cuestring, " ");
   }
-
-  envp[i++] = "CUE=";
-
+  envp[i++] = cuestring;
   envp[i++] = NULL;
 
   if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
