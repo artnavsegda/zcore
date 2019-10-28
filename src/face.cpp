@@ -99,13 +99,13 @@ int listfaces(void)
   return 0;
 }
 
-// char * facevalues(const char * text, int len)
-// {
+char * facevalues(const char * text, int len)
+{
 //   static WJElement face = NULL;
 //   while (face = _WJEObject(rl_protojson, "data[]", WJE_GET, &face)) {
 //     if (strncmp(WJEString(face, "name", WJE_GET, ""), text, len) == 0) {
 //       return strdup(WJEString(face, "name", WJE_GET, ""));
 //     }
 //   }
-//   return NULL;
-// }
+  return NULL;
+}

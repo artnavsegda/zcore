@@ -84,7 +84,8 @@ char * rl_rootcommands(const char * text, int len)
         rootvalues = protovalues(text,len);
       break;
       case FACE:
-  //       if ((rootvalues = facevalues(text,len)) == NULL)
+        if ((rootvalues = facevalues(text,len)) == NULL)
+          return NULL;
   //         rootvalues = commandvalues(text,len);
       break;
       case OPTION:
