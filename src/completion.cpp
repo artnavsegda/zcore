@@ -102,16 +102,16 @@ char * rl_subcommands(const char * text, int len, int state)
   switch (rl_domain)
   {
     case PROTO:
-//     if ((subvalues = protovalues(text,len)) == NULL)
-//       return NULL;
+     if ((subvalues = protovalues(text,len)) == NULL)
+       return NULL;
     break;
     case FACE:
-//     if ((subvalues = facevalues(text,len)) == NULL)
-//       return NULL;
+     if ((subvalues = facevalues(text,len)) == NULL)
+       return NULL;
     break;
     case OPTION:
-//     if ((subvalues = optionvalues(text,len)) == NULL)
-//       return NULL;
+     if ((subvalues = optionvalues(text,len)) == NULL)
+       return NULL;
     break;
     case SETTING:
 //     if ((subvalues = settingvalues(text,len,state)) == NULL)
