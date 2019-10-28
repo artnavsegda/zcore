@@ -141,14 +141,13 @@ int streamfromcommand(char * command, char *argv[], char *envp[], json_object * 
     puts("handle error");
     return 1;
   }
-
-  // WJReader readjson = WJROpenFILEDocument(jsonstream, NULL, 0);
-  // if (readjson == NULL) {
-  //   puts("json failed to open");
-  //   return 1;
-  // }
-  // WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
-  // WJEAttach(jsonparent,jsondata);
+  json_object * readjson = NULL;
+  if ((readjson = json_object_from_fd(jsonstream)) == NULL) {
+    puts("json failed to open");
+    return 1;
+  }
+  json_object_object_add(jsonparent, "data", readjson);
+  return 0;
 }
 
 int my_popen_read (char * command, char *argv[], char *envp[])
