@@ -148,8 +148,8 @@ int rl_option(int argc, char *argv[])
   return 1;
 }
 
-// char * optionvalues(const char * text, int len)
-// {
+char * optionvalues(const char * text, int len)
+{
 //   static WJElement option = NULL;
 //   while (option = _WJEObject(optionlist(rl_protojson), "properties[]", WJE_GET, &option)) {
 //     if (WJEBool(option, "hidden", WJE_GET, FALSE))
@@ -158,8 +158,8 @@ int rl_option(int argc, char *argv[])
 //       return strdup(option->name);
 //     }
 //   }
-//   return NULL;
-// }
+  return NULL;
+}
 
 // char * settingvalues(const char * text, int len, int state)
 // {
