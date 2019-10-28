@@ -135,7 +135,15 @@ int command(int argc, char *argv[])
   }
   envp[i++] = cuestring;
   envp[i++] = NULL;
-  //
+
+  json_object * argpass = NULL;
+  json_object_object_get_ex(command, "argpass", &argpass);
+
+  if (json_object_get_boolean(argpass))
+  {
+    argsc = argcat(argsc, args, &argv[1]);
+  }
+
   // if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
   // {
   //   argsc = argcat(argsc, args, &argv[1]);
