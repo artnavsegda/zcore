@@ -150,6 +150,27 @@ int rl_option(int argc, char *argv[])
 
 char * optionvalues(const char * text, int len)
 {
+  static lh_entry * entry = NULL;
+  if (entry == NULL)
+  {
+    json_object * options = NULL;
+    if (json_object_object_get_ex(optionlist(protojson), "properties", &options))
+      entry = json_object_get_object(options)->head;
+    else
+      return NULL;
+  }
+  else
+    entry = entry->next;
+  while (entry)
+  {
+    char * keyname = (char*)lh_entry_k(entry);
+    if (strncmp(keyname, text, len) == 0) {
+      return strdup(keyname);
+    }
+    else
+      entry = entry->next;
+  }
+
 //   static WJElement option = NULL;
 //   while (option = _WJEObject(optionlist(rl_protojson), "properties[]", WJE_GET, &option)) {
 //     if (WJEBool(option, "hidden", WJE_GET, FALSE))
