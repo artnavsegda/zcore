@@ -71,8 +71,11 @@ int command(int argc, char *argv[])
   char *envp[100];
 
   char *args[100];
-  // WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
-  // int argsc = arguments(WJEArray(command, "args", WJE_GET),args);
+  json_object * command = NULL;
+  json_pointer_getf(protojson, &command, "/schema/commands/%s", argv[0]);
+  json_object * jsargs = NULL;
+  json_object_object_get_ex(command, "args", &jsargs);
+  int argsc = arguments(jsargs,args);
   //
   // char faceenv[100] = "";
   // int i = 0;
