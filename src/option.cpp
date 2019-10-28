@@ -64,7 +64,7 @@ int rl_isoption(char * optionname)
 
 int option(int argc, char *argv[])
 {
-//   WJElement parameter;
+  json_object * parameter;
 //   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
   if (argc == 1)
   {
