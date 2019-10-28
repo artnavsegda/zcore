@@ -161,19 +161,18 @@ int command(int argc, char *argv[])
   {
     if (domain == OPTION)
     {
-      streamintocommand((char *)json_object_to_json_string(commandname),args,envp,(char *)json_object_to_json_string(data));
+      streamintocommand((char *)json_object_to_json_string(commandname),args,envp,(char *)json_object_to_json_string(protoface));
     }
-  //   else if (domain == FACE)
-  //   {
-  //     WJElement face = NULL;
-  //     while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-  //       streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,envp,WJEToString(face,TRUE));
-  //     }
-  //   }
-  //   else
-  //   {
-  //     puts("not implemented");
-  //   }
+    else if (domain == FACE)
+    {
+      json_object_object_foreach(data, key, val) {
+        streamintocommand((char *)json_object_to_json_string(commandname),args,envp,(char *)json_object_to_json_string(val));
+      }
+    }
+    else
+    {
+      puts("not implemented");
+    }
   }
   // else
   // {
