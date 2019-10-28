@@ -171,14 +171,6 @@ char * optionvalues(const char * text, int len)
       entry = entry->next;
   }
 
-//   static WJElement option = NULL;
-//   while (option = _WJEObject(optionlist(rl_protojson), "properties[]", WJE_GET, &option)) {
-//     if (WJEBool(option, "hidden", WJE_GET, FALSE))
-//       return optionvalues(text,len);
-//     if (strncmp(option->name, text, len) == 0) {
-//       return strdup(option->name);
-//     }
-//   }
   return NULL;
 }
 
