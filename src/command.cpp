@@ -161,7 +161,7 @@ int command(int argc, char *argv[])
   {
     if (domain == OPTION)
     {
-      streamintocommand((char *)json_object_to_json_string(commandname),args,envp,WJEToString(protoface,TRUE));
+      streamintocommand((char *)json_object_to_json_string(commandname),args,envp,(char *)json_object_to_json_string(data));
     }
   //   else if (domain == FACE)
   //   {
