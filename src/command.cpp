@@ -133,14 +133,8 @@ int command(int argc, char *argv[])
     strcat(cuestring, json_object_to_json_string(json_object_array_get_idx(cue, ii)));
     strcat(cuestring, " ");
   }
-
-  // while (cuename = _WJEString(command, "cue[]", WJE_GET, &cue, NULL))
-  // {
-  //   strcat(cuestring, cuename);
-  //   strcat(cuestring, " ");
-  // }
-  // envp[i++] = cuestring;
-  // envp[i++] = NULL;
+  envp[i++] = cuestring;
+  envp[i++] = NULL;
   //
   // if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
   // {
