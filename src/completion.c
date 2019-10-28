@@ -24,9 +24,6 @@ int compute_lcd_of_matches2 (cmplist_t * list, char *text)
   int low;		/* Count of max-matched characters. */
   int lx;
 
-  /* If only one match, just use that.  Otherwise, compare each
-     member of the list with the next, finding out where they
-     stop matching. */
   if (list->complecount == 1)
     {
       list->locode = list->complelist[0]->command;
@@ -46,11 +43,6 @@ int compute_lcd_of_matches2 (cmplist_t * list, char *text)
 	low = si;
     }
 
-
-
-  /* If there were multiple matches, but none matched up to even the
-     first character, and the user typed something, use that as the
-     value of matches[0]. */
   if (low == 0 && text && *text)
     {
       list->locode = (char *)malloc (strlen (text) + 1);
@@ -73,9 +65,7 @@ int sort_wrapper(const void *p1, const void *p2)
 
 void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * list)
 {
-  //cmplist_t list = { .complecount = 0};
   cmpstr_t *element;
-  //string_list = (char **)malloc(sizeof (char *));
 
   while (element = (*cb_func)(inputstring))
   {
@@ -90,14 +80,6 @@ void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * li
     compute_lcd_of_matches2(list, inputstring);
   }
 
-//  for (int i = 0; i < list->complecount; i++)
-//  {
-//    puts(list->complelist[i]->command);
-//  }
-//  printf("%d\n",list->complecount);
-
-//    return counter;
-//  return list;
 }
 
 int rl_execute(int argc, char *argv[])
@@ -345,21 +327,10 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 
 cmpstr_t *callback(char * inputstring)
 {
-  //cmpstr_t * element;
-  //element = (cmpstr_t *)malloc(sizeof(cmpstr_t));
-  //element->command = NULL;
-
   if (rl_commandname == NULL)
     return rl_rootcommands2(inputstring, strlen(inputstring));
-    //element->command = rl_rootcommands(inputstring, strlen(inputstring));
   else
     return rl_subcommands2(inputstring, strlen(inputstring), 0);
-    //element->command = rl_subcommands(inputstring, strlen(inputstring), 0);
-
-  //if (element->command)
-    //return element;
-  //else
-    //return NULL;
 }
 
 void print_cmp_list(cmplist_t *list)
@@ -384,14 +355,6 @@ void print_cmp_list(cmplist_t *list)
   rl_on_new_line();
 
   return;
-
-
-  putchar('\n');
-  for (int i = 0; i < list->complecount; i++)
-  {
-    printf("%d %s\n", list->complelist[i]->domain, list->complelist[i]->command);
-  }
-  rl_on_new_line();
 }
 
 void zc_cleanup(cmplist_t *list)
@@ -412,32 +375,16 @@ void zc_cleanup(cmplist_t *list)
 
 int zc_completion2(int count, int key)
 {
-   cmplist_t list = { .complecount = 0 };
-//   array_allocate("", callback, &list);
-//   printf("%d\n",list.complecount);
-//   printf("%s\n",list.locode);
-//   for (int i = 0; i < list.complecount; i++)
-//     puts(list.complelist[i]->command);
-//   return 0;
-
+  cmplist_t list = { .complecount = 0 };
   int i = 0;
   char **something;
   init_completition();
-
-  //printf("buffer: |%s|\n", rl_line_buffer);
-  //printf("position: %d\n", rl_point);
-  //printf("buf len %d\n", rl_end);
-  //rl_interpret(strdup(rl_line_buffer),1,0);
   char *rl_tokarr[100];
   int one = parse(strdup(rl_line_buffer), rl_tokarr);
   int numberoftokens = arrlength(rl_tokarr);
-  //printf("one %d\n", one);
-  //printf("number of tokens %d\n", numberoftokens);
-  //printf("what |%c|\n", rl_line_buffer[rl_point-1]);
 
   if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
   {
-//    puts("\nsubcommand\n");
     rl_interpret(strdup(rl_line_buffer),1,rl_end);
   }
   else
@@ -448,52 +395,24 @@ int zc_completion2(int count, int key)
     if (rl_line_buffer[rl_point-1] == ' ')
     {
       array_allocate("", callback, &list);
-
-      //something = zc_completion_matches("", character_name_generator);
       if (list.complecount)
       {
-        //while (something[i])
-        //{
-        //  i++;
-        //  //puts(something[i++]);
-        //}
-        //printf("1matches count %d\n",i);
         if (list.complecount == 1)
         {
-          //printf("1replacing string with %s\n", something[i-1]);
-          //putchar('\n');
           rl_insert_text(list.locode);
             rl_insert_text(" ");
         }
         else
         {
           print_cmp_list(&list);
-//          putchar('\n');
-//          for (i = 0; i < list.complecount; i++)
-//          puts(list.complelist[i]->command);
-//          //while (something[i])
-//            //puts(something[i++]);
-//          rl_on_new_line();
         }
       }
     }
     else
     {
-      //printf("complete seq %s\n", rl_tokarr[one-1]);
-      //something = zc_completion_matches(rl_tokarr[one-1], character_name_generator);
       array_allocate(rl_tokarr[one-1], callback, &list);
       if (list.complecount)
       {
-      //  while (something[i])
-      //  {
-      //    i++;
-      //    //puts(something[i++]);
-      //  }
-        //printf("2matches count %d\n",i);
-      //  if (i > 0)
-      //  {
-          //printf("2replacing string with %s\n", something[0]);
-          //putchar('\n');
           rl_insert_text(&(list.locode[strlen(rl_tokarr[one-1])]));
           if (list.complecount == 1)
           {
@@ -502,34 +421,19 @@ int zc_completion2(int count, int key)
           else
           {
             print_cmp_list(&list);
-//            //i = 1;
-//            putchar('\n');
-//            for (i = 0; i < list.complecount; i++)
-//            //while (something[i])
-//              puts(list.complelist[i]->command);
-//            rl_on_new_line();
           }
-      //  }
       }
       else
       {
-        //magic
         rl_insert_text(" ");
       }
     }
   }
   else
   {
-    //something = zc_completion_matches("", character_name_generator);
     array_allocate("", callback, &list);
-    //printf("%d\n", list.complecount);
     if (list.complecount)
     {
-      //while (something[i])
-      //{
-      //  i++;
-      //  //puts(something[i++]);
-      //}
       if (list.complecount > 0)
       {
         if (list.complecount == 1)
@@ -538,28 +442,11 @@ int zc_completion2(int count, int key)
         else
         {
           print_cmp_list(&list);
-//          //i = 1;
-//          putchar('\n');
-//          for (i = 0; i < list.complecount; i++)
-//          //while (something[i])
-//            puts(list.complelist[i]->command);
-//          rl_on_new_line();
         }
       }
-      //printf("3matches count %d\n",i);
     }
   }
-
   zc_cleanup(&list);
-
-  //printf("count %d\n",count);
-  //printf("buffer: |%s|\n", rl_line_buffer);
-  //printf("position: %d\n", rl_point);
-  //printf("buf len %d\n", rl_end);
-  //rl_on_new_line();
-  //rl_forced_update_display();
-  //rl_insert_text("puk");
 
   return 0;
 }
-
