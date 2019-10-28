@@ -147,9 +147,14 @@ int command(int argc, char *argv[])
   json_object * json = NULL;
   json_object_object_get_ex(command, "json", &json);
 
+  json_object * data = NULL;
+  json_object_object_get_ex(command, "data", &data);
+
   if (strcmp(json_object_get_string(json),"out") == 0)
   {
-    //streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,envp,WJEArray(protojson, "data", WJE_GET));
+    json_object * commandname = NULL;
+    json_object_object_get_ex(command, "command", &commandname);
+    streamfromcommand((char *)json_object_to_json_string(commandname),args,envp,data);
   }
   // else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
   // {
