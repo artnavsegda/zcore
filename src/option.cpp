@@ -34,7 +34,7 @@ int isoption(char * optionname)
 {
   if (domain == OPTION)
   {
-    if (!json_pointer_getf(optionlist(protojson), NULL, "properties/%s", optionname))
+    if (!json_pointer_getf(optionlist(protojson), NULL, "/properties/%s", optionname))
     {
       return 1;
     }
@@ -50,7 +50,7 @@ int rl_isoption(char * optionname)
 {
   if (rl_domain == OPTION)
   {
-    if (!json_pointer_getf(optionlist(rl_protojson), NULL, "properties/%s", optionname))
+    if (!json_pointer_getf(optionlist(rl_protojson), NULL, "/properties/%s", optionname))
     {
       return 1;
     }
@@ -63,11 +63,15 @@ int rl_isoption(char * optionname)
 }
 
 
-int option_print_value(json_object * parameter)
+int option_print_value(json_object * parameter, char * paramname)
 {
-//   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
-//     puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
-//   }
+  json_object * type = NULL;
+  json_object_object_get_ex(parameter, "type", &type);
+  json_object * protovalue = NULL;
+  json_object_object_get_ex(protoface, paramname, &protovalue);
+  if (strcmp(json_object_get_string(type),"string") == 0){
+    puts(json_object_get_string(protovalue));
+  }
 //   else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
 //     printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
 //   }
@@ -130,12 +134,12 @@ int option_print_value(json_object * parameter)
 
 int option(int argc, char *argv[])
 {
-//   WJElement parameter;
-//   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
-//   if (argc == 1)
-//   {
-//     return option_print_value(parameter);
-//   }
+  json_object * parameter = NULL;
+  json_pointer_getf(optionlist(protojson), &parameter, "/properties/%s", argv[0]);
+  if (argc == 1)
+  {
+    return option_print_value(parameter, argv[0]);
+  }
 //   else if (argc == 2)
 //   {
 //     return option_set_value(parameter, argv[1]);
