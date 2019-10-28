@@ -65,13 +65,13 @@ int rl_isoption(char * optionname)
 int option(int argc, char *argv[])
 {
   json_object * parameter;
-//   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
+  json_object_object_get_ex(optionlist(protojson), argv[0], &parameter);
   if (argc == 1)
   {
     // if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
-    // {
-    //   puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
-    // }
+    {
+      // puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+    }
     // else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
     // {
     //   printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
