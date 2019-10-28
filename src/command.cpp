@@ -144,15 +144,13 @@ int command(int argc, char *argv[])
     argsc = argcat(argsc, args, &argv[1]);
   }
 
-  // if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
-  // {
-  //   argsc = argcat(argsc, args, &argv[1]);
-  // }
-  //
-  // if (strcmp(WJEString(command,"json", WJE_GET, "none"),"out") == 0)
-  // {
-  //   streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,envp,WJEArray(protojson, "data", WJE_GET));
-  // }
+  json_object * json = NULL;
+  json_object_object_get_ex(command, "json", &json);
+
+  if (strcmp(json_object_get_string(json),"out") == 0)
+  {
+    //streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,envp,WJEArray(protojson, "data", WJE_GET));
+  }
   // else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
   // {
   //   if (domain == OPTION)
