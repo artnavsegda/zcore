@@ -133,23 +133,23 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
   return 0;
 }
 
-// int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
-// {
-//   FILE *jsonstream = my_popen_read(command, argv, envp);
-//   if (jsonstream == NULL)
-//   {
-//     puts("handle error");
-//     return 1;
-//   }
-//
-//   WJReader readjson = WJROpenFILEDocument(jsonstream, NULL, 0);
-//   if (readjson == NULL) {
-//     puts("json failed to open");
-//     return 1;
-//   }
-//   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
-//   WJEAttach(jsonparent,jsondata);
-// }
+int streamfromcommand(char * command, char *argv[], char *envp[], json_object * jsonparent)
+{
+  int jsonstream = my_popen_read(command, argv, envp);
+  if (jsonstream == -1)
+  {
+    puts("handle error");
+    return 1;
+  }
+
+  // WJReader readjson = WJROpenFILEDocument(jsonstream, NULL, 0);
+  // if (readjson == NULL) {
+  //   puts("json failed to open");
+  //   return 1;
+  // }
+  // WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
+  // WJEAttach(jsonparent,jsondata);
+}
 
 int my_popen_read (char * command, char *argv[], char *envp[])
 {
