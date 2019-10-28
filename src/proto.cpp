@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 //#include "zcore.h"
 #include "interpreter.h"
@@ -156,38 +157,22 @@ int rl_proto(int argc, char *argv[])
 
 char * protovalues(const char * text, int len)
 {
-  static lh_entry * entry = NULL;
-
   if (rl_protodepth == 0)
     rl_protojson = root;
-
+  static lh_entry * entry = NULL;
   if (entry == NULL)
-  {
     entry = json_object_get_object(rl_protojson)->head;
-  }
-
-  char * keyname = (char*)lh_entry_k(entry);
-
-  if (strncmp(keyname, text, len) == 0) {
+  else
     entry = entry->next;
-    if (entry == NULL)
-      return NULL;
-    else
+  while (entry)
+  {
+    char * keyname = (char*)lh_entry_k(entry);
+    if (strncmp(keyname, text, len) == 0) {
       return strdup(keyname);
+    }
+    else
+      entry = entry->next;
   }
-
-//  iter.entry = iter.entry->next;
-
-//
-//   static WJElement proto = NULL;
-//
-//   while (proto = _WJEObject(rl_protojson, "[]", WJE_GET, &proto)) {
-//     if (WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
-//       return protovalues(text,len);
-//     if (strncmp(proto->name, text, len) == 0) {
-//       return strdup(proto->name);
-//     }
-//   }
   return NULL;
 }
 
