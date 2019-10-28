@@ -160,12 +160,26 @@ int rl_command(int argc, char *argv[])
 
 char * commandvalues(const char * text, int len)
 {
-//   static WJElement command = NULL;
-//   while (command = _WJEObject(rl_protojson, "schema.commands[]", WJE_GET, &command)) {
-//     if (strncmp(command->name, text, len) == 0) {
-//       return strdup(command->name);
-//     }
-//   }
+  static lh_entry * entry = NULL;
+  if (entry == NULL)
+  {
+    json_object * commands = NULL;
+    if (!json_pointer_get(rl_protojson, "/schema/commands", &commands))
+      entry = json_object_get_object(commands)->head;
+    else
+      return NULL;
+  }
+  else
+    entry = entry->next;
+  while (entry)
+  {
+    char * keyname = (char*)lh_entry_k(entry);
+    if (strncmp(keyname, text, len) == 0) {
+      return strdup(keyname);
+    }
+    else
+      entry = entry->next;
+  }
   return NULL;
 }
 
