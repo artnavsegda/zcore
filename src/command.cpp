@@ -68,9 +68,9 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
-  // char *envp[100];
-  //
-  // char *args[100];
+  char *envp[100];
+
+  char *args[100];
   // WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
   // int argsc = arguments(WJEArray(command, "args", WJE_GET),args);
   //
