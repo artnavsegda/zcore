@@ -101,11 +101,25 @@ int listfaces(void)
 
 char * facevalues(const char * text, int len)
 {
-//   static WJElement face = NULL;
-//   while (face = _WJEObject(rl_protojson, "data[]", WJE_GET, &face)) {
-//     if (strncmp(WJEString(face, "name", WJE_GET, ""), text, len) == 0) {
-//       return strdup(WJEString(face, "name", WJE_GET, ""));
-//     }
-//   }
+  static lh_entry * entry = NULL;
+  if (entry == NULL)
+  {
+    json_object * rl_protodata = NULL;
+    if (json_object_object_get_ex(rl_protojson, "data", &rl_protodata))
+      entry = json_object_get_object(rl_protodata)->head;
+    else
+      return NULL;
+  }
+  else
+    entry = entry->next;
+  while (entry)
+  {
+    char * keyname = (char*)lh_entry_k(entry);
+    if (strncmp(keyname, text, len) == 0) {
+      return strdup(keyname);
+    }
+    else
+      entry = entry->next;
+  }
   return NULL;
 }
