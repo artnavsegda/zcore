@@ -126,6 +126,12 @@ int command(int argc, char *argv[])
   char cuestring[100] = "CUE=";
   char * cuename = NULL;
   json_object * cue = NULL;
+  json_object_object_get_ex(command, "cue", &cue);
+  json_object_object_foreach(cue, key, val)
+  {
+    //   strcat(cuestring, cuename);
+    //   strcat(cuestring, " ");
+  }
   // while (cuename = _WJEString(command, "cue[]", WJE_GET, &cue, NULL))
   // {
   //   strcat(cuestring, cuename);
