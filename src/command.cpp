@@ -122,10 +122,10 @@ int command(int argc, char *argv[])
       //myenv[1] = NULL;
     break;
   }
-  
+
   char cuestring[100] = "CUE=";
   char * cuename = NULL;
-  // WJElement cue = NULL;
+  json_object * cue = NULL;
   // while (cuename = _WJEString(command, "cue[]", WJE_GET, &cue, NULL))
   // {
   //   strcat(cuestring, cuename);
