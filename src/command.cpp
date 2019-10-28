@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 //#include "zcore.h"
 #include "interpreter.h"
@@ -174,22 +175,26 @@ int command(int argc, char *argv[])
       puts("not implemented");
     }
   }
-  // else
-  // {
-  //   if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
-  //   {
-  //     forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,envp);
-  //   }
-  //   else
-  //   {
-  //     forkexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,envp);
-  //   }
-  // }
-  // if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
-  // {
-  //   //acquire(protojson);
-  //   alarm(3);
-  // }
+  else
+  {
+    json_object * wait = NULL;
+    json_object_object_get_ex(command, "wait", &wait);
+    if (json_object_get_boolean(wait))
+    {
+      forkwaitexec((char *)json_object_to_json_string(commandname),argsc,args,envp);
+    }
+    else
+    {
+      forkexec((char *)json_object_to_json_string(commandname),argsc,args,envp);
+    }
+  }
+  json_object * reload = NULL;
+  json_object_object_get_ex(command, "reload", &reload);
+  if (json_object_get_boolean(reload))
+  {
+    //acquire(protojson);
+    alarm(3);
+  }
   return 1;
 }
 

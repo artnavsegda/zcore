@@ -263,3 +263,15 @@ json_object * optionlist(json_object * schema)
 //       }
 //   }
 // }
+
+int forkexec(char * command, int argc, char *argv[], char *envp[])
+{
+  pid_t pid = fork();
+  int status;
+  if (pid == 0)
+  {
+    execve(command,argv,envp);
+    exit(0);
+  }
+  return 0;
+}

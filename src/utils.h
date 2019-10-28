@@ -17,3 +17,4 @@ int arguments(json_object * argarray, char *argv[]);
 int argcat(int argc, char *argout[], char *argin[]);
 // void fillenv(WJElement proto, WJElement face);
 json_object * optionlist(json_object * schema);
+int forkexec(char * command, int argc, char *argv[], char *envp[]);
