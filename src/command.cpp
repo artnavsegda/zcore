@@ -150,18 +150,19 @@ int command(int argc, char *argv[])
   json_object * data = NULL;
   json_object_object_get_ex(command, "data", &data);
 
+  json_object * commandname = NULL;
+  json_object_object_get_ex(command, "command", &commandname);
+
   if (strcmp(json_object_get_string(json),"out") == 0)
   {
-    json_object * commandname = NULL;
-    json_object_object_get_ex(command, "command", &commandname);
     streamfromcommand((char *)json_object_to_json_string(commandname),args,envp,data);
   }
-  // else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
-  // {
-  //   if (domain == OPTION)
-  //   {
-  //     streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,envp,WJEToString(protoface,TRUE));
-  //   }
+  else if (strcmp(json_object_get_string(json),"in") == 0)
+  {
+    if (domain == OPTION)
+    {
+      streamintocommand((char *)json_object_to_json_string(commandname),args,envp,WJEToString(protoface,TRUE));
+    }
   //   else if (domain == FACE)
   //   {
   //     WJElement face = NULL;
@@ -173,7 +174,7 @@ int command(int argc, char *argv[])
   //   {
   //     puts("not implemented");
   //   }
-  // }
+  }
   // else
   // {
   //   if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
