@@ -127,11 +127,13 @@ int command(int argc, char *argv[])
   char * cuename = NULL;
   json_object * cue = NULL;
   json_object_object_get_ex(command, "cue", &cue);
-  json_object_object_foreach(cue, key, val)
+
+  for(int ii = 0; ii < json_object_array_length(cue); ii++)
   {
-    //   strcat(cuestring, cuename);
-    //   strcat(cuestring, " ");
+    strcat(cuestring, json_object_to_json_string(json_object_array_get_idx(cue, ii)));
+    strcat(cuestring, " ");
   }
+
   // while (cuename = _WJEString(command, "cue[]", WJE_GET, &cue, NULL))
   // {
   //   strcat(cuestring, cuename);
