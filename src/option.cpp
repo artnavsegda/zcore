@@ -66,8 +66,11 @@ int option(int argc, char *argv[])
 {
   json_object * parameter;
   json_object_object_get_ex(optionlist(protojson), argv[0], &parameter);
+  json_object * type;
+  json_object_object_get_ex(optionlist(protojson), argv[0], &type);
   if (argc == 1)
   {
+    if (strcmp(json_object_get_string(type),"string") == 0)
     // if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
     {
       // puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
