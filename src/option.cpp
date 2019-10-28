@@ -63,8 +63,8 @@ int rl_isoption(char * optionname)
 }
 
 
-// int option_print_value(WJElement parameter)
-// {
+int option_print_value(json_object * parameter)
+{
 //   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
 //     puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
 //   }
@@ -94,8 +94,8 @@ int rl_isoption(char * optionname)
 //   {
 //     puts("Not implemeted");
 //   }
-//   return 1;
-// }
+  return 1;
+}
 
 // int option_set_value(WJElement parameter, char * value)
 // {
