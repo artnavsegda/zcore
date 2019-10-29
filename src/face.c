@@ -106,3 +106,10 @@ char * facevalues(const char * text, int len)
   return NULL;
 }
 
+char * protohelp(const char * commandname)
+{
+  WJElement face = NULL;
+    return WJEString(proto, "schema.description", WJE_GET, NULL);
+  
+  return "Help description";
+}

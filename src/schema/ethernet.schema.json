@@ -7,6 +7,7 @@
     "^vlan": {
       "type": "object",
       "title": "Interface entity",
+      "description": "Ethernet interface",
       "required": ["name", "vid", "ip", "proto", "switch", "master_port"],
       "properties": {
         "vid": {
