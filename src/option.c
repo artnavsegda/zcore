@@ -152,7 +152,13 @@ int option(int argc, char *argv[])
       strcat(combine, argv[i]);
     }
 //    puts(combine);
-    return option_set_value(parameter, combine);
+    if (0)
+    {
+      puts("option readonly");
+      return 1;
+    }
+    else
+      return option_set_value(parameter, combine);
 //    return option_set_value(parameter,combinevalues(argc-1, &argv[1]));
   }
   return 1;
