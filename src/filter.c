@@ -5,10 +5,10 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
-void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement schema, char * schemapath, char * protopath)
+void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties)
 {
   WJElement property = NULL;
-  while (property = WJEObjectF(schema, WJE_GET, &property, protopath, schemapath))
+  while (property = _WJEObject(properties, "[]", WJE_GET, &property))
   {
     if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
     {
@@ -44,22 +44,24 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement schema, ch
 WJElement filter(WJElement input, WJElement schema, char * schemapath)
 {
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
+  WJElement properties = NULL;
+  WJElement output = WJEObject(NULL, NULL, WJE_NEW);
 
   if (WJEGetF(schema,NULL,"%s.patternProperties",schemapath))
   {
-    WJElement output = WJEObject(NULL, NULL, WJE_NEW);
-    while (ifaceinput = _WJEObject(input,"[]", WJE_GET, &ifaceinput))
+    while (properties = WJEObjectF(schema, WJE_GET, &properties, "%s.patternProperties[]", schemapath))
     {
-      ifaceoutput = WJEObject(output, ifaceinput->name, WJE_NEW);
-      translate(ifaceoutput, ifaceinput, schema, schemapath, "%s.patternProperties[0].properties[]");
+      while (ifaceinput = _WJEObject(input,"[]", WJE_GET, &ifaceinput))
+      {
+        ifaceoutput = WJEObject(output, ifaceinput->name, WJE_NEW);
+        translate(ifaceoutput, ifaceinput, properties);
+      }
     }
-    return output;
   }
   else if (WJEGetF(schema,NULL,"%s.properties",schemapath))
   {
-    WJElement output = WJEObject(NULL, NULL, WJE_NEW);
-    translate(output, WJEObject(input, "values", WJE_GET), schema, schemapath, "%s.properties[]");
-    return output;
+    properties = WJEObject(schema, "%s.properties", WJE_GET);
+    translate(output, WJEObject(input, "values", WJE_GET), properties);
   }
-  return NULL;
+  return output;
 }
