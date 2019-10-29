@@ -264,10 +264,11 @@ char * cuesettingvalues(const char * text, int len, int state)
 
 char * optionhelp(const char * commandname)
 {
-  WJElement proto = WJEObject(protojson, commandname, WJE_GET);
-  if (proto)
-  {
-    return WJEString(proto, "schema.description", WJE_GET, NULL);
-  }
+  //WJElement proto = WJEObject(protojson, commandname, WJE_GET);
+  //if (proto)
+  //{
+  //  return WJEString(proto, "schema.description", WJE_GET, NULL);
+  //}
+  return WJEStringF(optionlist(protojson), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
   //return "Help description";
 }
