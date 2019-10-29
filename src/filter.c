@@ -61,6 +61,7 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
           translate(ifaceoutput, ifaceinput, properties);
         }
       }
+      regfree(&preg);
     }
   }
   else if (WJEGetF(schema,NULL,"%s.properties",schemapath))
