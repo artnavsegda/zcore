@@ -106,10 +106,8 @@ char * facevalues(const char * text, int len)
   return NULL;
 }
 
-char * protohelp(const char * commandname)
+char * facehelp(const char * commandname)
 {
   WJElement face = NULL;
-    return WJEString(proto, "schema.description", WJE_GET, NULL);
-  
-  return "Help description";
+    return WJEString(optionlist(protojson), "schema.description", WJE_GET, NULL);
 }
