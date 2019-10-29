@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "face.h"
 #include "zcore.h"
 #include "interpreter.h"
 #include "utils.h"
@@ -90,7 +91,8 @@ int listfaces(void)
   WJElement face = NULL;
   puts("Faces:");
   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-    puts(elementname(protojson,face));
+    //puts(elementname(protojson,face));
+    printf("%s: %s\n", elementname(protojson,face), facehelp(NULL));
   }
   return 0;
 }
@@ -109,5 +111,5 @@ char * facevalues(const char * text, int len)
 char * facehelp(const char * commandname)
 {
   WJElement face = NULL;
-    return WJEString(optionlist(protojson), "schema.description", WJE_GET, NULL);
+    return WJEString(optionlist(protojson), "description", WJE_GET, NULL);
 }

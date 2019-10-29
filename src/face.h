@@ -4,4 +4,4 @@ int face(int argc, char *argv[]);
 int rl_face(int argc, char *argv[]);
 int listfaces(void);
 char * facevalues(const char * text, int len);
-
+char * facehelp(const char * commandname);
