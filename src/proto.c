@@ -177,16 +177,11 @@ void incom_proto(void)
 
 char * protohelp(const char * commandname)
 {
-  WJElement proto = NULL;
-
-  if (commandname)
+  WJElement proto = WJEObject(protojson, commandname, WJE_GET);
+  if (proto)
   {
+    return WJEString(proto, "description", WJE_GET, NULL);
   }
-  else
-  {
-  }
-
-  return "Help description";
+  //return "Help description";
 }
-
 
