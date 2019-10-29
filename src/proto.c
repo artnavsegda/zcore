@@ -28,8 +28,7 @@ int listprotos(void)
   while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
     if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
     {
-//      puts(proto->name);
-      puts(protohelp(proto->name));
+      printf("%s: %s\n", proto->name, protohelp(proto->name));
     }
   }
   return 0;
@@ -180,7 +179,7 @@ char * protohelp(const char * commandname)
   WJElement proto = WJEObject(protojson, commandname, WJE_GET);
   if (proto)
   {
-    return WJEString(proto, "description", WJE_GET, NULL);
+    return WJEString(proto, "schema.description", WJE_GET, NULL);
   }
   //return "Help description";
 }
