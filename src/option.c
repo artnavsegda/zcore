@@ -270,6 +270,6 @@ char * optionhelp(const char * commandname)
   //{
   //  return WJEString(proto, "schema.description", WJE_GET, NULL);
   //}
-  return WJEStringF(optionlist(protojson), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
+  return WJEStringF(optionlist(rl_protojson), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
   //return "Help description";
 }
