@@ -196,7 +196,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         if (rootvalues->command = optionvalues(text,len))
         {
 //          printf("OS %s\n", rootvalues);
-          //rootvalues->description = optionhelp(rootvalues->command)
+          rootvalues->description = optionhelp(rootvalues->command);
           rootvalues->domain = OPTION;
           return rootvalues;
         }
@@ -348,7 +348,12 @@ void print_cmp_list(cmplist_t *list)
     {
       if(list->complelist[y]->domain == i)
       {
-        printf("\t%s\n", list->complelist[y]->command);
+        printf("\t%s", list->complelist[y]->command);
+        if(list->complelist[y]->description)
+        {
+          printf(":\t%s", list->complelist[y]->description);
+        }
+        puts("\n");
         x = 1;
       }
     }

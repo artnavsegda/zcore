@@ -23,7 +23,8 @@ int listoptions(void)
   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
-      printf("%s: %s\n", option->name, WJEString(option, "description", WJE_GET, NULL));
+      //printf("%s: %s\n", option->name, WJEString(option, "description", WJE_GET, NULL));
+      printf("%s: %s\n", option->name, optionhelp(option->name));
       //puts(option->name);
     }
   }
