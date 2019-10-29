@@ -22,12 +22,24 @@ void alarm_handler(int signal)
   acquireall(root);
 }
 
+void ctrl_c(int signal) {
+   printf ("ctrl-c key pressed\n");
+   rl_on_new_line ();
+}
+
+int my_cool_readline_func (int count, int key) {
+   printf ("key pressed: %d\n", key);
+   rl_on_new_line ();
+   return 0;
+}
+
 int main(int argc, char *argv[])
 {
   signal(SIGALRM, alarm_handler);
-  signal(SIGINT, SIG_IGN);
+  signal(SIGINT, ctrl_c);
 //  rl_attempted_completion_function = character_name_completion;
   rl_bind_key('\t', zc_completion2);
+  rl_bind_keyseq("\\C-c", my_cool_readline_func);
 
   root = WJEObject(NULL, NULL, WJE_NEW);
 
