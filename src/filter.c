@@ -52,13 +52,14 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
     regex_t preg;
     while (properties = WJEObjectF(schema, WJE_GET, &properties, "%s.patternProperties[]", schemapath))
     {
-      regexec(&preg, properties->name, 0, NULL, 0);
+      //puts(properties->name);
+      regcomp(&preg, properties->name, REG_EXTENDED | REG_NOSUB);
       while (ifaceinput = _WJEObject(input,"[]", WJE_GET, &ifaceinput))
       {
         if (!regexec(&preg, ifaceinput->name, 0, NULL, 0))
         {
           ifaceoutput = WJEObject(output, ifaceinput->name, WJE_NEW);
-          translate(ifaceoutput, ifaceinput, properties);
+          translate(ifaceoutput, ifaceinput, WJEObject(properties,"properties", WJE_GET));
         }
       }
       regfree(&preg);
