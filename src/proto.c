@@ -177,6 +177,15 @@ void incom_proto(void)
 
 char * protohelp(const char * commandname)
 {
+  WJElement proto = NULL;
+
+  if (commandname)
+  {
+  }
+  else
+  {
+  }
+
   return "Help description";
 }
 
