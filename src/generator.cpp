@@ -11,7 +11,11 @@ json_object * generator(json_object * schema,  char * schemapath, char *values[]
   json_object * valuesoutput = NULL;
 
   json_object * output = json_object_new_object();
-//
+
+  json_object * required = NULL;
+
+  json_pointer_getf(schema, &required, "/%s/data/patternProperties/required", text);
+
 //   while (itemname = WJEStringF(schema, WJE_GET, &reqstring, NULL, "%s.patternProperties[0].required[]", schemapath))
 //   {
 //     property = WJEObjectF(schema, WJE_GET, NULL, "%s.patternProperties[0].properties.%s", schemapath, itemname);
