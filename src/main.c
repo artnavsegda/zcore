@@ -33,10 +33,16 @@ int my_cool_readline_func (int count, int key) {
    return 0;
 }
 
+void test_cmp(int signal) {
+  zc_completion2(0, 0);
+    rl_forced_update_display();
+}
+
 int main(int argc, char *argv[])
 {
   signal(SIGALRM, alarm_handler);
   signal(SIGINT, ctrl_c);
+  signal(SIGUSR1, test_cmp);
 //  rl_attempted_completion_function = character_name_completion;
   rl_bind_key('\t', zc_completion2);
   rl_bind_keyseq("\\C-c", my_cool_readline_func);
