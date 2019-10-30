@@ -11,9 +11,10 @@ extern WJElement protojson;
 extern WJElement protoface;
 extern WJElement rl_protojson;
 extern WJElement rl_protoface;
-extern WJElement rl_optionjson;
 extern enum domains domain;
-WJElement rl_parameter;
+WJElement rl_parameter = NULL;
+WJElement optionjson = NULL;
+int optiondepth = 0;
 
 int listoptions(void)
 {

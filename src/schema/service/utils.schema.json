@@ -4,6 +4,20 @@
   "type": "object",
   "namesake": "name",
   "properties": {
+    "demo": {
+      "type": "string",
+      "description": "test option"
+    },
+    "subdemo": {
+      "type": "object",
+      "description": "test suboption",
+      "properties": {
+        "subthing" : {
+          "type": "string",
+          "description": "test sub thing"
+        }
+      }
+    }
   },
   "commands": {
     "ping": {
