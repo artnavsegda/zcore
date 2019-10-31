@@ -39,6 +39,11 @@
 //   }
 // }
 
+json_object * translate(json_object * properties, json_object * input)
+{
+  return NULL;
+}
+
 json_object * filter(json_object * input, json_object * schema, char * schemapath)
 {
   json_object * properties = NULL;
