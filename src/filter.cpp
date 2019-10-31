@@ -41,6 +41,15 @@
 
 json_object * filter(json_object * input, json_object * schema, char * schemapath)
 {
+  json_object * patternProperties = NULL;
+
+  if (!json_pointer_getf(schema, &patternProperties, "/%s/data/patternProperties", schemapath))
+  {
+    json_object_object_foreach(patternProperties, key, val)
+    {
+    }
+  }
+  
   // WJElement ifaceinput = NULL, ifaceoutput = NULL;
   //
   // if (WJEGetF(schema,NULL,"%s.patternProperties",schemapath))
