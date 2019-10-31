@@ -41,14 +41,22 @@
 
 json_object * filter(json_object * input, json_object * schema, char * schemapath)
 {
+  json_object * properties = NULL;
   json_object * patternProperties = NULL;
+
+  puts(json_object_to_json_string_ext(input, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
 
   if (!json_pointer_getf(schema, &patternProperties, "/%s/schema/patternProperties", schemapath))
   {
-    //puts(json_object_to_json_string_ext(patternProperties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
     json_object_object_foreach(patternProperties, key, val)
     {
       puts(key);
+      json_object_object_get_ex(val, "properties", &properties);
+      json_object_object_foreach(properties, key, val)
+      {
+        puts(key);
+        puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+      }
     }
   }
   
