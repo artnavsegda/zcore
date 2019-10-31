@@ -53,6 +53,7 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
       json_object_object_get_ex(val, "properties", &properties);
       json_object_object_foreach(input, key, val)
       {
+        puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
         puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
       }
       //json_object_object_foreach(properties, key, val)
@@ -64,6 +65,8 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
   }
   else if (!json_pointer_getf(schema, &properties, "/%s/schema/properties", schemapath))
   {
+      puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+      puts(json_object_to_json_string_ext(input, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
       //json_object_object_foreach(properties, key, val)
       //{
       //  puts(key);
