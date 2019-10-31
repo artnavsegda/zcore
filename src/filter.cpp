@@ -41,6 +41,11 @@
 
 json_object * translate(json_object * properties, json_object * input)
 {
+  json_object_object_foreach(properties, key, val)
+  {
+    puts(key);
+    puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+  }
   return NULL;
 }
 
@@ -62,11 +67,6 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
         puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
         output = translate(properties, input);
       }
-      //json_object_object_foreach(properties, key, val)
-      //{
-      //  puts(key);
-      //  puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-      //}
     }
   }
   else if (!json_pointer_getf(schema, &properties, "/%s/schema/properties", schemapath))
@@ -74,11 +74,6 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
       puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
       puts(json_object_to_json_string_ext(input, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
       output = translate(properties, input);
-      //json_object_object_foreach(properties, key, val)
-      //{
-      //  puts(key);
-      //  puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-      //}
   }
   
   // WJElement ifaceinput = NULL, ifaceoutput = NULL;
