@@ -59,8 +59,13 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
       }
     }
   }
-  else (!json_pointer_getf(schema, &properties, "/%s/schema/properties", schemapath))
+  else if (!json_pointer_getf(schema, &properties, "/%s/schema/properties", schemapath))
   {
+      json_object_object_foreach(properties, key, val)
+      {
+        puts(key);
+        puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+      }
   }
   
   // WJElement ifaceinput = NULL, ifaceoutput = NULL;
