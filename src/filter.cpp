@@ -59,6 +59,9 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
       }
     }
   }
+  else (!json_pointer_getf(schema, &properties, "/%s/schema/properties", schemapath))
+  {
+  }
   
   // WJElement ifaceinput = NULL, ifaceoutput = NULL;
   //
