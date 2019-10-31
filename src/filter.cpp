@@ -89,5 +89,5 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
   //   translate(output, WJEObject(input, "values", WJE_GET), schema, schemapath, "%s.properties[]");
   //   return output;
   // }
-  return NULL;
+  return output;
 }
