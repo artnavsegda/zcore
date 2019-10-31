@@ -1,3 +1,3 @@
 #!/bin/sh
 
-ssh root@192.168.1.1 /root/ethernet2.sh | ./zfilter $1
+ssh root@192.168.1.1 /root/ethernet2.sh | ./zfilter ethernet
