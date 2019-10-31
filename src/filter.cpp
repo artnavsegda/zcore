@@ -43,10 +43,12 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
 {
   json_object * patternProperties = NULL;
 
-  if (!json_pointer_getf(schema, &patternProperties, "/%s/data/patternProperties", schemapath))
+  if (!json_pointer_getf(schema, &patternProperties, "/%s/schema/patternProperties", schemapath))
   {
+    //puts(json_object_to_json_string_ext(patternProperties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
     json_object_object_foreach(patternProperties, key, val)
     {
+      puts(key);
     }
   }
   
