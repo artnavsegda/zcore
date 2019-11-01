@@ -49,8 +49,11 @@ json_object * translate(json_object * properties, json_object * input)
     json_object_object_get_ex(val, "type", &type);
     typestring = (char *)json_object_get_string(type);
     json_object * entity = NULL;
-    json_object_object_get_ex(input, key, &entity);
-    json_object_object_add(output, key, entity);
+
+    if (json_object_object_get_ex(input, key, &entity))
+    {
+      json_object_object_add(output, key, entity);
+    }
 
     if (strcmp(typestring,"string") == 0)
     {
@@ -86,12 +89,14 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
     json_object_object_foreach(patternProperties, key, val)
     {
       //puts(key);
+      output = json_object_new_object();
       json_object_object_get_ex(val, "properties", &properties);
       json_object_object_foreach(input, key, val)
       {
         //puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
         //puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-        output = translate(properties, val);
+        json_object_object_add(output, key, translate(properties, val));
+        //output = translate(properties, val);
       }
     }
   }
