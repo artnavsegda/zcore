@@ -45,13 +45,18 @@ json_object * translate(json_object * properties, json_object * input)
   json_object_object_foreach(properties, key, val)
   {
     json_object * type = NULL;
+    char * typestring;
     json_object_object_get_ex(val, "type", &type);
     puts(key);
     //puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
     puts(json_object_to_json_string_ext(type, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
     json_object * entity = NULL;
     json_object_object_get_ex(input, key, &entity);
-    puts(json_object_to_json_string_ext(entity, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+    typestring = json_object_to_json_string_ext(entity, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+    puts(typestring);
+
+    //json_object_object_add(output, key, val);
+
   }
   return output;
 }
@@ -82,7 +87,7 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
       //puts(json_object_to_json_string_ext(input, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
       output = translate(properties, input);
   }
-  
+
   // WJElement ifaceinput = NULL, ifaceoutput = NULL;
   //
   // if (WJEGetF(schema,NULL,"%s.patternProperties",schemapath))
