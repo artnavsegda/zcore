@@ -85,13 +85,13 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
   {
     json_object_object_foreach(patternProperties, key, val)
     {
-      puts(key);
+      //puts(key);
       json_object_object_get_ex(val, "properties", &properties);
       json_object_object_foreach(input, key, val)
       {
-        puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-        puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-        //output = translate(properties, input);
+        //puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+        //puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+        output = translate(properties, val);
       }
     }
   }
