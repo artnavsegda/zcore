@@ -41,12 +41,13 @@
 
 json_object * translate(json_object * properties, json_object * input)
 {
+  json_object * output = NULL;
   json_object_object_foreach(properties, key, val)
   {
     puts(key);
     puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
   }
-  return NULL;
+  return output;
 }
 
 json_object * filter(json_object * input, json_object * schema, char * schemapath)
