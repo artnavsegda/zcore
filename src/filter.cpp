@@ -44,8 +44,11 @@ json_object * translate(json_object * properties, json_object * input)
   json_object * output = NULL;
   json_object_object_foreach(properties, key, val)
   {
+    json_object * type = NULL;
+    json_object_object_get_ex(val, "type", &type);
     puts(key);
-    puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+    //puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+    puts(json_object_to_json_string_ext(type, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
   }
   return output;
 }
@@ -72,8 +75,8 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
   }
   else if (!json_pointer_getf(schema, &properties, "/%s/schema/properties", schemapath))
   {
-      puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-      puts(json_object_to_json_string_ext(input, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+      //puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+      //puts(json_object_to_json_string_ext(input, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
       output = translate(properties, input);
   }
   
