@@ -65,7 +65,7 @@ json_object * filter(json_object * input, json_object * schema, char * schemapat
       {
         puts(json_object_to_json_string_ext(properties, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
         puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-        output = translate(properties, input);
+        //output = translate(properties, input);
       }
     }
   }
