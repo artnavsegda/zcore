@@ -49,6 +49,9 @@ json_object * translate(json_object * properties, json_object * input)
     puts(key);
     //puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
     puts(json_object_to_json_string_ext(type, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+    json_object * entity = NULL;
+    json_object_object_get_ex(input, key, &entity);
+    puts(json_object_to_json_string_ext(entity, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
   }
   return output;
 }
