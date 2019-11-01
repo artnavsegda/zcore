@@ -48,12 +48,8 @@ json_object * translate(json_object * properties, json_object * input)
     char * typestring;
     json_object_object_get_ex(val, "type", &type);
     typestring = (char *)json_object_get_string(type);
-    puts(key);
-    puts(typestring);
     json_object * entity = NULL;
     json_object_object_get_ex(input, key, &entity);
-    puts(json_object_to_json_string_ext(entity, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-
     json_object_object_add(output, key, entity);
 
     if (strcmp(typestring,"string") == 0)
