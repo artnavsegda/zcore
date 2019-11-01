@@ -69,9 +69,10 @@ int option_print_value(json_object * parameter, char * paramname)
   json_object_object_get_ex(parameter, "type", &type);
   json_object * protovalue = NULL;
   json_object_object_get_ex(protoface, paramname, &protovalue);
-  if (strcmp(json_object_get_string(type),"string") == 0){
-    puts(json_object_get_string(protovalue));
-  }
+  puts(json_object_to_json_string_ext(protovalue, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+//  if (strcmp(json_object_get_string(type),"string") == 0){
+//    puts(json_object_get_string(protovalue));
+//  }
 //   else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
 //     printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
 //   }
