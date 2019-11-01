@@ -54,6 +54,8 @@ json_object * translate(json_object * properties, json_object * input)
     json_object_object_get_ex(input, key, &entity);
     puts(json_object_to_json_string_ext(entity, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
 
+    json_object_object_add(output, key, entity);
+
     if (strcmp(typestring,"string") == 0)
     {
       //json_object_object_add(output, key, NULL);
@@ -68,6 +70,7 @@ json_object * translate(json_object * properties, json_object * input)
     }
     else if (strcmp(typestring,"array") == 0)
     {
+      //json_object_object_add(output, key, entity);
       //json_object * newarray = json_object_new_array();
       //json_object_object_add(output, key, newarray);
       //json_object_deep_copy(entity, &output, NULL);
