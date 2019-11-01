@@ -47,13 +47,12 @@ json_object * translate(json_object * properties, json_object * input)
     json_object * type = NULL;
     char * typestring;
     json_object_object_get_ex(val, "type", &type);
+    typestring = (char *)json_object_get_string(type);
     puts(key);
-    //puts(json_object_to_json_string_ext(val, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
-    puts(json_object_to_json_string_ext(type, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
+    puts(typestring);
     json_object * entity = NULL;
     json_object_object_get_ex(input, key, &entity);
-    typestring = (char *)json_object_to_json_string_ext(entity, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE);
-    puts(typestring);
+    puts(json_object_to_json_string_ext(entity, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
 
     //json_object_object_add(output, key, val);
 
