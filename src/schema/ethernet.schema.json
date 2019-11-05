@@ -64,6 +64,7 @@
         },
         "metric": {
           "type": "number",
+          "enum": [1,2,3,4],
           "description": "Network metric"
         },
         "proto": {

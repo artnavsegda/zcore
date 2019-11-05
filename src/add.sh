@@ -1,7 +1,15 @@
 #!/bin/sh
 
-# cat
+type=$1; shift
+schema=$1; shift
 
-ssh root@192.168.1.1 stdin2arg /bin/ubus call uci add
-sleep 1;
+pp=""
+	for key in $CUE; do
+		[ -z "$1" ] && break
+		val=$1; shift
+		[ -z "$val" ] && continue
+		pp="$pp -o $key=$val"
+	done
+
+logger -t "zcore" "zgen $type $schema $pp"
 

@@ -7,73 +7,131 @@
     "^sim": {
     "type": "object",
     "title": "Interface entity",
-    "required": ["name", "mode", "enable"],
+    
+    "required": ["enable", "proto"],
     "properties": {
-      "name": {
+
+      "proto": {
         "type": "string",
-        "description": "Interface name",
+        "default": "3g",
         "hidden": true
       },
+
+      "auto": {
+        "type": "boolean",
+        "default": true,
+        "hidden": true
+      },
+
       "enable": {
         "type": "boolean",
-        "description": "Enable cellular interface",
+        "description": "Enable cellulare interface",
         "example": true
       },
+
+
+      "defaultroute": {
+        "type": "boolean",
+        "description": "Use as defaultroute",
+        "default": true
+      },
+
+      "mtu": {
+        "type": "number",
+        "description": "Interface MTU value",
+        "default": 1400,
+        "maximum": 1500,
+        "minimum": 400
+      },
+
+      "peerdns": {
+        "type": "boolean",
+        "description": "Use DNS servers from this interface",
+        "default": true
+      },
+
+      "metric": {
+        "type": "number",
+        "description": "Interface metric(priority) value",
+        "minimum": 101,
+        "maximum": 900,
+        "default": 200
+      },
+
       "apn": {
         "type": "string",
         "description": "Access point name"
       },
+
       "username": {
         "type": "string",
-        "description": "Username"
+        "description": "Username",
+        "maxLength": 39
       },
+
       "password": {
         "type": "string",
-        "description": "Password",
-        "hidden": true
+        "description": "Password"
       },
+
+      "auth" : {
+        "type": "string",
+        "description": "Auth method",
+        "enum": ["any", "eap", "pap", "chap"],
+        "default": "any"
+      },
+
       "mode": {
         "type": "string",
         "enum": ["auto","edge","umts","lte"],
         "description": "Network access mode",
         "example": "auto"
       },
-      "bands": {
-        "type": "array",
-        "uniqueItems": true,
-        "description": "Freq bands allowed",
-        "items": {
-          "type": "string",
-          "enum": ["850","900","1800","1900","2100","2600"]
-        }
+
+      "allow_roaming": {
+        "type": "boolean",
+        "description": "Allow roaming registration",
+        "default": false
+      },
+
+      "force_mccmnc": {
+        "type": "string",
+        "description": "PLMN operator code (MCC+MNC)",
+        "maxLength": 6
+      },
+
+      "pincode": {
+        "type": "string",
+        "description": "SIM card PIN",
+        "maxLength": 8
+      },
+
+      "pppd_options": {
+        "type": "string",
+        "description": "Additional PPPd options"
       }
+
     }
   }
 },
   "commands": {
     "apply": {
-        "command": "/home/art/Coding/zcore/src/apply-mobile.sh",
-        "args": ["apply-mobile.sh"],
-        "argpass": true,
-        "json": "in",
-        "reload": true
-     },
-    "revert": {
-       "command": "/home/art/Coding/zcore/src/revert.sh",
-       "args": ["revert"],
-       "argpass": true,
-       "wait": true,
-       "reload": true
+        "command": "/opt/zenith/script/apply.sh",
+        "args": ["apply.sh", "mobile", "mobile.schema"],
+	"argpass": true,
+	"json": "in",
+        "reload": false
     },
-    "env": {
-      "command": "/usr/bin/env",
-      "args": ["env"],
-      "argpass": true,
-      "wait": true
+    "ping": {
+	"command": "/bin/ping",
+	"args": ["ping"],
+	"argpass": true
     }
-	},
+  },
+
   "acquire": {
-     "shell": "/home/art/Coding/zcore/src/mobile.sh",
-     "args": ["mobile.sh", "mobile.schema"]
+     "shell": "/opt/zenith/script/get.sh",
+     "args": ["get.sh", "mobile", "mobile.schema"]
    }
 }
+

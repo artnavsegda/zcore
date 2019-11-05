@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "lan",
+  "description": "LAN interfaces list",
+  "type": "object",
+  "patternProperties": {
+    "^lan": {
+      "type": "object",
+      "title": "Interface entity",
+      "required": ["vid", "cpu_port"],
+      "properties": {
+        "vid": {
+          "type": "number",
+          "description": "VLAN ID",
+          "minimum": 1,
+          "maximum": 4094
+        },
+        "cpu_port": {
+          "type": "number",
+          "description": "Master port",
+          "default": 6
+        },
+        "ports":{
+          "type": "array",
+          "description": "Untagged ports",
+          "items": {
+            "type": "number",
+            "description": "Untagged port",
+            "items": {
+              "uniqueItems": true,
+              "type": "number",
+              "enum": [1, 2, 3, 4, 0]
+            }
+          }
+        },
+        "ipaddr": {
+          "type": "string",
+          "description": "IP address value"
+        },
+        "netmask": {
+          "type": "string",
+          "description": "IP netmask value"
+        },
+        "macaddr": {
+          "type": "string",
+          "description": "MAC address"
+        },
+        "mtu": {
+          "type": "number",
+          "description": "MTU",
+          "maximum": 1500,
+          "minimum": 500,
+	  "default": 1500
+        }, 
+        "bridge": {
+          "type": "boolean",
+          "description": "Use as bridge",
+          "default": true
+        },
+
+        "stp": {
+          "type": "boolean",
+          "description": "Enables the Spanning Tree Protocol",
+          "default": false
+        }
+      }
+    }
+  },
+  "commands": {
+  },
+  
+  "acquire": {
+    "shell": "/opt/zenith/script/get.sh",
+    "args": ["get.sh", "lan", "lan.schema"]
+  }
+}
+

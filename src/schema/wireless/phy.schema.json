@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "phy",
+  "description": "WiFi PHY list",
+  "type": "object",
+  "patternProperties": {
+    "^radio": {
+      "type": "object",
+      "title": "Radio PHY entity",
+      "properties": {
+
+        "channel": {
+          "type": "string",
+          "description": "Radio channel number",
+          "enum": ["1","2","3","4","5","6","7","8","9","10","11"]
+        },
+
+        "hwmode": {
+          "type": "string",
+          "description": "HW radio mode",
+          "enum": ["11b", "11g"]
+        },
+
+        "htmode": {
+          "type": "string",
+          "description": "HT radio mode",
+          "enum": [ "HT20", "HT40-", "HT40+", "HT40" ]
+        },
+
+        "chanbw": {
+          "type": "number",
+          "description": "Channel bandwith",
+          "enum": [5, 10, 20]
+        },
+
+        "disabled": {
+          "type": "boolean",
+          "description": "Disable adapter",
+        },
+
+        "country": {
+          "type": "string",
+          "description": "Country code",
+          "enum": ["default", "RU", "CN", "US"]
+        },
+
+      }
+    }
+  },
+  "commands": {
+  },
+
+  "acquire": {
+     "shell": "/opt/zenith/script/get.sh",
+     "args": ["get.sh", "wifi-phy", "wireless.phy.schema"]
+   }
+}
+

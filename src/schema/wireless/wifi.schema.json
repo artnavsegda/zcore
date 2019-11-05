@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "wifi",
+  "description": "WiFi Interfaces list",
+  "type": "object",
+  "patternProperties": {
+    "^cfg": {
+      "type": "object",
+      "title": "Radio Interface entity",
+      "properties": {
+
+        "device": {
+          "type": "script",
+          "description": "Radio PHY device",
+          "enum": ["wireless.phy"]
+        },
+
+        "mode": {
+          "type": "string",
+          "description": "Interface mode",
+          "enum": ["ap", "sta"]
+        },
+
+        "encryption": {
+          "type": "string",
+          "description": "Encryption type",
+          "enum": ["open", "psk-mixed+ccmp", "wpa-mixed+ccmp"]
+        },
+
+        "ssid": {
+          "type": "string",
+          "description": "SSID name",
+        },
+
+        "key": {
+          "type": "string",
+          "description": "WPA/WPA2 key"
+        },
+
+        "hidden": {
+          "type": "boolean",
+          "description": "Hidden network"
+        },
+
+        "network": {
+          "type": "string",
+          "description": "Bridge with",
+          "enum": ["lan"]
+        },
+
+      }
+    }
+  },
+  "commands": {
+  },
+
+  "acquire": {
+     "shell": "/opt/zenith/script/get.sh",
+     "args": ["get.sh", "wifi-iface", "wireless.wifi.schema"]
+   }
+}

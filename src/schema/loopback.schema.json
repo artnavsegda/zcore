@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "loopback",
+  "description": "Loopback interfaces list",
+  "type": "object",
+  "patternProperties": {
+    "^loopback": {
+      "type": "object",
+      "title": "Interface entity",
+      "required": ["ipaddr", "netmask"],
+      "properties": {
+        "ipaddr": {
+          "type": "string",
+          "description": "IP address value"
+        },
+        "netmask": {
+          "type": "string",
+          "description": "IP netmask value"
+        },
+        "proto": {
+          "type": "string",
+          "description": "IP netmask value",
+          "hidden": true
+        },
+        "ifname": {
+          "type": "string",
+          "description": "PHY interface name",
+          "default": "lo",
+          "hidden": true
+        },
+      }
+    }
+  },
+  "commands": {
+
+  },
+  "acquire": {
+    "shell": "/opt/zenith/script/get.sh",
+    "args": ["get.sh", "loopback", "loopback.schema"]
+  }
+}
+
