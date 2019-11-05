@@ -3,11 +3,13 @@
 #include <limits.h>
 #include <json-c/json.h>
 #include "interpreter.h"
+#include "builtin.h"
 
 extern json_object * protojson;
 extern json_object * protoface;
 extern int protodepth;
 extern enum domains domain;
+extern path_t * path;
 
 // char * parentname(WJElement element, int depth)
 // {
@@ -29,6 +31,10 @@ void generateprompt(char * prompt)
   strcat(prompt, "@");
   strcat(prompt, hostname);
   strcat(prompt, "]");
+
+  strcat(prompt, "/");
+  strcat(prompt, path->name);
+
 //   for (int i = protodepth; i > 0; i--)
 //   {
 //     strcat(prompt, "/");
