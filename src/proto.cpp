@@ -84,6 +84,7 @@ int proto(int argc, char *argv[])
       struct path_s* tmp = (struct path_s*)malloc(sizeof(struct path_s));
       tmp->parent = path;
       json_object_object_get_ex(protojson,argv[i],&protojson);
+      tmp->name = strdup(argv[i]);
       tmp->element = protojson;
       path = tmp;
       json_object * schema = NULL;
@@ -127,6 +128,7 @@ int rl_proto(int argc, char *argv[])
       struct path_s* tmp = (struct path_s*)malloc(sizeof(struct path_s));
       tmp->parent = rl_path;
       json_object_object_get_ex(rl_protojson,argv[i],&rl_protojson);
+      tmp->name = strdup(argv[i]);
       tmp->element = rl_protojson;
       rl_path = tmp;
       json_object * schema = NULL;
