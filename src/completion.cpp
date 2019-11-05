@@ -13,8 +13,92 @@
 #include "option.h"
 #include "interpreter.h"
 
+struct complement
+{
+  char * command;
+  enum domains domain;
+  char * description;
+};
+
+typedef struct complement cmpstr_t;
+
+struct complestruct
+{
+  char * locode;
+  int complecount;
+  cmpstr_t **complelist;
+};
+
+typedef struct complestruct cmplist_t;
+
+typedef cmpstr_t *callback_func_t (char *);
+
 enum domains rl_domain = PROTO;
 char *rl_commandname = NULL;
+
+int compute_lcd_of_matches2 (cmplist_t * list, char *text)
+{
+  register int i, c1, c2, si;
+  int low;		/* Count of max-matched characters. */
+  int lx;
+
+  if (list->complecount == 1)
+    {
+      list->locode = list->complelist[0]->command;
+      return 1;
+    }
+
+  for (i = 0, low = 100000; i < list->complecount-1; i++)
+    {
+	  for (si = 0;
+	       (c1 = list->complelist[i]->command[si]) &&
+	       (c2 = list->complelist[i + 1]->command[si]);
+	       si++)
+	    if (c1 != c2)
+	      break;
+
+      if (low > si)
+	low = si;
+    }
+
+  if (low == 0 && text && *text)
+    {
+      list->locode = (char *)malloc (strlen (text) + 1);
+      strcpy (list->locode, text);
+    }
+  else
+    {
+      list->locode = (char *)malloc (low + 1);
+      strncpy (list->locode, list->complelist[0]->command, low);
+      list->locode[low] = '\0';
+    }
+
+  return 0;
+}
+
+int sort_wrapper(const void *p1, const void *p2)
+{
+  return strcmp((*(cmpstr_t **)p1)->command,(*(cmpstr_t **)p2)->command);
+}
+
+void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * list)
+{
+  cmpstr_t *element;
+
+  while (element = (*cb_func)(inputstring))
+  {
+    list->complecount++;
+    list->complelist = (cmpstr_t **)realloc(list->complelist, sizeof(cmpstr_t *) * list->complecount);
+    list->complelist[list->complecount-1] = element;
+  }
+
+  if (list->complecount)
+  {
+    qsort(list->complelist, list->complecount, sizeof (cmpstr_t *), sort_wrapper);
+    compute_lcd_of_matches2(list, inputstring);
+  }
+
+}
 
 int rl_execute(int argc, char *argv[])
 {
@@ -65,85 +149,341 @@ void init_completition(void)
   incom_proto();
 }
 
-char ** character_name_completion(const char *text, int start, int end)
-{
-  init_completition();
-  rl_interpret(strdup(rl_line_buffer),start,end);
-  rl_attempted_completion_over = 1;
-  return rl_completion_matches(text, character_name_generator);
-}
+enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
+enum staging emptystage[] = {START_STAGE, STOP_STAGE};
+enum staging protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_STAGE};
+enum staging facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
+enum staging optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
 
-char * rl_rootcommands(const char * text, int len)
+cmpstr_t * rl_rootcommands2(const char * text, int len)
 {
-  char * rootvalues = NULL;
-  if ((rootvalues = builtinvalues(text,len)) == NULL)
+  static enum staging * cyclestaging = &emptystage[0];
+  cmpstr_t * rootvalues = (cmpstr_t *)malloc(sizeof(cmpstr_t));
+
+  while (1)
   {
-    switch (domain)
+    switch (*cyclestaging)
     {
-      case PROTO:
-        rootvalues = protovalues(text,len);
+      case START_STAGE:
+        switch (domain)
+        {
+          case PROTO:
+            cyclestaging = &protostage[0];
+          break;
+          case FACE:
+            cyclestaging = &facestage[0];
+          break;
+          case OPTION:
+            cyclestaging = &optionstage[0];
+          break;
+        }
+        cyclestaging++;
       break;
-      case FACE:
-        if ((rootvalues = facevalues(text,len)) == NULL)
-          rootvalues = commandvalues(text,len);
+      case BUILTIN_STAGE:
+        if (rootvalues->command = builtinvalues(text,len))
+        {
+//          printf("BS %s\n", rootvalues);
+          rootvalues->domain = BUILTIN;
+          rootvalues->description = NULL;
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
       break;
-      case OPTION:
-       if ((rootvalues = optionvalues(text,len)) == NULL)
-         rootvalues = commandvalues(text,len);
+      case PROTO_STAGE:
+        if (rootvalues->command = protovalues(text,len))
+        {
+//          printf("PS %s\n", rootvalues);
+          rootvalues->domain = PROTO;
+//          rootvalues->description = protohelp(rootvalues->command);
+          rootvalues->description = NULL;
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case FACE_STAGE:
+        if (rootvalues->command = facevalues(text,len))
+        {
+//          printf("FS %s\n", rootvalues);
+          rootvalues->domain = FACE;
+          rootvalues->description = NULL;
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case OPTION_STAGE:
+        if (rootvalues->command = optionvalues(text,len))
+        {
+//          printf("OS %s\n", rootvalues);
+          //rootvalues->description = optionhelp(rootvalues->command);
+          rootvalues->description = NULL;
+          rootvalues->domain = OPTION;
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case COMMAND_STAGE:
+        if (rootvalues->command = commandvalues(text,len))
+        {
+//          printf("CS %s\n", rootvalues);
+          rootvalues->domain = COMMAND;
+          rootvalues->description = NULL;
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case STOP_STAGE:
+        cyclestaging = &emptystage[0];
+        free(rootvalues);
+        return NULL;
       break;
     }
   }
-  return rootvalues;
 }
 
-char * rl_subcommands(const char * text, int len, int state)
+enum staging sub_protostage[] = {START_STAGE, PROTO_STAGE, STOP_STAGE};
+enum staging sub_facestage[] = {START_STAGE, FACE_STAGE, STOP_STAGE};
+enum staging sub_optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, STOP_STAGE};
+//enum staging sub_settingstage[] = {START_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
+//enum staging sub_settingstage[] = {START_STAGE, SETTING_STAGE, STOP_STAGE};
+enum staging sub_commandstage[] = {START_STAGE, COMMAND_STAGE, STOP_STAGE};
+
+cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 {
-  char * subvalues = NULL;
-  switch (rl_domain)
+  static enum staging * cyclestaging = &emptystage[0];
+  cmpstr_t * subvalues = (cmpstr_t *)malloc(sizeof(cmpstr_t));
+
+  while (1)
   {
-    case PROTO:
-     if ((subvalues = protovalues(text,len)) == NULL)
-       return NULL;
-    break;
-    case FACE:
-     if ((subvalues = facevalues(text,len)) == NULL)
-       return NULL;
-    break;
-    case OPTION:
-     if ((subvalues = optionvalues(text,len)) == NULL)
-       return NULL;
-    break;
-    case SETTING:
-//     if ((subvalues = settingvalues(text,len,state)) == NULL)
-//      subvalues = cuesettingvalues(text,len,state);
-// //    if ((subvalues = cuesettingvalues(text,len,state)) == NULL)
-// //      return NULL;
-    break;
-    case COMMAND:
-//     if ((subvalues = cuecommandvalues(text,len,state)) == NULL)
-//       return NULL;
-    break;
+    switch (*cyclestaging)
+    {
+      case START_STAGE:
+        switch (rl_domain)
+        {
+          case PROTO:
+            cyclestaging = &sub_protostage[0];
+          break;
+          case FACE:
+            cyclestaging = &sub_facestage[0];
+          break;
+          case OPTION:
+            cyclestaging = &sub_optionstage[0];
+          break;
+          // case SETTING:
+          //   cyclestaging = &sub_settingstage[0];
+          // break;
+          case COMMAND:
+            cyclestaging = &sub_commandstage[0];
+          break;
+        }
+        cyclestaging++;
+      break;
+      case PROTO_STAGE:
+        if (subvalues->command = protovalues(text,len))
+        {
+//          printf("PS %s\n", subvalues);
+          subvalues->domain = PROTO;
+          subvalues->description = NULL;
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case FACE_STAGE:
+        if (subvalues->command = facevalues(text,len))
+        {
+//          printf("FS %s\n", subvalues);
+          subvalues->domain = FACE;
+          subvalues->description = NULL;
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case OPTION_STAGE:
+        if (subvalues->command = optionvalues(text,len))
+        {
+//          printf("OS %s\n", subvalues);
+          subvalues->domain = OPTION;
+          //subvalues->description = optionhelp(subvalues->command);
+          subvalues->description = NULL;
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case COMMAND_STAGE:
+        if (subvalues->command = commandvalues(text,len))
+        {
+//          printf("CS %s\n", subvalues);
+          subvalues->domain = COMMAND;
+          subvalues->description = NULL;
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+//       case SETTING_STAGE:
+//         if (subvalues->command = settingvalues(text,len, state))
+//         {
+// //          printf("SS %s\n", subvalues);
+//           subvalues->domain = SETTING;
+//           subvalues->description = NULL;
+//           return subvalues;
+//         }
+//         else
+//           cyclestaging++;
+      break;
+//       case CUESETTING_STAGE:
+//         if (subvalues->command = cuesettingvalues(text,len, state))
+//         {
+// //          printf("CSS %s\n", subvalues);
+//           subvalues->domain = CUESETTING;
+//           subvalues->description = NULL;
+//           return subvalues;
+//         }
+//         else
+//           cyclestaging++;
+//       break;
+      case STOP_STAGE:
+        cyclestaging = &emptystage[0];
+      return NULL;
+      break;
+    }
   }
-  return subvalues;
 }
 
-char * character_name_generator(const char *text, int state)
+cmpstr_t *callback(char * inputstring)
 {
-  static int list_index, len;
-
-  if (!state) {
-      list_index = 0;
-      len = strlen(text);
-  }
-
   if (rl_commandname == NULL)
+    return rl_rootcommands2(inputstring, strlen(inputstring));
+  else
+    return rl_subcommands2(inputstring, strlen(inputstring), 0);
+}
+
+void print_cmp_list(cmplist_t *list)
+{
+  int x = 1;
+  for (int i = PROTO; i <= BUILTIN; i++)
   {
-    return rl_rootcommands(text,len);
+    if (x == 1)
+    {
+      putchar('\n');
+      x = 0;
+    }
+    for (int y = 0; y < list->complecount; y++)
+    {
+      if(list->complelist[y]->domain == i)
+      {
+        printf("\t%s", list->complelist[y]->command);
+        if(list->complelist[y]->description)
+        {
+          printf(":\t%s", list->complelist[y]->description);
+        }
+        puts("");
+        x = 1;
+      }
+    }
+  }
+  rl_on_new_line();
+
+  return;
+}
+
+void zc_cleanup(cmplist_t *list)
+{
+  if (list->locode)
+  {
+    free(list->locode);
+  }
+  if (list->complecount > 1)
+  {
+    for (int i = 0; i < list->complecount; i++)
+    {
+      free(list->complelist[i]->command);
+      free(list->complelist[i]);
+    }
+  }
+}
+
+int zc_completion2(int count, int key)
+{
+  cmplist_t list = { .complecount = 0 };
+  int i = 0;
+  char **something;
+  init_completition();
+  char *rl_tokarr[100];
+  int one = parse(strdup(rl_line_buffer), rl_tokarr);
+  int numberoftokens = arrlength(rl_tokarr);
+
+  if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
+  {
+    rl_interpret(strdup(rl_line_buffer),1,rl_end);
+  }
+  else
+    rl_interpret(strdup(rl_line_buffer),0,rl_end);
+
+  if (one)
+  {
+    if (rl_line_buffer[rl_point-1] == ' ')
+    {
+      array_allocate("", callback, &list);
+      if (list.complecount)
+      {
+        if (list.complecount == 1)
+        {
+          rl_insert_text(list.locode);
+            rl_insert_text(" ");
+        }
+        else
+        {
+          print_cmp_list(&list);
+        }
+      }
+    }
+    else
+    {
+      array_allocate(rl_tokarr[one-1], callback, &list);
+      if (list.complecount)
+      {
+          rl_insert_text(&(list.locode[strlen(rl_tokarr[one-1])]));
+          if (list.complecount == 1)
+          {
+            rl_insert_text(" ");
+          }
+          else
+          {
+            print_cmp_list(&list);
+          }
+      }
+      else
+      {
+        rl_insert_text(" ");
+      }
+    }
   }
   else
   {
-    return rl_subcommands(text,len, state);
+    array_allocate("", callback, &list);
+    if (list.complecount)
+    {
+      if (list.complecount > 0)
+      {
+        if (list.complecount == 1)
+        {
+        }
+        else
+        {
+          print_cmp_list(&list);
+        }
+      }
+    }
   }
+  zc_cleanup(&list);
 
-  return NULL;
+  return 0;
 }
