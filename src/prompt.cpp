@@ -40,13 +40,13 @@ void generateprompt(char * prompt)
     strcat(prompt, "/");
     strcat(prompt, parentname(path, i));
   }
-//   if (domain == OPTION)
-//   {
+  if (domain == OPTION)
+  {
 //     if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
 //     {
-//       strcat(prompt, "/");
-//       strcat(prompt, WJEString(protoface, "name", WJE_GET, ""));
+      strcat(prompt, "/");
+      //strcat(prompt, elementname(protojson,protoface));
 //     }
-//   }
+  }
   strcat(prompt, ">");
 }
