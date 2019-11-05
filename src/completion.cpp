@@ -94,7 +94,8 @@ void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * li
 
   if (list->complecount)
   {
-    qsort(list->complelist, list->complecount, sizeof (cmpstr_t *), sort_wrapper);
+    //qsort(list->complelist, list->complecount, sizeof (cmpstr_t *), sort_wrapper);
+    qsort(list->complelist, list->complecount, sizeof (cmpstr_t *), [](const void *p1, const void *p2) -> int { return strcmp((*(cmpstr_t **)p1)->command,(*(cmpstr_t **)p2)->command);});
     compute_lcd_of_matches2(list, inputstring);
   }
 
