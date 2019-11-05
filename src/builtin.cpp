@@ -23,6 +23,7 @@ path_t * rl_path = &root_path;
 
 int path_up()
 {
+  json_object * schema = NULL;
   switch (domain)
   {
     case PROTO:
@@ -44,9 +45,21 @@ int path_up()
        protojson = path->element;
      break;
      case OPTION:
+       json_object_object_get_ex(protojson, "schema", &schema);
+       if (json_object_object_get_ex(schema, "patternProperties", NULL))
+       {
+         domain = FACE;
+       }
+       else if (json_object_object_get_ex(schema, "properties", NULL))
+       {
+         domain = PROTO;
+         protodepth--;
+         path = path->parent;
+         protojson = path->element;
+       }
 //       if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
 //       {
-         domain = FACE;
+//         domain = FACE;
 //       }
 //       else if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"object") == 0)
 //       {
