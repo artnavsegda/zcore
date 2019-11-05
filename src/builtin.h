@@ -13,6 +13,7 @@ struct path_s
 {
     json_object * element;
     struct path_s * parent;
+    char * name;
 };
 
 typedef struct path_s path_t;
