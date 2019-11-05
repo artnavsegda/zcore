@@ -32,14 +32,14 @@ void generateprompt(char * prompt)
   strcat(prompt, hostname);
   strcat(prompt, "]");
 
-  strcat(prompt, "/");
-  strcat(prompt, path->name);
+//  strcat(prompt, "/");
+//  strcat(prompt, path->name);
 
-//   for (int i = protodepth; i > 0; i--)
-//   {
-//     strcat(prompt, "/");
-//     strcat(prompt, parentname(protojson, i));
-//   }
+  for (int i = protodepth; i > 0; i--)
+  {
+    strcat(prompt, "/");
+    strcat(prompt, parentname(path, i));
+  }
 //   if (domain == OPTION)
 //   {
 //     if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
