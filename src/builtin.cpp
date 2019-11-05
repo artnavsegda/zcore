@@ -16,7 +16,7 @@ extern json_object * protojson;
 extern json_object * protoface;
 extern json_object * root;
 
-path_t root_path = { .element = root };
+path_t root_path = { .element = root, .name = "" };
 
 path_t * path = &root_path;
 path_t * rl_path = &root_path;
