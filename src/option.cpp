@@ -268,3 +268,10 @@ char * optionvalues(const char * text, int len)
 //   }
 //   return NULL;
 // }
+
+char * optionhelp(const char * commandname)
+{
+  json_object * description = NULL;
+  json_pointer_getf(optionlist(protojson), &description, "/properties/%s/description", commandname);
+  return (char *)json_object_get_string(description);
+}
