@@ -217,8 +217,8 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         if (rootvalues->command = optionvalues(text,len))
         {
 //          printf("OS %s\n", rootvalues);
-          //rootvalues->description = optionhelp(rootvalues->command);
-          rootvalues->description = NULL;
+          rootvalues->description = optionhelp(rootvalues->command);
+//          rootvalues->description = NULL;
           rootvalues->domain = OPTION;
           return rootvalues;
         }
@@ -309,8 +309,8 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         {
 //          printf("OS %s\n", subvalues);
           subvalues->domain = OPTION;
-          //subvalues->description = optionhelp(subvalues->command);
-          subvalues->description = NULL;
+          subvalues->description = optionhelp(subvalues->command);
+//          subvalues->description = NULL;
           return subvalues;
         }
         else
