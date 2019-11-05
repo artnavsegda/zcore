@@ -11,14 +11,14 @@ extern int protodepth;
 extern enum domains domain;
 extern path_t * path;
 
-// char * parentname(WJElement element, int depth)
-// {
-//   for (int i = 1; i < depth; i++)
-//   {
-//     element = element->parent;
-//   }
-//   return element->name;
-// }
+char * parentname(path_t * element, int depth)
+{
+  for (int i = 1; i < depth; i++)
+  {
+    element = element->parent;
+  }
+  return element->name;
+}
 
 void generateprompt(char * prompt)
 {
