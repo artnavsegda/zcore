@@ -6,7 +6,7 @@
 
 int acquire(WJElement proto)
 {
-  int forkpid, status;
+  int forkpid = 0, status;
   FILE *jsonstream;
   WJReader readjson;
   char *argv[100];
@@ -17,6 +17,9 @@ int acquire(WJElement proto)
   {
     WJEDettach(data);
   }
+
+  if (WJEGet(proto, "schema.acquire.shell", NULL))
+  {
 
   //printf("acquire %s\n", proto->name);
   //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"));
@@ -37,6 +40,7 @@ int acquire(WJElement proto)
 
   fclose(jsonstream);
   waitpid(forkpid, &status, 0);
+  }
 
 //  WJEDump(jsondata);
   return 0;
