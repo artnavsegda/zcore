@@ -12,7 +12,7 @@
         "device": {
           "type": "script",
           "description": "Radio PHY device",
-          "enum": ["wireless.phy"]
+          "cue": ["wireless.phy"]
         },
 
         "mode": {
@@ -45,7 +45,7 @@
         "network": {
           "type": "string",
           "description": "Bridge with",
-          "enum": ["lan"]
+          "cue": ["lan"]
         },
 
       }
@@ -55,7 +55,7 @@
   },
 
   "acquire": {
-     "shell": "/opt/zenith/script/get.sh",
+     "shell": "get.sh",
      "args": ["get.sh", "wifi-iface", "wireless.wifi.schema"]
    }
 }

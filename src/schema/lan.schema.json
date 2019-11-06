@@ -24,10 +24,13 @@
           "type": "array",
           "description": "Untagged ports",
           "items": {
-            "type": "number",
+            "type": "array",
             "description": "Untagged port",
-            "uniqueItems": true,
-            "enum": [1, 2, 3, 4, 0]
+            "items": {
+              "uniqueItems": true,
+              "type": "number",
+              "enum": [1, 2, 3, 4, 0]
+            }
           }
         },
         "ipaddr": {
@@ -47,7 +50,7 @@
           "description": "MTU",
           "maximum": 1500,
           "minimum": 500,
-	  "default": 1500
+          "default": 1500
         }, 
         "bridge": {
           "type": "boolean",
@@ -63,12 +66,12 @@
       }
     }
   },
+  
   "commands": {
   },
-  
+
   "acquire": {
-    "shell": "/opt/zenith/script/get.sh",
+    "shell": "get.sh",
     "args": ["get.sh", "lan", "lan.schema"]
   }
 }
-

@@ -41,7 +41,7 @@
         "country": {
           "type": "string",
           "description": "Country code",
-          "enum": ["default", "RU", "CN", "US"]
+          "cue": ["wireless.region-params"]
         },
 
       }
@@ -51,8 +51,7 @@
   },
 
   "acquire": {
-     "shell": "/opt/zenith/script/get.sh",
+     "shell": "get.sh",
      "args": ["get.sh", "wifi-phy", "wireless.phy.schema"]
    }
 }
-

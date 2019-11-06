@@ -119,8 +119,7 @@
   },
   
   "acquire": {
-    "shell": "/opt/zenith/script/get.sh",
+    "shell": "get.sh",
     "args": ["get.sh", "wan", "wan.schema"]
   }
 }
-
