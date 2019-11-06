@@ -171,8 +171,8 @@ int command(int argc, char *argv[])
   }
   if (WJEBool(command_el, "reload", WJE_GET, FALSE) == TRUE)
   {
-    //acquire(protojson);
-    alarm(3);
+    acquire(protojson);
+    //alarm(3);
   }
   return 1;
 }
