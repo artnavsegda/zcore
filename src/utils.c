@@ -180,7 +180,8 @@ int forkexec(char * command, int argc, char *argv[], char *envp[])
 
 int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
 {
-  FILE *jsonstream = my_popen_read(command, argv, envp);
+  int forkpid, status;
+  FILE *jsonstream = my_popen_read(command, argv, envp, &forkpid);
   if (jsonstream == NULL)
   {
     puts("handle error");
@@ -194,19 +195,23 @@ int streamfromcommand(char * command, char *argv[], char *envp[], WJElement json
   }
   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
   WJEAttach(jsonparent,jsondata);
+
+  fclose(jsonstream);
+  waitpid(forkpid, &status, 0);
+
   return 0;
 }
 
-FILE * my_popen_read (char * command, char *argv[], char *envp[])
+FILE * my_popen_read (char * command, char *argv[], char *envp[], int * pid)
 {
     int fd[2];
     int read_fd, write_fd;
-    int pid;
+    //int pid;
     pipe(fd);
     read_fd = fd[0];
     write_fd = fd[1];
-    pid = fork();
-    if (pid == 0) {
+    *pid = fork();
+    if (*pid == 0) {
         close(read_fd);
         dup2(write_fd,1);
         close(write_fd);
