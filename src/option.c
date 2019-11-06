@@ -213,14 +213,26 @@ char * optionvalues(const char * text, int len)
 
 char * settingvalues(const char * text, int len, int state)
 {
+  static WJElement setting = NULL;
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"string") == 0)
   {
-    static WJElement setting = NULL;
     char * variant = NULL;
     while (variant = _WJEString(rl_parameter, "enum[]", WJE_GET, &setting, NULL))
     {
       if (strncmp(variant, text, len) == 0) {
         return strdup(variant);
+      }
+    }
+  }
+  else if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"number") == 0)
+  {
+    int number = 0;
+    char cmpstr[10];
+    while (number = _WJEInt32(rl_parameter, "enum[]", WJE_GET, &setting, 0))
+    {
+      sprintf(cmpstr,"%d",number);
+      if (strncmp(cmpstr, text, len) == 0) {
+        return strdup(cmpstr);
       }
     }
   }
