@@ -162,6 +162,11 @@ int option(int argc, char *argv[])
   }
   else if (argc == 2)
   {
+    if (WJEBool(parameter,"readonly",WJE_GET,FALSE))
+    {
+      puts("option readonly");
+      return 1;
+    }
     return option_set_value(parameter, argv[1]);
   }
   else if (argc > 2)
