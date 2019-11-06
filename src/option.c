@@ -103,17 +103,33 @@ int option_print_value(WJElement parameter)
 
 int option_set_value(WJElement parameter, char * value)
 {
-  if (value[0] == '-')
-  {
-    WJEDettach(WJEGet(protoface,parameter->name,NULL));
-    return 1;
-  }
   if (value[0] == '?')
   {
     puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
     return 1;
   }
-  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
+  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+  {
+    if (value[0] == '-')
+    {
+      WJEDettach(WJEGetF(protoface,NULL,"%s[] == %s",parameter->name,&value[1]));
+    }
+    else
+    {
+      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+        WJEStringF(protoface, WJE_NEW, NULL, value, "%s[$]", parameter->name);
+      }
+      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+        WJEInt32F(protoface, WJE_NEW, NULL, atoi(value), "%s[$]", parameter->name);
+      }
+    }
+  }
+  else if (value[0] == '-')
+  {
+    WJEDettach(WJEGet(protoface,parameter->name,NULL));
+    return 1;
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
   {
     if (value[0] == '\"')
     {
@@ -125,13 +141,6 @@ int option_set_value(WJElement parameter, char * value)
     WJEInt32(protoface, parameter->name, WJE_SET, atoi(value));
   else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
     WJEBool(protoface, parameter->name, WJE_SET, atoi(value));
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
-  {
-    if (value[0] == '-')
-      WJEDettach(WJEGetF(protoface,NULL,"%s[] == %s",parameter->name,&value[1]));
-    else
-      WJEStringF(protoface, WJE_NEW, NULL, value, "%s[$]", parameter->name);
-  }
   else
     puts("Not implemeted");
   return 1;
