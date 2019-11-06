@@ -111,6 +111,7 @@
       "args": ["env"],
       "cue": ["raz", "dva", "tri"],
       "argpass": true,
+      "json": "in",
       "wait": true
     }
   },

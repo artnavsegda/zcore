@@ -69,8 +69,8 @@ int command(int argc, char *argv[])
   char *envp[100];
 
   char *args[100];
-  WJElement command = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
-  int argsc = arguments(WJEArray(command, "args", WJE_GET),args);
+  WJElement command_el = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
+  int argsc = arguments(WJEArray(command_el, "args", WJE_GET),args);
 
   char faceenv[100] = "";
   int i = 0;
@@ -119,7 +119,7 @@ int command(int argc, char *argv[])
   char cuestring[100] = "CUE=";
   char * cuename = NULL;
   WJElement cue = NULL;
-  while (cuename = _WJEString(command, "cue[]", WJE_GET, &cue, NULL))
+  while (cuename = _WJEString(command_el, "cue[]", WJE_GET, &cue, NULL))
   {
     strcat(cuestring, cuename);
     strcat(cuestring, " ");
@@ -127,27 +127,31 @@ int command(int argc, char *argv[])
   envp[i++] = cuestring;
   envp[i++] = NULL;
 
-  if (WJEBool(command, "argpass", WJE_GET, 0) == TRUE)
+  if (WJEBool(command_el, "argpass", WJE_GET, 0) == TRUE)
   {
     argsc = argcat(argsc, args, &argv[1]);
   }
 
-  if (strcmp(WJEString(command,"json", WJE_GET, "none"),"out") == 0)
+  if (strcmp(WJEString(command_el,"json", WJE_GET, "none"),"out") == 0)
   {
-    streamfromcommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,envp,WJEArray(protojson, "data", WJE_GET));
+    streamfromcommand(WJEString(command_el, "command", WJE_GET, "/bin/false"),args,envp,WJEArray(protojson, "data", WJE_GET));
   }
-  else if (strcmp(WJEString(command,"json", WJE_GET, "none"),"in") == 0)
+  else if (strcmp(WJEString(command_el,"json", WJE_GET, "none"),"in") == 0)
   {
     if (domain == OPTION)
     {
-      streamintocommand(WJEString(command, "command", WJE_GET, "/bin/false"),args,envp,WJEToString(protoface,TRUE));
+      streamintocommand(WJEString(command_el, "command", WJE_GET, "/bin/false"),args,envp,WJEToString(protoface,TRUE));
     }
     else if (domain == FACE)
     {
       WJElement face = NULL;
+      domain = OPTION;
       while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-        streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,envp,WJEToString(face,TRUE));
+        protoface = face;
+        command(argc, argv);
+        //streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,envp,WJEToString(face,TRUE));
       }
+      domain = FACE;
     }
     else
     {
@@ -156,16 +160,16 @@ int command(int argc, char *argv[])
   }
   else
   {
-    if (WJEBool(command, "wait", WJE_GET, 0) == TRUE)
+    if (WJEBool(command_el, "wait", WJE_GET, 0) == TRUE)
     {
-      forkwaitexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,envp);
+      forkwaitexec(WJEString(command_el, "command", WJE_GET, "/bin/false"),argsc,args,envp);
     }
     else
     {
-      forkexec(WJEString(command, "command", WJE_GET, "/bin/false"),argsc,args,envp);
+      forkexec(WJEString(command_el, "command", WJE_GET, "/bin/false"),argsc,args,envp);
     }
   }
-  if (WJEBool(command, "reload", WJE_GET, FALSE) == TRUE)
+  if (WJEBool(command_el, "reload", WJE_GET, FALSE) == TRUE)
   {
     //acquire(protojson);
     alarm(3);
