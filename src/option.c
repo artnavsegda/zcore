@@ -254,12 +254,13 @@ char * settingvalues(const char * text, int len, int state)
 char * singlecuevalue(const char * text, int len, char * cuename)
 {
   static WJElement cueface = NULL;
+  WJElement cueproto = WJEObject(root, cuename, WJE_GET);
   if (cuename)
   {
     while (cueface = WJEObjectF(root, WJE_GET, &cueface, "%s.data[]", cuename))
     {
-      if (strncmp(WJEString(cueface, "name", WJE_GET, ""), text, len) == 0) {
-        return strdup(WJEString(cueface, "name", WJE_GET, ""));
+      if (strncmp(elementname(cueproto,cueface), text, len) == 0) {
+        return strdup(elementname(cueproto,cueface));
       }
     }
   }
