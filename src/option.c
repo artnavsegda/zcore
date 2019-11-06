@@ -87,8 +87,11 @@ int option_print_value(WJElement parameter)
       while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
         puts(entity);
     }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
-      // to do
+    else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+      int number = 0;
+      while (number = WJEInt32F(protoface, WJE_GET, &array, 0, "%s[]", parameter->name))
+        printf("%d ", number);
+      puts("");
     }
   }
   else
