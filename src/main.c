@@ -23,9 +23,10 @@ void alarm_handler(int signal)
 }
 
 void ctrl_c(int signal) {
-   printf ("ctrl-c key pressed\n");
-   rl_reset_line_state();
-   rl_line_buffer[0] = '\0';
+   //printf ("ctrl-c key pressed\n");
+   rl_replace_line("", 1);
+   puts("");
+   //rl_line_buffer[0] = '\0';
    rl_forced_update_display();
 }
 
