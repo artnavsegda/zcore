@@ -100,6 +100,11 @@ int option_print_value(WJElement parameter)
 
 int option_set_value(WJElement parameter, char * value)
 {
+  if (value[0] == '-')
+  {
+    WJEDettach(WJEGet(protoface,parameter->name,NULL));
+    return 1;
+  }
   if (value[0] == '?')
   {
     puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
