@@ -167,6 +167,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
 //          printf("BS %s\n", rootvalues);
           rootvalues->domain = BUILTIN;
           rootvalues->description = NULL;
+          rootvalues->value = NULL;
           return rootvalues;
         }
         else
@@ -179,6 +180,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
           rootvalues->domain = PROTO;
 //          rootvalues->description = protohelp(rootvalues->command);
           rootvalues->description = NULL;
+          rootvalues->value = NULL;
           return rootvalues;
         }
         else
@@ -190,6 +192,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
 //          printf("FS %s\n", rootvalues);
           rootvalues->domain = FACE;
           rootvalues->description = NULL;
+          rootvalues->value = NULL;
           return rootvalues;
         }
         else
@@ -201,8 +204,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
 //          printf("OS %s\n", rootvalues);
           rootvalues->description = optionhelp(rootvalues->command);
           rootvalues->domain = OPTION;
-          rootvalues->value = NULL;
-//          rootvalues->value = optionvalue(rootvalues->command);
+          rootvalues->value = optionvalue(rootvalues->command);
           return rootvalues;
         }
         else
@@ -214,6 +216,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
 //          printf("CS %s\n", rootvalues);
           rootvalues->domain = COMMAND;
           rootvalues->description = NULL;
+          rootvalues->value = NULL;
           return rootvalues;
         }
         else
@@ -270,6 +273,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 //          printf("PS %s\n", subvalues);
           subvalues->domain = PROTO;
           subvalues->description = NULL;
+          subvalues->value = NULL;
           return subvalues;
         }
         else
@@ -281,6 +285,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 //          printf("FS %s\n", subvalues);
           subvalues->domain = FACE;
           subvalues->description = NULL;
+          subvalues->value = NULL;
           return subvalues;
         }
         else
@@ -292,6 +297,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 //          printf("OS %s\n", subvalues);
           subvalues->domain = OPTION;
           subvalues->description = optionhelp(subvalues->command);
+          subvalues->value = NULL;
           return subvalues;
         }
         else
@@ -303,6 +309,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 //          printf("CS %s\n", subvalues);
           subvalues->domain = COMMAND;
           subvalues->description = NULL;
+          subvalues->value = NULL;
           return subvalues;
         }
         else
@@ -314,6 +321,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 //          printf("SS %s\n", subvalues);
           subvalues->domain = SETTING;
           subvalues->description = NULL;
+          subvalues->value = NULL;
           return subvalues;
         }
         else
@@ -325,6 +333,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 //          printf("CSS %s\n", subvalues);
           subvalues->domain = CUESETTING;
           subvalues->description = NULL;
+          subvalues->value = NULL;
           return subvalues;
         }
         else
@@ -364,6 +373,10 @@ void print_cmp_list(cmplist_t *list)
         if(list->complelist[y]->description)
         {
           printf(":\t%s", list->complelist[y]->description);
+        }
+        if(list->complelist[y]->value)
+        {
+          printf(":\t%s", list->complelist[y]->value);
         }
         puts("");
         x = 1;

@@ -323,4 +323,6 @@ char * optionvalue(const char * commandname)
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
     return WJEString(protoface,parameter->name,WJE_GET,"<undefined>");
   }
+  else
+    return NULL;
 }
