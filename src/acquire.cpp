@@ -37,6 +37,7 @@ int acquireall(json_object * directory)
   {
     if(json_object_object_get_ex(val,"schema",NULL))
     {
+      printf("acquire %s\n", key);
       acquire(val);
     }
     else
