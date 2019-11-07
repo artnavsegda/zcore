@@ -200,25 +200,25 @@ int isbuiltin(char * builtinname)
 //   }
 // }
 
-// int builtin_show(int argc, char *argv[])
-// {
-//   if (domain == OPTION)
-//   {
-//     printoption(protojson,protoface,protodepth);
-//   }
-//   else if (domain == FACE)
-//   {
-//     printoption2(protojson, protodepth);
-//   }
-//   else if (domain == PROTO)
-//   {
-//     if (protodepth == 0)
-//       protojson = root;
-//     printoption3(protojson,protodepth);
-//   }
-//   else
-//     puts("Not implemented");
-// }
+int builtin_show(int argc, char *argv[])
+{
+  if (domain == OPTION)
+  {
+    // printoption(protojson,protoface,protodepth);
+  }
+  else if (domain == FACE)
+  {
+    // printoption2(protojson, protodepth);
+  }
+  else if (domain == PROTO)
+  {
+    if (protodepth == 0)
+      protojson = root;
+    // printoption3(protojson,protodepth);
+  }
+  else
+    puts("Not implemented");
+}
 
 // int builtin_acquire(int argc, char *argv[])
 // {
@@ -237,12 +237,12 @@ int builtin(int argc, char *argv[])
   }
   else if (strcmp(argv[0],"..") == 0)
   {
-   return path_up();
+    return path_up();
   }
-  // else if (strcmp(argv[0],"show") == 0)
-  // {
-  //   return builtin_show(argc,argv);
-  // }
+  else if (strcmp(argv[0],"show") == 0)
+  {
+    return builtin_show(argc,argv);
+  }
   // else if (strcmp(argv[0],"acquire") == 0)
   // {
   //   return builtin_acquire(argc,argv);
