@@ -9,6 +9,7 @@ struct complement
   char * command;
   enum domains domain;
   char * description;
+  char * value;
 };
 
 typedef struct complement cmpstr_t;
