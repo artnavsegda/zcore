@@ -108,7 +108,12 @@ int option_set_value(json_object * parameter, char * paramname, char * paramvalu
   json_object_object_get_ex(parameter, "type", &type);
   json_object * protovalue = NULL;
   json_object_object_get_ex(protoface, paramname, &protovalue);
-  json_object_set_string(protovalue, paramvalue);
+
+  if (strcmp(json_object_get_string(type),"string") == 0)
+  {
+    json_object_set_string(protovalue, paramvalue);
+  }
+
 //   if (value[0] == '?')
 //   {
 //     puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
