@@ -102,8 +102,13 @@ int option_print_value(json_object * parameter, char * paramname)
   return 1;
 }
 
-int option_set_value(json_object * parameter, char * paramname)
+int option_set_value(json_object * parameter, char * paramname, char * paramvalue)
 {
+  json_object * type = NULL;
+  json_object_object_get_ex(parameter, "type", &type);
+  json_object * protovalue = NULL;
+  json_object_object_get_ex(protoface, paramname, &protovalue);
+  json_object_set_string(protovalue, paramvalue);
 //   if (value[0] == '?')
 //   {
 //     puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
@@ -143,7 +148,7 @@ int option(int argc, char *argv[])
   }
   else if (argc == 2)
   {
-    return option_set_value(parameter, argv[1]);
+    return option_set_value(parameter, argv[0] ,argv[1]);
   }
 //   else if (argc > 2)
 //   {
