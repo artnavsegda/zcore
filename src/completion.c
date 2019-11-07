@@ -399,6 +399,8 @@ void zc_cleanup(cmplist_t *list)
     for (int i = 0; i < list->complecount; i++)
     {
       free(list->complelist[i]->command);
+      if (list->complelist[i]->value)
+        free(list->complelist[i]->value);
       free(list->complelist[i]);
     }
   }

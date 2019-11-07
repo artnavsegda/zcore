@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
 #include <wjelement.h>
@@ -321,7 +322,12 @@ char * optionvalue(const char * commandname)
   WJElement parameter;
   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",commandname);
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
-    return WJEString(protoface,parameter->name,WJE_GET,"<undefined>");
+    return strdup(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
+    char * returnstring = NULL;
+    asprintf(&returnstring,"%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
+    return returnstring;
   }
   else
     return NULL;
