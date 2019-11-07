@@ -315,3 +315,8 @@ char * optionhelp(const char * commandname)
   return WJEStringF(optionlist(rl_protojson), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
   //return "Help description";
 }
+
+char * optionvalue(const char * commandname)
+{
+
+}
