@@ -218,6 +218,7 @@ int builtin_show(int argc, char *argv[])
   }
   else
     puts("Not implemented");
+  return 1;
 }
 
 // int builtin_acquire(int argc, char *argv[])
