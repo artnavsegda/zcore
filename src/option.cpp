@@ -114,6 +114,11 @@ int option_set_value(json_object * parameter, char * paramname, char * paramvalu
     json_object_set_string(protovalue, paramvalue);
   }
 
+  else if (strcmp(json_object_get_string(type),"number") == 0)
+  {
+    json_object_set_int(protovalue, atoi(paramvalue));
+  }
+
 //   if (value[0] == '?')
 //   {
 //     puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
