@@ -156,6 +156,12 @@ int option(int argc, char *argv[])
 {
   WJElement parameter;
   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
+
+  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
+  {
+    //drop down option level
+  }
+
   if (argc == 1)
   {
     return option_print_value(parameter);
