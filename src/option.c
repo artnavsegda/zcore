@@ -318,5 +318,9 @@ char * optionhelp(const char * commandname)
 
 char * optionvalue(const char * commandname)
 {
-
+  WJElement parameter;
+  parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",commandname);
+  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
+    return WJEString(protoface,parameter->name,WJE_GET,"<undefined>");
+  }
 }
