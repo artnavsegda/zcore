@@ -201,6 +201,8 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
 //          printf("OS %s\n", rootvalues);
           rootvalues->description = optionhelp(rootvalues->command);
           rootvalues->domain = OPTION;
+          rootvalues->value = NULL;
+//          rootvalues->value = optionvalue(rootvalues->command);
           return rootvalues;
         }
         else
