@@ -150,19 +150,19 @@ int option(int argc, char *argv[])
   {
     return option_set_value(parameter, argv[0] ,argv[1]);
   }
-//   else if (argc > 2)
-//   {
-//     char combine[1000] = "";
-//     strcpy(combine, argv[1]);
-//     for (int i = 2; i < argc; i++)
-//     {
-//       strcat(combine, " ");
-//       strcat(combine, argv[i]);
-//     }
-// //    puts(combine);
-//     return option_set_value(parameter, combine);
-// //    return option_set_value(parameter,combinevalues(argc-1, &argv[1]));
-//   }
+  else if (argc > 2)
+  {
+    char combine[1000] = "";
+    strcpy(combine, argv[1]);
+    for (int i = 2; i < argc; i++)
+    {
+      strcat(combine, " ");
+      strcat(combine, argv[i]);
+    }
+//    puts(combine);
+    return option_set_value(parameter, argv[0], combine);
+//    return option_set_value(parameter,combinevalues(argc-1, &argv[1]));
+  }
   return 1;
 }
 
