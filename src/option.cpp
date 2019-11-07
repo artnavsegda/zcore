@@ -102,8 +102,8 @@ int option_print_value(json_object * parameter, char * paramname)
   return 1;
 }
 
-// int option_set_value(WJElement parameter, char * value)
-// {
+int option_set_value(json_object * parameter, char * paramname)
+{
 //   if (value[0] == '?')
 //   {
 //     puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
@@ -130,8 +130,8 @@ int option_print_value(json_object * parameter, char * paramname)
 //   }
 //   else
 //     puts("Not implemeted");
-//   return 1;
-// }
+  return 1;
+}
 
 int option(int argc, char *argv[])
 {
@@ -141,10 +141,10 @@ int option(int argc, char *argv[])
   {
     return option_print_value(parameter, argv[0]);
   }
-//   else if (argc == 2)
-//   {
-//     return option_set_value(parameter, argv[1]);
-//   }
+  else if (argc == 2)
+  {
+    return option_set_value(parameter, argv[1]);
+  }
 //   else if (argc > 2)
 //   {
 //     char combine[1000] = "";
