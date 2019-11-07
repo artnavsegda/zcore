@@ -21,7 +21,7 @@ int acquire(WJElement proto)
   if (WJEGet(proto, "schema.acquire.shell", NULL))
   {
 
-  //printf("acquire %s\n", proto->name);
+  printf("acquire %s\n", proto->name);
   //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"));
 
   if (!(jsonstream = my_popen_read(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"), argv,  NULL, &forkpid))) {
