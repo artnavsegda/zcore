@@ -16,27 +16,25 @@ json_object * translate(json_object * properties, json_object * input)
 
     if (json_object_object_get_ex(input, key, &entity))
     {
-      json_object_object_add(output, key, entity);
-    }
-
-    if (strcmp(typestring,"string") == 0)
-    {
-      //json_object_object_add(output, key, NULL);
-    }
-    else if (strcmp(typestring,"number") == 0)
-    {
-      //json_object_object_add(output, key, NULL);
-    }
-    else if (strcmp(typestring,"boolean") == 0)
-    {
-      //json_object_object_add(output, key, NULL);
-    }
-    else if (strcmp(typestring,"array") == 0)
-    {
-      //json_object_object_add(output, key, entity);
-      //json_object * newarray = json_object_new_array();
-      //json_object_object_add(output, key, newarray);
-      //json_object_deep_copy(entity, &output, NULL);
+      if (strcmp(typestring,"string") == 0)
+      {
+        json_object_object_add(output, key, entity);
+      }
+      else if (strcmp(typestring,"number") == 0)
+      {
+        json_object_object_add(output, key, json_object_new_int(atoi(json_object_get_string(entity))));
+      }
+      else if (strcmp(typestring,"boolean") == 0)
+      {
+        //json_object_object_add(output, key, NULL);
+      }
+      else if (strcmp(typestring,"array") == 0)
+      {
+        //json_object_object_add(output, key, entity);
+        //json_object * newarray = json_object_new_array();
+        //json_object_object_add(output, key, newarray);
+        //json_object_deep_copy(entity, &output, NULL);
+      }
     }
   }
   return output;

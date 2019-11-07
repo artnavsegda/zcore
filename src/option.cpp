@@ -116,6 +116,7 @@ int option_set_value(json_object * parameter, char * paramname, char * paramvalu
 
   else if (strcmp(json_object_get_string(type),"number") == 0)
   {
+    puts("got number");
     json_object_set_int(protovalue, atoi(paramvalue));
   }
 
