@@ -123,8 +123,8 @@ int isbuiltin(char * builtinname)
   }
 }
 
-// int printoption(WJElement proto, WJElement face, int depth)
-// {
+int printoption(json_object * proto, json_object * face, int depth)
+{
 //   WJElement option = NULL;
 //   while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
 //     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
@@ -167,7 +167,8 @@ int isbuiltin(char * builtinname)
 //       puts("");
 //     }
 //   }
-// }
+  return 0;
+}
 
 // int printoption2(WJElement proto, int depth)
 // {
@@ -204,7 +205,7 @@ int builtin_show(int argc, char *argv[])
 {
   if (domain == OPTION)
   {
-    // printoption(protojson,protoface,protodepth);
+    printoption(protojson,protoface,protodepth);
   }
   else if (domain == FACE)
   {
