@@ -142,7 +142,7 @@ int printoption(json_object * proto, json_object * face, int depth)
         }
         if (!json_pointer_get(proto, "/schema/patternProperties", NULL))
         {
-
+          printf("%s.", elementname(proto,face));
         }
         puts(key);
       }
