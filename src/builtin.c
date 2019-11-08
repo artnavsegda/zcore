@@ -97,7 +97,7 @@ void listbuiltins(int argc, char *argv[])
 
 int isbuiltin(char * builtinname)
 {
-  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/") == 0) || (strcmp(builtinname,"validate") == 0))
+  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/") == 0) || (strcmp(builtinname,"validate") == 0) || (strcmp(builtinname,"export") == 0))
   {
     return 1;
   }
@@ -218,6 +218,27 @@ int builtin_show(int argc, char *argv[])
   return 0;
 }
 
+int builtin_export(int argc, char *argv[])
+{
+  if (domain == OPTION)
+  {
+    printoption(protojson,protoface,protodepth);
+  }
+  else if (domain == FACE)
+  {
+    printoption2(protojson, protodepth);
+  }
+  else if (domain == PROTO)
+  {
+    if (protodepth == 0)
+      protojson = root;
+    printoption3(protojson,protodepth);
+  }
+  else
+    puts("Not implemented");
+  return 0;
+}
+
 int builtin_acquire(int argc, char *argv[])
 {
   acquire(WJEObject(root, argv[1], WJE_GET));
@@ -312,6 +333,10 @@ int builtin(int argc, char *argv[])
   else if (strcmp(argv[0],"validate") == 0)
   {
     return builtin_validate(argc,argv);
+  }
+  else if (strcmp(argv[0],"export") == 0)
+  {
+    return builtin_export(argc,argv);
   }
   return 0;
 }
