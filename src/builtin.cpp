@@ -128,6 +128,7 @@ int printoption(json_object * proto, json_object * face, int depth)
 {
   json_object * options = NULL;
   json_object * hidden = NULL;
+  json_object * protovalue = NULL;
 
   if (json_object_object_get_ex(optionlist(proto), "properties", &options))
   {
@@ -145,8 +146,9 @@ int printoption(json_object * proto, json_object * face, int depth)
           printf("%s.", elementname(proto,face));
         }
         printf("%s = ",key);
-        if (json_object_object_get_ex(face,key,NULL))
+        if (json_object_object_get_ex(face,key,&protovalue))
         {
+          puts(json_object_to_json_string_ext(protovalue, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE));
         }
         else
         {
