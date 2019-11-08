@@ -4,6 +4,7 @@
 #include <json-c/json.h>
 #include "interpreter.h"
 #include "builtin.h"
+#include "utils.h"
 
 extern json_object * protojson;
 extern json_object * protoface;
@@ -45,7 +46,7 @@ void generateprompt(char * prompt)
 //     if (strcmp(WJEString(protojson,"schema.type",WJE_GET,"unknown"),"array") == 0)
 //     {
       strcat(prompt, "/");
-      //strcat(prompt, elementname(protojson,protoface));
+      strcat(prompt, elementname(protojson,protoface));
 //     }
   }
   strcat(prompt, ">");

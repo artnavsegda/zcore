@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "option.h"
 
+extern char facename[100];
 
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
     static char *token = NULL;
@@ -73,8 +74,19 @@ json_object * getelementbynameprop(json_object * container, char * text)
   return NULL;
 }
 
-// char * elementname(json_object * proto, json_object * element)
-// {
+char * elementname(json_object * proto, json_object * element)
+{
+  json_object * namesake = NULL;
+  json_object * namevalue = NULL;
+  if (!json_pointer_get(proto, "/schema/namesake", &namesake))
+  {
+    json_object_object_get_ex(element, json_object_get_string(namesake), &namevalue);
+    return (char *)json_object_get_string(namevalue);
+  }
+  else
+  {
+    return facename;
+  }
 //   char * namesake = WJEString(proto, "schema.namesake", WJE_GET, NULL);
 //   if (namesake)
 //   {
@@ -84,7 +96,7 @@ json_object * getelementbynameprop(json_object * container, char * text)
 //   {
 //     return element->name;
 //   }
-// }
+}
 
 char * cutquot(char * stringtocut)
 {

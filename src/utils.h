@@ -1,4 +1,5 @@
 #include <json-c/json.h>
+#include <stdio.h>
 
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock);
 json_object * getelementbynameprop(json_object * container, char * text);
@@ -18,3 +19,4 @@ int argcat(int argc, char *argout[], char *argin[]);
 // void fillenv(WJElement proto, WJElement face);
 json_object * optionlist(json_object * schema);
 int forkexec(char * command, int argc, char *argv[], char *envp[]);
+char * elementname(json_object * proto, json_object * element);
