@@ -72,6 +72,8 @@ void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * li
     list->complecount++;
     list->complelist = (cmpstr_t **)realloc(list->complelist, sizeof(cmpstr_t *) * list->complecount);
     list->complelist[list->complecount-1] = element;
+    if(strlen(list->complelist[list->complecount-1]->command) > list->maxlen)
+      list->maxlen = strlen(list->complelist[list->complecount-1]->command);
   }
 
   if (list->complecount)
@@ -369,16 +371,19 @@ void print_cmp_list(cmplist_t *list)
     {
       if(list->complelist[y]->domain == i)
       {
-        printf("\t%s", list->complelist[y]->command);
-        if(list->complelist[y]->description)
-        {
-          printf(":\t%s", list->complelist[y]->description);
-        }
+        char tmpstr[15];
+        sprintf(tmpstr, "   %%-%ds", list->maxlen);
+        printf(tmpstr, list->complelist[y]->command);
+        //printf("   %-20s", list->complelist[y]->command);
+        //if(list->complelist[y]->description)
+        //{
+        //  printf(":\t%s", list->complelist[y]->description);
+        //}
         if(list->complelist[y]->value)
         {
-          printf(":\t%s", list->complelist[y]->value);
+          printf("   %s", list->complelist[y]->value);
         }
-        puts("");
+        putchar('\n');
         x = 1;
       }
     }
@@ -408,7 +413,7 @@ void zc_cleanup(cmplist_t *list)
 
 int zc_completion2(int count, int key)
 {
-  cmplist_t list = { .complecount = 0 };
+  cmplist_t list = { .complecount = 0, .maxlen = 0 };
   int i = 0;
   char **something;
   init_completition();

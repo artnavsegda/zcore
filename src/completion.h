@@ -18,6 +18,7 @@ struct complestruct
 {
   char * locode;
   int complecount;
+  int maxlen;
   cmpstr_t **complelist;
 };
 
