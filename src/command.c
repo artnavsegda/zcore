@@ -18,6 +18,8 @@ extern WJElement rl_protojson;
 extern WJElement rl_parameter;
 extern enum domains domain;
 
+extern char facename[100];
+
 WJElement rl_commjson = NULL;
 int rl_argcount = 0;
 
