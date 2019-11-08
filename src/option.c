@@ -346,6 +346,20 @@ char * optionvalue(const char * commandname)
         return strdup("True");
       else if (WJEBool(protoface,parameter->name,WJE_GET,-1) == FALSE)
         return strdup("False");
+    }
+    // else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
+    //   WJElement array = NULL;
+    //   if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+    //     char * entity = NULL;
+    //     while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
+    //       puts(entity);
+    //   }
+    //   else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+    //     int number = 0;
+    //     while (number = WJEInt32F(protoface, WJE_GET, &array, 0, "%s[]", parameter->name))
+    //       printf("%d ", number);
+    //   }
+    // }
   }
   else
     return NULL;
