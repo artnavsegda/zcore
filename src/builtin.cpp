@@ -209,13 +209,21 @@ int printoption(json_object * proto, json_object * face, int depth)
   return 0;
 }
 
-// int printoption2(WJElement proto, int depth)
-// {
-//   WJElement face = NULL;
-//   while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
-//     printoption(proto,face, depth);
-//   }
-// }
+int printoption2(json_object * proto, int depth)
+{
+  json_object * face = NULL;
+  json_object_object_get_ex(proto, "data", &face);
+
+  json_object_object_foreach(face, key,val)
+  {
+    printoption(proto,face, depth);
+  }
+
+  // while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
+  //   printoption(proto,face, depth);
+  // }
+  return 0;
+}
 
 // int printoption3(WJElement protoinput, int depth)
 // {
@@ -248,7 +256,7 @@ int builtin_show(int argc, char *argv[])
   }
   else if (domain == FACE)
   {
-    // printoption2(protojson, protodepth);
+    printoption2(protojson, protodepth);
   }
   else if (domain == PROTO)
   {
