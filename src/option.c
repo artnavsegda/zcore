@@ -321,13 +321,16 @@ char * optionvalue(const char * commandname)
 {
   WJElement parameter;
   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",commandname);
-  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
-    return strdup(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
-    char * returnstring = NULL;
-    asprintf(&returnstring,"%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
-    return returnstring;
+  if (WJEGet(protoface, parameter->name, NULL))
+  {
+    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
+      return strdup(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
+      char * returnstring = NULL;
+      asprintf(&returnstring,"%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
+      return returnstring;
+    }
   }
   else
     return NULL;
