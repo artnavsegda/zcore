@@ -10,6 +10,7 @@
 #include "option.h"
 #include "prompt.h"
 #include "acquire.h"
+#include "utils.h"
 
 extern int protodepth;
 extern json_object * protojson;
@@ -125,6 +126,10 @@ int isbuiltin(char * builtinname)
 
 int printoption(json_object * proto, json_object * face, int depth)
 {
+  json_object_object_foreach(optionlist(proto),key, val)
+  {
+
+  }
 //   WJElement option = NULL;
 //   while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
 //     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
