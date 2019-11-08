@@ -126,9 +126,14 @@ int isbuiltin(char * builtinname)
 
 int printoption(json_object * proto, json_object * face, int depth)
 {
-  json_object_object_foreach(optionlist(proto),key, val)
-  {
+  json_object * options = NULL;
 
+  if (json_object_object_get_ex(optionlist(proto), "properties", &options))
+  {
+    json_object_object_foreach(options,key, val)
+    {
+      puts(key);
+    }
   }
 //   WJElement option = NULL;
 //   while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
