@@ -341,6 +341,11 @@ char * optionvalue(const char * commandname)
       asprintf(&returnstring,"%d", WJEInt32(protoface,parameter->name,WJE_GET,-1));
       return returnstring;
     }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
+      if (WJEBool(protoface,parameter->name,WJE_GET,-1) == TRUE)
+        return strdup("True");
+      else if (WJEBool(protoface,parameter->name,WJE_GET,-1) == FALSE)
+        return strdup("False");
   }
   else
     return NULL;
