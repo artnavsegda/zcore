@@ -25,8 +25,18 @@ int listoptions(void)
   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
+      printf("%s: ", option->name);
       //printf("%s: %s\n", option->name, WJEString(option, "description", WJE_GET, NULL));
-      printf("%s: %s\n", option->name, optionhelp(option->name));
+      char * optionstring = optionvalue(option->name);
+      if (optionstring)
+      {
+        printf("%s\n", optionstring);
+        free(optionstring);
+      }
+      else
+      {
+        printf("None\n", optionstring);
+      }
       //puts(option->name);
     }
   }
@@ -328,7 +338,7 @@ char * optionvalue(const char * commandname)
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
       char * returnstring = NULL;
-      asprintf(&returnstring,"%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
+      asprintf(&returnstring,"%d", WJEInt32(protoface,parameter->name,WJE_GET,-1));
       return returnstring;
     }
   }

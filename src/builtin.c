@@ -82,7 +82,7 @@ int commandlist(int argc, char *argv[])
   return 1;
 }
 
-char *builtincommands[] = {"show","acquire","validate",NULL};
+char *builtincommands[] = {"show","acquire","validate","export",NULL};
 
 void listbuiltins(int argc, char *argv[])
 {
@@ -92,6 +92,7 @@ void listbuiltins(int argc, char *argv[])
   puts("show");
   puts("acquire");
   puts("validate");
+  puts("export");
 }
 
 int isbuiltin(char * builtinname)
