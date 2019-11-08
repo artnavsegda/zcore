@@ -134,8 +134,15 @@ int printoption(json_object * proto, json_object * face, int depth)
     json_object_object_foreach(options,key, val)
     {
       json_object_object_get_ex(val, "hidden", &hidden);
+      if (!json_object_get_boolean(hidden))
+      {
+        for (int i = depth; i > 0; i--)
+        {
+          //printf("%s.", parentname(proto, i));
+        }
 
-      puts(key);
+        puts(key);
+      }
     }
   }
 //   WJElement option = NULL;
