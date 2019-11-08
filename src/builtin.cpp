@@ -127,11 +127,14 @@ int isbuiltin(char * builtinname)
 int printoption(json_object * proto, json_object * face, int depth)
 {
   json_object * options = NULL;
+  json_object * hidden = NULL;
 
   if (json_object_object_get_ex(optionlist(proto), "properties", &options))
   {
     json_object_object_foreach(options,key, val)
     {
+      json_object_object_get_ex(val, "hidden", &hidden);
+
       puts(key);
     }
   }
