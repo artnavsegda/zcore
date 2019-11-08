@@ -362,11 +362,16 @@ char * optionvalue(const char * commandname)
         }
         return returnstring;
       }
-    //   else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
-    //     int number = 0;
-    //     while (number = WJEInt32F(protoface, WJE_GET, &array, 0, "%s[]", parameter->name))
-    //       printf("%d ", number);
-    //   }
+      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+        int number = 0;
+        returnstring = malloc(1);
+        returnstring[0] = '\0';
+        while (number = WJEInt32F(protoface, WJE_GET, &array, 0, "%s[]", parameter->name))
+        {
+          sprintf(returnstring, "%s%d ", returnstring, number);
+        }
+        return returnstring;
+      }
     }
   }
   else
