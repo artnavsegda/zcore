@@ -24,13 +24,9 @@
           "type": "array",
           "description": "Untagged ports",
           "items": {
-            "type": "array",
-            "description": "Untagged port",
-            "items": {
-              "uniqueItems": true,
-              "type": "number",
-              "enum": [1, 2, 3, 4, 0]
-            }
+            "type": "number",
+            "uniqueItems": true,
+            "enum": [1, 2, 3, 4, 0]
           }
         },
         "ipaddr": {

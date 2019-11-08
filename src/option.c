@@ -330,6 +330,7 @@ char * optionhelp(const char * commandname)
 char * optionvalue(const char * commandname)
 {
   WJElement parameter;
+  char * returnstring = NULL;
   parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",commandname);
   if (WJEGet(protoface, parameter->name, NULL))
   {
@@ -337,7 +338,6 @@ char * optionvalue(const char * commandname)
       return strdup(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
-      char * returnstring = NULL;
       asprintf(&returnstring,"%d", WJEInt32(protoface,parameter->name,WJE_GET,-1));
       return returnstring;
     }
@@ -347,19 +347,27 @@ char * optionvalue(const char * commandname)
       else if (WJEBool(protoface,parameter->name,WJE_GET,-1) == FALSE)
         return strdup("False");
     }
-    // else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
-    //   WJElement array = NULL;
-    //   if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
-    //     char * entity = NULL;
-    //     while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
-    //       puts(entity);
-    //   }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
+      WJElement array = NULL;
+      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+        char * entity = NULL;
+        returnstring = malloc(1);
+        returnstring[0] = '\0';
+        while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
+        {
+          //puts(entity);
+          realloc(returnstring, strlen(returnstring) + strlen(entity) + 1);
+          strcat(returnstring, entity);
+          strcat(returnstring, " ");
+        }
+        return returnstring;
+      }
     //   else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
     //     int number = 0;
     //     while (number = WJEInt32F(protoface, WJE_GET, &array, 0, "%s[]", parameter->name))
     //       printf("%d ", number);
     //   }
-    // }
+    }
   }
   else
     return NULL;
