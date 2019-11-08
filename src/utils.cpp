@@ -87,15 +87,6 @@ char * elementname(json_object * proto, json_object * element)
   {
     return facename;
   }
-//   char * namesake = WJEString(proto, "schema.namesake", WJE_GET, NULL);
-//   if (namesake)
-//   {
-//     return WJEString(element, namesake, WJE_GET, "");
-//   }
-//   else
-//   {
-//     return element->name;
-//   }
 }
 
 char * cutquot(char * stringtocut)
