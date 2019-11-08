@@ -1,3 +1,4 @@
-void generateprompt(char * prompt);
-// char * parentname(WJElement element, int depth);
+#include "builtin.h"
 
+void generateprompt(char * prompt);
+char * parentname(path_t * element, int depth);
