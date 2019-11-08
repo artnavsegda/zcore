@@ -175,7 +175,16 @@ int option(int argc, char *argv[])
 
   if (argc == 1)
   {
-    return option_print_value(parameter);
+    char * returnstring = optionvalue(argv[0]);
+    if (returnstring)
+    {
+      puts(returnstring);
+      free(returnstring);
+    }
+    else
+      puts("undefined");
+    return 1;
+    //return option_print_value(parameter);
   }
   else if (argc == 2)
   {
