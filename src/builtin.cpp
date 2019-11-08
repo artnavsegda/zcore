@@ -144,7 +144,15 @@ int printoption(json_object * proto, json_object * face, int depth)
         {
           printf("%s.", elementname(proto,face));
         }
-        puts(key);
+        printf("%s",key);
+        if (json_object_object_get_ex(face,key,NULL))
+        {
+          puts(" = ");
+        }
+        else
+        {
+          puts(" = None");
+        }
       }
     }
   }
