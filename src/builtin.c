@@ -196,7 +196,7 @@ int exportoption(WJElement proto, WJElement face, int depth)
 {
   WJElement option = NULL;
   while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
-    if (!WJEBool(option, "hidden", WJE_GET, FALSE))
+    if (!WJEBool(option, "hidden", WJE_GET, FALSE) && WJEGet(face, option->name, NULL))
     {
       for (int i = depth; i > 0; i--)
       {
