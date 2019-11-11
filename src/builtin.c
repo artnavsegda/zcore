@@ -121,41 +121,51 @@ int printoption(WJElement proto, WJElement face, int depth)
         printf("%s.", elementname(proto,face));
       printf("%s = ", option->name);
 
-      if (WJEGet(face,option->name,NULL))
+      char * returnstring = optionvalue(option->name, proto, face);
+
+      if (returnstring)
       {
-        if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
-          printf("%s", WJEString(face, option->name, WJE_GET, "None"));
-        else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
-          printf("%d", WJEInt32(face,option->name,WJE_GET,-1));
-        else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
-        {
-          if (WJEBool(face,option->name,WJE_GET,-1) == TRUE)
-            printf("True");
-          else if (WJEBool(face,option->name,WJE_GET,-1) == FALSE)
-            printf("False");
-          else
-            printf("None");
-        }
-        else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"array") == 0)
-        {
-          WJElement array = NULL;
-          if (strcmp(WJEString(option,"items.type", WJE_GET, NULL),"string") == 0){
-            char * entity = NULL;
-            while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", option->name))
-            {
-              printf("%s ", entity);
-            }
-          }
-          else if (strcmp(WJEString(option,"items.type", WJE_GET, NULL),"number") == 0){
-            int number = 0;
-            while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", option->name))
-              printf("%d ", number);
-          }
-        }
+        puts(returnstring);
+        free(returnstring);
       }
       else
-        printf("None");
-      puts("");
+        puts("None");
+
+      // if (WJEGet(face,option->name,NULL))
+      // {
+      //   if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
+      //     printf("%s", WJEString(face, option->name, WJE_GET, "None"));
+      //   else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
+      //     printf("%d", WJEInt32(face,option->name,WJE_GET,-1));
+      //   else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
+      //   {
+      //     if (WJEBool(face,option->name,WJE_GET,-1) == TRUE)
+      //       printf("True");
+      //     else if (WJEBool(face,option->name,WJE_GET,-1) == FALSE)
+      //       printf("False");
+      //     else
+      //       printf("None");
+      //   }
+      //   else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"array") == 0)
+      //   {
+      //     WJElement array = NULL;
+      //     if (strcmp(WJEString(option,"items.type", WJE_GET, NULL),"string") == 0){
+      //       char * entity = NULL;
+      //       while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", option->name))
+      //       {
+      //         printf("%s ", entity);
+      //       }
+      //     }
+      //     else if (strcmp(WJEString(option,"items.type", WJE_GET, NULL),"number") == 0){
+      //       int number = 0;
+      //       while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", option->name))
+      //         printf("%d ", number);
+      //     }
+      //   }
+      // }
+      // else
+      //   printf("None");
+      // puts("");
     }
   }
   return 0;

@@ -27,7 +27,7 @@ int listoptions(void)
     {
       printf("%s: ", option->name);
       //printf("%s: %s\n", option->name, WJEString(option, "description", WJE_GET, NULL));
-      char * optionstring = optionvalue(option->name);
+      char * optionstring = optionvalue(option->name, protojson, protoface);
       if (optionstring)
       {
         printf("%s\n", optionstring);
@@ -175,7 +175,7 @@ int option(int argc, char *argv[])
 
   if (argc == 1)
   {
-    char * returnstring = optionvalue(argv[0]);
+    char * returnstring = optionvalue(argv[0], protojson, protoface);
     if (returnstring)
     {
       puts(returnstring);
@@ -336,24 +336,24 @@ char * optionhelp(const char * commandname)
   //return "Help description";
 }
 
-char * optionvalue(const char * commandname)
+char * optionvalue(const char * commandname, WJElement proto, WJElement face)
 {
   WJElement parameter;
   char * returnstring = NULL;
-  parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",commandname);
-  if (WJEGet(protoface, parameter->name, NULL))
+  parameter = WJEObjectF(optionlist(proto), WJE_GET, NULL, "properties.%s",commandname);
+  if (WJEGet(face, parameter->name, NULL))
   {
     if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
-      return strdup(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
+      return strdup(WJEString(face,parameter->name,WJE_GET,"<undefined>"));
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
-      asprintf(&returnstring,"%d", WJEInt32(protoface,parameter->name,WJE_GET,-1));
+      asprintf(&returnstring,"%d", WJEInt32(face,parameter->name,WJE_GET,-1));
       return returnstring;
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
-      if (WJEBool(protoface,parameter->name,WJE_GET,-1) == TRUE)
+      if (WJEBool(face,parameter->name,WJE_GET,-1) == TRUE)
         return strdup("True");
-      else if (WJEBool(protoface,parameter->name,WJE_GET,-1) == FALSE)
+      else if (WJEBool(face,parameter->name,WJE_GET,-1) == FALSE)
         return strdup("False");
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
@@ -362,7 +362,7 @@ char * optionvalue(const char * commandname)
         char * entity = NULL;
         returnstring = malloc(1);
         returnstring[0] = '\0';
-        while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
+        while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", parameter->name))
         {
           //puts(entity);
           realloc(returnstring, strlen(returnstring) + strlen(entity) + 1);
@@ -375,7 +375,7 @@ char * optionvalue(const char * commandname)
         int number = 0;
         returnstring = malloc(1);
         returnstring[0] = '\0';
-        while (number = WJEInt32F(protoface, WJE_GET, &array, 0, "%s[]", parameter->name))
+        while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", parameter->name))
         {
           sprintf(returnstring, "%s%d ", returnstring, number);
         }

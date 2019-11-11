@@ -17,6 +17,8 @@
 enum domains rl_domain = PROTO;
 extern enum domains domain;
 char *rl_commandname = NULL;
+extern WJElement rl_protojson;
+extern WJElement rl_protoface;
 
 int compute_lcd_of_matches2 (cmplist_t * list, char *text)
 {
@@ -206,7 +208,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
 //          printf("OS %s\n", rootvalues);
           rootvalues->description = optionhelp(rootvalues->command);
           rootvalues->domain = OPTION;
-          rootvalues->value = optionvalue(rootvalues->command);
+          rootvalues->value = optionvalue(rootvalues->command, rl_protojson, rl_protoface);
           return rootvalues;
         }
         else
