@@ -22,10 +22,10 @@
         },
         "ports":{
           "type": "array",
+          "uniqueItems": true,
           "description": "Untagged ports",
           "items": {
             "type": "number",
-            "uniqueItems": true,
             "enum": [1, 2, 3, 4, 0]
           }
         },
