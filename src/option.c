@@ -165,6 +165,7 @@ int option_set_value(WJElement parameter, char * value)
       //puts("schema valid");
       WJECloseDocument(protoface);
       WJEAttach(WJEGet(protojson,"data",NULL),temp);
+      protoface = temp;
     }
     else
     {
