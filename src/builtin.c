@@ -255,7 +255,7 @@ int builtin_acquire(int argc, char *argv[])
   return 0;
 }
 
-static void schema_error(void *client, const char *format, ...) {
+void schema_error(void *client, const char *format, ...) {
 	va_list ap;
 	va_start(ap, format);
 	vfprintf(stderr, format, ap);
@@ -263,7 +263,7 @@ static void schema_error(void *client, const char *format, ...) {
 	fprintf(stderr, "\n");
 }
 
-static WJElement schema_load(const char *name, void *client,
+WJElement schema_load(const char *name, void *client,
 							 const char *file, const int line) {
 	char *format;
 	char *path;
@@ -293,7 +293,7 @@ static WJElement schema_load(const char *name, void *client,
 	return schema;
 }
 
-static void schema_free(WJElement schema, void *client) {
+void schema_free(WJElement schema, void *client) {
 	WJECloseDocument(schema);
 	return;
 }

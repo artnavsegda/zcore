@@ -7,6 +7,7 @@
 #include "option.h"
 #include "utils.h"
 #include "completion.h"
+#include "builtin.h"
 
 extern WJElement protojson;
 extern WJElement protoface;
@@ -119,41 +120,53 @@ int option_set_value(WJElement parameter, char * value)
     puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
     return 1;
   }
-  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
-  {
-    if (value[0] == '-')
-    {
-      WJEDettach(WJEGetF(protoface,NULL,"%s[] == %s",parameter->name,&value[1]));
-    }
-    else
-    {
-      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
-        WJEStringF(protoface, WJE_NEW, NULL, value, "%s[$]", parameter->name);
-      }
-      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
-        WJEInt32F(protoface, WJE_NEW, NULL, atoi(value), "%s[$]", parameter->name);
-      }
-    }
-  }
-  else if (value[0] == '-')
-  {
-    WJEDettach(WJEGet(protoface,parameter->name,NULL));
-    return 1;
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
-  {
-    if (value[0] == '\"')
-    {
-      value = cutquot(value);
-    }
-    WJEString(protoface, parameter->name, WJE_SET, value);
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
-    WJEInt32(protoface, parameter->name, WJE_SET, atoi(value));
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
-    WJEBool(protoface, parameter->name, WJE_SET, atoi(value));
   else
-    puts("Not implemeted");
+  {
+    WJElement temp = WJEObject(NULL, NULL, WJE_NEW);
+    WJECopyDocument(temp, protoface, NULL, NULL);
+    //WJEDump(temp);
+    //WJEDump(optionlist(protojson));
+    if (WJESchemaValidate(optionlist(protojson), temp, schema_error, schema_load, schema_free, NULL))
+      puts("schema valid");
+    else
+      puts("schema invalid");
+
+    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+    {
+      if (value[0] == '-')
+      {
+        WJEDettach(WJEGetF(protoface,NULL,"%s[] == %s",parameter->name,&value[1]));
+      }
+      else
+      {
+        if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+          WJEStringF(protoface, WJE_NEW, NULL, value, "%s[$]", parameter->name);
+        }
+        else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+          WJEInt32F(protoface, WJE_NEW, NULL, atoi(value), "%s[$]", parameter->name);
+        }
+      }
+    }
+    else if (value[0] == '-')
+    {
+      WJEDettach(WJEGet(protoface,parameter->name,NULL));
+      return 1;
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
+    {
+      if (value[0] == '\"')
+      {
+        value = cutquot(value);
+      }
+      WJEString(protoface, parameter->name, WJE_SET, value);
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
+      WJEInt32(protoface, parameter->name, WJE_SET, atoi(value));
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
+      WJEBool(protoface, parameter->name, WJE_SET, atoi(value));
+    else
+      puts("Not implemeted");
+  }
   return 1;
 }
 
