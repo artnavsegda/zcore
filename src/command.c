@@ -175,7 +175,11 @@ int command(int argc, char *argv[])
   {
     acquire(protojson);
     if (domain == OPTION)
+    {
       protoface = getelementbynameprop(protojson, facename);
+      if (!protoface)
+        domain = FACE;
+    }
     //alarm(3);
   }
   return 1;

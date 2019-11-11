@@ -130,42 +130,6 @@ int printoption(WJElement proto, WJElement face, int depth)
       }
       else
         puts("None");
-
-      // if (WJEGet(face,option->name,NULL))
-      // {
-      //   if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)
-      //     printf("%s", WJEString(face, option->name, WJE_GET, "None"));
-      //   else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"number") == 0)
-      //     printf("%d", WJEInt32(face,option->name,WJE_GET,-1));
-      //   else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"boolean") == 0)
-      //   {
-      //     if (WJEBool(face,option->name,WJE_GET,-1) == TRUE)
-      //       printf("True");
-      //     else if (WJEBool(face,option->name,WJE_GET,-1) == FALSE)
-      //       printf("False");
-      //     else
-      //       printf("None");
-      //   }
-      //   else if (strcmp(WJEString(option,"type", WJE_GET, NULL),"array") == 0)
-      //   {
-      //     WJElement array = NULL;
-      //     if (strcmp(WJEString(option,"items.type", WJE_GET, NULL),"string") == 0){
-      //       char * entity = NULL;
-      //       while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", option->name))
-      //       {
-      //         printf("%s ", entity);
-      //       }
-      //     }
-      //     else if (strcmp(WJEString(option,"items.type", WJE_GET, NULL),"number") == 0){
-      //       int number = 0;
-      //       while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", option->name))
-      //         printf("%d ", number);
-      //     }
-      //   }
-      // }
-      // else
-      //   printf("None");
-      // puts("");
     }
   }
   return 0;
@@ -228,21 +192,85 @@ int builtin_show(int argc, char *argv[])
   return 0;
 }
 
+int exportoption(WJElement proto, WJElement face, int depth)
+{
+  WJElement option = NULL;
+  while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
+    if (!WJEBool(option, "hidden", WJE_GET, FALSE))
+    {
+      for (int i = depth; i > 0; i--)
+      {
+        printf("%s ", parentname(proto, i));
+      }
+      if (WJEGet(proto, "schema.patternProperties", NULL))
+        printf("%s ", elementname(proto,face));
+      printf("%s ", option->name);
+
+      char * returnstring = optionvalue(option->name, proto, face);
+
+      if (returnstring)
+      {
+        puts(returnstring);
+        free(returnstring);
+      }
+      else
+        puts("None");
+    }
+  }
+  return 0;
+}
+
+int exportoption2(WJElement proto, int depth)
+{
+  WJElement face = NULL;
+  while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
+    exportoption(proto,face, depth);
+  }
+  return 0;
+}
+
+int exportoption3(WJElement protoinput, int depth)
+{
+  WJElement proto = NULL;
+  depth++;
+  while ((proto = _WJEObject(protoinput, "[]", WJE_GET, &proto))) {
+    if (WJEGet(proto, "schema", NULL))
+    {
+      if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
+      {
+        if (WJEGet(proto, "schema.patternProperties", NULL))
+        {
+          exportoption2(proto, depth);
+        }
+        else if (WJEGet(proto, "schema.properties", NULL))
+        {
+          exportoption(proto,WJEObject(proto, "data", WJE_GET),depth);
+        }
+      }
+    }
+    else
+    {
+      exportoption3(proto, depth);
+    }
+  }
+  return 0;
+}
+
 int builtin_export(int argc, char *argv[])
 {
   if (domain == OPTION)
   {
-    printoption(protojson,protoface,protodepth);
+    exportoption(protojson,protoface,protodepth);
   }
   else if (domain == FACE)
   {
-    printoption2(protojson, protodepth);
+    exportoption2(protojson, protodepth);
   }
   else if (domain == PROTO)
   {
     if (protodepth == 0)
       protojson = root;
-    printoption3(protojson,protodepth);
+    exportoption3(protojson,protodepth);
   }
   else
     puts("Not implemented");
