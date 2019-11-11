@@ -122,16 +122,14 @@ int option_set_value(WJElement parameter, char * value)
   }
   else
   {
-    WJElement temp = WJEObject(NULL, NULL, WJE_NEW);
+    WJElement temp = WJEObject(NULL, protoface->name, WJE_NEW);
     WJECopyDocument(temp, protoface, NULL, NULL);
-    //WJEDump(temp);
-    //WJEDump(optionlist(protojson));
 
     if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
     {
       if (value[0] == '-')
       {
-        WJEDettach(WJEGetF(temp,NULL,"%s[] == %s",parameter->name,&value[1]));
+        WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parameter->name,&value[1]));
       }
       else
       {
@@ -145,8 +143,7 @@ int option_set_value(WJElement parameter, char * value)
     }
     else if (value[0] == '-')
     {
-      WJEDettach(WJEGet(temp,parameter->name,NULL));
-      return 1;
+      WJECloseDocument(WJEGet(temp,parameter->name,NULL));
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
     {
@@ -165,11 +162,13 @@ int option_set_value(WJElement parameter, char * value)
 
     if (WJESchemaValidate(optionlist(protojson), temp, schema_error, schema_load, schema_free, NULL))
     {
-      puts("schema valid");
+      //puts("schema valid");
+      WJECloseDocument(protoface);
+      WJEAttach(WJEGet(protojson,"data",NULL),temp);
     }
     else
     {
-      puts("schema invalid");
+      //puts("schema invalid");
     }
   }
   return 1;

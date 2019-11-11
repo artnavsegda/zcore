@@ -15,7 +15,7 @@ int acquire(WJElement proto)
   WJElement data = NULL;
   if (data = WJEGet(proto,"data",NULL))
   {
-    WJEDettach(data);
+    WJECloseDocument(data);
   }
 
   if (WJEGet(proto, "schema.acquire.shell", NULL))
