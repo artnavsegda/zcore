@@ -126,30 +126,26 @@ int option_set_value(WJElement parameter, char * value)
     WJECopyDocument(temp, protoface, NULL, NULL);
     //WJEDump(temp);
     //WJEDump(optionlist(protojson));
-    if (WJESchemaValidate(optionlist(protojson), temp, schema_error, schema_load, schema_free, NULL))
-      puts("schema valid");
-    else
-      puts("schema invalid");
 
     if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
     {
       if (value[0] == '-')
       {
-        WJEDettach(WJEGetF(protoface,NULL,"%s[] == %s",parameter->name,&value[1]));
+        WJEDettach(WJEGetF(temp,NULL,"%s[] == %s",parameter->name,&value[1]));
       }
       else
       {
         if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
-          WJEStringF(protoface, WJE_NEW, NULL, value, "%s[$]", parameter->name);
+          WJEStringF(temp, WJE_NEW, NULL, value, "%s[$]", parameter->name);
         }
         else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
-          WJEInt32F(protoface, WJE_NEW, NULL, atoi(value), "%s[$]", parameter->name);
+          WJEInt32F(temp, WJE_NEW, NULL, atoi(value), "%s[$]", parameter->name);
         }
       }
     }
     else if (value[0] == '-')
     {
-      WJEDettach(WJEGet(protoface,parameter->name,NULL));
+      WJEDettach(WJEGet(temp,parameter->name,NULL));
       return 1;
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
@@ -158,14 +154,23 @@ int option_set_value(WJElement parameter, char * value)
       {
         value = cutquot(value);
       }
-      WJEString(protoface, parameter->name, WJE_SET, value);
+      WJEString(temp, parameter->name, WJE_SET, value);
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
-      WJEInt32(protoface, parameter->name, WJE_SET, atoi(value));
+      WJEInt32(temp, parameter->name, WJE_SET, atoi(value));
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
-      WJEBool(protoface, parameter->name, WJE_SET, atoi(value));
+      WJEBool(temp, parameter->name, WJE_SET, atoi(value));
     else
       puts("Not implemeted");
+
+    if (WJESchemaValidate(optionlist(protojson), temp, schema_error, schema_load, schema_free, NULL))
+    {
+      puts("schema valid");
+    }
+    else
+    {
+      puts("schema invalid");
+    }
   }
   return 1;
 }
