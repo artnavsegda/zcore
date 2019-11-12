@@ -252,6 +252,8 @@ int rl_option(int argc, char *argv[])
   rl_parameter = WJEObjectF(optionlist(rl_protoschema), WJE_GET, NULL, "properties.%s",argv[0]);
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"object") == 0)
   {
+    rl_protoface = WJEGet(rl_protoface,argv[0],NULL);
+    rl_protoschema = WJEGetF(rl_protoschema,NULL,"properties.%s",argv[0]);
     return rl_option(argc-1, &argv[1]);
   }
   else
