@@ -190,7 +190,7 @@ int option(int argc, char *argv[])
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
-    //puts("going down");
+    puts("going down");
     protoface = WJEGet(protoface,argv[0],NULL);
     optiondepth++;
     return 0;

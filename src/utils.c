@@ -272,7 +272,7 @@ int argcat(int argc, char *argout[], char *argin[])
 
 WJElement optionsdepth(WJElement schema)
 {
-  if (optiondepth > 1)
+  if (optiondepth > 0)
   {
     //puts("depth");
     //WJEDump(schema);
