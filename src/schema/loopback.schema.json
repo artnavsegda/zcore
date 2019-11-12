@@ -1,42 +1,42 @@
 {
-  "$schema": "http://json-schema.org/schema#",
-  "title": "loopback",
-  "description": "Loopback interfaces list",
-  "type": "object",
-  "patternProperties": {
-    "^loopback": {
-      "type": "object",
-      "title": "Interface entity",
-      "required": ["ipaddr", "netmask"],
-      "properties": {
-        "ipaddr": {
-          "type": "string",
-          "description": "IP address value"
-        },
-        "netmask": {
-          "type": "string",
-          "description": "IP netmask value"
-        },
-        "proto": {
-          "type": "string",
-          "description": "Interface proto handler",
-          "default": "static",
-          "hidden": true
-        },
-        "ifname": {
-          "type": "string",
-          "description": "PHY interface name",
-          "default": "lo",
-          "hidden": true
-        },
-      }
-    }
-  },
-  "commands": {
+	"$schema": "http://json-schema.org/schema#",
+	"title": "loopback",
+	"description": "Loopback interfaces list",
+	"type": "object",
+	"patternProperties": {
+		"^loopback": {
+			"type": "object",
+			"title": "Interface entity",
+			"required": ["ipaddr", "netmask"],
+			"properties": {
+				"ipaddr": {
+					"type": "string",
+					"description": "IP address value"
+				},
+				"netmask": {
+					"type": "string",
+					"description": "IP netmask value"
+				},
+				"proto": {
+					"type": "string",
+					"description": "Interface proto handler",
+					"default": "static",
+					"hidden": true
+				},
+				"ifname": {
+					"type": "string",
+					"description": "PHY interface name",
+					"default": "lo",
+					"hidden": true
+				}
+			}
+		}
+	},
+	"commands": {
 
-  },
-  "acquire": {
-    "shell": "get.sh",
-    "args": ["get.sh", "loopback", "loopback.schema"]
-  }
+	},
+	"acquire": {
+		"shell": "get.sh",
+		"args": ["get.sh", "loopback", "loopback.schema"]
+	}
 }

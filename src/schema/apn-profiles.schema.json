@@ -1,67 +1,66 @@
 {
-  "$schema": "http://json-schema.org/schema#",
-  "title": "apn-profiles",
-  "description": "APN profiles list",
-  "type": "object",
-  "namesake": "mccmnc",
-  "patternProperties": {
-    "^cfg": {
-      "type": "object",
-      "title": "Interface entity",
-      "required": ["mccmnc", "apn"],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "APN profile name"
-        },
-        "apn": {
-          "type": "string",
-          "description": "APN value"
-        },
-        "mccmnc": {
-          "type": "string",
-          "description": "PLMN (MCC+MNC) operator code"
-        },
-        "username": {
-          "type": "string",
-          "description": "Username",
-          "maxLength": 39
-        },
-        "password": {
-          "type": "string",
-          "description": "Password"
-        },
-        "auth": {
-          "type": "string",
-          "description": "Auth method",
-          "enum": ["any", "eap", "pap", "chap"]
-        },
-        "mode": {
-          "type": "string",
-          "description": "Network mode",
-          "enum": ["auto", "edge", "umts", "lte"]
-        }
-      }
-    }
-  },
-  "commands": {
-    "apply": {
-      "command": "/opt/zenith/script/apply.sh",
-      "args": ["apply.sh", "apn-profiles", "apn-profiles.schema"],
-      "json": "in",
-      "reload": true,
-      "wait": true
-    },
-    "add": {
-      "command": "/opt/zenith/script/add.sh",
-      "args": ["add.sh", "apn-profiles", "apn-profiles.schema"],
-	"cue": ["mode"],
-      "argpass": true,
-    },
-  },
-  "acquire": {
-    "shell": "/opt/zenith/script/get.sh",
-    "args": ["get.sh", "apn-profiles", "apn-profiles.schema"]
-  }
+	"$schema": "http://json-schema.org/schema#",
+	"title": "apn-profiles",
+	"description": "APN profiles list",
+	"type": "object",
+	"namesake": "mccmnc",
+	"patternProperties": {
+		"^cfg": {
+			"type": "object",
+			"title": "Interface entity",
+			"required": ["mccmnc", "apn"],
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "APN profile name"
+				},
+				"apn": {
+					"type": "string",
+					"description": "APN value"
+				},
+				"mccmnc": {
+					"type": "string",
+					"description": "PLMN (MCC+MNC) operator code"
+				},
+				"username": {
+					"type": "string",
+					"description": "Username",
+					"maxLength": 39
+				},
+				"password": {
+					"type": "string",
+					"description": "Password"
+				},
+				"auth": {
+					"type": "string",
+					"description": "Auth method",
+					"enum": ["any", "eap", "pap", "chap"]
+				},
+				"mode": {
+					"type": "string",
+					"description": "Network mode",
+					"enum": ["auto", "edge", "umts", "lte"]
+				}
+			}
+		}
+	},
+	"commands": {
+		"apply": {
+			"command": "/opt/zenith/script/apply.sh",
+			"args": ["apply.sh", "apn-profiles", "apn-profiles.schema"],
+			"json": "in",
+			"reload": true,
+			"wait": true
+		},
+		"add": {
+			"command": "/opt/zenith/script/add.sh",
+			"args": ["add.sh", "apn-profiles", "apn-profiles.schema"],
+			"cue": ["mode"],
+			"argpass": true
+		}
+	},
+	"acquire": {
+		"shell": "/opt/zenith/script/get.sh",
+		"args": ["get.sh", "apn-profiles", "apn-profiles.schema"]
+	}
 }
-
