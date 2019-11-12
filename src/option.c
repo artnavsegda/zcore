@@ -23,7 +23,7 @@ int listoptions(void)
   WJElement option = NULL;
   puts("Options:");
 
-  //WJEDump(optionlist(protojson));
+  WJEDump(optionlist(protojson));
 
   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
@@ -191,7 +191,9 @@ int option(int argc, char *argv[])
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
     puts("going down");
+    WJEDump(protoface);
     protoface = WJEGet(protoface,argv[0],NULL);
+    WJEDump(protoface);
     optiondepth++;
     return 0;
   }

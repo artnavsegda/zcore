@@ -12,6 +12,7 @@ extern WJElement protojson;
 extern WJElement rl_protojson;
 extern enum domains domain;
 WJElement protoface = NULL;
+WJElement protoschema = NULL;
 WJElement rl_protoface = NULL;
 char facename[100] = "";
 char rl_facename[100] = "";

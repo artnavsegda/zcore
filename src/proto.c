@@ -14,6 +14,7 @@ int rl_protodepth = 0;
 WJElement rl_protojson = NULL;
 
 extern WJElement protoface;
+extern WJElement protoschema;
 extern WJElement rl_protoface;
 extern enum domains domain;
 
@@ -89,11 +90,12 @@ int proto(int argc, char *argv[])
       protojson = WJEObject(protojson, argv[i], WJE_GET);
       if (WJEGet(protojson, "schema", NULL))
       {
-        if (WJEGet(protojson, "schema.patternProperties", NULL))
+        protoschema = WJEObject(protojson, "schema", WJE_GET);
+        if (WJEGet(protoschema, "schema.patternProperties", NULL))
         {
           domain = FACE;
         }
-        else if (WJEGet(protojson, "schema.properties", NULL))
+        else if (WJEGet(protoschema, "properties", NULL))
         {
           domain = OPTION;
           protoface = WJEObject(protojson, "data", WJE_GET);
