@@ -10,6 +10,7 @@
 #include "builtin.h"
 
 extern WJElement protojson;
+extern WJElement protoschema;
 extern WJElement protoface;
 extern WJElement rl_protojson;
 extern WJElement rl_protoface;
@@ -23,14 +24,14 @@ int listoptions(void)
   WJElement option = NULL;
   puts("Options:");
 
-  WJEDump(optionlist(protojson));
+  WJEDump(optionlist(protoschema));
 
-  while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
+  while ((option = _WJEObject(optionlist(protoschema), "properties[]", WJE_GET, &option))) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       printf("%s: ", option->name);
       //printf("%s: %s\n", option->name, WJEString(option, "description", WJE_GET, NULL));
-      char * optionstring = optionvalue(option->name, protojson, protoface);
+      char * optionstring = optionvalue(option->name, protoschema, protoface);
       if (optionstring)
       {
         printf("%s\n", optionstring);
@@ -50,7 +51,7 @@ int isoption(char * optionname)
 {
   if (domain == OPTION)
   {
-    if (WJEGetF(optionlist(protojson), NULL, "properties.%s", optionname))
+    if (WJEGetF(optionlist(protoschema), NULL, "properties.%s", optionname))
     {
       return 1;
     }
@@ -162,7 +163,7 @@ int option_set_value(WJElement parameter, char * value)
     else
       puts("Not implemeted");
 
-    if (WJESchemaValidate(optionlist(protojson), temp, schema_error, schema_load, schema_free, NULL))
+    if (WJESchemaValidate(optionlist(protoschema), temp, schema_error, schema_load, schema_free, NULL))
     {
       //puts("schema valid");
       WJECloseDocument(protoface);
@@ -186,7 +187,7 @@ char * combinevalues(int argc, char *argv[])
 int option(int argc, char *argv[])
 {
   WJElement parameter;
-  parameter = WJEObjectF(optionlist(protojson), WJE_GET, NULL, "properties.%s",argv[0]);
+  parameter = WJEObjectF(optionlist(protoschema), WJE_GET, NULL, "properties.%s",argv[0]);
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {

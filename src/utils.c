@@ -284,13 +284,13 @@ WJElement optionsdepth(WJElement schema)
 
 WJElement optionlist(WJElement schema)
 {
-  if (WJEGet(schema, "schema.patternProperties", NULL))
+  if (WJEGet(schema, "patternProperties", NULL))
   {
-    return optionsdepth(WJEObject(schema,"schema.patternProperties[0]", WJE_GET));//yyyyy
+    return optionsdepth(WJEObject(schema,"patternProperties[0]", WJE_GET));//yyyyy
   }
-  else if (WJEGet(schema, "schema.properties", NULL))
+  else if (WJEGet(schema, "properties", NULL))
   {
-    return optionsdepth(WJEObject(schema,"schema", WJE_GET));
+    return optionsdepth(schema);
   }
   return NULL;
 }
