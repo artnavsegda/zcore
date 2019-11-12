@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "region-params",
+  "description": "WiFi PHY list",
+  "hidden": true,
+  "type": "object",
+  "patternProperties": {
+    "*": {
+      "type": "object",
+      "properties": {
+        "channels": {
+          "type": "array",
+          "description": "Radio channel",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "acquire": {
+     "file": "/home/art/Coding/zcore/src/consts/wifi-region-params.json"
+   }
+}
