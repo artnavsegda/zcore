@@ -12,6 +12,8 @@
 #include "command.h"
 
 extern WJElement doc, schema;
+extern WJElement protoface;
+extern int optiondepth;
 
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
     static char *token = NULL;
@@ -270,7 +272,12 @@ int argcat(int argc, char *argout[], char *argin[])
 
 WJElement optionsdepth(WJElement schema)
 {
-  return schema;
+  if (optiondepth == 1)
+  {
+    return WJEGet(schema, protoface->name, NULL);
+  }
+  else
+    return schema;
 }
 
 WJElement optionlist(WJElement schema)
