@@ -274,7 +274,9 @@ WJElement optionsdepth(WJElement schema)
 {
   if (optiondepth == 1)
   {
-    return WJEGet(schema, protoface->name, NULL);
+    //puts("depth");
+    //WJEDump(schema);
+    return WJEGetF(schema, NULL, "properties.%s",protoface->name);
   }
   else
     return schema;

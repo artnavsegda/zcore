@@ -23,6 +23,8 @@ int listoptions(void)
   WJElement option = NULL;
   puts("Options:");
 
+  //WJEDump(optionlist(protojson));
+
   while ((option = _WJEObject(optionlist(protojson), "properties[]", WJE_GET, &option))) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
@@ -404,6 +406,10 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
         }
         return returnstring;
       }
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
+    {
+      return strdup("Object");
     }
   }
   else
