@@ -44,11 +44,16 @@ void generateprompt(char * prompt)
       strcat(prompt, "/");
       strcat(prompt, elementname(protojson,protoface));
     }
-    if (optiondepth > 0)
+    for (int i = optiondepth; i > 0; i--)
     {
       strcat(prompt, "/");
-      strcat(prompt, protoface->name);
+      strcat(prompt, parentname(protoface, i));
     }
+    //if (optiondepth > 0)
+    //{
+    //  strcat(prompt, "/");
+    //  strcat(prompt, protoface->name);
+    //}
   }
   strcat(prompt, ">");
 }
