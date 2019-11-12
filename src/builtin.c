@@ -16,6 +16,7 @@ extern int protodepth;
 extern WJElement protojson;
 extern WJElement protoface;
 extern enum domains domain;
+extern int optiondepth;
 
 int path_up()
 {
@@ -38,15 +39,23 @@ int path_up()
       protojson = protojson->parent;
     break;
     case OPTION:
-      if (WJEGet(protojson, "schema.patternProperties", NULL))
+      if (optiondepth > 0)
       {
-        domain = FACE;
+        optiondepth--;
+        protoface = protoface->parent;
       }
-      else if (WJEGet(protojson, "schema.properties", NULL))
+      else
       {
-        domain = PROTO;
-        protodepth--;
-        protojson = protojson->parent;
+        if (WJEGet(protojson, "schema.patternProperties", NULL))
+        {
+          domain = FACE;
+        }
+        else if (WJEGet(protojson, "schema.properties", NULL))
+        {
+          domain = PROTO;
+          protodepth--;
+          protojson = protojson->parent;
+        }
       }
     break;
   }
