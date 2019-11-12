@@ -2,12 +2,13 @@
 #include <wjelement.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <unistd.h>
 #include "utils.h"
 
 int acquire(WJElement proto)
 {
   int forkpid = 0, status;
-  FILE *jsonstream;
+  FILE *jsonstream = NULL;
   WJReader readjson;
   char *argv[100];
   int argc = arguments(WJEArray(proto, "schema.acquire.args", WJE_GET), argv);
@@ -40,6 +41,9 @@ int acquire(WJElement proto)
     }
   }
 
+  if (jsonstream)
+  {
+
   if (!(readjson = WJROpenFILEDocument(jsonstream, NULL, 0))) {
     puts("json failed to open");
     return 1;
@@ -52,6 +56,7 @@ int acquire(WJElement proto)
   fclose(jsonstream);
   if (forkpid)
     waitpid(forkpid, &status, 0);
+  }
 
 //  WJEDump(jsondata);
   return 0;

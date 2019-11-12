@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/schema#",
   "title": "region-params",
   "description": "WiFi PHY list",
-  "hidden": true,
+  "hidden": false,
   "type": "object",
   "patternProperties": {
     "*": {
@@ -19,6 +19,6 @@
     }
   },
   "acquire": {
-     "file": "/home/art/Coding/zcore/src/consts/wifi-region-params.json"
+     "file": "/home/art/Coding/zcore/src/consts/wifi-regions-params.json"
    }
 }
