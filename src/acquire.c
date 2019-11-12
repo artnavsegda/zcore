@@ -20,26 +20,25 @@ int acquire(WJElement proto)
 
   if (WJEGet(proto, "schema.acquire.shell", NULL))
   {
+    printf("acquire %s\n", proto->name);
+    //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"));
 
-  printf("acquire %s\n", proto->name);
-  //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"));
+    if (!(jsonstream = my_popen_read(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"), argv,  NULL, &forkpid))) {
+      puts("handle error");
+      return 1;
+    }
 
-  if (!(jsonstream = my_popen_read(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"), argv,  NULL, &forkpid))) {
-    puts("handle error");
-    return 1;
-  }
+    if (!(readjson = WJROpenFILEDocument(jsonstream, NULL, 0))) {
+      puts("json failed to open");
+      return 1;
+    }
 
-  if (!(readjson = WJROpenFILEDocument(jsonstream, NULL, 0))) {
-    puts("json failed to open");
-    return 1;
-  }
+    WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
+    WJERename(jsondata,"data");
+    WJEAttach(proto,jsondata);
 
-  WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
-  WJERename(jsondata,"data");
-  WJEAttach(proto,jsondata);
-
-  fclose(jsonstream);
-  waitpid(forkpid, &status, 0);
+    fclose(jsonstream);
+    waitpid(forkpid, &status, 0);
   }
 
 //  WJEDump(jsondata);
