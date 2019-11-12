@@ -195,6 +195,7 @@ int option(int argc, char *argv[])
     puts("going down");
     WJEDump(protoface);
     protoface = WJEGet(protoface,argv[0],NULL);
+    protoschema = WJEGetF(protoschema,NULL,"properties.%s",argv[0]);
     WJEDump(protoface);
     optiondepth++;
     return 0;

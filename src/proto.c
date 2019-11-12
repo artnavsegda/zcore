@@ -15,6 +15,7 @@ WJElement rl_protojson = NULL;
 
 extern WJElement protoface;
 extern WJElement protoschema;
+extern WJElement rl_protoschema;
 extern WJElement rl_protoface;
 extern enum domains domain;
 
