@@ -188,7 +188,8 @@ int option(int argc, char *argv[])
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
-    //drop down option level
+    puts("going down");
+    return 0;
   }
 
   if (argc == 1)
