@@ -2,5 +2,14 @@
   "demo": "test",
   "subdemo": {
     "something": "test2"
+  },
+  "multisubdemo": {
+    "one": {
+      "two": {
+        "three": {
+          "something": "test3"
+        }
+      }
+    }
   }
 }
