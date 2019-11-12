@@ -1,121 +1,121 @@
 {
-  "$schema": "http://json-schema.org/schema#",
-  "title": "wan",
-  "description": "LAN interfaces list",
-  "type": "object",
-  "patternProperties": {
-    "^wan": {
-      "type": "object",
-      "title": "Interface entity",
-      "required": ["vid", "cpu_port", "proto"],
-      "properties": {
-        "vid": {
-          "type": "number",
-          "description": "VLAN ID",
-          "minimum": 1,
-          "maximum": 4094
-        },
-        "cpu_port": {
-          "type": "number",
-          "description": "Master port",
-          "default": 6
-        },
-        "ports":{
-          "type": "array",
-          "description": "Untagged ports",
-          "items": {
-            "uniqueItems": true,
-            "type": "number",
-            "enum": [1, 2, 3, 4, 0]
-          }
-        },
+	"$schema": "http://json-schema.org/schema#",
+	"title": "wan",
+	"description": "LAN interfaces list",
+	"type": "object",
+	"patternProperties": {
+		"^wan": {
+			"type": "object",
+			"title": "Interface entity",
+			"required": ["vid", "cpu_port", "proto"],
+			"properties": {
+				"vid": {
+					"type": "number",
+					"description": "VLAN ID",
+					"minimum": 1,
+					"maximum": 4094
+				},
+				"cpu_port": {
+					"type": "number",
+					"description": "Master port",
+					"default": 6
+				},
+				"ports": {
+					"type": "array",
+					"description": "Untagged ports",
+					"items": {
+						"uniqueItems": true,
+						"type": "number",
+						"enum": [1, 2, 3, 4, 0]
+					}
+				},
 
-        "proto": {
-          "type": "string",
-          "description": "IP settings",
-          "emun": ["static", "dhcp", "pppoe"]
-        },
+				"proto": {
+					"type": "string",
+					"description": "IP settings",
+					"emun": ["static", "dhcp", "pppoe"]
+				},
 
-        "ipaddr": {
-          "type": "string",
-          "description": "IP address value"
-        },
-        "netmask": {
-          "type": "string",
-          "description": "IP netmask value"
-        },
-        "gateway": {
-          "type": "string",
-          "description": "IP gateway value"
-        },
+				"ipaddr": {
+					"type": "string",
+					"description": "IP address value"
+				},
+				"netmask": {
+					"type": "string",
+					"description": "IP netmask value"
+				},
+				"gateway": {
+					"type": "string",
+					"description": "IP gateway value"
+				},
 
-        "macaddr": {
-          "type": "string",
-          "description": "MAC address"
-        },
+				"macaddr": {
+					"type": "string",
+					"description": "MAC address"
+				},
 
-        "mtu": {
-          "type": "integer",
-          "description": "Interface MTU value",
-          "default": 1400,
-          "maximum": 1500,
-          "minimum": 400
-        },
+				"mtu": {
+					"type": "integer",
+					"description": "Interface MTU value",
+					"default": 1400,
+					"maximum": 1500,
+					"minimum": 400
+				},
 
-        "metric": {
-          "type": "integer",
-          "description": "Interface metric(priority) value",
-          "minimum": 101,
-          "maximum": 900,
-          "default": 200
-        },
+				"metric": {
+					"type": "integer",
+					"description": "Interface metric(priority) value",
+					"minimum": 101,
+					"maximum": 900,
+					"default": 200
+				},
 
-        "enable": {
-          "type": "boolean",
-          "description": "Enable interface",
-          "default": true
-        },
+				"enable": {
+					"type": "boolean",
+					"description": "Enable interface",
+					"default": true
+				},
 
-        "username": {
-          "type": "string",
-          "description": "Username for PPPoE",
-          "maxLength": 39
-        },
+				"username": {
+					"type": "string",
+					"description": "Username for PPPoE",
+					"maxLength": 39
+				},
 
-        "password": {
-          "type": "string",
-          "description": "Password for PPPoE"
-        },
+				"password": {
+					"type": "string",
+					"description": "Password for PPPoE"
+				},
 
-        "ac-name": {
-          "type": "string",
-          "description": "AC name for PPPoE"
-        },      
+				"ac-name": {
+					"type": "string",
+					"description": "AC name for PPPoE"
+				},
 
-        "ping-addr": {
-          "type": "string",
-          "description": "failover address for check interface"
-        },      
+				"ping-addr": {
+					"type": "string",
+					"description": "failover address for check interface"
+				},
 
-        "ping-fail": {
-          "type": "number",
-          "description": "failover attempts count",
-          "default": 3
-        },      
+				"ping-fail": {
+					"type": "number",
+					"description": "failover attempts count",
+					"default": 3
+				},
 
-        "ping-interval": {
-          "type": "number",
-          "description": "failover interval for next attempt (sec)",
-          "default": 30
-        },      
+				"ping-interval": {
+					"type": "number",
+					"description": "failover interval for next attempt (sec)",
+					"default": 30
+				}
 
 
-      }
-    }
-  },
-  
-  "acquire": {
-    "shell": "get.sh",
-    "args": ["get.sh", "wan", "wan.schema"]
-  }
+			}
+		}
+	},
+
+	"acquire": {
+		"shell": "get.sh",
+		"args": ["get.sh", "wan", "wan.schema"]
+	}
 }
