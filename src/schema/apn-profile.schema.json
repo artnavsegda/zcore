@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/schema#",
-	"title": "apn-profiles",
+	"title": "apn-profile",
 	"description": "APN profiles list",
 	"type": "object",
 	"namesake": "mccmnc",
@@ -72,6 +72,6 @@
 
 	"acquire": {
 		"shell": "get.sh",
-		"args": ["get.sh", "apn-profiles", "apn-profiles.schema"]
+		"args": ["get.sh", "apn-profile", "apn-profile.schema"]
 	}
 }
