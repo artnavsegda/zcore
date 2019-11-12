@@ -129,6 +129,7 @@ int rl_proto(int argc, char *argv[])
       rl_protojson = WJEObject(rl_protojson, argv[i], WJE_GET);
       if (WJEGet(rl_protojson, "schema", NULL))
       {
+        rl_protoschema = WJEObject(rl_protojson, "schema", WJE_GET);
         if (WJEGet(rl_protojson, "schema.patternProperties", NULL))
         {
           rl_domain = FACE;

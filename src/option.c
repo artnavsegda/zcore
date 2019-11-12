@@ -13,6 +13,7 @@ extern WJElement protojson;
 extern WJElement protoschema;
 extern WJElement protoface;
 extern WJElement rl_protojson;
+extern WJElement rl_protoschema;
 extern WJElement rl_protoface;
 extern enum domains domain;
 WJElement rl_parameter = NULL;
@@ -67,7 +68,7 @@ int rl_isoption(char * optionname)
 {
   if (rl_domain == OPTION)
   {
-    if (WJEGetF(optionlist(rl_protojson), NULL, "properties.%s", optionname))
+    if (WJEGetF(optionlist(rl_protoschema), NULL, "properties.%s", optionname))
     {
       return 1;
     }
@@ -247,7 +248,7 @@ int option(int argc, char *argv[])
 
 int rl_option(int argc, char *argv[])
 {
-  rl_parameter = WJEObjectF(optionlist(rl_protojson), WJE_GET, NULL, "properties.%s",argv[0]);
+  rl_parameter = WJEObjectF(optionlist(rl_protoschema), WJE_GET, NULL, "properties.%s",argv[0]);
   rl_domain = SETTING;
   return 1;
 }
@@ -255,7 +256,7 @@ int rl_option(int argc, char *argv[])
 char * optionvalues(const char * text, int len)
 {
   static WJElement option = NULL;
-  while (option = _WJEObject(optionlist(rl_protojson), "properties[]", WJE_GET, &option)) {
+  while (option = _WJEObject(optionlist(rl_protoschema), "properties[]", WJE_GET, &option)) {
     if (WJEBool(option, "hidden", WJE_GET, FALSE))
       return optionvalues(text,len);
     if (strncmp(option->name, text, len) == 0) {
@@ -360,7 +361,7 @@ char * optionhelp(const char * commandname)
   //{
   //  return WJEString(proto, "schema.description", WJE_GET, NULL);
   //}
-  return WJEStringF(optionlist(rl_protojson), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
+  return WJEStringF(optionlist(rl_protoschema), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
   //return "Help description";
 }
 
