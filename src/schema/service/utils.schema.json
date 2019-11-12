@@ -32,5 +32,8 @@
       "argpass": true,
       "wait": true
     }
-  }
+  },
+  "acquire": {
+     "file": "/home/art/Coding/zcore/src/consts/utils.json"
+   }
 }
