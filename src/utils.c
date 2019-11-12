@@ -268,15 +268,20 @@ int argcat(int argc, char *argout[], char *argin[])
   return argc;
 }
 
+WJElement optiondepth(WJElement schema)
+{
+  return schema;
+}
+
 WJElement optionlist(WJElement schema)
 {
   if (WJEGet(schema, "schema.patternProperties", NULL))
   {
-    return WJEObject(schema,"schema.patternProperties[0]", WJE_GET);
+    return optiondepth(WJEObject(schema,"schema.patternProperties[0]", WJE_GET));//yyyyy
   }
   else if (WJEGet(schema, "schema.properties", NULL))
   {
-    return WJEObject(schema,"schema", WJE_GET);
+    return optiondepth(WJEObject(schema,"schema", WJE_GET));
   }
   return NULL;
 }
