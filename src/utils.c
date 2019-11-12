@@ -286,11 +286,11 @@ WJElement optionlist(WJElement schema)
 {
   if (WJEGet(schema, "patternProperties", NULL))
   {
-    return optionsdepth(WJEObject(schema,"patternProperties[0]", WJE_GET));//yyyyy
+    return WJEObject(schema,"patternProperties[0]", WJE_GET);
   }
   else if (WJEGet(schema, "properties", NULL))
   {
-    return optionsdepth(schema);
+    return schema;
   }
   return NULL;
 }
