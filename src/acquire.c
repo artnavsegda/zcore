@@ -18,7 +18,11 @@ int acquire(WJElement proto)
     WJECloseDocument(data);
   }
 
-  if (WJEGet(proto, "schema.acquire.shell", NULL))
+  if (WJEGet(proto, "schema.acquire.file", NULL))
+  {
+    // do something
+  }
+  else if (WJEGet(proto, "schema.acquire.shell", NULL))
   {
     printf("acquire %s\n", proto->name);
     //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"));
