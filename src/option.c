@@ -250,8 +250,15 @@ int option(int argc, char *argv[])
 int rl_option(int argc, char *argv[])
 {
   rl_parameter = WJEObjectF(optionlist(rl_protoschema), WJE_GET, NULL, "properties.%s",argv[0]);
-  rl_domain = SETTING;
-  return 1;
+  if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"object") == 0)
+  {
+    return rl_option(argc-1, &argv[1]);
+  }
+  else
+  {
+    rl_domain = SETTING;
+    return 1;
+  }
 }
 
 char * optionvalues(const char * text, int len)
