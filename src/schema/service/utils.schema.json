@@ -17,6 +17,29 @@
           "description": "test sub thing"
         }
       }
+    },
+    "multisubdemo": {
+      "type": "object",
+      "properties": {
+        "one": {
+          "type": "object",
+          "properties": {
+            "two": {
+              "type": "object",
+              "properties": {
+                "three": {
+                  "type": "object",
+                  "properties": {
+                    "something": {
+                    "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "commands": {
