@@ -428,10 +428,25 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
       else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
         int number = 0;
         returnstring = malloc(1);
+        if (!returnstring)
+        {
+            puts("memory allocation 1 fail");
+            return NULL;
+        }
         returnstring[0] = '\0';
         while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", parameter->name))
         {
-          sprintf(returnstring, "%s%d ", returnstring, number);
+          char tmpstr[15];
+          sprintf(tmpstr, "%d ", number);
+          if (returnstring = realloc(returnstring, strlen(returnstring) + strlen(tmpstr) + 1))
+          {
+            strcat(returnstring, tmpstr);
+          }
+          else
+          {
+            puts("memory allocation 2 fail");
+            return NULL;
+          }
         }
         return returnstring;
       }
