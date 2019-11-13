@@ -412,7 +412,7 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
         returnstring[0] = '\0';
         while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", parameter->name))
         {
-          if (returnstring = realloc(returnstring, strlen(returnstring) + strlen(entity) + 1))
+          if (returnstring = realloc(returnstring, strlen(returnstring) + strlen(entity) + 2))
           {
             strcat(returnstring, entity);
             strcat(returnstring, " ");
