@@ -386,7 +386,6 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
   parameter = WJEObjectF(optionlist(proto), WJE_GET, NULL, "properties.%s",commandname);
   if (WJEGet(face, parameter->name, NULL))
   {
-    puts("got");
     if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
       return strdup(WJEString(face,parameter->name,WJE_GET,"<undefined>"));
     }
@@ -443,6 +442,5 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
     }
   }
   else
-    puts("not");
     return NULL;
 }
