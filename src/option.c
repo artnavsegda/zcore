@@ -192,12 +192,12 @@ int option(int argc, char *argv[])
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
-    puts("going down");
-    //WJEDump(protoface);
     protoface = WJEGet(protoface,argv[0],NULL);
     protoschema = WJEGetF(protoschema,NULL,"properties.%s",argv[0]);
-    //WJEDump(protoface);
     optiondepth++;
+    if (argc > 1)
+      if (isoption(argv[1]))
+        return option(argc-1, &argv[1]);
     return 0;
   }
 
