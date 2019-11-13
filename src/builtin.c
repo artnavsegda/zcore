@@ -121,7 +121,8 @@ int isbuiltin(char * builtinname)
 int printoption(WJElement proto, WJElement face, int depth)
 {
   WJElement option = NULL;
-  while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
+  WJElement schema = WJEGet(proto, "schema", NULL);
+  while (option = _WJEObject(optionlist(schema), "properties[]", WJE_GET, &option)) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       for (int i = depth; i > 0; i--)
@@ -132,7 +133,7 @@ int printoption(WJElement proto, WJElement face, int depth)
         printf("%s.", elementname(proto,face));
       printf("%s = ", option->name);
 
-      char * returnstring = optionvalue(option->name, proto, face);
+      char * returnstring = optionvalue(option->name, schema, face);
 
       if (returnstring)
       {
@@ -206,7 +207,8 @@ int builtin_show(int argc, char *argv[])
 int exportoption(WJElement proto, WJElement face, int depth)
 {
   WJElement option = NULL;
-  while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
+  WJElement schema = WJEGet(proto, "schema", NULL);
+  while (option = _WJEObject(optionlist(schema), "properties[]", WJE_GET, &option)) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE) && WJEGet(face, option->name, NULL))
     {
       for (int i = depth; i > 0; i--)
@@ -217,7 +219,7 @@ int exportoption(WJElement proto, WJElement face, int depth)
         printf("%s ", elementname(proto,face));
       printf("%s ", option->name);
 
-      char * returnstring = optionvalue(option->name, proto, face);
+      char * returnstring = optionvalue(option->name, schema, face);
 
       if (returnstring)
       {
