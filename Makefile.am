@@ -1,3 +1,3 @@
 CXXFLAGS = -nodefaultlibs -lc -fno-exceptions
-CFLAGS +=-std=gnu99
+CFLAGS +=-std=gnu99 
 SUBDIRS = src

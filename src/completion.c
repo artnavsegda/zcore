@@ -17,6 +17,7 @@
 enum domains rl_domain = PROTO;
 extern enum domains domain;
 char *rl_commandname = NULL;
+extern WJElement protoface;
 extern WJElement rl_protojson;
 extern WJElement rl_protoface;
 extern WJElement rl_protoschema;
@@ -134,6 +135,8 @@ int rl_interpret(char * stringtointerpret, int start, int end)
 void init_completion(void)
 {
   incom_proto();
+  if (protoface)
+    rl_protoface = protoface;
 }
 
 enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
