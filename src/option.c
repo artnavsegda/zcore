@@ -404,12 +404,24 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
       if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
         char * entity = NULL;
         returnstring = malloc(1);
+        if (!returnstring)
+        {
+            puts("memory allocation 1 fail");
+            return NULL;
+        }
         returnstring[0] = '\0';
         while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", parameter->name))
         {
-          realloc(returnstring, strlen(returnstring) + strlen(entity) + 1);
-          strcat(returnstring, entity);
-          strcat(returnstring, " ");
+          if (realloc(returnstring, strlen(returnstring) + strlen(entity) + 1))
+          {
+            strcat(returnstring, entity);
+            strcat(returnstring, " ");
+          }
+          else
+          {
+            puts("memory allocation 2 fail");
+            return NULL;
+          }
         }
         return returnstring;
       }
