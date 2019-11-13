@@ -176,6 +176,7 @@ void incom_proto(void)
 //  puts("proto completition init");
   rl_protojson = protojson;
   rl_protodepth = protodepth;
+  rl_protoschema = protoschema;
 }
 
 char * protohelp(const char * commandname)

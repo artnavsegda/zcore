@@ -15,6 +15,7 @@
 extern int protodepth;
 extern WJElement protojson;
 extern WJElement protoface;
+extern WJElement protoschema;
 extern enum domains domain;
 extern int optiondepth;
 
@@ -43,6 +44,7 @@ int path_up()
       {
         optiondepth--;
         protoface = protoface->parent;
+        protoschema = protoschema->parent->parent;
       }
       else
       {

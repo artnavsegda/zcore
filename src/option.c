@@ -203,7 +203,7 @@ int option(int argc, char *argv[])
 
   if (argc == 1)
   {
-    char * returnstring = optionvalue(argv[0], protojson, protoface);
+    char * returnstring = optionvalue(argv[0], protoschema, protoface);
     if (returnstring)
     {
       puts(returnstring);
@@ -254,7 +254,11 @@ int rl_option(int argc, char *argv[])
   {
     rl_protoface = WJEGet(rl_protoface,argv[0],NULL);
     rl_protoschema = WJEGetF(rl_protoschema,NULL,"properties.%s",argv[0]);
-    return rl_option(argc-1, &argv[1]);
+    if (argc > 1)
+      if (rl_isoption(argv[1]))
+        return rl_option(argc-1, &argv[1]);
+    else
+      return 1;
   }
   else
   {

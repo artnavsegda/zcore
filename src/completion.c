@@ -19,6 +19,7 @@ extern enum domains domain;
 char *rl_commandname = NULL;
 extern WJElement rl_protojson;
 extern WJElement rl_protoface;
+extern WJElement rl_protoschema;
 
 int compute_lcd_of_matches2 (cmplist_t * list, char *text)
 {
@@ -130,7 +131,7 @@ int rl_interpret(char * stringtointerpret, int start, int end)
   return 0;
 }
 
-void init_completition(void)
+void init_completion(void)
 {
   incom_proto();
 }
@@ -208,7 +209,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
 //          printf("OS %s\n", rootvalues);
           rootvalues->description = optionhelp(rootvalues->command);
           rootvalues->domain = OPTION;
-          rootvalues->value = optionvalue(rootvalues->command, rl_protojson, rl_protoface);
+          rootvalues->value = optionvalue(rootvalues->command, rl_protoschema, rl_protoface);
           return rootvalues;
         }
         else
@@ -418,7 +419,7 @@ int zc_completion2(int count, int key)
   cmplist_t list = { .complecount = 0, .maxlen = 0 };
   int i = 0;
   char **something;
-  init_completition();
+  init_completion();
   char *rl_tokarr[100];
   int one = parse(strdup(rl_line_buffer), rl_tokarr);
   int numberoftokens = arrlength(rl_tokarr);
