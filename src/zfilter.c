@@ -24,11 +24,6 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-	//WJElement input = WJEOpenDocument(readjson, NULL, NULL, NULL);
-	//WJEDump(input);
-	//WJElement doc = filter(input,root, argv[1]);
-	//(doc);
-
 	WJEDump(filter(WJEOpenDocument(readjson, NULL, NULL, NULL),root, argv[1]));
 
 	return 0;

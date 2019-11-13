@@ -67,8 +67,8 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
   }
   else if (WJEGetF(schema,NULL,"%s.properties",schemapath))
   {
-    properties = WJEObject(schema, "%s.properties", WJE_GET);
-    translate(output, WJEObject(input, "values", WJE_GET), properties);
+    properties = WJEObjectF(schema, WJE_GET, NULL, "%s.properties", schemapath);
+    translate(output, input, properties);
   }
   return output;
 }
