@@ -92,7 +92,7 @@ int proto(int argc, char *argv[])
       if (WJEGet(protojson, "schema", NULL))
       {
         protoschema = WJEObject(protojson, "schema", WJE_GET);
-        if (WJEGet(protoschema, "schema.patternProperties", NULL))
+        if (WJEGet(protoschema, "patternProperties", NULL))
         {
           domain = FACE;
         }
