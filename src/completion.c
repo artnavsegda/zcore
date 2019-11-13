@@ -416,6 +416,7 @@ void zc_cleanup(cmplist_t *list)
         free(list->complelist[i]->description);
       free(list->complelist[i]);
     }
+    free(list->complelist);
   }
 }
 
