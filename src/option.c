@@ -283,7 +283,24 @@ char * optionvalues(const char * text, int len)
 char * settingvalues(const char * text, int len, int state)
 {
   static WJElement setting = NULL;
-  if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"string") == 0)
+  if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"boolean") == 0)
+  {
+    char *boolvariants[] = {"true","false",NULL};
+    static int valueindex = 0;
+    while (boolvariants[valueindex] != NULL)
+    {
+      if (strncmp(boolvariants[valueindex], text, len)==0)
+      {
+        return strdup(boolvariants[valueindex++]);
+      }
+      else
+      {
+        valueindex++;
+      }
+    }
+    valueindex = 0;
+  }
+  else if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"string") == 0)
   {
     char * variant = NULL;
     while (variant = _WJEString(rl_parameter, "enum[]", WJE_GET, &setting, NULL))
