@@ -307,7 +307,8 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
           subvalues->domain = OPTION;
           subvalues->description = NULL;
 //          subvalues->description = optionhelp(subvalues->command);
-          subvalues->value = NULL;
+          subvalues->value = optionvalue(subvalues->command, rl_protoschema, rl_protoface);
+//          subvalues->value = NULL;
           return subvalues;
         }
         else
