@@ -210,8 +210,9 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         if (rootvalues->command = optionvalues(text,len))
         {
 //          printf("OS %s\n", rootvalues);
-          rootvalues->description = optionhelp(rootvalues->command);
           rootvalues->domain = OPTION;
+          rootvalues->description = NULL;
+          //rootvalues->description = optionhelp(rootvalues->command);
           rootvalues->value = optionvalue(rootvalues->command, rl_protoschema, rl_protoface);
           return rootvalues;
         }
@@ -304,7 +305,8 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         {
 //          printf("OS %s\n", subvalues);
           subvalues->domain = OPTION;
-          subvalues->description = optionhelp(subvalues->command);
+          subvalues->description = NULL;
+//          subvalues->description = optionhelp(subvalues->command);
           subvalues->value = NULL;
           return subvalues;
         }
@@ -404,19 +406,38 @@ void zc_cleanup(cmplist_t *list)
   if (list->locode)
   {
     free(list->locode);
+    list->locode = NULL;
   }
   if (list->complecount > 1)
   {
     for (int i = 0; i < list->complecount; i++)
     {
-      free(list->complelist[i]->command);
+      if (list->complelist[i]->command)
+      {
+        free(list->complelist[i]->command);
+        list->complelist[i]->command = NULL;
+      }
       if (list->complelist[i]->value)
+      {
         free(list->complelist[i]->value);
+        list->complelist[i]->value = NULL;
+      }
       if (list->complelist[i]->description)
+      {
         free(list->complelist[i]->description);
-      free(list->complelist[i]);
+        list->complelist[i]->description = NULL;
+      }
+      if (list->complelist[i])
+      {
+        free(list->complelist[i]);
+        list->complelist[i] = NULL;
+      }
     }
-    free(list->complelist);
+    if (list->complelist)
+    {
+      free(list->complelist);
+      list->complelist = NULL;
+    }
   }
 }
 
@@ -493,7 +514,8 @@ int zc_completion2(int count, int key)
       }
     }
   }
-  zc_cleanup(&list);
+  if (list.complecount > 0)
+    zc_cleanup(&list);
 
   return 0;
 }
