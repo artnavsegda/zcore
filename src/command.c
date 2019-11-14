@@ -2,6 +2,8 @@
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/stat.h>
+#include "config.h"
 #include "zcore.h"
 #include "interpreter.h"
 #include "command.h"
@@ -68,10 +70,28 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
+  struct stat filestat;
   char *envp[100];
-
   char *args[100];
   WJElement command_el = WJEObjectF(protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
+  char pathtoload[MAXPATH] = "\0";
+  strcpy(pathtoload,WJEString(command_el, "command", WJE_GET, NULL));
+
+  if (stat(pathtoload,&filestat))
+  {
+    //direct path not found, trying to catcenate
+    pathtoload[0] = '\0';
+    strcat(pathtoload, config.scriptpath);
+    strcat(pathtoload, "/");
+    strcat(pathtoload, WJEString(command_el, "command", WJE_GET, NULL));
+  }
+
+  if (stat(pathtoload,&filestat))
+  {
+    puts("command file inaccessible");
+    return 1;
+  }
+
   int argsc = arguments(WJEArray(command_el, "args", WJE_GET),args);
 
   char faceenv[100] = "";
