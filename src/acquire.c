@@ -32,9 +32,7 @@ int acquire(WJElement proto)
       printf("cannot open json file %s\n", pathtoload);
       return 1;
     }
-
-    // do something
-}
+  }
   else if (WJEGet(proto, "schema.acquire.shell", NULL))
   {
     char pathtoload[MAXPATH];
@@ -47,6 +45,12 @@ int acquire(WJElement proto)
       strcat(pathtoload, config.scriptpath);
       strcat(pathtoload, "/");
       strcat(pathtoload, WJEString(proto, "schema.acquire.shell", WJE_GET, NULL));
+    }
+
+    if (stat(pathtoload,&filestat))
+    {
+      printf("%s aquire shell command inaccessible\n", proto->name);
+      return 1;
     }
 
     if (!(jsonstream = my_popen_read(pathtoload, argv,  NULL, &forkpid))) {
