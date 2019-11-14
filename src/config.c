@@ -9,6 +9,7 @@ struct configstruct_t config;
 void parseconfig(WJElement configjson)
 {
   strcpy(config.schemapath, WJEString(configjson, "schemapath", WJE_GET, DEFAULTSCHEMAPATH));
+  strcpy(config.scriptpath, WJEString(configjson, "scriptpath", WJE_GET, DEFAULTSCRIPTPATH));
 }
 
 int readconfig(void)
@@ -24,5 +25,3 @@ int readconfig(void)
   parseconfig(configjson);
   return 0;
 }
-
-
