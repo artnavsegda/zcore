@@ -55,7 +55,7 @@ int execute(int argc, char *argv[]) {
   {
     domain = ret_domain;
     protojson = ret_protojson;
-    protoface = ret_protoface;
+    //protoface = ret_protoface;
     protodepth = ret_protodepth;
   }
   return 0;

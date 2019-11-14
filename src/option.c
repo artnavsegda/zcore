@@ -15,6 +15,7 @@ extern WJElement protoface;
 extern WJElement rl_protojson;
 extern WJElement rl_protoschema;
 extern WJElement rl_protoface;
+extern char facename[100];
 extern enum domains domain;
 WJElement rl_parameter = NULL;
 WJElement optionjson = NULL;
@@ -167,8 +168,11 @@ int option_set_value(WJElement parameter, char * value)
     if (WJESchemaValidate(optionlist(protoschema), temp, schema_error, schema_load, schema_free, NULL))
     {
       //puts("schema valid");
+      //WJEDettach(protoface);
       WJECloseDocument(protoface);
       WJEAttach(WJEGet(protojson,"data",NULL),temp);
+      //protoface = getelementbynameprop(protojson, facename);
+      //puts(protoface->name);
       protoface = temp;
     }
     else
