@@ -3,10 +3,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <string.h>
 #include "utils.h"
+#include "config.h"
 
 int acquire(WJElement proto)
 {
+  struct stat filestat;
   int forkpid = 0, status;
   FILE *jsonstream = NULL;
   WJReader readjson;
@@ -30,12 +34,22 @@ int acquire(WJElement proto)
     }
 
     // do something
-  }
+}
   else if (WJEGet(proto, "schema.acquire.shell", NULL))
   {
-    //puts(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"));
+    char pathtoload[MAXPATH];
+    strcpy(pathtoload,WJEString(proto, "schema.acquire.file", WJE_GET, NULL));
 
-    if (!(jsonstream = my_popen_read(WJEString(proto, "schema.acquire.shell", WJE_GET, "/bin/true"), argv,  NULL, &forkpid))) {
+    if (stat(pathtoload,&filestat))
+    {
+      //direct path not found, trying to catcenate
+      pathtoload[0] = '\0';
+      strcat(pathtoload, config.scriptpath);
+      strcat(pathtoload, "/");
+      strcat(pathtoload, WJEString(proto, "schema.acquire.file", WJE_GET, NULL));
+    }
+
+    if (!(jsonstream = my_popen_read(pathtoload, argv,  NULL, &forkpid))) {
       puts("handle error");
       return 1;
     }
