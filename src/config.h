@@ -7,6 +7,7 @@
 struct configstruct_t
 {
   char schemapath[MAXPATH];
+  char scriptpath[MAXPATH];
 };
 
 extern struct configstruct_t config;
