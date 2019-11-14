@@ -115,7 +115,7 @@
     }
   },
   "acquire": {
-    "shell": "/home/art/Coding/zcore/src/ethernet.sh",
+    "shell": "ethernet.sh",
     "args": ["ethernet.sh", "ethernet.schema"]
   }
 }
