@@ -38,7 +38,7 @@ int acquire(WJElement proto)
   else if (WJEGet(proto, "schema.acquire.shell", NULL))
   {
     char pathtoload[MAXPATH];
-    strcpy(pathtoload,WJEString(proto, "schema.acquire.file", WJE_GET, NULL));
+    strcpy(pathtoload,WJEString(proto, "schema.acquire.shell", WJE_GET, NULL));
 
     if (stat(pathtoload,&filestat))
     {
@@ -46,7 +46,7 @@ int acquire(WJElement proto)
       pathtoload[0] = '\0';
       strcat(pathtoload, config.scriptpath);
       strcat(pathtoload, "/");
-      strcat(pathtoload, WJEString(proto, "schema.acquire.file", WJE_GET, NULL));
+      strcat(pathtoload, WJEString(proto, "schema.acquire.shell", WJE_GET, NULL));
     }
 
     if (!(jsonstream = my_popen_read(pathtoload, argv,  NULL, &forkpid))) {
