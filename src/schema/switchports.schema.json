@@ -23,7 +23,7 @@
    }
  },
   "acquire": {
-    "shell": "/home/art/Coding/zcore/src/switchports.sh",
+    "shell": "switchports.sh",
     "args": ["switchports.sh", "switchports.schema"]
   }
 }

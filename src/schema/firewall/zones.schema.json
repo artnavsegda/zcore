@@ -80,7 +80,7 @@
     }
  },
  "acquire": {
-   "shell": "/home/art/Coding/zcore/src/zones.sh",
+   "shell": "zones.sh",
    "args": ["zones.sh", "firewall.zones.schema"]
  }
 }

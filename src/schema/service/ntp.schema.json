@@ -20,7 +20,7 @@
     }
   },
   "acquire": {
-    "shell": "/home/art/Coding/zcore/src/ntp.sh",
+    "shell": "ntp.sh",
     "args": ["ntp.sh", "service.ntp.schema"]
   }
 }

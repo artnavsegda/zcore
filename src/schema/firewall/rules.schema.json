@@ -107,7 +107,7 @@
    }
  },
  "acquire": {
-   "shell": "/home/art/Coding/zcore/src/rules.sh",
+   "shell": "rules.sh",
    "args": ["rules.sh", "firewall.rules.schema"]
  }
 }
