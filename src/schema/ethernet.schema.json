@@ -84,14 +84,14 @@
  },
    "commands": {
      "apply": {
-       "command": "/home/art/Coding/zcore/src/apply-ethernet.sh",
+       "command": "apply-ethernet.sh",
        "args": ["apply-ethernet.sh"],
        "argpass": true,
        "json": "in",
        "reload": true
     },
     "add": {
-       "command": "/home/art/Coding/zcore/src/add-ethernet.sh",
+       "command": "add-ethernet.sh",
        "args": ["add-ethernet.sh"],
        "argpass": true,
        "cue": ["vid"],
@@ -99,19 +99,11 @@
        "wait": true
     },
     "remove": {
-       "command": "/home/art/Coding/zcore/src/remove.sh",
+       "command": "remove.sh",
        "args": ["remove", "network", "interface"],
        "argpass": true,
        "wait": true,
        "reload": true
-    },
-    "env": {
-      "command": "/usr/bin/env",
-      "args": ["env"],
-      "cue": ["raz", "dva", "tri"],
-      "argpass": true,
-      "json": "in",
-      "wait": true
     }
   },
   "acquire": {
