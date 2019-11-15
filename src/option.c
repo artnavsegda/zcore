@@ -168,12 +168,22 @@ int option_set_value(WJElement parameter, char * value)
     if (WJESchemaValidate(optionlist(protoschema), temp, schema_error, schema_load, schema_free, NULL))
     {
       //puts("schema valid");
-      //WJEDettach(protoface);
       WJECloseDocument(protoface);
-      WJEAttach(WJEGet(protojson,"data",NULL),temp);
-      //protoface = getelementbynameprop(protojson, facename);
+
+      if (WJEGet(protojson, "schema.patternProperties", NULL))
+      {
+        WJEAttach(WJEGet(protojson,"data",NULL),temp);
+        protoface = getelementbynameprop(protojson, facename);
+        if (!protoface)
+          domain = FACE;
+      }
+      else
+      {
+        WJEAttach(protojson,temp);
+        protoface = WJEObject(protojson, "data", WJE_GET);
+      }
       //puts(protoface->name);
-      protoface = temp;
+      //protoface = temp;
     }
     else
     {

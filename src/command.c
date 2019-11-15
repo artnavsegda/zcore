@@ -196,7 +196,7 @@ int command(int argc, char *argv[])
     acquire(protojson);
     if (domain == OPTION)
     {
-      if (WJEGet(protojson, "data.patternProperties", NULL))
+      if (WJEGet(protojson, "schema.patternProperties", NULL))
       {
         protoface = getelementbynameprop(protojson, facename);
         if (!protoface)
