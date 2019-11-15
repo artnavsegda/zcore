@@ -36,4 +36,21 @@ case "$subsystem" in
         eval "ubus call uci add '$config'" &> /dev/null
 
         ;;
+    "zones")
+        ;;
+    "rules")
+        ;;
+    "ethernet")
+        json_get_vars $CUE
+        for key in $CUE; do
+            [ -z "$(eval echo \$$key)" ] && {
+                echo "usage: add <$CUE>"
+                exit 1
+            }
+        done
+
+        config='{"config": "apn-profiles", "type": "apn", "values": '$(json_dump)'}'
+        eval "ubus call uci add '$config'" &> /dev/null
+
+        ;;
 esac
