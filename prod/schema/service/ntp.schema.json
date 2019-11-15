@@ -19,6 +19,14 @@
       }
     }
   },
+  "commands": {
+    "apply": {
+      "command": "apply.sh",
+      "args": ["apply.sh", "ntp"],
+      "json": "in",
+      "reload": true
+    }
+  },
   "acquire": {
     "shell": "get.sh",
     "args": ["get.sh", "ntp", "service.ntp.schema"]
