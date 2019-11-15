@@ -12,12 +12,18 @@ logger -t "zenith" "apply: $@ | $SETARRAY"
 case "$subsystem" in
     "apn-profiles")
             ## unnamed section
-            uci -q delete apn-profiles.$SECTION ## need remove option value
-            SECTION=$(uci add apn-profiles apn)
-            DATA='{"config": "apn-profiles", "section": "'$SECTION'", "type": "apn", "values": '$SETARRAY'}'
+            uci -q delete apn-profiles.$_SECTION ## need remove option value
+            _SECTION=$(uci add apn-profiles apn)
+            DATA='{"config": "apn-profiles", "section": "'$_SECTION'", "type": "apn", "values": '$SETARRAY'}'
             eval "ubus call uci set '$DATA'"
         ;;
     "ntp")
             ubus call uci set "{'config':'system', 'section':'ntp', 'values':$SETARRAY }"
+        ;;
+    "rules")
+          ubus call uci set "{\"config\":\"firewall\", \"section\":\"$_SECTION\", \"type\":\"rule\", \"values\":$SETARRAY }"
+        ;;
+    "zones")
+          ubus call uci set "{\"config\":\"firewall\", \"section\":\"$_SECTION\", \"type\":\"zone\", \"values\":$SETARRAY }"
         ;;
 esac
