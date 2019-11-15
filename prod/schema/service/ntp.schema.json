@@ -20,7 +20,7 @@
     }
   },
   "acquire": {
-    "shell": "/root/ntp.sh",
+    "shell": "ntp.sh",
     "args": ["ntp.sh", "service.ntp.schema"]
   }
 }

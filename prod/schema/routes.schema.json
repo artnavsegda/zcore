@@ -1,0 +1,62 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"title": "routes",
+	"description": "Static routes list",
+	"type": "object",
+	"namesake": "target",
+	"patternProperties": {
+		"^cfg": {
+			"type": "object",
+			"title": "Route entity",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Route name"
+				},
+				"target": {
+					"type": "string",
+					"description": "IP/Network address value"
+				},
+				"netmask": {
+					"type": "string",
+					"description": "Netmask value"
+				},
+				"gateway": {
+					"type": "string",
+					"description": "Gateway IP address value"
+				},
+				"interface": {
+					"type": "string",
+					"description": "Interface",
+					"cue": ["lan", "wan", "mobile", "loopback"]
+				},
+
+				"failover": {
+					"type": "object",
+					"title": "Route entity",
+					"properties": {
+						"address": {
+							"type": "string"
+						},
+						"interval": {
+							"type": "number"
+						}
+					}
+				}
+
+			}
+		}
+	},
+	"commands": {
+		"add": {
+			"shell": "add.sh",
+			"args": ["add.sh", "routes", "routes.schema"],
+			"argpass": true,
+			"cue": ["name", "target"]
+		}
+	},
+	"acquire": {
+		"shell": "/opt/zenith/script/get.sh",
+		"args": ["get.sh", "routes", "routes.schema"]
+	}
+}

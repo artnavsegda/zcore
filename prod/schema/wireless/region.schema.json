@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "region-params",
+  "description": "WiFi PHY list",
+  "hidden": false,
+  "type": "object",
+  "patternProperties": {
+    "*": {
+      "type": "object",
+      "properties": {
+        "channels": {
+          "type": "array",
+          "description": "Radio channel",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "acquire": {
+     "file": "/etc/zenith/consts/wifi-regions-params.json"
+   }
+}

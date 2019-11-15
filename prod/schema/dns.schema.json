@@ -1,0 +1,21 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"title": "dns",
+	"description": "DNS servers list",
+	"type": "object",
+	"patternProperties": {
+		"^servers": {
+			"type": "array",
+			"title": "APN profile entity",
+			"items": {
+				"type": "string"
+			}
+		}
+	},
+
+	"commands": {},
+	"acquire": {
+		"shell": "/opt/zenith/script/get.sh",
+		"args": ["get.sh", "dns", "dns.schema"]
+	}
+}

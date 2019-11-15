@@ -4,17 +4,59 @@
   "type": "object",
   "namesake": "name",
   "properties": {
+    "demo": {
+      "type": "string",
+      "description": "test option"
+    },
+    "subdemo": {
+      "type": "object",
+      "description": "test suboption",
+      "properties": {
+        "subthing" : {
+          "type": "string",
+          "description": "test sub thing"
+        }
+      }
+    },
+    "multisubdemo": {
+      "type": "object",
+      "properties": {
+        "one": {
+          "type": "object",
+          "properties": {
+            "two": {
+              "type": "object",
+              "properties": {
+                "three": {
+                  "type": "object",
+                  "properties": {
+                    "something": {
+                    "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "commands": {
     "ping": {
-      "command": "/bin/ping",
-      "args": ["/bin/ping", "-c 10"],
+      "command": "/usr/bin/ping",
+      "args": ["ping", "-c 10"],
       "argpass": true,
       "wait": true
     },
     "env": {
       "command": "/usr/bin/env",
-      "args": ["env"]
+      "args": ["env"],
+      "argpass": true,
+      "wait": true
     }
-  }
+  },
+  "acquire": {
+     "file": "/etc/zenith/consts/utils.json"
+   }
 }

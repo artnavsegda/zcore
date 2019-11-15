@@ -7,6 +7,7 @@
     "^vlan": {
       "type": "object",
       "title": "Interface entity",
+      "description": "Ethernet interface",
       "required": ["vid", "ip", "proto", "switch", "master_port"],
       "properties": {
         "vid": {
@@ -83,14 +84,14 @@
  },
    "commands": {
      "apply": {
-       "command": "/root/apply-ethernet.sh",
-       "args": ["apply-ethernet.sh", "choto"],
+       "command": "/home/art/Coding/zcore/src/apply-ethernet.sh",
+       "args": ["apply-ethernet.sh"],
        "argpass": true,
        "json": "in",
        "reload": true
     },
     "add": {
-       "command": "/root/add-ethernet.sh",
+       "command": "/home/art/Coding/zcore/src/add-ethernet.sh",
        "args": ["add-ethernet.sh"],
        "argpass": true,
        "cue": ["vid"],
@@ -107,12 +108,14 @@
     "env": {
       "command": "/usr/bin/env",
       "args": ["env"],
+      "cue": ["raz", "dva", "tri"],
       "argpass": true,
+      "json": "in",
       "wait": true
     }
   },
   "acquire": {
-    "shell": "/root/ethernet.sh",
+    "shell": "ethernet.sh",
     "args": ["ethernet.sh", "ethernet.schema"]
   }
 }

@@ -84,11 +84,11 @@
  },
  "commands": {
   "apply": {
-    "command": "/root/apply-rules.sh",
-    "args": ["apply-rules.sh"],                    
-    "argpass": true,   
+    "command": "/home/art/Coding/zcore/src/apply-rules.sh",
+    "args": ["apply-rules.sh"],
+    "argpass": true,
     "json": "in",
-    "reload": true 
+    "reload": true
   },
   "add": {
     "command": "/home/art/Coding/zcore/src/zgen",
@@ -107,7 +107,7 @@
    }
  },
  "acquire": {
-   "shell": "/root/rules.sh",
+   "shell": "rules.sh",
    "args": ["rules.sh", "firewall.rules.schema"]
  }
 }
