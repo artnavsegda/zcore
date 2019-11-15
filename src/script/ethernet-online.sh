@@ -1,4 +1,4 @@
 #!/bin/sh
 
-ssh root@192.168.1.1 /root/ethernet.sh $1
+ssh root@192.168.1.1 /etc/zenith/script/ethernet.sh $1
 
