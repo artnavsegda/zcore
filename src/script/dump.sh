@@ -1,3 +1,6 @@
 #!/bin/sh
 
-cat
+echo hello
+
+#cat > /dev/null
+

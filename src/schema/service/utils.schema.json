@@ -54,6 +54,10 @@
       "args": ["env"],
       "argpass": true,
       "wait": true
+    },
+    "dump": {
+      "command": "dump.sh",
+      "args": ["dump.sh"]
     }
   },
   "acquire": {
