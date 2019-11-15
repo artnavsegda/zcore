@@ -166,6 +166,13 @@ int command(int argc, char *argv[])
     }
     else if (domain == FACE)
     {
+      int override = 0;
+      if (WJEBool(command_el, "reload", WJE_GET, FALSE) == TRUE)
+      {
+        override = 1;
+        WJEBool(command_el, "reload", WJE_SET, FALSE);
+      }
+
       WJElement face = NULL;
       domain = OPTION;
       while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
@@ -174,6 +181,8 @@ int command(int argc, char *argv[])
         //streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,envp,WJEToString(face,TRUE));
       }
       domain = FACE;
+      if (override == 1)
+        WJEBool(command_el, "reload", WJE_SET, TRUE);
     }
     else
     {
