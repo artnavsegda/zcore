@@ -1,4 +1,4 @@
 #!/bin/sh
 
-ssh root@192.168.1.1 /opt/zenith/script/get.sh $1 $2
+ssh root@192.168.1.1 /etc/zenith/script/get.sh $1 $2
 
