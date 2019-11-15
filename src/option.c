@@ -416,9 +416,9 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
       if (WJEBool(face,parameter->name,WJE_GET,-1) == TRUE)
-        return strdup("True");
+        return strdup("true");
       else if (WJEBool(face,parameter->name,WJE_GET,-1) == FALSE)
-        return strdup("False");
+        return strdup("false");
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
       WJElement array = NULL;
