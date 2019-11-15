@@ -156,13 +156,13 @@ int command(int argc, char *argv[])
 
   if (strcmp(WJEString(command_el,"json", WJE_GET, "none"),"out") == 0)
   {
-    streamfromcommand(WJEString(command_el, "command", WJE_GET, "/bin/false"),args,envp,WJEArray(protojson, "data", WJE_GET));
+    streamfromcommand(pathtoload,args,envp,WJEArray(protojson, "data", WJE_GET));
   }
   else if (strcmp(WJEString(command_el,"json", WJE_GET, "none"),"in") == 0)
   {
     if (domain == OPTION)
     {
-      streamintocommand(WJEString(command_el, "command", WJE_GET, "/bin/false"),args,envp,WJEToString(protoface,TRUE));
+      streamintocommand(pathtoload,args,envp,WJEToString(protoface,TRUE));
     }
     else if (domain == FACE)
     {
@@ -184,11 +184,11 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command_el, "wait", WJE_GET, 0) == TRUE)
     {
-      forkwaitexec(WJEString(command_el, "command", WJE_GET, "/bin/false"),argsc,args,envp);
+      forkwaitexec(pathtoload,argsc,args,envp);
     }
     else
     {
-      forkexec(WJEString(command_el, "command", WJE_GET, "/bin/false"),argsc,args,envp);
+      forkexec(pathtoload,argsc,args,envp);
     }
   }
   if (WJEBool(command_el, "reload", WJE_GET, FALSE) == TRUE)
