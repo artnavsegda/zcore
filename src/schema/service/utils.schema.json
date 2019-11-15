@@ -58,14 +58,9 @@
     "dump": {
       "command": "dump.sh",
       "args": ["dump.sh"],
-      "wait": true
+      "json": "in"
     },
-    "dump2": {
-      "command": "/home/art/Coding/zcore/src/script/dump.sh",
-      "args": ["dump.sh"],
-      "wait": true
-    }
-  },
+  ,
   "acquire": {
      "file": "/home/art/Coding/zcore/src/consts/utils.json"
    }
