@@ -107,7 +107,7 @@
    }
  },
  "acquire": {
-   "shell": "rules.sh",
-   "args": ["rules.sh", "firewall.rules.schema"]
+   "shell": "get.sh",
+   "args": ["get.sh", "rules", "firewall.rules.schema"]
  }
 }

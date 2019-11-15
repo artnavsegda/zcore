@@ -82,7 +82,7 @@
     }
  },
  "acquire": {
-   "shell": "zones.sh",
-   "args": ["zones.sh", "firewall.zones.schema"]
+   "shell": "get.sh",
+   "args": ["get.sh", "zones", "firewall.zones.schema"]
  }
 }
