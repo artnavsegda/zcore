@@ -91,12 +91,11 @@
        "reload": true
     },
     "add": {
-       "command": "add-ethernet.sh",
-       "args": ["add-ethernet.sh"],
+       "command": "add.sh",
+       "args": ["add.sh", "ethernet", "ethernet.schema"],
        "argpass": true,
        "cue": ["vid"],
-       "reload": true,
-       "wait": true
+       "reload": true
     },
     "remove": {
        "command": "remove.sh",
