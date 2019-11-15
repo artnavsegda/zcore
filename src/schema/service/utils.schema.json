@@ -59,6 +59,11 @@
       "command": "dump.sh",
       "args": ["dump.sh"],
       "wait": true
+    },
+    "dump2": {
+      "command": "/home/art/Coding/zcore/src/script/dump.sh",
+      "args": ["dump.sh"],
+      "wait": true
     }
   },
   "acquire": {
