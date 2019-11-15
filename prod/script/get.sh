@@ -20,7 +20,7 @@ case "$1" in
 	"mobile")
 		ubus call uci get "{'config':'network', 'type': 'interface', 'match':{'proto':'3g'}}" | jsonfilter -e @.values | zfilter $2
 	;;
-	
+
 	"apn-profiles")
         	ubus call uci get "{'config': 'apn-profiles', 'type': 'apn'}" | jsonfilter -e "@.values" | zfilter $2
 	;;
@@ -64,7 +64,7 @@ case "$1" in
             done
             echo '}')
 
-        echo $rr | zfilter $2		
+        echo $rr | zfilter $2
 	;;
 
 	"wan")
@@ -173,6 +173,11 @@ case "$1" in
 	"ntp")
 		ubus call uci get "{'config':'system', 'section': 'ntp' }" | jsonfilter -e @.values | zfilter $2
 	;;
+	"rules")
+		ubus call uci get "{'config':'firewall', 'type': 'rule'}" | jsonfilter -e @.values | zfilter $2
+	;;
+	"zones")
+		ubus call uci get "{'config':'firewall', 'type': 'zone'}" | jsonfilter -e @.values | zfilter $2
+	;;
 
 esac
-
