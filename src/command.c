@@ -196,9 +196,14 @@ int command(int argc, char *argv[])
     acquire(protojson);
     if (domain == OPTION)
     {
-      protoface = getelementbynameprop(protojson, facename);
-      if (!protoface)
-        domain = FACE;
+      if (WJEGet(protojson, "data.patternProperties", NULL))
+      {
+        protoface = getelementbynameprop(protojson, facename);
+        if (!protoface)
+          domain = FACE;
+      }
+      else
+        protoface = WJEObject(protojson, "data", WJE_GET);
     }
     //alarm(3);
   }
