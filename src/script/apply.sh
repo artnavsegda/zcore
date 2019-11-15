@@ -9,4 +9,7 @@ case "$1" in
   "rules")
     ubus call uci set "{\"config\":\"firewall\", \"section\":\"$_SECTION\", \"type\":\"rule\", \"values\":$SETARRAY }"
   ;;
+  "zones")
+    ubus call uci set "{\"config\":\"firewall\", \"section\":\"$_SECTION\", \"type\":\"zone\", \"values\":$SETARRAY }"
+  ;;
 esac

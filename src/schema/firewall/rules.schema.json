@@ -84,8 +84,8 @@
  },
  "commands": {
   "apply": {
-    "command": "/home/art/Coding/zcore/src/apply-rules.sh",
-    "args": ["apply-rules.sh"],
+    "command": "apply.sh",
+    "args": ["apply.sh", "rules"],
     "argpass": true,
     "json": "in",
     "reload": true
@@ -107,7 +107,7 @@
    }
  },
  "acquire": {
-   "shell": "get.sh",
-   "args": ["get.sh", "rules", "firewall.rules.schema"]
+   "shell": "rules.sh",
+   "args": ["rules.sh", "firewall.rules.schema"]
  }
 }

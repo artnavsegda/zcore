@@ -84,8 +84,8 @@
  },
  "commands": {
   "apply": {
-    "command": "/home/art/Coding/zcore/src/apply-rules.sh",
-    "args": ["apply-rules.sh"],
+    "command": "apply.sh",
+    "args": ["apply.sh", "rules"],
     "argpass": true,
     "json": "in",
     "reload": true
