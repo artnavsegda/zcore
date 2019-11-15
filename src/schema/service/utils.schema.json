@@ -57,7 +57,8 @@
     },
     "dump": {
       "command": "dump.sh",
-      "args": ["dump.sh"]
+      "args": ["dump.sh"],
+      "wait": true
     }
   },
   "acquire": {
