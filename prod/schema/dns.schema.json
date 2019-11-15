@@ -15,7 +15,7 @@
 
 	"commands": {},
 	"acquire": {
-		"shell": "/opt/zenith/script/get.sh",
+		"shell": "get.sh",
 		"args": ["get.sh", "dns", "dns.schema"]
 	}
 }
