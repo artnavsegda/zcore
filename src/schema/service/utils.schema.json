@@ -59,6 +59,12 @@
       "command": "dump.sh",
       "args": ["dump.sh"],
       "json": "in"
+    },
+    "save": {
+      "command": "save.sh",
+      "args": ["save.sh"],
+      "json": "in",
+      "reload": true
     }
   },
   "acquire": {
