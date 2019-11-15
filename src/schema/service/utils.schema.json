@@ -59,8 +59,8 @@
       "command": "dump.sh",
       "args": ["dump.sh"],
       "json": "in"
-    },
-  ,
+    }
+  },
   "acquire": {
      "file": "/home/art/Coding/zcore/src/consts/utils.json"
    }
