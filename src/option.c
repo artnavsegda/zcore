@@ -161,9 +161,24 @@ int option_set_value(WJElement parameter, char * value)
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
       WJEInt32(temp, parameter->name, WJE_SET, atoi(value));
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
-      WJEBool(temp, parameter->name, WJE_SET, atoi(value));
+    {
+      if (strcmp(value, "true") == 0)
+        WJEBool(temp, parameter->name, WJE_SET, TRUE);
+      else if (strcmp(value, "false") == 0)
+        WJEBool(temp, parameter->name, WJE_SET, FALSE);
+      else
+      {
+        puts("value incorrect must be true or false");
+        return 1;
+      }
+    }
     else
+    {
       puts("Not implemeted");
+      return 1;
+    }
+
+    //WJEDump(temp);
 
     if (WJESchemaValidate(optionlist(protoschema), temp, schema_error, schema_load, schema_free, NULL))
     {
