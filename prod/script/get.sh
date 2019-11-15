@@ -170,6 +170,9 @@ case "$1" in
 	"switch-master-ports")
 		ubus call uci get "{'config':'network', 'type': 'switch_port', 'match':{'to_cpu': 1}}" | jsonfilter -e @.values | zfilter $2
 	;;
+	"ntp")
+		ubus call uci get "{'config':'system', 'section': 'ntp' }" | jsonfilter -e @.values | zfilter $2
+	;;
 
 esac
 
