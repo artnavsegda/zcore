@@ -10,6 +10,7 @@ void parseconfig(WJElement configjson)
 {
   strcpy(config.schemapath, WJEString(configjson, "schemapath", WJE_GET, DEFAULTSCHEMAPATH));
   strcpy(config.scriptpath, WJEString(configjson, "scriptpath", WJE_GET, DEFAULTSCRIPTPATH));
+  strcpy(config.jsonpath, WJEString(configjson, "jsonpath", WJE_GET, DEFAULTJSONPATH));
 }
 
 int readconfig(void)
