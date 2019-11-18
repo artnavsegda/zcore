@@ -42,6 +42,6 @@
 
   "acquire": {
      "shell": "get.sh",
-     "args": ["get.sh", "switch-ports", "switch.ports.schema"]
+     "args": ["switch-ports", "switch.ports.schema"]
    }
 }

@@ -92,6 +92,8 @@ int command(int argc, char *argv[])
     return 1;
   }
 
+  args[0] = pathtoload;
+
   int argsc = arguments(WJEArray(command_el, "args", WJE_GET),args);
 
   char faceenv[100] = "";

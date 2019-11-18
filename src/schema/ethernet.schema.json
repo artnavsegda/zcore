@@ -107,6 +107,6 @@
   },
   "acquire": {
     "shell": "ethernet.sh",
-    "args": ["ethernet.sh", "ethernet.schema"]
+    "args": ["ethernet.schema"]
   }
 }

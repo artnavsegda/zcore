@@ -53,6 +53,8 @@ int acquire(WJElement proto)
       return 1;
     }
 
+    argv[0] = pathtoload;
+
     if (!(jsonstream = my_popen_read(pathtoload, argv,  NULL, &forkpid))) {
       puts("handle error");
       return 1;

@@ -250,7 +250,7 @@ FILE * my_popen_write (char * command, char *argv[], char *envp[], int * pid)
 
 int arguments(WJElement argarray, char *argv[])
 {
-  int i = 0;
+  int i = 1;
   WJElement argstring = NULL;
 
   while (argv[i] = _WJEString(argarray, "[]", WJE_GET, &argstring, NULL))

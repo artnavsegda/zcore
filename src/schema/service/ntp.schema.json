@@ -29,6 +29,6 @@
   },
   "acquire": {
     "shell": "get.sh",
-    "args": ["get.sh", "ntp", "service.ntp.schema"]
+    "args": ["ntp", "service.ntp.schema"]
   }
 }
