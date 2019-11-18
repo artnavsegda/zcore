@@ -1,8 +1,0 @@
-[
-    {
-        "name": "rule1",
-        "enabled": false,
-        "proto": "tcp",
-        "target": "DROP"
-    }
-]
