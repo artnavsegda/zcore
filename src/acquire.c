@@ -27,7 +27,24 @@ int acquire(WJElement proto)
 
   if (WJEGet(proto, "schema.acquire.file", NULL))
   {
-    char * pathtoload = WJEString(proto, "schema.acquire.file", WJE_GET, NULL);
+    char pathtoload[MAXPATH];
+    strcpy(pathtoload,WJEString(proto, "schema.acquire.file", WJE_GET, NULL));
+
+    if (stat(pathtoload,&filestat))
+    {
+      //direct path not found, trying to catcenate
+      pathtoload[0] = '\0';
+      strcat(pathtoload, config.jsonpath);
+      strcat(pathtoload, "/");
+      strcat(pathtoload, WJEString(proto, "schema.acquire.file", WJE_GET, NULL));
+    }
+
+    if (stat(pathtoload,&filestat))
+    {
+      printf("%s aquire json file inaccessible\n", proto->name);
+      return 1;
+    }
+
     if (!(jsonstream = fopen(pathtoload, "r"))) {
       printf("cannot open json file %s\n", pathtoload);
       return 1;
