@@ -69,6 +69,6 @@
     }
   },
   "acquire": {
-     "file": "/home/art/Coding/zcore/src/consts/utils.json"
+     "file": "utils.json"
    }
 }

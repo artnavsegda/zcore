@@ -19,6 +19,6 @@
     }
   },
   "acquire": {
-     "file": "/home/art/Coding/zcore/src/consts/wifi-regions-params.json"
+     "file": "wifi-regions-params.json"
    }
 }
