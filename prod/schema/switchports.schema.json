@@ -24,6 +24,6 @@
  },
   "acquire": {
     "shell": "switchports.sh",
-    "args": ["switchports.sh", "switchports.schema"]
+    "args": ["switchports.schema"]
   }
 }

@@ -72,6 +72,6 @@
 
 	"acquire": {
 		"shell": "get.sh",
-		"args": ["get.sh", "apn-profile", "apn-profile.schema"]
+		"args": ["apn-profile", "apn-profile.schema"]
 	}
 }

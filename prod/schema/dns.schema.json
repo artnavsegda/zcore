@@ -16,6 +16,6 @@
 	"commands": {},
 	"acquire": {
 		"shell": "get.sh",
-		"args": ["get.sh", "dns", "dns.schema"]
+		"args": ["dns", "dns.schema"]
 	}
 }

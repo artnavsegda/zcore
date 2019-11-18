@@ -44,8 +44,8 @@
   },
   "commands": {
     "ping": {
-      "command": "/bin/ping",
-      "args": ["ping", "-c", "10"],
+      "command": "/usr/bin/ping",
+      "args": ["ping", "-c 10"],
       "argpass": true,
       "wait": true
     },
@@ -58,10 +58,17 @@
     "dump": {
       "command": "dump.sh",
       "args": ["dump.sh"],
-      "json": "in"
+      "json": "in",
+      "reload": true
+    },
+    "save": {
+      "command": "save.sh",
+      "args": ["save.sh"],
+      "json": "in",
+      "reload": true
     }
   },
   "acquire": {
-     "file": "/etc/zenith/consts/utils.json"
+     "file": "utils.json"
    }
 }

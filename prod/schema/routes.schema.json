@@ -57,6 +57,6 @@
 	},
 	"acquire": {
 		"shell": "get.sh",
-		"args": ["get.sh", "routes", "routes.schema"]
+		"args": ["routes", "routes.schema"]
 	}
 }

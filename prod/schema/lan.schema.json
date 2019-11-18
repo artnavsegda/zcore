@@ -47,7 +47,7 @@
           "maximum": 1500,
           "minimum": 500,
           "default": 1500
-        }, 
+        },
         "bridge": {
           "type": "boolean",
           "description": "Use as bridge",
@@ -62,12 +62,12 @@
       }
     }
   },
-  
+
   "commands": {
   },
 
   "acquire": {
     "shell": "get.sh",
-    "args": ["get.sh", "lan", "lan.schema"]
+    "args": ["lan", "lan.schema"]
   }
 }

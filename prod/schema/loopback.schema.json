@@ -37,6 +37,6 @@
 	},
 	"acquire": {
 		"shell": "get.sh",
-		"args": ["get.sh", "loopback", "loopback.schema"]
+		"args": ["loopback", "loopback.schema"]
 	}
 }

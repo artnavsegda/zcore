@@ -7,7 +7,7 @@
     "^sim": {
       "type": "object",
       "title": "Interface entity",
-      
+
       "required": ["enable", "proto"],
       "properties": {
 
@@ -119,6 +119,6 @@
 
   "acquire": {
      "shell": "get.sh",
-     "args": ["get.sh", "mobile", "mobile.schema"]
+     "args": ["mobile", "mobile.schema"]
    }
 }

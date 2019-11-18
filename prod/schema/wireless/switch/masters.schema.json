@@ -28,6 +28,6 @@
 
   "acquire": {
      "shell": "get.sh",
-     "args": ["get.sh", "switch-master-ports", "switch.masters.schema"]
+     "args": ["switch-master-ports", "switch.masters.schema"]
    }
 }
