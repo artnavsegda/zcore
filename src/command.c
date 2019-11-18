@@ -193,7 +193,7 @@ int command(int argc, char *argv[])
   }
   else
   {
-    if (WJEBool(command_el, "wait", WJE_GET, 0) == TRUE)
+    if (WJEBool(command_el, "wait", WJE_GET, TRUE) == TRUE)
     {
       forkwaitexec(pathtoload,argsc,args,envp);
     }
