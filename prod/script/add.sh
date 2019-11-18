@@ -2,6 +2,10 @@
 
 . /usr/share/libubox/jshn.sh
 
+VLANNAME=vlan$3
+
+echo $VLANNAME
+
 subsystem=$1; shift
 schema=$1; shift
 
@@ -49,7 +53,7 @@ case "$subsystem" in
             }
         done
 
-        config='{"config": "apn-profiles", "type": "apn", "values": '$(json_dump)'}'
+        config='{"config": "network", "name": '"$VLANNAME"', "type": "interface", "values": '$(json_dump)'}'
         eval "ubus call uci add '$config'" &> /dev/null
 
         ;;
