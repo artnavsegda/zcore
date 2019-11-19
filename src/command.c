@@ -180,7 +180,6 @@ int command(int argc, char *argv[])
       while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
         protoface = face;
         command(argc, argv);
-        //streamintocommand(WJEString(command, "command" ,WJE_GET, "/bin/false"),args,envp,WJEToString(face,TRUE));
       }
       domain = FACE;
       if (override == 1)
