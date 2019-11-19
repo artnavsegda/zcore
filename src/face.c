@@ -7,6 +7,7 @@
 #include "option.h"
 #include "completion.h"
 #include "command.h"
+#include "builtin.h"
 
 extern WJElement protojson;
 extern WJElement rl_protojson;
@@ -64,6 +65,10 @@ int face(int argc, char *argv[])
     else if (iscommand(argv[1]))
     {
       return command(argc-1, &argv[1]);
+    }
+    else if(isbuiltin(argv[1]))
+    {
+      return builtin(argc-1, &argv[1]);
     }
   }
   return 0;

@@ -201,7 +201,7 @@ int builtin_show(int argc, char *argv[])
   }
   else
     puts("Not implemented");
-  return 0;
+  return 1;
 }
 
 int exportoption(WJElement proto, WJElement face, int depth)
@@ -287,13 +287,13 @@ int builtin_export(int argc, char *argv[])
   }
   else
     puts("Not implemented");
-  return 0;
+  return 1;
 }
 
 int builtin_acquire(int argc, char *argv[])
 {
   acquire(WJEObject(root, argv[1], WJE_GET));
-  return 0;
+  return 1;
 }
 
 void schema_error(void *client, const char *format, ...) {
@@ -356,7 +356,7 @@ int builtin_validate(int argc, char *argv[])
       puts("schema invalid");
     }
   }
-  return 0;
+  return 1;
 }
 
 int builtin(int argc, char *argv[])

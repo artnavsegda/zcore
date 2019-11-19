@@ -7,6 +7,7 @@
 #include "option.h"
 #include "zcore.h"
 #include "command.h"
+#include "builtin.h"
 
 int protodepth = 0;
 WJElement protojson = NULL;
@@ -115,6 +116,10 @@ int proto(int argc, char *argv[])
     else if(iscommand(argv[i]))
     {
       return command(argc-i, &argv[i]);
+    }
+    else if(isbuiltin(argv[i]))
+    {
+      return builtin(argc-i, &argv[i]);
     }
     else
     {

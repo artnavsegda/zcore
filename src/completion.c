@@ -240,9 +240,9 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
   }
 }
 
-enum staging sub_protostage[] = {START_STAGE, PROTO_STAGE, STOP_STAGE};
-enum staging sub_facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, STOP_STAGE};
-enum staging sub_optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, STOP_STAGE};
+enum staging sub_protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_STAGE};
+enum staging sub_facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
+enum staging sub_optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging sub_settingstage[] = {START_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
 enum staging sub_commandstage[] = {START_STAGE, COMMAND_STAGE, STOP_STAGE};
 
@@ -275,6 +275,18 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
           break;
         }
         cyclestaging++;
+      break;
+      case BUILTIN_STAGE:
+        if (subvalues->command = builtinvalues(text,len))
+        {
+//          printf("BS %s\n", rootvalues);
+          subvalues->domain = BUILTIN;
+          subvalues->description = NULL;
+          subvalues->value = NULL;
+          return subvalues;
+        }
+        else
+          cyclestaging++;
       break;
       case PROTO_STAGE:
         if (subvalues->command = protovalues(text,len))
