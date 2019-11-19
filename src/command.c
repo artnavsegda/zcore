@@ -168,7 +168,7 @@ int command(int argc, char *argv[])
     }
     else if (domain == FACE)
     {
-      int override = 0;
+      int override = 0, pass = 0;
       if (WJEBool(command_el, "reload", WJE_GET, FALSE) == TRUE)
       {
         override = 1;
@@ -180,10 +180,23 @@ int command(int argc, char *argv[])
       while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
         protoface = face;
         command(argc, argv);
+        pass = 1;
       }
       domain = FACE;
       if (override == 1)
         WJEBool(command_el, "reload", WJE_SET, TRUE);
+
+      if (pass == 0)
+      {
+        if (WJEBool(command_el, "wait", WJE_GET, TRUE) == TRUE)
+        {
+          forkwaitexec(pathtoload,argsc,args,envp);
+        }
+        else
+        {
+          forkexec(pathtoload,argsc,args,envp);
+        }
+      }
     }
     else
     {
