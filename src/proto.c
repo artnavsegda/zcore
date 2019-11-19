@@ -43,7 +43,7 @@ int isproto(char * protoname)
     if (protodepth == 0)
       protojson = root;
 
-    if (WJEGet(protojson, protoname, NULL))
+    if (WJEChild(protojson, protoname, WJE_GET))
     {
       return 1;
     }
@@ -62,7 +62,7 @@ int rl_isproto(char * rl_protoname)
     if (rl_protodepth == 0)
       rl_protojson = root;
 
-    if (WJEGet(rl_protojson, rl_protoname, NULL))
+    if (WJEChild(rl_protojson, rl_protoname, WJE_GET))
     {
       return 1;
     }

@@ -35,7 +35,7 @@ void generateprompt(char * prompt)
   for (int i = protodepth; i > 0; i--)
   {
     strcat(prompt, "/");
-    strcat(prompt, parentname(protojson, i));
+//    strcat(prompt, parentname(protojson, i));
   }
   if (domain == OPTION)
   {
