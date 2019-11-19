@@ -61,12 +61,15 @@ int main(int argc, char *argv[])
 
   while (1)
   {
-    generateprompt(zcore_prompt);
+    //generateprompt(zcore_prompt);
     char * input = readline(zcore_prompt);
     if (!input)
       break;
-    add_history(input);
-    interpret(input);
+    if (strlen(input) > 0)
+    {
+      add_history(input);
+      interpret(input);
+    }
     free(input);
   }
 
