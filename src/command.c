@@ -140,7 +140,7 @@ int command(int argc, char *argv[])
     break;
   }
 
-  char cuestring[100] = "CUE=";
+  char cuestring[100] = "_CUE=";
   char * cuename = NULL;
   WJElement cue = NULL;
   while (cuename = _WJEString(command_el, "cue[]", WJE_GET, &cue, NULL))

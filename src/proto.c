@@ -6,6 +6,7 @@
 #include "completion.h"
 #include "option.h"
 #include "zcore.h"
+#include "command.h"
 
 int protodepth = 0;
 WJElement protojson = NULL;
@@ -111,6 +112,10 @@ int proto(int argc, char *argv[])
     {
       return option(argc-i, &argv[i]);
     }
+    else if(iscommand(argv[i]))
+    {
+      return command(argc-i, &argv[i]);
+    }
     else
     {
       printf("%s unavalible\n", argv[i]);
@@ -150,6 +155,10 @@ int rl_proto(int argc, char *argv[])
     {
       rl_option(argc-i, &argv[i]);
     }
+    else if(rl_iscommand(argv[i]))
+    {
+      return rl_command(argc-i, &argv[i]);
+    }
   }
   return 0;
 }
@@ -158,7 +167,7 @@ char * protovalues(const char * text, int len)
 {
   if (rl_protodepth == 0)
     rl_protojson = root;
-    
+
   static WJElement proto = NULL;
 
   while (proto = _WJEObject(rl_protojson, "[]", WJE_GET, &proto)) {
@@ -188,4 +197,3 @@ char * protohelp(const char * commandname)
   }
   //return "Help description";
 }
-
