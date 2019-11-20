@@ -1,5 +1,7 @@
 {
   "test1": {
     "something" : "hello"
-  }
+  },
+  "test3": {
+  },
 }

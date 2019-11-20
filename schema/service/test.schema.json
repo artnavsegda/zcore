@@ -15,6 +15,14 @@
     }
   },
   "commands": {
+    "add": {
+      "command": "testmerge.sh",
+      "json": "merge"
+    },
+    "add2": {
+      "command": "testmerge2.sh",
+      "json": "merge"
+    }
   },
   "acquire": {
      "file": "test.json"
