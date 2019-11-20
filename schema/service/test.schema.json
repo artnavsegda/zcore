@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "twat",
+  "title": "test",
   "description": "test list",
   "type": "object",
   "patternProperties": {
