@@ -156,9 +156,16 @@ int command(int argc, char *argv[])
     argsc = argcat(argsc, args, &argv[1]);
   }
 
-  if (strcmp(WJEString(command_el,"json", WJE_GET, "none"),"out") == 0)
+  if (strcmp(WJEString(command_el,"json", WJE_GET, "none"),"merge") == 0)
   {
-    streamfromcommand(pathtoload,args,envp,WJEArray(protojson, "data", WJE_GET));
+    if (domain == FACE)
+    {
+      WJEMergeObjects(WJEGet(protojson,"data",NULL), streamfromcommand(pathtoload,args,envp), FALSE);
+    }
+    else if (domain == OPTION)
+    {
+      WJEMergeObjects(protoface, streamfromcommand(pathtoload,args,envp), FALSE);
+    }
   }
   else if (strcmp(WJEString(command_el,"json", WJE_GET, "none"),"in") == 0)
   {

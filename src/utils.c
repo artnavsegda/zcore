@@ -182,7 +182,7 @@ int forkexec(char * command, int argc, char *argv[], char *envp[])
   return 0;
 }
 
-int streamfromcommand(char * command, char *argv[], char *envp[], WJElement jsonparent)
+WJElement streamfromcommand(char * command, char *argv[], char *envp[])
 {
   int forkpid, status;
   FILE *jsonstream = my_popen_read(command, argv, envp, &forkpid);
@@ -198,12 +198,12 @@ int streamfromcommand(char * command, char *argv[], char *envp[], WJElement json
     return 1;
   }
   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
-  WJEAttach(jsonparent,jsondata);
+  //WJEAttach(jsonparent,jsondata);
 
   fclose(jsonstream);
   waitpid(forkpid, &status, 0);
 
-  return 0;
+  return jsondata;
 }
 
 FILE * my_popen_read (char * command, char *argv[], char *envp[], int * pid)
