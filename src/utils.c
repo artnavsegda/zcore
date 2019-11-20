@@ -151,7 +151,7 @@ int streamintocommand(char * command, char *argv[], char *envp[], char * stream)
   fflush(jsonstream);
   fclose(jsonstream);
   waitpid(forkpid, &status, 0);
-  return 0;
+  return WEXITSTATUS(status);
 }
 
 int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
@@ -166,8 +166,8 @@ int forkwaitexec(char * command, int argc, char *argv[], char *envp[])
   else
   {
     waitpid(pid, &status, 0);
+    return WEXITSTATUS(status);
   }
-  return 0;
 }
 
 int forkexec(char * command, int argc, char *argv[], char *envp[])

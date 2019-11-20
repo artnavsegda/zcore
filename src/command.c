@@ -70,6 +70,7 @@ int rl_iscommand(char * commandname)
 
 int command(int argc, char *argv[])
 {
+  int confirmreload = 1;
   struct stat filestat;
   char *envp[100];
   char *args[100];
@@ -171,39 +172,13 @@ int command(int argc, char *argv[])
   {
     if (domain == OPTION)
     {
-      streamintocommand(pathtoload,args,envp,WJEToString(protoface,TRUE));
+      if (streamintocommand(pathtoload,args,envp,WJEToString(protoface,TRUE)))
+        confirmreload = 0;
     }
     else if (domain == FACE)
     {
-      int override = 0, pass = 0;
-      if (WJEBool(command_el, "reload", WJE_GET, FALSE) == TRUE)
-      {
-        override = 1;
-        WJEBool(command_el, "reload", WJE_SET, FALSE);
-      }
-
-      WJElement face = NULL;
-      domain = OPTION;
-      while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-        protoface = face;
-        command(argc, argv);
-        pass = 1;
-      }
-      domain = FACE;
-      if (override == 1)
-        WJEBool(command_el, "reload", WJE_SET, TRUE);
-
-      if (pass == 0)
-      {
-        if (WJEBool(command_el, "wait", WJE_GET, TRUE) == TRUE)
-        {
-          forkwaitexec(pathtoload,argsc,args,envp);
-        }
-        else
-        {
-          forkexec(pathtoload,argsc,args,envp);
-        }
-      }
+      if (streamintocommand(pathtoload,args,envp,WJEToString(WJEGet(protojson,"data",NULL),TRUE)))
+        confirmreload = 0;
     }
     else
     {
@@ -214,14 +189,15 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command_el, "wait", WJE_GET, TRUE) == TRUE)
     {
-      forkwaitexec(pathtoload,argsc,args,envp);
+      if (forkwaitexec(pathtoload,argsc,args,envp));
+        confirmreload = 0;
     }
     else
     {
       forkexec(pathtoload,argsc,args,envp);
     }
   }
-  if (WJEBool(command_el, "reload", WJE_GET, FALSE) == TRUE)
+  if (WJEBool(command_el, "reload", WJE_GET, FALSE) == TRUE && confirmreload)
   {
     acquire(protojson);
     if (domain == OPTION)

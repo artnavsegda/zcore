@@ -22,6 +22,10 @@
     "add2": {
       "command": "testmerge2.sh",
       "json": "merge"
+    },
+    "cat": {
+      "command": "/usr/bin/cat",
+      "json": "in"
     }
   },
   "acquire": {
