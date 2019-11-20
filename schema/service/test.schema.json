@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "twat",
+  "description": "test list",
+  "type": "object",
+  "patternProperties": {
+    "^test": {
+      "type": "object",
+      "title": "test entity",
+      "properties": {
+        "something": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "commands": {
+  },
+  "acquire": {
+     "file": "test.json"
+   }
+}
