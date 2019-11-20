@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
       break;
     char * nwinput = input;
 
-    while(*nwinput == ' ')
+    while(*nwinput == ' ' || *nwinput == '\t')
       nwinput++;
 
     if (strlen(nwinput) > 0)
