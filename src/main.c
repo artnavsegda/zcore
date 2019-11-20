@@ -65,10 +65,15 @@ int main(int argc, char *argv[])
     char * input = readline(zcore_prompt);
     if (!input)
       break;
-    if (strlen(input) > 0)
+    char * nwinput = input;
+
+    while(*nwinput == ' ')
+      nwinput++;
+
+    if (strlen(nwinput) > 0)
     {
-      add_history(input);
-      interpret(input);
+      add_history(nwinput);
+      interpret(nwinput);
     }
     free(input);
   }
