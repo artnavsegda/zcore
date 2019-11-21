@@ -13,12 +13,15 @@ void parseconfig(WJElement configjson)
   strcpy(config.jsonpath, WJEString(configjson, "jsonpath", WJE_GET, DEFAULTJSONPATH));
 }
 
-int readconfig(void)
+int readconfig(char * configpath)
 {
+  if (!configpath)
+    configpath = CONFIGPATH;
+
   FILE *configfile;
   WJReader configread;
   WJElement configjson = NULL;
-  if ((configfile = fopen(CONFIGPATH, "r")) && (configread = WJROpenFILEDocument(configfile, NULL, 0)))
+  if ((configfile = fopen(configpath, "r")) && (configread = WJROpenFILEDocument(configfile, NULL, 0)))
     configjson = WJEOpenDocument(configread, NULL, NULL, NULL);
   else
     configjson = WJEObject(NULL, NULL, WJE_NEW);

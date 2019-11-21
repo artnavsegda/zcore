@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
   root = WJEObject(NULL, NULL, WJE_NEW);
 
-  readconfig();
+  readconfig(zcoreconfig);
   loadeveryschema(root,config.schemapath);
 
   acquireall(root);

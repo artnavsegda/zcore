@@ -36,12 +36,12 @@ int main(int argc, char *argv[])
   }
 
   root = WJEObject(NULL, NULL, WJE_NEW);
-  readconfig();
+  readconfig(NULL);
   loadeveryschema(root,config.schemapath);
 
   WJElement doc = NULL;
   doc = generator(root, argv[optind], values, valindex);
   WJEDump(doc);
-	
+
 	return 0;
 }
