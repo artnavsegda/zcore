@@ -26,6 +26,7 @@ int readconfig(char * configpath)
   else
     configjson = WJEObject(NULL, NULL, WJE_NEW);
 
+  strcpy(config.configpath, configpath);
   parseconfig(configjson);
   return 0;
 }

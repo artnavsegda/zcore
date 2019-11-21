@@ -7,6 +7,7 @@
 
 struct configstruct_t
 {
+  char configpath[MAXPATH];
   char schemapath[MAXPATH];
   char scriptpath[MAXPATH];
   char jsonpath[MAXPATH];
