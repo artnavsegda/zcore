@@ -17,11 +17,6 @@
 WJElement root = NULL;
 char zcore_prompt[255];
 
-void alarm_handler(int signal)
-{
-  acquireall(root);
-}
-
 void ctrl_c(int signal) {
    //printf ("ctrl-c key pressed\n");
    rl_replace_line("", 1);
@@ -30,25 +25,25 @@ void ctrl_c(int signal) {
    rl_forced_update_display();
 }
 
-int my_cool_readline_func (int count, int key) {
-   printf ("key pressed: %d\n", key);
-   rl_on_new_line ();
-   return 0;
-}
-
-void test_cmp(int signal) {
-  zc_completion2(0, 0);
-    rl_forced_update_display();
-}
-
 int main(int argc, char *argv[])
 {
-  signal(SIGALRM, alarm_handler);
+  int opt;
+  char *zcoreconfig = NULL;
+
+  while ((opt = getopt(argc, argv, "n:e:s:c:t:")) != -1)
+  {
+    switch (opt)
+    {
+      case 'c': // config
+        zcoreconfig = optarg;
+        break;
+    }
+  }
+
   signal(SIGINT, ctrl_c);
-  signal(SIGUSR1, test_cmp);
+
 //  rl_attempted_completion_function = character_name_completion;
   rl_bind_key('\t', zc_completion2);
-  rl_bind_keyseq("\\C-c", my_cool_readline_func);
 
   root = WJEObject(NULL, NULL, WJE_NEW);
 
