@@ -139,7 +139,7 @@ void init_completion(void)
     rl_protoface = protoface;
 }
 
-enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
+enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, SETTING_STAGE, CUESETTING_STAGE, CUECOMMAND_STAGE, CUECUECOMMAND_STAGE, STOP_STAGE};
 enum staging emptystage[] = {START_STAGE, STOP_STAGE};
 enum staging protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
@@ -244,7 +244,7 @@ enum staging sub_protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_S
 enum staging sub_facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging sub_optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging sub_settingstage[] = {START_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
-enum staging sub_commandstage[] = {START_STAGE, COMMAND_STAGE, STOP_STAGE};
+enum staging sub_commandstage[] = {START_STAGE, CUECOMMAND_STAGE, CUECUECOMMAND_STAGE, STOP_STAGE};
 
 cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 {
@@ -279,7 +279,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
       case BUILTIN_STAGE:
         if (subvalues->command = builtinvalues(text,len))
         {
-//          printf("BS %s\n", rootvalues);
+          //printf("BS %s\n", subvalues->command);
           subvalues->domain = BUILTIN;
           subvalues->description = NULL;
           subvalues->value = NULL;
@@ -291,7 +291,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
       case PROTO_STAGE:
         if (subvalues->command = protovalues(text,len))
         {
-//          printf("PS %s\n", subvalues);
+          //printf("PS %s\n", subvalues->command);
           subvalues->domain = PROTO;
           subvalues->description = NULL;
           subvalues->value = NULL;
@@ -303,7 +303,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
       case FACE_STAGE:
         if (subvalues->command = facevalues(text,len))
         {
-//          printf("FS %s\n", subvalues);
+          //printf("FS %s\n", subvalues->command);
           subvalues->domain = FACE;
           subvalues->description = NULL;
           subvalues->value = NULL;
@@ -315,7 +315,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
       case OPTION_STAGE:
         if (subvalues->command = optionvalues(text,len))
         {
-//          printf("OS %s\n", subvalues);
+          //printf("OS %s\n", subvalues->command);
           subvalues->domain = OPTION;
           subvalues->description = NULL;
 //          subvalues->description = optionhelp(subvalues->command);
@@ -329,8 +329,32 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
       case COMMAND_STAGE:
         if (subvalues->command = commandvalues(text,len))
         {
-//          printf("CS %s\n", subvalues);
+          //printf("CS %s\n", subvalues->command);
           subvalues->domain = COMMAND;
+          subvalues->description = NULL;
+          subvalues->value = NULL;
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case CUECOMMAND_STAGE:
+        if (subvalues->command = cuecommandvalues(text,len, state))
+        {
+          //printf("CC %s\n", subvalues->command);
+          subvalues->domain = SETTING;
+          subvalues->description = NULL;
+          subvalues->value = NULL;
+          return subvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case CUECUECOMMAND_STAGE:
+        if (subvalues->command = cuecuecommandvalues(text,len, state))
+        {
+          //printf("CCC %s\n", subvalues->command);
+          subvalues->domain = CUESETTING;
           subvalues->description = NULL;
           subvalues->value = NULL;
           return subvalues;
@@ -341,7 +365,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
       case SETTING_STAGE:
         if (subvalues->command = settingvalues(text,len, state))
         {
-//          printf("SS %s\n", subvalues);
+          //printf("SS %s\n", subvalues->command);
           subvalues->domain = SETTING;
           subvalues->description = NULL;
           subvalues->value = NULL;
@@ -353,7 +377,7 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
       case CUESETTING_STAGE:
         if (subvalues->command = cuesettingvalues(text,len, state))
         {
-//          printf("CSS %s\n", subvalues);
+          //printf("CSS %s\n", subvalues->command);
           subvalues->domain = CUESETTING;
           subvalues->description = NULL;
           subvalues->value = NULL;

@@ -91,10 +91,10 @@
     "reload": true
   },
   "add": {
-    "command": "/home/art/Coding/zcore/src/zgen",
-    "args": ["zgen", "-sfirewall.rules.schema", "-e./add.sh", "-trule", "-cfirewall", "-nadd"],
+    "command": "add.sh",
+    "args": ["add"],
     "argpass": true,
-    "cue": ["name"],
+    "cue": ["proto", "src"],
     "wait": true,
     "reload": true
   },

@@ -18,6 +18,7 @@ extern WJElement protojson;
 extern WJElement protoface;
 extern WJElement rl_protojson;
 extern WJElement rl_parameter;
+extern WJElement rl_protoschema;
 extern enum domains domain;
 
 extern char facename[100];
@@ -220,7 +221,9 @@ int rl_command(int argc, char *argv[])
 {
   rl_commjson = WJEObjectF(rl_protojson, WJE_GET, NULL, "schema.commands.%s", argv[0]);
   rl_domain = COMMAND;
-  rl_argcount = argc-1;
+
+  if (rl_line_buffer[rl_point-1] == ' ')
+    rl_argcount = argc-1;
   return 1;
 }
 
@@ -242,12 +245,21 @@ char * cuecommandvalues(const char * text, int len, int state)
   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
   {
     //puts(cuename);
-    rl_parameter = WJEObjectF(optionlist(rl_protojson), WJE_GET, NULL, "properties.%s",cuename);
-    return cuesettingvalues(text, len, state);
+    rl_parameter = WJEObjectF(optionlist(rl_protoschema), WJE_GET, NULL, "properties.%s",cuename);
+    return settingvalues(text, len, state);
   }
-  else
+  return NULL;
+}
+
+char * cuecuecommandvalues(const char * text, int len, int state)
+{
+  //printf("arg num %d\n",rl_argcount);
+  char * cuename = NULL;
+  if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
   {
-    return facevalues(text,len);
+    //puts(cuename);
+    rl_parameter = WJEObjectF(optionlist(rl_protoschema), WJE_GET, NULL, "properties.%s",cuename);
+    return cuesettingvalues(text, len, state);
   }
   return NULL;
 }

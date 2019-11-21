@@ -29,21 +29,7 @@
 					"type": "string",
 					"description": "Interface",
 					"cue": ["lan", "wan", "mobile", "loopback"]
-				},
-
-				"failover": {
-					"type": "object",
-					"title": "Route entity",
-					"properties": {
-						"address": {
-							"type": "string"
-						},
-						"interval": {
-							"type": "number"
-						}
-					}
 				}
-
 			}
 		}
 	},
@@ -52,7 +38,7 @@
 			"shell": "add.sh",
 			"args": ["add.sh", "routes", "routes.schema"],
 			"argpass": true,
-			"cue": ["name", "target"]
+			"cue": ["interface"]
 		}
 	},
 	"acquire": {
