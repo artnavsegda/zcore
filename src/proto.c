@@ -162,7 +162,7 @@ int rl_proto(int argc, char *argv[])
     }
     else if(rl_iscommand(argv[i]))
     {
-      return rl_command(argc-i, &argv[i]);
+      rl_command(argc-i, &argv[i]);
     }
   }
   return 0;
