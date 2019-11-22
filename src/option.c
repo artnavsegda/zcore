@@ -203,7 +203,14 @@ int option_set_value(WJElement parameter, char * value)
       char * onsetcommand = WJEString(protojson, "schema.onset.command", WJE_GET, NULL);
       if (onsetcommand)
       {
-        printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
+        char *args[100];
+        args[0] = onsetcommand;
+        args[1] = parameter->name;
+        args[2] = value;
+        args[3] = NULL;
+
+        //printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
+        forkwaitexec(onsetcommand,4,args,NULL);
       }
     }
     else
