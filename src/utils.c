@@ -177,6 +177,7 @@ int forkexec(char * command, int argc, char *argv[], char *envp[])
   if (pid == 0)
   {
     execve(command,argv,envp);
+    perror("ERROR");
     exit(0);
   }
   return 0;
@@ -189,13 +190,13 @@ WJElement streamfromcommand(char * command, char *argv[], char *envp[])
   if (jsonstream == NULL)
   {
     puts("handle error");
-    return 1;
+    return NULL;
   }
 
   WJReader readjson = WJROpenFILEDocument(jsonstream, NULL, 0);
   if (readjson == NULL) {
     puts("json failed to open");
-    return 1;
+    return NULL;
   }
   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
   //WJEAttach(jsonparent,jsondata);

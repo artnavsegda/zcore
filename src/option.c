@@ -210,7 +210,7 @@ int option_set_value(WJElement parameter, char * value)
         args[3] = NULL;
 
         //printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
-        forkwaitexec(onsetcommand,4,args,NULL);
+        forkexec(onsetcommand,3,args,NULL);
       }
     }
     else
