@@ -98,9 +98,12 @@ int command(int argc, char *argv[])
 
   int argsc = arguments(WJEArray(command_el, "args", WJE_GET),args);
 
-  char faceenv[100] = "";
+  char faceenv[100] = "", configenv[MAXPATH] = "";
   int i = 0;
   //clearenv();
+  sprintf(configenv,"_CONFIG=%s", config.configpath);
+  envp[i++] = configenv;
+
   switch(domain)
   {
     case PROTO:
