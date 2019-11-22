@@ -200,9 +200,10 @@ int option_set_value(WJElement parameter, char * value)
       }
       //puts(protoface->name);
       //protoface = temp;
-
-      printf("execute onset %s %s\n", parameter->name, value);
-
+      if (WJEGet(protojson, "schema.onset", NULL))
+      {
+        printf("execute onset %s %s\n", parameter->name, value);
+      }
     }
     else
     {
