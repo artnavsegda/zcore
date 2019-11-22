@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <wjelement.h>
+#include <sys/stat.h>
 #include "zcore.h"
 #include "interpreter.h"
 #include "option.h"
 #include "utils.h"
 #include "completion.h"
 #include "builtin.h"
+#include "config.h"
 
 extern WJElement protojson;
 extern WJElement protoschema;
@@ -202,7 +204,7 @@ int option_set_value(WJElement parameter, char * value)
       //protoface = temp;
       struct stat filestat;
       char onsetcommand[MAXPATH] = "\0";
-      strcpy(onsetcommand,WJEString(protojson, "schema.onset.command", WJE_GET, NULL);
+      strcpy(onsetcommand,WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
       if (stat(onsetcommand,&filestat))
       {
         onsetcommand[0] = '\0';
@@ -212,15 +214,27 @@ int option_set_value(WJElement parameter, char * value)
       }
       if (stat(onsetcommand,&filestat))
       {
+        puts("onset script inaccessible");
+      }
+      else
+      {
         char *args[100];
         args[0] = onsetcommand;
         args[1] = protoface->name;
         args[2] = parameter->name;
-        args[3] = value;
+        args[3] = optionvalue(parameter->name, protoschema, protoface);
         args[4] = NULL;
 
         //printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
-        forkexec(onsetcommand,5,args,NULL);
+        if (WJEBool(protojson, "schema.onset.wait", WJE_GET, FALSE) == TRUE)
+        {
+          forkwaitexec(onsetcommand,5,args,NULL);
+        }
+        else
+        {
+          forkexec(onsetcommand,5,args,NULL);
+        }
+        free(args[3]);
       }
     }
     else
