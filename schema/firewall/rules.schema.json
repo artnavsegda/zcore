@@ -13,7 +13,7 @@
         "name": {
           "type": "string",
           "description": "Rule name",
-          "hidden": true
+          "hidden": false
         },
         "enable": {
           "type": "boolean",

@@ -188,9 +188,10 @@ int option_set_value(WJElement parameter, char * value)
       if (WJEGet(protojson, "schema.patternProperties", NULL))
       {
         WJEAttach(WJEGet(protojson,"data",NULL),temp);
-        protoface = getelementbynameprop(protojson, facename);
-        if (!protoface)
-          domain = FACE;
+        protoface = temp;
+        //protoface = getelementbynameprop(protojson, facename);
+        //if (!protoface)
+        //  domain = FACE;
       }
       else
       {
