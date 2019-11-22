@@ -205,12 +205,13 @@ int option_set_value(WJElement parameter, char * value)
       {
         char *args[100];
         args[0] = onsetcommand;
-        args[1] = parameter->name;
-        args[2] = value;
-        args[3] = NULL;
+        args[1] = protoface->name;
+        args[2] = parameter->name;
+        args[3] = value;
+        args[4] = NULL;
 
         //printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
-        forkexec(onsetcommand,3,args,NULL);
+        forkexec(onsetcommand,5,args,NULL);
       }
     }
     else
