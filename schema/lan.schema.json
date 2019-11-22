@@ -70,7 +70,7 @@
     "args": ["lan", "lan.schema"]
   },
   "onset": {
-    "command": "/home/art/Coding/zcore/test.sh",
+    "command": "test.sh",
     "args": ["lan", "lan.schema"]
   }
 }

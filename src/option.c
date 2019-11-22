@@ -200,8 +200,17 @@ int option_set_value(WJElement parameter, char * value)
       }
       //puts(protoface->name);
       //protoface = temp;
-      char * onsetcommand = WJEString(protojson, "schema.onset.command", WJE_GET, NULL);
-      if (onsetcommand)
+      struct stat filestat;
+      char onsetcommand[MAXPATH] = "\0";
+      strcpy(onsetcommand,WJEString(protojson, "schema.onset.command", WJE_GET, NULL);
+      if (stat(onsetcommand,&filestat))
+      {
+        onsetcommand[0] = '\0';
+        strcat(onsetcommand, config.scriptpath);
+        strcat(onsetcommand, "/");
+        strcat(onsetcommand, WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
+      }
+      if (stat(onsetcommand,&filestat))
       {
         char *args[100];
         args[0] = onsetcommand;
