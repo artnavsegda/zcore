@@ -16,7 +16,11 @@ void parseconfig(WJElement configjson)
 int readconfig(char * configpath)
 {
   if (!configpath)
-    configpath = CONFIGPATH;
+  {
+    configpath = getenv("_CONFIG");
+    if (!configpath)
+      configpath = CONFIGPATH;
+  }
 
   FILE *configfile;
   WJReader configread;
