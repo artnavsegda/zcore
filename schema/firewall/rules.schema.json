@@ -109,5 +109,9 @@
  "acquire": {
    "shell": "get.sh",
    "args": ["rules", "firewall.rules.schema"]
+ },
+ "onset": {
+   "command": "test.sh",
+   "args": ["rules", "rules.schema"]
  }
 }

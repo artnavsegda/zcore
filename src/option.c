@@ -189,17 +189,30 @@ int option_set_value(WJElement parameter, char * value)
 
       if (WJEGet(protojson, "schema.patternProperties", NULL))
       {
+
+
         WJEAttach(WJEGet(protojson,"data",NULL),temp);
-        protoface = temp;
+        protoface = WJEGet(temp,"",NULL);
+        if (!protoface)
+        {
+          puts("FATAL ERROR");
+          exit(0);
+        }
+
         //protoface = getelementbynameprop(protojson, facename);
         //if (!protoface)
         //  domain = FACE;
+
+
+
       }
       else
       {
         WJEAttach(protojson,temp);
         protoface = WJEObject(protojson, "data", WJE_GET);
       }
+
+
       //puts(protoface->name);
       //protoface = temp;
       struct stat filestat;
@@ -220,21 +233,25 @@ int option_set_value(WJElement parameter, char * value)
       {
         char *args[100];
         args[0] = onsetcommand;
-        args[1] = protoface->name;
-        args[2] = parameter->name;
-        args[3] = optionvalue(parameter->name, protoschema, protoface);
-        args[4] = NULL;
+        char * optionstring = optionvalue(parameter->name, protoschema, protoface);
+
+        int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
+
+        args[argsc++] = protoface->name;
+        args[argsc++] = parameter->name;
+        args[argsc++] = optionstring;
+        args[argsc++] = NULL;
 
         //printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
         if (WJEBool(protojson, "schema.onset.wait", WJE_GET, FALSE) == TRUE)
         {
-          forkwaitexec(onsetcommand,5,args,NULL);
+          forkwaitexec(onsetcommand,argsc,args,NULL);
         }
         else
         {
           forkexec(onsetcommand,5,args,NULL);
         }
-        free(args[3]);
+        free(optionstring);
       }
     }
     else
