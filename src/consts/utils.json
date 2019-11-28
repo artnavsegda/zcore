@@ -1,8 +1,5 @@
 {
 	"demo":"test2",
-	"subdemo":{
-		"something":"test2"
-	},
 	"multisubdemo":{
 		"one":{
 			"two":{

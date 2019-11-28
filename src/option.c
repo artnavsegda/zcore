@@ -275,13 +275,21 @@ int option(int argc, char *argv[])
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
-    protoface = WJEGet(protoface,argv[0],NULL);
-    protoschema = WJEGetF(protoschema,NULL,"properties.%s",argv[0]);
-    optiondepth++;
-    if (argc > 1)
-      if (isoption(argv[1]))
-        return option(argc-1, &argv[1]);
-    return 0;
+    if (WJEGet(protoface,argv[0],NULL))
+    {
+      protoface = WJEGet(protoface,argv[0],NULL);
+      protoschema = WJEGetF(protoschema,NULL,"properties.%s",argv[0]);
+      optiondepth++;
+      if (argc > 1)
+       if (isoption(argv[1]))
+         return option(argc-1, &argv[1]);
+      return 0;
+    }
+    else
+    {
+      puts("cannot traverse empty object");
+      return 1;
+    }
   }
 
   if (argc == 1)
