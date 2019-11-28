@@ -38,6 +38,10 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties
     {
       WJEAttach(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET));
     }
+    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"object") == 0)
+    {
+      //to do
+    }
   }
 }
 

@@ -2,11 +2,13 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <wjelement.h>
 #include <wjreader.h>
 #include <unistd.h>
+#include <errno.h>
 #include "interpreter.h"
 #include "completion.h"
 #include "config.h"
@@ -23,6 +25,12 @@ void ctrl_c(int signal) {
    puts("");
    //rl_line_buffer[0] = '\0';
    rl_forced_update_display();
+}
+
+void handle_sigchld(int sig) {
+  int saved_errno = errno;
+  while (waitpid((pid_t)(-1), 0, WNOHANG) > 0) {}
+  errno = saved_errno;
 }
 
 int main(int argc, char *argv[])
@@ -42,6 +50,7 @@ int main(int argc, char *argv[])
 
   signal(SIGINT, ctrl_c);
 //  signal(SIGCHLD, SIG_IGN);
+  signal(SIGCHLD, handle_sigchld);
 
 //  rl_attempted_completion_function = character_name_completion;
   rl_bind_key('\t', zc_completion2);
