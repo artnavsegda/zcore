@@ -26,6 +26,14 @@
     "cat": {
       "command": "/usr/bin/cat",
       "json": "in"
+    },
+    "true": {
+      "command": "/bin/true",
+      "reload": true
+    },
+    "false": {
+      "command": "/bin/false",
+      "reload": true
     }
   },
   "acquire": {
