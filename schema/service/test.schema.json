@@ -35,6 +35,13 @@
     "false": {
       "command": "/bin/false",
       "reload": true
+    },
+    "env": {
+      "command": "/usr/bin/env",
+      "args": ["env"],
+      "argpass": true,
+      "wait": true,
+      "global": true
     }
   },
   "acquire": {

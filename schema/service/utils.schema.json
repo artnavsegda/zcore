@@ -53,7 +53,8 @@
       "command": "/usr/bin/env",
       "args": ["env"],
       "argpass": true,
-      "wait": true
+      "wait": true,
+      "global": true
     },
     "dump": {
       "command": "dump.sh",
