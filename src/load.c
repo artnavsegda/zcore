@@ -44,6 +44,15 @@ WJElement loadschema(char * pathtoload)
   WJERename(schema,"schema");
   WJElement schemaroot = WJEObject(NULL,WJEString(schema, "title", WJE_GET, "unnamed"), WJE_NEW);
   WJEAttach(schemaroot,schema);
+
+  WJElement command = NULL;
+  while (command = _WJEObject(schema, "schema.commands[]", WJE_GET, &command)) {
+    if (WJEBool(command, "global", WJE_GET, FALSE))
+    {
+      //addglobalcommand(schema, command->name);
+    }
+  }
+
   return schemaroot;
 }
 
@@ -72,13 +81,13 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
   n = scandir(loadschemapath,&dirs,dirselect,alphasort);
 
   if (n >= 0)
-  { 
+  {
     for (int cnt = 0;cnt < n;++cnt)
     {
       //printf("subdir %s\n",(dirs[cnt]->d_name));
       loadeveryschema(WJEObject(loadroot, dirs[cnt]->d_name, WJE_NEW), dirs[cnt]->d_name);
     }
-  } 
+  }
   else
   {
 //    printf("Cannot find dirs in %s\n", loadschemapath);
