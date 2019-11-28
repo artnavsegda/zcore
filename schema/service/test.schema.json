@@ -29,7 +29,8 @@
     },
     "true": {
       "command": "/bin/true",
-      "reload": true
+      "reload": true,
+      "global": true
     },
     "false": {
       "command": "/bin/false",

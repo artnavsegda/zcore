@@ -47,7 +47,7 @@ WJElement loadschema(char * pathtoload)
   WJEAttach(schemaroot,schema);
 
   WJElement command = NULL;
-  while (command = _WJEObject(schema, "schema.commands[]", WJE_GET, &command)) {
+  while (command = _WJEObject(schemaroot, "schema.commands[]", WJE_GET, &command)) {
     if (WJEBool(command, "global", WJE_GET, FALSE))
     {
       addglobalcommand(schema, command->name);
