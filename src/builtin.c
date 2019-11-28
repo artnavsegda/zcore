@@ -11,6 +11,7 @@
 #include "acquire.h"
 #include "utils.h"
 #include "domain.h"
+#include "global.h"
 
 extern int protodepth;
 extern WJElement protojson;
@@ -75,6 +76,7 @@ int path_root()
 int commandlist(int argc, char *argv[])
 {
   puts("tokens:");
+  listglobals(argc-1, &argv[1]);
   listbuiltins(argc-1, &argv[1]);
   switch (domain)
   {
@@ -97,6 +99,7 @@ char *builtincommands[] = {"show","acquire","validate","export",NULL};
 
 void listbuiltins(int argc, char *argv[])
 {
+  puts("builtins:");
 //  puts("?");
 //  puts("..");
 //  puts("/");

@@ -36,3 +36,12 @@ void addglobalcommand(WJElement loadroot, char * commandname)
   globalcommands[globalcommandcount-1].schemacount = 1;
 }
 
+void listglobals(int argc, char *argv[])
+{
+  puts("globals:");
+  for (int i = 0; i < globalcommandcount; i++)
+  {
+    puts(globalcommands[i].commandname);
+  }
+}
+
