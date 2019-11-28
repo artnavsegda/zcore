@@ -193,7 +193,7 @@ int command(int argc, char *argv[])
   {
     if (WJEBool(command_el, "wait", WJE_GET, TRUE) == TRUE)
     {
-      if (forkwaitexec(pathtoload,argsc,args,envp));
+      if (forkwaitexec(pathtoload,argsc,args,envp))
         confirmreload = 0;
     }
     else
