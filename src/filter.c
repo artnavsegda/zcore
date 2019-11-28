@@ -40,7 +40,7 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties
     }
     else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"object") == 0)
     {
-      //to do
+      translate(WJEObject(ifaceoutput, property->name, WJE_NEW),WJEObject(ifaceinput, property->name, WJE_GET),WJEObject(property, "properties", WJE_GET));
     }
   }
 }
