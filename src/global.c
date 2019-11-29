@@ -24,7 +24,7 @@ void addglobalcommand(WJElement loadroot, char * commandname)
       globalcommands[i].schemalink = realloc(globalcommands[i].schemalink, sizeof(WJElement *)*globalcommands[i].schemacount);
       globalcommands[globalcommandcount-1].schemalink[globalcommands[i].schemacount-1] = loadroot;
       return;
-    } 
+    }
   }
 
   puts("add new command");
@@ -45,3 +45,12 @@ void listglobals(int argc, char *argv[])
   }
 }
 
+int isglobal(char * globalname)
+{
+  for (int i = 0; i < globalcommandcount; i++)
+  {
+    if (strcmp(globalname,globalcommands[i].commandname) == 0)
+      return 1;
+  }
+  return 0;
+}
