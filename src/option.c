@@ -215,43 +215,46 @@ int option_set_value(WJElement parameter, char * value)
 
       //puts(protoface->name);
       //protoface = temp;
-      struct stat filestat;
-      char onsetcommand[MAXPATH] = "\0";
-      strcpy(onsetcommand,WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
-      if (stat(onsetcommand,&filestat))
+      if (WJEGet(protojson,"schema.onset.command", NULL))
       {
-        onsetcommand[0] = '\0';
-        strcat(onsetcommand, config.scriptpath);
-        strcat(onsetcommand, "/");
-        strcat(onsetcommand, WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
-      }
-      if (stat(onsetcommand,&filestat))
-      {
-        puts("onset script inaccessible");
-      }
-      else
-      {
-        char *args[100];
-        args[0] = onsetcommand;
-        char * optionstring = optionvalue(parameter->name, protoschema, protoface);
-
-        int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
-
-        args[argsc++] = protoface->name;
-        args[argsc++] = parameter->name;
-        args[argsc++] = optionstring;
-        args[argsc++] = NULL;
-
-        //printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
-        if (WJEBool(protojson, "schema.onset.wait", WJE_GET, FALSE) == TRUE)
+        struct stat filestat;
+        char onsetcommand[MAXPATH] = "\0";
+        strcpy(onsetcommand,WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
+        if (stat(onsetcommand,&filestat))
         {
-          forkwaitexec(onsetcommand,argsc,args,NULL);
+          onsetcommand[0] = '\0';
+          strcat(onsetcommand, config.scriptpath);
+          strcat(onsetcommand, "/");
+          strcat(onsetcommand, WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
+        }
+        if (stat(onsetcommand,&filestat))
+        {
+          puts("onset script inaccessible");
         }
         else
         {
-          forkexec(onsetcommand,5,args,NULL);
+          char *args[100];
+          args[0] = onsetcommand;
+          char * optionstring = optionvalue(parameter->name, protoschema, protoface);
+
+          int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
+
+          args[argsc++] = protoface->name;
+          args[argsc++] = parameter->name;
+          args[argsc++] = optionstring;
+          args[argsc++] = NULL;
+
+          //printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
+          if (WJEBool(protojson, "schema.onset.wait", WJE_GET, FALSE) == TRUE)
+          {
+            forkwaitexec(onsetcommand,argsc,args,NULL);
+          }
+          else
+          {
+            forkexec(onsetcommand,5,args,NULL);
+          }
+          free(optionstring);
         }
-        free(optionstring);
       }
     }
     else
