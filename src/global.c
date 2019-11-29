@@ -54,3 +54,9 @@ int isglobal(char * globalname)
   }
   return 0;
 }
+
+int global(int argc, char *argv[])
+{
+  puts("execute global command");
+  return 0;
+}
