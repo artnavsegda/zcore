@@ -62,7 +62,11 @@ int global(int argc, char *argv[])
     if (strcmp(argv[0],globalcommands[i].commandname) == 0)
     {
       printf("execute global command %s\n", globalcommands[i].commandname);
-      //WJEDump();
+      for (int y = 0; y < globalcommands[i].schemacount; y++)
+      {
+        puts("schema for command");
+        //WJEDump();
+      }
     }
   }
 
