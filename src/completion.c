@@ -13,6 +13,7 @@
 #include "face.h"
 #include "option.h"
 #include "interpreter.h"
+#include "global.h"
 
 enum domains rl_domain = PROTO;
 extern enum domains domain;
@@ -139,7 +140,7 @@ void init_completion(void)
     rl_protoface = protoface;
 }
 
-enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, SETTING_STAGE, CUESETTING_STAGE, CUECOMMAND_STAGE, CUECUECOMMAND_STAGE, STOP_STAGE};
+enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, GLOBAL_STAGE, SETTING_STAGE, CUESETTING_STAGE, CUECOMMAND_STAGE, CUECUECOMMAND_STAGE, STOP_STAGE};
 enum staging emptystage[] = {START_STAGE, STOP_STAGE};
 enum staging protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
@@ -174,6 +175,18 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         {
 //          printf("BS %s\n", rootvalues);
           rootvalues->domain = BUILTIN;
+          rootvalues->description = NULL;
+          rootvalues->value = NULL;
+          return rootvalues;
+        }
+        else
+          cyclestaging++;
+      break;
+      case GLOBAL_STAGE:
+        if (rootvalues->command = globalvalues(text,len))
+        {
+//          printf("BS %s\n", rootvalues);
+          rootvalues->domain = GLOBAL;
           rootvalues->description = NULL;
           rootvalues->value = NULL;
           return rootvalues;
