@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
   char * values[100];
   int valindex = 0;
   int opt;
+	char *zcoreconfig = NULL;
 
   while ((opt = getopt(argc, argv, "o:")) != -1)
   {
@@ -27,6 +28,9 @@ int main(int argc, char *argv[])
       case 'o':
         values[valindex++] = optarg;
         break;
+			case 'c': // config
+	      zcoreconfig = optarg;
+	      break;
     }
   }
 
@@ -36,7 +40,7 @@ int main(int argc, char *argv[])
   }
 
   root = WJEObject(NULL, NULL, WJE_NEW);
-  readconfig(NULL);
+  readconfig(zcoreconfig);
   loadeveryschema(root,config.schemapath);
 
   WJElement doc = NULL;
