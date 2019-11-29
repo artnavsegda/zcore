@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <wjelement.h>
 #include <wjreader.h>
 #include "filter.h"
@@ -15,8 +16,21 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+	int opt;
+	char *zcoreconfig = NULL;
+
+	while ((opt = getopt(argc, argv, "c:")) != -1)
+  {
+    switch (opt)
+    {
+			case 'c': // config
+	      zcoreconfig = optarg;
+	      break;
+    }
+  }
+
 	root = WJEObject(NULL, NULL, WJE_NEW);
-	readconfig(NULL);
+	readconfig(zcoreconfig);
 	loadeveryschema(root,config.schemapath);
 	WJReader readjson;
 	if (!(readjson = WJROpenFILEDocument(stdin, NULL, 0))) {
@@ -24,7 +38,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-	WJEDump(filter(WJEOpenDocument(readjson, NULL, NULL, NULL),root, argv[1]));
+	WJEDump(filter(WJEOpenDocument(readjson, NULL, NULL, NULL),root, argv[optind]));
 
 	return 0;
 }
