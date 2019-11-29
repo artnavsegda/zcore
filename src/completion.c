@@ -142,9 +142,9 @@ void init_completion(void)
 
 enum staging {START_STAGE, BUILTIN_STAGE, PROTO_STAGE, FACE_STAGE, COMMAND_STAGE, OPTION_STAGE, GLOBAL_STAGE, SETTING_STAGE, CUESETTING_STAGE, CUECOMMAND_STAGE, CUECUECOMMAND_STAGE, STOP_STAGE};
 enum staging emptystage[] = {START_STAGE, STOP_STAGE};
-enum staging protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_STAGE};
-enum staging facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
-enum staging optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
+enum staging protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, GLOBAL_STAGE, STOP_STAGE};
+enum staging facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, GLOBAL_STAGE, STOP_STAGE};
+enum staging optionstage[] = {START_STAGE, OPTION_STAGE, COMMAND_STAGE, BUILTIN_STAGE, GLOBAL_STAGE, STOP_STAGE};
 
 cmpstr_t * rl_rootcommands2(const char * text, int len)
 {
@@ -418,7 +418,7 @@ cmpstr_t *callback(char * inputstring)
 void print_cmp_list(cmplist_t *list)
 {
   int x = 1;
-  for (int i = PROTO; i <= BUILTIN; i++)
+  for (int i = PROTO; i <= GLOBAL; i++)
   {
     if (x == 1)
     {

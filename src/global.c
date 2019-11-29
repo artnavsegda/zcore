@@ -57,7 +57,15 @@ int isglobal(char * globalname)
 
 int global(int argc, char *argv[])
 {
-  puts("execute global command");
+  for (int i = 0; i < globalcommandcount; i++)
+  {
+    if (strcmp(argv[0],globalcommands[i].commandname) == 0)
+    {
+      printf("execute global command %s\n", globalcommands[i].commandname);
+      //WJEDump();
+    }
+  }
+
   return 0;
 }
 
