@@ -60,3 +60,22 @@ int global(int argc, char *argv[])
   puts("execute global command");
   return 0;
 }
+
+char * globalvalues(const char * text, int len)
+{
+  static int valueindex = 0;
+
+  while (valueindex < globalcommandcount)
+  {
+    if (strncmp(globalcommands[valueindex].commandname, text, len)==0)
+    {
+      return strdup(globalcommands[valueindex++].commandname);
+    }
+    else
+    {
+      valueindex++;
+    }
+  }
+  valueindex = 0;
+  return NULL;
+}
