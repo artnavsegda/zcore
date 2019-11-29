@@ -64,7 +64,7 @@ int global(int argc, char *argv[])
       printf("execute global command %s\n", globalcommands[i].commandname);
       for (int y = 0; y < globalcommands[i].schemacount; y++)
       {
-        puts("schema for command");
+        printf("schema for command %s\n", globalcommands[i].schemalink[y]->name);
         //WJEDump();
       }
     }
