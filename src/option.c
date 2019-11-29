@@ -132,7 +132,11 @@ int option_set_value(WJElement parameter, char * value)
     WJElement temp = WJEObject(NULL, protoface->name, WJE_NEW);
     WJECopyDocument(temp, protoface, NULL, NULL);
 
-    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+    if (value[0] == '-' && strlen(value) == 1)
+    {
+      WJECloseDocument(WJEGet(temp,parameter->name,NULL));
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
     {
       if (value[0] == '-')
       {
@@ -147,10 +151,6 @@ int option_set_value(WJElement parameter, char * value)
           WJEInt32F(temp, WJE_NEW, NULL, atoi(value), "%s[$]", parameter->name);
         }
       }
-    }
-    else if (value[0] == '-')
-    {
-      WJECloseDocument(WJEGet(temp,parameter->name,NULL));
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
     {
