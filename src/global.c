@@ -2,6 +2,7 @@
 #include <wjelement.h>
 #include <string.h>
 #include "domain.h"
+#include "command.h"
 
 extern WJElement protojson;
 extern enum domains domain;
@@ -17,13 +18,13 @@ int globalcommandcount = 0;
 
 void addglobalcommand(WJElement loadroot, char * commandname)
 {
-  printf("add global command %s\n", commandname);
+  //printf("add global command %s\n", commandname);
 
   for (int i = 0; i < globalcommandcount; i++)
   {
     if (strcmp(commandname,globalcommands[i].commandname) == 0)
     {
-      puts("add schema to existing command");
+      //puts("add schema to existing command");
       globalcommands[i].schemacount++;
       globalcommands[i].schemalink = realloc(globalcommands[i].schemalink, sizeof(WJElement *)*globalcommands[i].schemacount);
       globalcommands[globalcommandcount-1].schemalink[globalcommands[i].schemacount-1] = loadroot;
@@ -31,7 +32,7 @@ void addglobalcommand(WJElement loadroot, char * commandname)
     }
   }
 
-  puts("add new command");
+  //puts("add new command");
   globalcommandcount++;
   globalcommands = realloc(globalcommands, sizeof(struct globalcommand_struct)*(globalcommandcount));
   globalcommands[globalcommandcount-1].commandname = commandname;
@@ -65,7 +66,7 @@ int global(int argc, char *argv[])
   {
     if (strcmp(argv[0],globalcommands[i].commandname) == 0)
     {
-      printf("execute global command %s\n", globalcommands[i].commandname);
+      //printf("execute global command %s\n", globalcommands[i].commandname);
       //we have to stack all working variables
       WJElement stack_protojson = protojson;
       enum domains stack_domain = domain;
@@ -73,11 +74,11 @@ int global(int argc, char *argv[])
       domain = FACE; //global commands execute in face domain
       for (int y = 0; y < globalcommands[i].schemacount; y++)
       {
-        printf("schema for command %s\n", globalcommands[i].schemalink[y]->name);
+        //printf("schema for command %s\n", globalcommands[i].schemalink[y]->name);
         //printf("schema for command %s\n", WJEString(globalcommands[i].schemalink[y], "title", WJE_GET, "unknown"));
         //WJEDump(globalcommands[i].schemalink[y]);
-        //protojson = globalcommands[i].schemalink[y];
-        //command(argc, argv);
+        protojson = globalcommands[i].schemalink[y];
+        command(argc, argv);
       }
       //stack back
       protojson = stack_protojson;

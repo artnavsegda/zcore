@@ -5,7 +5,9 @@
 #include <sys/param.h>
 #include <dirent.h>
 #include <string.h>
+#ifndef STANDALONE
 #include "global.h"
+#endif
 
 static int fileselect(const struct dirent *entry)
 {
@@ -46,6 +48,8 @@ WJElement loadschema(char * pathtoload)
   WJElement schemaroot = WJEObject(NULL,WJEString(schema, "title", WJE_GET, "unnamed"), WJE_NEW);
   WJEAttach(schemaroot,schema);
 
+#ifndef STANDALONE
+
   WJElement command = NULL;
   while (command = _WJEObject(schemaroot, "schema.commands[]", WJE_GET, &command)) {
     if (WJEBool(command, "global", WJE_GET, FALSE))
@@ -53,6 +57,8 @@ WJElement loadschema(char * pathtoload)
       addglobalcommand(schemaroot, command->name);
     }
   }
+
+#endif
 
   return schemaroot;
 }

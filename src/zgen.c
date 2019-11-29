@@ -5,11 +5,8 @@
 #include "generator.h"
 #include "config.h"
 #include "load.h"
-#include "domain.h"
 
 WJElement root = NULL;
-WJElement protojson = NULL;
-enum domains domain = PROTO;
 
 int main(int argc, char *argv[])
 {
