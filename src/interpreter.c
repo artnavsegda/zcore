@@ -13,6 +13,7 @@
 #include "command.h"
 #include "option.h"
 #include "domain.h"
+#include "global.h"
 
 enum domains domain = PROTO;
 extern WJElement protojson;
@@ -46,6 +47,10 @@ int execute(int argc, char *argv[]) {
   else if (isoption(argv[0]))
   {
     ret = option(argc,argv);
+  }
+  else if (isglobal(argv[0]))
+  {
+    ret = global(argc,argv);
   }
   else
   {
