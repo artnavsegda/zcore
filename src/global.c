@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <wjelement.h>
 #include <string.h>
+#include "domain.h"
+
+extern WJElement protojson;
+extern enum domains domain;
 
 struct globalcommand_struct
 {
@@ -62,11 +66,22 @@ int global(int argc, char *argv[])
     if (strcmp(argv[0],globalcommands[i].commandname) == 0)
     {
       printf("execute global command %s\n", globalcommands[i].commandname);
+      //we have to stack all working variables
+      WJElement stack_protojson = protojson;
+      enum domains stack_domain = domain;
+      // set up fake enviroment
+      domain = FACE; //global commands execute in face domain
       for (int y = 0; y < globalcommands[i].schemacount; y++)
       {
         printf("schema for command %s\n", globalcommands[i].schemalink[y]->name);
-        //WJEDump();
+        //printf("schema for command %s\n", WJEString(globalcommands[i].schemalink[y], "title", WJE_GET, "unknown"));
+        //WJEDump(globalcommands[i].schemalink[y]);
+        //protojson = globalcommands[i].schemalink[y];
+        //command(argc, argv);
       }
+      //stack back
+      protojson = stack_protojson;
+      domain = stack_domain;
     }
   }
 
