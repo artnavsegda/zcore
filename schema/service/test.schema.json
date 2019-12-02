@@ -34,7 +34,8 @@
     },
     "false": {
       "command": "/bin/false",
-      "reload": true
+      "reload": true,
+      "hidden": true
     },
     "env": {
       "command": "/usr/bin/env",
