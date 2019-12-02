@@ -14,6 +14,7 @@
 
 extern WJElement doc, schema;
 extern WJElement protoface;
+extern WJElement root;
 extern int optiondepth;
 
 char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
@@ -297,7 +298,12 @@ WJElement optionlist(WJElement schema, char * protoname)
       regcomp(&preg, properties->name, REG_EXTENDED | REG_NOSUB);
       if (!regexec(&preg, protoname, 0, NULL, 0))
       {
-        return properties;
+        if (WJEGet(properties, "[\"$ref\"]", NULL))
+        {
+          return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
+        }
+        else
+          return properties;
       }
     }
   }
