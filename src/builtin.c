@@ -125,7 +125,7 @@ int printoption(WJElement proto, WJElement face, int depth)
 {
   WJElement option = NULL;
   WJElement schema = WJEGet(proto, "schema", NULL);
-  while (option = _WJEObject(optionlist(schema), "properties[]", WJE_GET, &option)) {
+  while (option = _WJEObject(optionlist(schema, face->name), "properties[]", WJE_GET, &option)) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       for (int i = depth; i > 0; i--)
@@ -211,7 +211,7 @@ int exportoption(WJElement proto, WJElement face, int depth)
 {
   WJElement option = NULL;
   WJElement schema = WJEGet(proto, "schema", NULL);
-  while (option = _WJEObject(optionlist(schema), "properties[]", WJE_GET, &option)) {
+  while (option = _WJEObject(optionlist(schema, face->name), "properties[]", WJE_GET, &option)) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE) && WJEGet(face, option->name, NULL))
     {
       for (int i = depth; i > 0; i--)

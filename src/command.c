@@ -17,6 +17,7 @@ extern char **environ;
 extern WJElement protojson;
 extern WJElement protoface;
 extern WJElement rl_protojson;
+extern WJElement rl_protoface;
 extern WJElement rl_parameter;
 extern WJElement rl_protoschema;
 extern enum domains domain;
@@ -250,7 +251,7 @@ char * cuecommandvalues(const char * text, int len, int state)
   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
   {
     //puts(cuename);
-    rl_parameter = WJEObjectF(optionlist(rl_protoschema), WJE_GET, NULL, "properties.%s",cuename);
+    rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",cuename);
     return settingvalues(text, len, state);
   }
   return NULL;
@@ -263,7 +264,7 @@ char * cuecuecommandvalues(const char * text, int len, int state)
   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
   {
     //puts(cuename);
-    rl_parameter = WJEObjectF(optionlist(rl_protoschema), WJE_GET, NULL, "properties.%s",cuename);
+    rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",cuename);
     return cuesettingvalues(text, len, state);
   }
   return NULL;

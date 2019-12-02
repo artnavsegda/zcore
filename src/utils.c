@@ -7,6 +7,7 @@
 #include <wjreader.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <regex.h>
 #include "utils.h"
 #include "option.h"
 #include "command.h"
@@ -285,11 +286,20 @@ WJElement optionsdepth(WJElement schema)
     return schema;
 }
 
-WJElement optionlist(WJElement schema)
+WJElement optionlist(WJElement schema, char * protoname)
 {
+  WJElement properties = NULL;
   if (WJEGet(schema, "patternProperties", NULL))
   {
-    return WJEObject(schema,"patternProperties[0]", WJE_GET);
+    regex_t preg;
+    while (properties = _WJEObject(schema, "patternProperties[]", WJE_GET, &properties))
+    {
+      regcomp(&preg, properties->name, REG_EXTENDED | REG_NOSUB);
+      if (!regexec(&preg, protoname, 0, NULL, 0))
+      {
+        return properties;
+      }
+    }
   }
   else if (WJEGet(schema, "properties", NULL))
   {
@@ -303,7 +313,7 @@ void fillenv(WJElement proto, WJElement face)
   int i = 0;
   char stringparam[100] = "";
   WJElement option = NULL;
-  while (option = _WJEObject(optionlist(proto), "properties[]", WJE_GET, &option)) {
+  while (option = _WJEObject(optionlist(proto, face->name), "properties[]", WJE_GET, &option)) {
     if (WJEGet(face,option->name,NULL))
       {
         if (strcmp(WJEString(option,"type", WJE_GET, NULL),"string") == 0)

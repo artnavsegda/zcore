@@ -30,7 +30,7 @@ int listoptions(void)
 
   //WJEDump(optionlist(protoschema));
 
-  while ((option = _WJEObject(optionlist(protoschema), "properties[]", WJE_GET, &option))) {
+  while ((option = _WJEObject(optionlist(protoschema, protoface->name), "properties[]", WJE_GET, &option))) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       printf("%s: ", option->name);
@@ -55,7 +55,7 @@ int isoption(char * optionname)
 {
   if (domain == OPTION)
   {
-    if (WJEGetF(optionlist(protoschema), NULL, "properties.%s", optionname))
+    if (WJEGetF(optionlist(protoschema, protoface->name), NULL, "properties.%s", optionname))
     {
       return 1;
     }
@@ -71,7 +71,7 @@ int rl_isoption(char * optionname)
 {
   if (rl_domain == OPTION)
   {
-    if (WJEGetF(optionlist(rl_protoschema), NULL, "properties.%s", optionname))
+    if (WJEGetF(optionlist(rl_protoschema, rl_protoface->name), NULL, "properties.%s", optionname))
     {
       return 1;
     }
@@ -182,7 +182,7 @@ int option_set_value(WJElement parameter, char * value)
 
     //WJEDump(temp);
 
-    if (WJESchemaValidate(optionlist(protoschema), temp, schema_error, schema_load, schema_free, NULL))
+    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, NULL))
     {
       //puts("schema valid");
       WJECloseDocument(protoface);
@@ -274,7 +274,7 @@ char * combinevalues(int argc, char *argv[])
 int option(int argc, char *argv[])
 {
   WJElement parameter;
-  parameter = WJEObjectF(optionlist(protoschema), WJE_GET, NULL, "properties.%s",argv[0]);
+  parameter = WJEObjectF(optionlist(protoschema, protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
@@ -343,7 +343,7 @@ int option(int argc, char *argv[])
 
 int rl_option(int argc, char *argv[])
 {
-  rl_parameter = WJEObjectF(optionlist(rl_protoschema), WJE_GET, NULL, "properties.%s",argv[0]);
+  rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"object") == 0)
   {
     rl_protoface = WJEGet(rl_protoface,argv[0],NULL);
@@ -364,7 +364,7 @@ int rl_option(int argc, char *argv[])
 char * optionvalues(const char * text, int len)
 {
   static WJElement option = NULL;
-  while (option = _WJEObject(optionlist(rl_protoschema), "properties[]", WJE_GET, &option)) {
+  while (option = _WJEObject(optionlist(rl_protoschema, rl_protoface->name), "properties[]", WJE_GET, &option)) {
     if (WJEBool(option, "hidden", WJE_GET, FALSE))
       return optionvalues(text,len);
     if (strncmp(option->name, text, len) == 0) {
@@ -486,7 +486,7 @@ char * optionhelp(const char * commandname)
   //{
   //  return WJEString(proto, "schema.description", WJE_GET, NULL);
   //}
-  return WJEStringF(optionlist(rl_protoschema), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
+  return WJEStringF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
   //return "Help description";
 }
 
@@ -494,7 +494,7 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
 {
   WJElement parameter;
   char * returnstring = NULL;
-  parameter = WJEObjectF(optionlist(proto), WJE_GET, NULL, "properties.%s",commandname);
+  parameter = WJEObjectF(optionlist(proto, face->name), WJE_GET, NULL, "properties.%s",commandname);
   if (WJEGet(face, parameter->name, NULL))
   {
     if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){

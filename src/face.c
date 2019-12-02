@@ -118,5 +118,5 @@ char * facevalues(const char * text, int len)
 char * facehelp(const char * commandname)
 {
   WJElement face = NULL;
-    return WJEString(optionlist(protojson), "description", WJE_GET, NULL);
+    return WJEString(optionlist(protojson, protoface->name), "description", WJE_GET, NULL);
 }

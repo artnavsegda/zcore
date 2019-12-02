@@ -12,6 +12,15 @@
           "type": "string"
         }
       }
+    },
+    "^quest": {
+      "type": "object",
+      "title": "test entity two",
+      "properties": {
+        "somebody": {
+          "type": "string"
+        }
+      }
     }
   },
   "commands": {
