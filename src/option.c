@@ -35,7 +35,7 @@ int listoptions(void)
     {
       printf("%s: ", option->name);
       //printf("%s: %s\n", option->name, WJEString(option, "description", WJE_GET, NULL));
-      char * optionstring = optionvalue(option->name, protoschema, protoface);
+      char * optionstring = optionhelp(option->name, protoschema, protoface);
       if (optionstring)
       {
         printf("%s\n", optionstring);
@@ -43,7 +43,7 @@ int listoptions(void)
       }
       else
       {
-        printf("None\n", optionstring);
+        printf("None\n");
       }
       //puts(option->name);
     }
@@ -453,16 +453,16 @@ char * cuesettingvalues(const char * text, int len, int state)
 
 char * optionhelp(const char * commandname, WJElement proto, WJElement face)
 {
-  //WJElement proto = WJEObject(protojson, commandname, WJE_GET);
-  //if (proto)
-  //{
-  //  return WJEString(proto, "schema.description", WJE_GET, NULL);
-  //}
-  return WJEStringF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
-  //return "Help description";
+  WJElement parameter;
+  char * returnstring = NULL;
+  parameter = WJEObjectF(optionlist(proto, face->name), WJE_GET, NULL, "properties.%s",commandname);
+  if (WJEGet(parameter, "[\"$ref\"]", NULL))
+    parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
 
-
-
+  if (WJEGet(parameter, "description", NULL))
+    return strdup(WJEString(parameter,"description", WJE_GET, NULL));
+  else
+    return NULL;
 }
 
 char * optionvalue(char * commandname, WJElement proto, WJElement face)
