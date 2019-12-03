@@ -310,6 +310,12 @@ int option(int argc, char *argv[])
 int rl_option(int argc, char *argv[])
 {
   rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
+
+  if (WJEGet(rl_parameter, "[\"$ref\"]", NULL))
+  {
+    rl_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(rl_parameter, "[\"$ref\"]", WJE_GET, NULL));
+  }
+
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"object") == 0)
   {
     rl_protoface = WJEGet(rl_protoface,argv[0],NULL);
