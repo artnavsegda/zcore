@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 
 //  rl_attempted_completion_function = character_name_completion;
   rl_bind_key('\t', zc_completion2);
+  rl_bind_key('>', zc_completion3);
 
   root = WJEObject(NULL, NULL, WJE_NEW);
 

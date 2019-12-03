@@ -451,6 +451,37 @@ void print_cmp_list(cmplist_t *list)
   return;
 }
 
+void print_cmp_list_help(cmplist_t *list)
+{
+  int x = 1;
+  for (int i = PROTO; i <= GLOBAL; i++)
+  {
+    if (x == 1)
+    {
+      putchar('\n');
+      x = 0;
+    }
+    for (int y = 0; y < list->complecount; y++)
+    {
+      if(list->complelist[y]->domain == i)
+      {
+        char tmpstr[15];
+        sprintf(tmpstr, "   %%-%ds", list->maxlen);
+        printf(tmpstr, list->complelist[y]->command);
+        if(list->complelist[y]->description)
+        {
+          printf("   %s", list->complelist[y]->description);
+        }
+        putchar('\n');
+        x = 1;
+      }
+    }
+  }
+  rl_on_new_line();
+
+  return;
+}
+
 void zc_cleanup(cmplist_t *list)
 {
   if (list->locode)
@@ -561,6 +592,59 @@ int zc_completion2(int count, int key)
         {
           print_cmp_list(&list);
         }
+      }
+    }
+  }
+  if (list.complecount > 0)
+    zc_cleanup(&list);
+
+  return 0;
+}
+
+int zc_completion3(int count, int key)
+{
+  cmplist_t list = { .complecount = 0, .maxlen = 0 };
+  int i = 0;
+  char **something;
+  init_completion();
+  char *rl_tokarr[100];
+  int one = parse(strdup(rl_line_buffer), rl_tokarr);
+  int numberoftokens = arrlength(rl_tokarr);
+
+  if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
+  {
+    rl_interpret(strdup(rl_line_buffer),1,rl_end);
+  }
+  else
+    rl_interpret(strdup(rl_line_buffer),0,rl_end);
+
+  if (one)
+  {
+    if (rl_line_buffer[rl_point-1] == ' ')
+    {
+      array_allocate("", callback, &list);
+      if (list.complecount)
+      {
+        print_cmp_list_help(&list);
+      }
+    }
+    else
+    {
+      array_allocate(rl_tokarr[one-1], callback, &list);
+      if (list.complecount)
+      {
+        print_cmp_list_help(&list);
+      }
+    }
+  }
+  else
+  {
+    array_allocate("", callback, &list);
+    if (list.complecount)
+    {
+      if (list.complecount > 0)
+      {
+        print_cmp_list_help(&list);
       }
     }
   }

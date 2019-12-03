@@ -451,7 +451,7 @@ char * cuesettingvalues(const char * text, int len, int state)
   return NULL;
 }
 
-char * optionhelp(const char * commandname)
+char * optionhelp(const char * commandname, WJElement proto, WJElement face)
 {
   //WJElement proto = WJEObject(protojson, commandname, WJE_GET);
   //if (proto)
@@ -460,6 +460,9 @@ char * optionhelp(const char * commandname)
   //}
   return WJEStringF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, NULL, "properties.%s.description", commandname);
   //return "Help description";
+
+
+
 }
 
 char * optionvalue(char * commandname, WJElement proto, WJElement face)
