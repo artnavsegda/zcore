@@ -323,7 +323,7 @@ WJElement schema_load(const char *name, void *client, const char *file, const in
     schema = WJEGetF(root, NULL, "%s.schema", path);
     free(path);
 	}
-  WJEDump(schema);
+  //WJEDump(schema);
 	return schema;
 }
 

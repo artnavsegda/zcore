@@ -83,44 +83,7 @@ int rl_isoption(char * optionname)
   return 0;
 }
 
-int option_print_value(WJElement parameter)
-{
-  if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
-    puts(WJEString(protoface,parameter->name,WJE_GET,"<undefined>"));
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
-    printf("%d\n", WJEInt32(protoface,parameter->name,WJE_GET,-1));
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
-    if (WJEBool(protoface,parameter->name,WJE_GET,-1) == TRUE)
-      puts("True");
-    else if (WJEBool(protoface,parameter->name,WJE_GET,-1) == FALSE)
-      puts("False");
-    else
-      puts("<undefined>");
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
-    WJElement array = NULL;
-    if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
-      char * entity = NULL;
-      while (entity = WJEStringF(protoface, WJE_GET, &array, NULL, "%s[]", parameter->name))
-        puts(entity);
-    }
-    else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
-      int number = 0;
-      while (number = WJEInt32F(protoface, WJE_GET, &array, 0, "%s[]", parameter->name))
-        printf("%d ", number);
-      puts("");
-    }
-  }
-  else
-  {
-    puts("Not implemeted");
-  }
-  return 1;
-}
-
-int option_set_value(WJElement parameter, char * value)
+int option_set_value(WJElement parameter, char * parametername, char * value)
 {
   if (value[0] == '?')
   {
@@ -134,21 +97,21 @@ int option_set_value(WJElement parameter, char * value)
 
     if (value[0] == '-' && strlen(value) == 1)
     {
-      WJECloseDocument(WJEGet(temp,parameter->name,NULL));
+      WJECloseDocument(WJEGet(temp,parametername,NULL));
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
     {
       if (value[0] == '-')
       {
-        WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parameter->name,&value[1]));
+        WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
       }
       else
       {
         if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
-          WJEStringF(temp, WJE_NEW, NULL, value, "%s[$]", parameter->name);
+          WJEStringF(temp, WJE_NEW, NULL, value, "%s[$]", parametername);
         }
         else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
-          WJEInt32F(temp, WJE_NEW, NULL, atoi(value), "%s[$]", parameter->name);
+          WJEInt32F(temp, WJE_NEW, NULL, atoi(value), "%s[$]", parametername);
         }
       }
     }
@@ -158,16 +121,16 @@ int option_set_value(WJElement parameter, char * value)
       {
         value = cutquot(value);
       }
-      WJEString(temp, parameter->name, WJE_SET, value);
+      WJEString(temp, parametername, WJE_SET, value);
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
-      WJEInt32(temp, parameter->name, WJE_SET, atoi(value));
+      WJEInt32(temp, parametername, WJE_SET, atoi(value));
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
     {
       if (strcmp(value, "true") == 0)
-        WJEBool(temp, parameter->name, WJE_SET, TRUE);
+        WJEBool(temp, parametername, WJE_SET, TRUE);
       else if (strcmp(value, "false") == 0)
-        WJEBool(temp, parameter->name, WJE_SET, FALSE);
+        WJEBool(temp, parametername, WJE_SET, FALSE);
       else
       {
         puts("value incorrect must be true or false");
@@ -182,7 +145,7 @@ int option_set_value(WJElement parameter, char * value)
 
     //WJEDump(temp);
 
-    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, NULL))
+    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
     {
       //puts("schema valid");
       WJECloseDocument(protoface);
@@ -235,16 +198,15 @@ int option_set_value(WJElement parameter, char * value)
         {
           char *args[100];
           args[0] = onsetcommand;
-          char * optionstring = optionvalue(parameter->name, protoschema, protoface);
+          char * optionstring = optionvalue(parametername, protoschema, protoface);
 
           int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
 
           args[argsc++] = protoface->name;
-          args[argsc++] = parameter->name;
+          args[argsc++] = parametername;
           args[argsc++] = optionstring;
           args[argsc++] = NULL;
 
-          //printf("execute onset %s %s %s\n", onsetcommand, parameter->name, value);
           if (WJEBool(protojson, "schema.onset.wait", WJE_GET, FALSE) == TRUE)
           {
             forkwaitexec(onsetcommand,argsc,args,NULL);
@@ -276,6 +238,11 @@ int option(int argc, char *argv[])
   WJElement parameter;
   parameter = WJEObjectF(optionlist(protoschema, protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
 
+  if (WJEGet(parameter, "[\"$ref\"]", NULL))
+  {
+    parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
+  }
+
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
     if (WJEGet(protoface,argv[0],NULL))
@@ -306,7 +273,6 @@ int option(int argc, char *argv[])
     else
       puts("undefined");
     return 1;
-    //return option_print_value(parameter);
   }
   else if (argc == 2)
   {
@@ -315,7 +281,7 @@ int option(int argc, char *argv[])
       puts("option readonly");
       return 1;
     }
-    return option_set_value(parameter, argv[1]);
+    return option_set_value(parameter, argv[0], argv[1]);
   }
   else if (argc > 2)
   {
@@ -323,7 +289,7 @@ int option(int argc, char *argv[])
     {
       for (int i = 1; i < argc; i++)
       {
-        option_set_value(parameter, argv[i]);
+        option_set_value(parameter, argv[0], argv[i]);
       }
     }
     else
@@ -335,7 +301,7 @@ int option(int argc, char *argv[])
         strcat(combine, " ");
         strcat(combine, argv[i]);
       }
-      return option_set_value(parameter, combine);
+      return option_set_value(parameter, argv[0], combine);
     }
   }
   return 1;
@@ -490,24 +456,30 @@ char * optionhelp(const char * commandname)
   //return "Help description";
 }
 
-char * optionvalue(const char * commandname, WJElement proto, WJElement face)
+char * optionvalue(char * commandname, WJElement proto, WJElement face)
 {
   WJElement parameter;
   char * returnstring = NULL;
   parameter = WJEObjectF(optionlist(proto, face->name), WJE_GET, NULL, "properties.%s",commandname);
-  if (WJEGet(face, parameter->name, NULL))
+
+  if (WJEGet(parameter, "[\"$ref\"]", NULL))
+  {
+    parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
+  }
+
+  if (WJEGet(face, commandname, NULL))
   {
     if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
-      return strdup(WJEString(face,parameter->name,WJE_GET,"<undefined>"));
+      return strdup(WJEString(face,commandname,WJE_GET,"<undefined>"));
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
-      asprintf(&returnstring,"%d", WJEInt32(face,parameter->name,WJE_GET,-1));
+      asprintf(&returnstring,"%d", WJEInt32(face,commandname,WJE_GET,-1));
       return returnstring;
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
-      if (WJEBool(face,parameter->name,WJE_GET,-1) == TRUE)
+      if (WJEBool(face,commandname,WJE_GET,-1) == TRUE)
         return strdup("true");
-      else if (WJEBool(face,parameter->name,WJE_GET,-1) == FALSE)
+      else if (WJEBool(face,commandname,WJE_GET,-1) == FALSE)
         return strdup("false");
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
@@ -521,7 +493,7 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
             return NULL;
         }
         returnstring[0] = '\0';
-        while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", parameter->name))
+        while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", commandname))
         {
           if (returnstring = realloc(returnstring, strlen(returnstring) + strlen(entity) + 2))
           {
@@ -545,7 +517,7 @@ char * optionvalue(const char * commandname, WJElement proto, WJElement face)
             return NULL;
         }
         returnstring[0] = '\0';
-        while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", parameter->name))
+        while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", commandname))
         {
           char tmpstr[15];
           sprintf(tmpstr, "%d ", number);
