@@ -122,9 +122,15 @@ int rl_interpret(char * stringtointerpret, int start, int end)
   int numberoftokens = arrlength(rl_tokarr);
   if (numberoftokens > 0)
   {
-    if (start > 0)
+    if (start > 0 && end > 0)
     {
       rl_execute(numberoftokens,rl_tokarr);
+      rl_commandname = rl_tokarr[0];
+      return 0;
+    }
+    else if (start > 0 && end == 0)
+    {
+      rl_execute(numberoftokens-1,rl_tokarr);
       rl_commandname = rl_tokarr[0];
       return 0;
     }
@@ -534,10 +540,10 @@ int zc_completion2(int count, int key)
 
   if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
   {
-    rl_interpret(strdup(rl_line_buffer),1,rl_end);
+    rl_interpret(strdup(rl_line_buffer),1,1);
   }
   else
-    rl_interpret(strdup(rl_line_buffer),0,rl_end);
+    rl_interpret(strdup(rl_line_buffer),0,1);
 
   if (one)
   {
@@ -611,12 +617,16 @@ int zc_completion3(int count, int key)
   int one = parse(strdup(rl_line_buffer), rl_tokarr);
   int numberoftokens = arrlength(rl_tokarr);
 
-  if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
+  if ((numberoftokens > 1) && rl_line_buffer[rl_point-1] != ' ')
   {
-    rl_interpret(strdup(rl_line_buffer),1,rl_end);
+    rl_interpret(strdup(rl_line_buffer),1,0);
+  }
+  else if (rl_line_buffer[rl_point-1] == ' ' || (numberoftokens > 1))
+  {
+    rl_interpret(strdup(rl_line_buffer),1,1);
   }
   else
-    rl_interpret(strdup(rl_line_buffer),0,rl_end);
+    rl_interpret(strdup(rl_line_buffer),0,1);
 
   if (one)
   {
