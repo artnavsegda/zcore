@@ -3,6 +3,7 @@
     "something" : "hello"
   },
   "test3": {
+    "something" : 1
   },
   "quest": {
     "somebody" : "once"
