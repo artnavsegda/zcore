@@ -205,8 +205,8 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         {
 //          printf("PS %s\n", rootvalues);
           rootvalues->domain = PROTO;
-//          rootvalues->description = protohelp(rootvalues->command);
-          rootvalues->description = NULL;
+          rootvalues->description = protohelp(rootvalues->command, rl_protojson);
+          //rootvalues->description = NULL;
           rootvalues->value = NULL;
           return rootvalues;
         }
@@ -312,7 +312,8 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         {
           //printf("PS %s\n", subvalues->command);
           subvalues->domain = PROTO;
-          subvalues->description = NULL;
+          //subvalues->description = NULL;
+          subvalues->description = protohelp(subvalues->command, rl_protojson);
           subvalues->value = NULL;
           return subvalues;
         }

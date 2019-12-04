@@ -32,7 +32,8 @@ int listprotos(void)
   while ((proto = _WJEObject(protojson, "[]", WJE_GET, &proto))) {
     if (!WJEBool(proto, "schema.hidden", WJE_GET, FALSE))
     {
-      printf("%s: %s\n", proto->name, protohelp(proto->name));
+      //printf("%s: %s\n", proto->name, protohelp(proto->name));
+      printf("%s\n", proto->name);
     }
   }
   return 0;
@@ -80,13 +81,13 @@ int proto(int argc, char *argv[])
 {
   for (int i = 0; i < argc; i++)
   {
-    if (argv[i][0] == '?')
-    {
-      puts("Display description here");
-      puts(protohelp("ethernet"));
-      return 1;
-    }
-    else if (isproto(argv[i]))
+    // if (argv[i][0] == '?')
+    // {
+    //   puts("Display description here");
+    //   puts(protohelp("ethernet"));
+    //   return 1;
+    // }
+    if (isproto(argv[i]))
     {
       //strcpy(protoname,argv[i]);
       protodepth++;
@@ -193,12 +194,21 @@ void incom_proto(void)
   rl_protoschema = protoschema;
 }
 
-char * protohelp(const char * commandname)
+char * protohelp(const char * commandname, WJElement proto)
 {
-  WJElement proto = WJEObject(protojson, commandname, WJE_GET);
-  if (proto)
+  //WJEDump(proto);
+  //puts(commandname);
+  //WJElement proto = WJEObject(proto, commandname, WJE_GET);
+  if (WJEGetF(proto, NULL, "%s.schema.description", commandname))
   {
-    return WJEString(proto, "schema.description", WJE_GET, NULL);
+    //puts("found");
+    //puts(WJEStringF(proto, WJE_GET, NULL, NULL, "%s.schema.description", commandname));
+    return strdup(WJEStringF(proto, WJE_GET, NULL, NULL, "%s.schema.description", commandname));
+  }
+  else
+  {
+    //puts("not found");
+    return NULL;
   }
   //return "Help description";
 }
