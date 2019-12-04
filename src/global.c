@@ -69,6 +69,7 @@ int global(int argc, char *argv[])
       //printf("execute global command %s\n", globalcommands[i].commandname);
       //we have to stack all working variables
       WJElement stack_protojson = protojson;
+      WJElement stack_protoschema = protoschema;
       enum domains stack_domain = domain;
       // set up fake enviroment
       domain = FACE; //global commands execute in face domain
@@ -82,6 +83,7 @@ int global(int argc, char *argv[])
       }
       //stack back
       protojson = stack_protojson;
+      protoschema = stack_protoschema;
       domain = stack_domain;
     }
   }
