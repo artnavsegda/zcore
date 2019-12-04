@@ -5,6 +5,7 @@
 #include "command.h"
 
 extern WJElement protojson;
+extern WJElement protoschema;
 extern enum domains domain;
 
 struct globalcommand_struct

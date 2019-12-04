@@ -218,7 +218,8 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         {
 //          printf("FS %s\n", rootvalues);
           rootvalues->domain = FACE;
-          rootvalues->description = NULL;
+          //rootvalues->description = NULL;
+          rootvalues->description = facehelp(rootvalues->command, rl_protojson);
           rootvalues->value = NULL;
           return rootvalues;
         }
@@ -325,7 +326,8 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         {
           //printf("FS %s\n", subvalues->command);
           subvalues->domain = FACE;
-          subvalues->description = NULL;
+          //subvalues->description = NULL;
+          subvalues->description = facehelp(subvalues->command, rl_protojson);
           subvalues->value = NULL;
           return subvalues;
         }

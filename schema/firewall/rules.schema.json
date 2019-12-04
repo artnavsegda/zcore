@@ -8,6 +8,7 @@
     "^cfg": {
       "type": "object",
       "title": "Interface entity",
+      "description": "Firewall rule",
       "required": ["name"],
       "properties": {
         "name": {

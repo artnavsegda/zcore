@@ -98,8 +98,8 @@ int listfaces(void)
   WJElement face = NULL;
   puts("Faces:");
   while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
-    //puts(elementname(protojson,face));
-    printf("%s: %s\n", elementname(protojson,face), facehelp(NULL));
+    puts(elementname(protojson,face));
+    //printf("%s: %s\n", elementname(protojson,face), facehelp(NULL));
   }
   return 0;
 }
@@ -115,8 +115,24 @@ char * facevalues(const char * text, int len)
   return NULL;
 }
 
-char * facehelp(const char * commandname)
+char * facehelp(char * facename, WJElement proto)
 {
-  WJElement face = NULL;
-    return WJEString(optionlist(protojson, protoface->name), "description", WJE_GET, NULL);
+  //puts(facename);
+  //WJEDump(proto);
+
+  WJElement face = getelementbynameprop(proto, facename);
+
+  if (!face)
+    return NULL;
+
+  WJElement properties = optionlist(WJEGet(proto, "schema", NULL) , face->name);
+
+  if (properties)
+  {
+    if (WJEGet(properties, "description", NULL))
+      return strdup(WJEString(properties, "description", WJE_GET, NULL));
+  }
+
+  return NULL;
+  //return WJEString(optionlist(protojson, protoface->name), "description", WJE_GET, NULL);
 }
