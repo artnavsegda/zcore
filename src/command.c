@@ -269,3 +269,13 @@ char * cuecuecommandvalues(const char * text, int len, int state)
   }
   return NULL;
 }
+
+char * commandhelp(const char * commandname, WJElement proto)
+{
+  if (WJEGetF(proto, NULL, "schema.commands.%s.description", commandname))
+  {
+    return strdup(WJEStringF(proto, WJE_GET, NULL, NULL, "schema.commands.%s.description", commandname));
+  }
+  else
+    return NULL;
+}

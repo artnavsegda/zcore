@@ -34,6 +34,7 @@
     },
     "cat": {
       "command": "/usr/bin/cat",
+      "description": "test",
       "json": "in"
     },
     "true": {

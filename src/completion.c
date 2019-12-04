@@ -244,7 +244,8 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
         {
 //          printf("CS %s\n", rootvalues);
           rootvalues->domain = COMMAND;
-          rootvalues->description = NULL;
+//          rootvalues->description = NULL;
+          rootvalues->description = commandhelp(rootvalues->command, rl_protojson);
           rootvalues->value = NULL;
           return rootvalues;
         }
@@ -353,7 +354,8 @@ cmpstr_t * rl_subcommands2(const char * text, int len, int state)
         {
           //printf("CS %s\n", subvalues->command);
           subvalues->domain = COMMAND;
-          subvalues->description = NULL;
+          //subvalues->description = NULL;
+          subvalues->description = commandhelp(subvalues->command, rl_protojson);
           subvalues->value = NULL;
           return subvalues;
         }

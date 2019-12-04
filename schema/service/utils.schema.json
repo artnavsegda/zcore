@@ -47,7 +47,8 @@
       "command": "/usr/bin/ping",
       "args": ["-c 10"],
       "argpass": true,
-      "wait": true
+      "wait": true,
+      "description": "ping command"
     },
     "env": {
       "command": "/usr/bin/env",
