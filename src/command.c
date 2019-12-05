@@ -251,7 +251,7 @@ char * cuecommandvalues(const char * text, int len, int state)
   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
   {
     if (rl_protoface == NULL)
-      rl_parameter = WJEObjectF(optionlist(rl_protoschema, "0"), WJE_GET, NULL, "properties.%s",cuename);
+      rl_parameter = WJEObjectF(optionlist(rl_protoschema, NULL), WJE_GET, NULL, "properties.%s",cuename);
     else
       rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",cuename);
     return settingvalues(text, len, state);
@@ -266,7 +266,7 @@ char * cuecuecommandvalues(const char * text, int len, int state)
   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
   {
     if (rl_protoface == NULL)
-      rl_parameter = WJEObjectF(optionlist(rl_protoschema, "0"), WJE_GET, NULL, "properties.%s",cuename);
+      rl_parameter = WJEObjectF(optionlist(rl_protoschema, NULL), WJE_GET, NULL, "properties.%s",cuename);
     else
       rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",cuename);
     return cuesettingvalues(text, len, state);

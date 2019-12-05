@@ -293,7 +293,7 @@ WJElement optionlist(WJElement schema, char * protoname)
   WJElement properties = NULL;
   if (WJEGet(schema, "patternProperties", NULL))
   {
-    if (protoname[0] == '0')
+    if (protoname == NULL)
       return WJEObject(schema,"patternProperties[0]", WJE_GET);
 
     regex_t preg;
