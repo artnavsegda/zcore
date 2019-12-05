@@ -2,45 +2,7 @@
   "$schema": "http://json-schema.org/schema#",
   "title": "utils",
   "type": "object",
-  "namesake": "name",
   "properties": {
-    "demo": {
-      "type": "string",
-      "description": "test option"
-    },
-    "subdemo": {
-      "type": "object",
-      "description": "test suboption",
-      "properties": {
-        "subthing" : {
-          "type": "string",
-          "description": "test sub thing"
-        }
-      }
-    },
-    "multisubdemo": {
-      "type": "object",
-      "properties": {
-        "one": {
-          "type": "object",
-          "properties": {
-            "two": {
-              "type": "object",
-              "properties": {
-                "three": {
-                  "type": "object",
-                  "properties": {
-                    "something": {
-                    "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   },
   "commands": {
     "ping": {
@@ -69,8 +31,5 @@
       "json": "in",
       "reload": true
     }
-  },
-  "acquire": {
-     "file": "utils.json"
-   }
+  }
 }

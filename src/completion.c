@@ -162,7 +162,7 @@ cmpstr_t * rl_rootcommands2(const char * text, int len)
     switch (*cyclestaging)
     {
       case START_STAGE:
-        switch (domain)
+        switch (rl_domain)
         {
           case PROTO:
             cyclestaging = &protostage[0];

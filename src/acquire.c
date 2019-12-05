@@ -77,6 +77,11 @@ int acquire(WJElement proto)
       return 1;
     }
   }
+  else
+  {
+    WJEObject(proto, "data", WJE_NEW);
+    return 0;
+  }
 
   if (jsonstream)
   {
