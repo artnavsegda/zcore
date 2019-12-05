@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "test2",
+  "description": "test list",
+  "type": "object",
+  "patternProperties": {
+    "^test": { "$ref": "service.testex" },
+    "^quest": {
+      "type": "object",
+      "title": "test entity two",
+      "properties": {
+        "somebody": {
+          "$ref": "service.extopt"
+        }
+      }
+    }
+  },
+  "acquire": {
+     "file": "test.json"
+   }
+}

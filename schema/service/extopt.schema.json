@@ -1,0 +1,6 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "extopt",
+  "hidden": true,
+  "type": "string"
+}

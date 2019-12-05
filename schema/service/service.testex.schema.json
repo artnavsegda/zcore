@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "testex",
+  "hidden": "true",
+  "description": "test definitioms list",
+      "type": "object",
+      "title": "test entity",
+      "properties": {
+        "something": {
+          "type": "string"
+        }
+      }
+}
