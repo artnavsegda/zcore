@@ -99,7 +99,7 @@ int proto(int argc, char *argv[])
         {
           domain = FACE;
         }
-        else if (WJEGet(protoschema, "properties", NULL))
+        else
         {
           domain = OPTION;
           protoface = WJEObject(protojson, "data", WJE_GET);
