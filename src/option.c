@@ -147,6 +147,27 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
     if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
     {
+      if (WJEGet(optionlist(protoschema, protoface->name), "if", NULL))
+      {
+        if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "if", NULL), temp, schema_error, schema_load, schema_free, "%s"))
+        {
+          if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "then", NULL), temp, schema_error, schema_load, schema_free, "%s"))
+          {
+            // all good
+          }
+        }
+        else if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "else", NULL), temp, schema_error, schema_load, schema_free, "%s"))
+        {
+          // all good
+        }
+        else
+        {
+          // schema invalid
+          WJECloseDocument(temp);
+          return 1;
+        }
+      }
+
       //puts("schema valid");
       WJECloseDocument(protoface);
 
@@ -222,6 +243,7 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
     else
     {
       //puts("schema invalid");
+      WJECloseDocument(temp);
     }
   }
   return 1;
