@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "condition",
+  "description": "Condition qual",
+  "type": "object",
+  "properties": {
+    "country": {
+      "enum": ["Russia", "China", "America"]
+    }
+  },
+  "if": {
+    "properties": { "country": { "const": "Russia" } }
+  },
+  "then": {
+    "properties": { "channel": { "enum": [1,2,3,4,5] } }
+  },
+  "else": {
+    "if": {
+      "properties": { "country": { "const": "China" } }
+    },
+    "then": {
+      "properties": { "channel": { "enum": [6,7,8,9,10] } }
+    },
+    "else": {
+      "if": {
+        "properties": { "country": { "const": "America" } }
+      },
+      "then": {
+        "properties": { "channel": { "enum": [11,12,13,14,15] } }
+      }
+    }
+  }
+}
