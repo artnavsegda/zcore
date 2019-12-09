@@ -117,7 +117,10 @@ int rl_execute(int argc, char *argv[])
 int rl_interpret(char * stringtointerpret, int start, int end)
 {
   rl_domain = domain;
-  rl_protoface = NULL;
+  if (protoface)
+    rl_protoface = protoface;
+  else
+    protoface = NULL;
   char *rl_tokarr[100];
   int one = parse(stringtointerpret, rl_tokarr);
   int numberoftokens = arrlength(rl_tokarr);

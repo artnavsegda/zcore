@@ -95,12 +95,12 @@ int commandlist(int argc, char *argv[])
   return 1;
 }
 
-char *builtincommands[] = {"show","acquire","validate","export",NULL};
+char *builtincommands[] = {"show","acquire","validate","export","list",NULL};
 
 void listbuiltins(int argc, char *argv[])
 {
   puts("builtins:");
-//  puts("?");
+  puts("list");
 //  puts("..");
 //  puts("/");
   puts("show");
@@ -111,7 +111,7 @@ void listbuiltins(int argc, char *argv[])
 
 int isbuiltin(char * builtinname)
 {
-  if ((strcmp(builtinname,"?") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/") == 0) || (strcmp(builtinname,"validate") == 0) || (strcmp(builtinname,"export") == 0))
+  if ((strcmp(builtinname,"list") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/") == 0) || (strcmp(builtinname,"validate") == 0) || (strcmp(builtinname,"export") == 0))
   {
     return 1;
   }
@@ -354,7 +354,7 @@ int builtin_validate(int argc, char *argv[])
 
 int builtin(int argc, char *argv[])
 {
-  if (argv[0][0]=='?')
+  if (strcmp(argv[0],"list") == 0)
   {
     return commandlist(argc,argv);
   }
