@@ -83,6 +83,29 @@ int rl_isoption(char * optionname)
   return 0;
 }
 
+int ValidateConditional(WJElement schema, WJElement json)
+{
+  if (WJEGet(schema, "if", NULL))
+  {
+    if (WJESchemaValidate(WJEGet(schema, "if", NULL), json, schema_error, schema_load, schema_free, "%s"))
+    {
+      if (WJESchemaValidate(WJEGet(schema, "then", NULL), json, schema_error, schema_load, schema_free, "%s"))
+      {
+        return ValidateConditional(WJEGet(schema, "then", NULL), json);
+      }
+      else
+        return 0;
+    }
+    else if (WJESchemaValidate(WJEGet(schema, "else", NULL), json, schema_error, schema_load, schema_free, "%s"))
+    {
+      return ValidateConditional(WJEGet(schema, "else", NULL), json);
+    }
+    else
+      return 0;
+  }
+  return 1;
+}
+
 int option_set_value(WJElement parameter, char * parametername, char * value)
 {
   if (value[0] == '?')
@@ -145,29 +168,8 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
     //WJEDump(temp);
 
-    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
+    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
     {
-      if (WJEGet(optionlist(protoschema, protoface->name), "if", NULL))
-      {
-        if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "if", NULL), temp, schema_error, schema_load, schema_free, "%s"))
-        {
-          if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "then", NULL), temp, schema_error, schema_load, schema_free, "%s"))
-          {
-            // all good
-          }
-        }
-        else if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "else", NULL), temp, schema_error, schema_load, schema_free, "%s"))
-        {
-          // all good
-        }
-        else
-        {
-          // schema invalid
-          WJECloseDocument(temp);
-          return 1;
-        }
-      }
-
       //puts("schema valid");
       WJECloseDocument(protoface);
 
