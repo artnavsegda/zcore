@@ -48,6 +48,17 @@ int listoptions(void)
       //puts(option->name);
     }
   }
+
+  if (WJEGet(optionlist(protoschema, protoface->name), "if", NULL))
+  {
+    if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
+    {
+      while ((option = _WJEObject(WJEGet(optionlist(protoschema, protoface->name), "then", NULL), "properties[]", WJE_GET, &option))) {
+        printf("%s: \n", option->name);
+      }
+    }
+  }
+
   return 0;
 }
 
