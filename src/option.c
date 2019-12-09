@@ -72,6 +72,14 @@ int isoption(char * optionname)
     }
     else
     {
+      if (WJEGet(optionlist(protoschema, protoface->name), "if", NULL))
+      {
+        if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
+        {
+          if (WJEGetF(WJEGet(optionlist(protoschema, protoface->name), "then", NULL), NULL, "properties.%s", optionname))
+            return 1;
+        }
+      }
       return 0;
     }
   }
@@ -271,7 +279,16 @@ char * combinevalues(int argc, char *argv[])
 int option(int argc, char *argv[])
 {
   WJElement parameter;
-  parameter = WJEObjectF(optionlist(protoschema, protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
+
+  if (!WJEGet(optionlist(protoschema, protoface->name), argv[0], NULL))
+  {
+    if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
+    {
+      parameter = WJEObjectF(WJEGet(optionlist(protoschema, protoface->name), "then", NULL), WJE_GET, NULL, "properties.%s",argv[0]);
+    }
+  }
+  else
+    parameter = WJEObjectF(optionlist(protoschema, protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
 
   if (WJEGet(parameter, "[\"$ref\"]", NULL))
   {
@@ -504,7 +521,14 @@ char * optionvalue(char * commandname, WJElement proto, WJElement face)
 {
   WJElement parameter;
   char * returnstring = NULL;
-  parameter = WJEObjectF(optionlist(proto, face->name), WJE_GET, NULL, "properties.%s",commandname);
+
+  if (!WJEGet(optionlist(proto, face->name), commandname, NULL))
+  {
+    if (WJESchemaValidate(WJEGet(optionlist(proto, face->name), "if", NULL), face, schema_error, schema_load, schema_free, "%s"))
+      parameter = WJEObjectF(WJEGet(optionlist(proto, face->name), "then", NULL), WJE_GET, NULL, "properties.%s",commandname);
+  }
+  else
+    parameter = WJEObjectF(optionlist(proto, face->name), WJE_GET, NULL, "properties.%s",commandname);
 
   if (WJEGet(parameter, "[\"$ref\"]", NULL))
   {

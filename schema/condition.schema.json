@@ -5,6 +5,7 @@
   "type": "object",
   "properties": {
     "country": {
+      "type": "string",
       "enum": ["Russia", "China", "America"]
     }
   },
@@ -12,21 +13,21 @@
     "properties": { "country": { "const": "Russia" } }
   },
   "then": {
-    "properties": { "channel": { "enum": [1,2,3,4,5] } }
+    "properties": { "channel": { "type": "number", "enum": [1,2,3,4,5] } }
   },
   "else": {
     "if": {
       "properties": { "country": { "const": "China" } }
     },
     "then": {
-      "properties": { "channel": { "enum": [6,7,8,9,10] } }
+      "properties": { "channel": { "type": "number", "enum": [6,7,8,9,10] } }
     },
     "else": {
       "if": {
         "properties": { "country": { "const": "America" } }
       },
       "then": {
-        "properties": { "channel": { "enum": [11,12,13,14,15] } }
+        "properties": { "channel": { "type": "number", "enum": [11,12,13,14,15] } }
       }
     }
   },
