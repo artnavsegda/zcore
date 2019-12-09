@@ -29,5 +29,8 @@
         "properties": { "channel": { "enum": [11,12,13,14,15] } }
       }
     }
-  }
+  },
+  "acquire": {
+     "file": "condition.json"
+   }
 }
