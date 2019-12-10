@@ -278,9 +278,11 @@ char * combinevalues(int argc, char *argv[])
 
 int option(int argc, char *argv[])
 {
-  WJElement parameter;
+  WJElement parameter = NULL;
 
-  if (!WJEGet(optionlist(protoschema, protoface->name), argv[0], NULL))
+  //WJEDump(WJEGetF(optionlist(protoschema, protoface->name), NULL, "properties.%s", argv[0]));
+
+  if (!WJEGetF(optionlist(protoschema, protoface->name), NULL, "properties.%s", argv[0]))
   {
     if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
     {
@@ -294,6 +296,8 @@ int option(int argc, char *argv[])
   {
     parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
   }
+
+  //WJEDump(parameter);
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
@@ -403,7 +407,7 @@ char * conoptionvalues(const char * text, int len)
   static WJElement option = NULL;
   if (WJEGet(optionlist(rl_protoschema, rl_protoface->name), "if", NULL))
   {
-    if (WJESchemaValidate(WJEGet(optionlist(rl_protoschema, rl_protoface->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
+    if (WJESchemaValidate(WJEGet(optionlist(rl_protoschema, rl_protoface->name), "if", NULL), rl_protoface, schema_error, schema_load, schema_free, "%s"))
     {
       while ((option = _WJEObject(WJEGet(optionlist(rl_protoschema, rl_protoface->name), "then", NULL), "properties[]", WJE_GET, &option)))
       {
@@ -540,7 +544,7 @@ char * optionvalue(char * commandname, WJElement proto, WJElement face)
   WJElement parameter;
   char * returnstring = NULL;
 
-  if (!WJEGet(optionlist(proto, face->name), commandname, NULL))
+  if (!WJEGetF(optionlist(proto, face->name), NULL, "properties.%s", commandname))
   {
     if (WJESchemaValidate(WJEGet(optionlist(proto, face->name), "if", NULL), face, schema_error, schema_load, schema_free, "%s"))
       parameter = WJEObjectF(WJEGet(optionlist(proto, face->name), "then", NULL), WJE_GET, NULL, "properties.%s",commandname);
