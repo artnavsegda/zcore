@@ -75,6 +75,31 @@ int listoptions(void)
   return 0;
 }
 
+int isoptionconditional(WJElement schema, WJElement face, char * optionname)
+{
+  if (WJEGet(optionlist(schema, face->name), "if", NULL))
+  {
+    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), face, schema_error, schema_load, schema_free, "%s"))
+    {
+      if (WJEGetF(WJEGet(optionlist(schema, face->name), "then", NULL), NULL, "properties.%s", optionname))
+        return 1;
+    }
+    else
+    {
+      //WJEDump(optionlist(schema, face->name));
+      if (WJEGet(optionlist(schema, face->name), "else", NULL))
+      {
+        //puts("else condition found");
+        if (WJEGetF(WJEGet(optionlist(schema, face->name), "else", NULL), NULL, "properties.%s", optionname))
+          return 1;
+        else
+          return isoptionconditional(WJEGet(optionlist(schema, face->name), "else", NULL), face, optionname);
+      }
+    }
+  }
+  return 0;
+}
+
 int isoption(char * optionname)
 {
   if (domain == OPTION)
@@ -85,15 +110,7 @@ int isoption(char * optionname)
     }
     else
     {
-      if (WJEGet(optionlist(protoschema, protoface->name), "if", NULL))
-      {
-        if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
-        {
-          if (WJEGetF(WJEGet(optionlist(protoschema, protoface->name), "then", NULL), NULL, "properties.%s", optionname))
-            return 1;
-        }
-      }
-      return 0;
+      return isoptionconditional(protoschema, protoface, optionname);
     }
   }
   return 0;
