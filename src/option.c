@@ -398,6 +398,24 @@ char * optionvalues(const char * text, int len)
   return NULL;
 }
 
+char * conoptionvalues(const char * text, int len)
+{
+  static WJElement option = NULL;
+  if (WJEGet(optionlist(rl_protoschema, rl_protoface->name), "if", NULL))
+  {
+    if (WJESchemaValidate(WJEGet(optionlist(rl_protoschema, rl_protoface->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
+    {
+      while ((option = _WJEObject(WJEGet(optionlist(rl_protoschema, rl_protoface->name), "then", NULL), "properties[]", WJE_GET, &option)))
+      {
+        if (strncmp(option->name, text, len) == 0)
+        {
+          return strdup(option->name);
+        }
+      }
+    }
+  }
+}
+
 char * settingvalues(const char * text, int len, int state)
 {
   static WJElement setting = NULL;
