@@ -311,11 +311,8 @@ WJElement optionlist(WJElement schema, char * protoname)
       }
     }
   }
-  else if (WJEGet(schema, "properties", NULL))
-  {
+  else
     return schema;
-  }
-  return NULL;
 }
 
 void fillenv(WJElement proto, WJElement face)

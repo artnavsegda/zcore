@@ -23,6 +23,27 @@ WJElement rl_parameter = NULL;
 WJElement optionjson = NULL;
 int optiondepth = 0;
 
+void listconditional(WJElement schema, WJElement face)
+{
+  WJElement option = NULL;
+  if (WJEGet(optionlist(schema, face->name), "if", NULL))
+  {
+    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
+    {
+      while ((option = _WJEObject(WJEGet(optionlist(schema, face->name), "then", NULL), "properties[]", WJE_GET, &option))) {
+        printf("%s: \n", option->name);
+      }
+    }
+    else
+    {
+      while ((option = _WJEObject(WJEGet(optionlist(schema, face->name), "else", NULL), "properties[]", WJE_GET, &option))) {
+        printf("%s: \n", option->name);
+      }
+      listconditional(WJEGet(optionlist(schema, face->name), "else", NULL), face);
+    }
+  }
+}
+
 int listoptions(void)
 {
   WJElement option = NULL;
@@ -49,21 +70,7 @@ int listoptions(void)
     }
   }
 
-  if (WJEGet(optionlist(protoschema, protoface->name), "if", NULL))
-  {
-    if (WJESchemaValidate(WJEGet(optionlist(protoschema, protoface->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
-    {
-      while ((option = _WJEObject(WJEGet(optionlist(protoschema, protoface->name), "then", NULL), "properties[]", WJE_GET, &option))) {
-        printf("%s: \n", option->name);
-      }
-    }
-    else
-    {
-      while ((option = _WJEObject(WJEGet(optionlist(protoschema, protoface->name), "else", NULL), "properties[]", WJE_GET, &option))) {
-        printf("%s: \n", option->name);
-      }
-    }
-  }
+  listconditional(protoschema, protoface);
 
   return 0;
 }
