@@ -10,24 +10,29 @@
     }
   },
   "if": {
-    "properties": { "country": { "const": "Russia" } }
+    "type": "object",
+    "properties": { "country": {
+      "type": "string",
+      "enum": ["Russia"]
+      }
+    }
   },
   "then": {
     "properties": { "channel": { "type": "number", "enum": [1,2,3,4,5] } }
   },
   "else": {
     "if": {
-      "properties": { "country": { "const": "China" } }
+      "properties": { "country": { "enum": ["China"] } }
     },
     "then": {
-      "properties": { "channel": { "type": "number", "enum": [6,7,8,9,10] } }
+      "properties": { "channel": { "type": "number", "enum": [1,2,3,4,5,6,7,8,9,10] } }
     },
     "else": {
       "if": {
-        "properties": { "country": { "const": "America" } }
+        "properties": { "country": { "enum": ["America"] } }
       },
       "then": {
-        "properties": { "channel": { "type": "number", "enum": [11,12,13,14,15] } }
+        "properties": { "channel": { "type": "number", "enum": [6,7,8,9,10] } }
       }
     }
   },

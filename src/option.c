@@ -106,8 +106,13 @@ int ValidateConditional(WJElement schema, WJElement json)
 {
   if (WJEGet(schema, "if", NULL))
   {
+    puts("if directive");
+    WJEDump(WJEGet(schema, "if", NULL));
+    puts("condition");
+    WJEDump(json);
     if (WJESchemaValidate(WJEGet(schema, "if", NULL), json, schema_error, schema_load, schema_free, "%s"))
     {
+      puts("true");
       if (WJESchemaValidate(WJEGet(schema, "then", NULL), json, schema_error, schema_load, schema_free, "%s"))
       {
         return ValidateConditional(WJEGet(schema, "then", NULL), json);
@@ -194,7 +199,6 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
       if (WJEGet(protojson, "schema.patternProperties", NULL))
       {
-
 
         WJEAttach(WJEGet(protojson,"data",NULL),temp);
         protoface = WJEGet(temp,"",NULL);
