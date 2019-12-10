@@ -57,6 +57,12 @@ int listoptions(void)
         printf("%s: \n", option->name);
       }
     }
+    else
+    {
+      while ((option = _WJEObject(WJEGet(optionlist(protoschema, protoface->name), "else", NULL), "properties[]", WJE_GET, &option))) {
+        printf("%s: \n", option->name);
+      }
+    }
   }
 
   return 0;
