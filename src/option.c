@@ -436,14 +436,14 @@ char * optionvalues(const char * text, int len)
   return NULL;
 }
 
-char * conoptionvalues(const char * text, int len)
+char * conditionvalues(WJElement schema, WJElement face, const char * text, int len)
 {
   static WJElement option = NULL;
-  if (WJEGet(optionlist(rl_protoschema, rl_protoface->name), "if", NULL))
+  if (WJEGet(optionlist(schema, face->name), "if", NULL))
   {
-    if (WJESchemaValidate(WJEGet(optionlist(rl_protoschema, rl_protoface->name), "if", NULL), rl_protoface, schema_error, schema_load, schema_free, "%s"))
+    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), protoface, schema_error, schema_load, schema_free, "%s"))
     {
-      while ((option = _WJEObject(WJEGet(optionlist(rl_protoschema, rl_protoface->name), "then", NULL), "properties[]", WJE_GET, &option)))
+      while ((option = _WJEObject(WJEGet(optionlist(schema, face->name), "then", NULL), "properties[]", WJE_GET, &option)))
       {
         if (strncmp(option->name, text, len) == 0)
         {
@@ -451,7 +451,29 @@ char * conoptionvalues(const char * text, int len)
         }
       }
     }
+    else
+    {
+      if (WJEGet(optionlist(schema, face->name), "else.properties", NULL))
+      {
+        while ((option = _WJEObject(WJEGet(optionlist(schema, face->name), "else", NULL), "properties[]", WJE_GET, &option)))
+        {
+          if (strncmp(option->name, text, len) == 0)
+          {
+            return strdup(option->name);
+          }
+        }
+        return NULL;
+      }
+      else
+        return conditionvalues(WJEGet(optionlist(schema, face->name), "else", NULL), face, text, len);
+    }
   }
+  return NULL;
+}
+
+char * conoptionvalues(const char * text, int len)
+{
+  return conditionvalues(rl_protoschema, rl_protoface, text, len);
 }
 
 char * settingvalues(const char * text, int len, int state)
