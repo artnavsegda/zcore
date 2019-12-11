@@ -307,6 +307,10 @@ void schema_error(void *client, const char *format, ...) {
 	fprintf(stderr, "\n");
 }
 
+void schema_errorq(void *client, const char *format, ...) {
+  return;
+}
+
 WJElement schema_load(const char *name, void *client, const char *file, const int line)
 {
 	char *format;
