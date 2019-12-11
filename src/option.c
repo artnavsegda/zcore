@@ -312,9 +312,20 @@ char * combinevalues(int argc, char *argv[])
 
 WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 {
-  if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), face, schema_error, schema_load, schema_free, "%s"))
+  if (!WJEGetF(optionlist(schema, face->name), NULL, "properties.%s", optionname))
   {
-    return WJEObjectF(WJEGet(optionlist(schema, face->name), "then", NULL), WJE_GET, NULL, "properties.%s",optionname);
+    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), face, schema_error, schema_load, schema_free, "%s"))
+    {
+      return WJEObjectF(WJEGet(optionlist(schema, face->name), "then", NULL), WJE_GET, NULL, "properties.%s",optionname);
+    }
+    else
+    {
+      return conditionoption(WJEGet(optionlist(schema, face->name), "else", NULL), face, optionname);
+    }
+  }
+  else
+  {
+    return WJEObjectF(optionlist(schema, face->name), WJE_GET, NULL, "properties.%s",optionname);
   }
 }
 
@@ -324,10 +335,7 @@ int option(int argc, char *argv[])
 
   //WJEDump(WJEGetF(optionlist(protoschema, protoface->name), NULL, "properties.%s", argv[0]));
 
-  if (!WJEGetF(optionlist(protoschema, protoface->name), NULL, "properties.%s", argv[0]))
-    parameter = conditionoption(protoschema, protoface, argv[0]);
-  else
-    parameter = WJEObjectF(optionlist(protoschema, protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
+  parameter = conditionoption(protoschema, protoface, argv[0]);
 
   if (WJEGet(parameter, "[\"$ref\"]", NULL))
   {
