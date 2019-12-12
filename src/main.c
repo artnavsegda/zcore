@@ -50,6 +50,12 @@ int main(int argc, char *argv[])
     }
   }
 
+  root = WJEObject(NULL, NULL, WJE_NEW);
+
+  readconfig(zcoreconfig);
+  loadeveryschema(root,config.schemapath);
+  acquireall(root);
+
   if (argv[optind])
   {
     //script mode
@@ -63,7 +69,10 @@ int main(int argc, char *argv[])
 
     char line[MAXLEN];
     while (fgets(line, MAXLEN, script))
-      printf("line: %s", line);
+    {
+      interpret(line);
+      //printf("line: %s", line);
+    }
 
     return 0;
   }
@@ -76,13 +85,6 @@ int main(int argc, char *argv[])
   rl_bind_key('\t', zc_completion2);
 //  rl_bind_key('>', zc_completion3);
   rl_bind_key('?', zc_completion3);
-
-  root = WJEObject(NULL, NULL, WJE_NEW);
-
-  readconfig(zcoreconfig);
-  loadeveryschema(root,config.schemapath);
-
-  acquireall(root);
 
   //WJEDump(root);
 
