@@ -126,7 +126,7 @@ int rl_isoption(char * optionname)
     }
     else
     {
-      return 0;
+      return isoptionconditional(rl_protoschema, rl_protoface, optionname);
     }
   }
   return 0;
@@ -410,7 +410,9 @@ int option(int argc, char *argv[])
 
 int rl_option(int argc, char *argv[])
 {
-  rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
+  rl_parameter = conditionoption(rl_protoschema, rl_protoface, argv[0]);
+
+  //rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
 
   if (WJEGet(rl_parameter, "[\"$ref\"]", NULL))
   {
