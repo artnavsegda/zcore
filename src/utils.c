@@ -136,7 +136,7 @@ int parse(char * stringtoparse, char **tokarr)
   int i = 0;
   tokarr[i] = stringtoparse;
   //while ((tokarr[i] = strmbtok(tokarr[i], " ", acOpen, acClose)) != NULL)
-  while ((tokarr[i] = strtok(tokarr[i], " ")) != NULL)
+  while ((tokarr[i] = strtok(tokarr[i], " \n")) != NULL)
     tokarr[++i] = NULL;
   return i;
 }
