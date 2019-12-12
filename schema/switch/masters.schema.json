@@ -19,7 +19,7 @@
           "description": "PHY switch port",
           "readonly": true
         },
-        
+
       }
     }
   },
@@ -28,6 +28,6 @@
 
   "acquire": {
      "shell": "get.sh",
-     "args": ["get.sh", "switch-master-ports", "switch.masters.schema"]
+     "args": ["switch.masters.schema", "switch-master-ports"]
    }
 }

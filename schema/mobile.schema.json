@@ -119,6 +119,6 @@
 
   "acquire": {
      "shell": "get.sh",
-     "args": ["mobile", "mobile.schema"]
+     "args": ["mobile.schema", "mobile"]
    }
 }

@@ -39,8 +39,7 @@
         },
         "macaddr": {
           "type": "string",
-          "description": "MAC address",
-          "pattern": "[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}"
+          "description": "MAC address"
         },
         "mtu": {
           "type": "number",
@@ -63,14 +62,12 @@
       }
     }
   },
+
   "commands": {
   },
+
   "acquire": {
     "shell": "get.sh",
-    "args": ["lan", "lan.schema"]
-  },
-  "onset": {
-    "command": "test.sh",
-    "args": ["lan", "lan.schema"]
+    "args": ["lan.schema", "lan"]
   }
 }

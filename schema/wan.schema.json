@@ -116,6 +116,6 @@
 
 	"acquire": {
 		"shell": "get.sh",
-		"args": ["wan", "wan.schema"]
+		"args": ["wan.schema", "wan"]
 	}
 }

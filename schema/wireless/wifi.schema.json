@@ -56,6 +56,6 @@
 
   "acquire": {
      "shell": "get.sh",
-     "args": ["wifi-iface", "wireless.wifi.schema"]
+     "args": ["wireless.wifi.schema", "wifi-iface"]
    }
 }

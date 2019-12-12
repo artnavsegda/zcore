@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "tunnel",
+  "description": "VPN Tunnels",
+  "type": "object",
+  "patternProperties": {
+    "^eoip": {
+      "type": "object",
+      "title": "EoIP tunnels",
+      "properties": {
+        "proto": {
+          "type": "string",
+          "hidden": true,
+        },
+
+        "auto": {
+          "type": "boolean",
+          "description": "autostart tunnel",
+          "default": true,
+        },
+
+        "ipaddr": {
+          "type": "string",
+          "description": "ip address",
+        },
+        "netmask": {
+          "type": "string",
+          "description": "network mask address",
+        },
+
+        "tunlink": {
+          "type": "string",
+          "description": "source interface",
+          "cue": ["wan", "lan", "loopback", "mobile", "tunnel"]
+        },
+
+        "zone": {
+          "type": "string",
+          "description": "firewall zone",
+          "enum": ["wan", "lan"]
+        },
+
+        "tunnel_id": {
+          "type": "number",
+          "description": "tunnel id",
+          "minimum": 1,
+          "maximum": 65535,
+        },
+
+        "remote_addr": {
+          "type": "string",
+          "description": "destination address",
+        }
+
+
+      }
+    },
+
+    "^l2tp": {
+      "type": "object",
+      "title": "L2TPv3 tunnels",
+      "properties": {
+        "proto": {
+          "type": "string",
+          "hidden": true,
+        },
+
+        "auto": {
+          "type": "boolean",
+          "description": "autostart tunnel",
+          "default": true,
+        },
+
+        "ipaddr": {
+          "type": "string",
+          "description": "ip address",
+        },
+        "netmask": {
+          "type": "string",
+          "description": "network mask address",
+        },
+
+        "tunlink": {
+          "type": "string",
+          "description": "source interface",
+          "cue": ["wan", "lan", "loopback", "mobile", "tunnel"]
+        },
+
+        "zone": {
+          "type": "string",
+          "description": "firewall zone",
+          "enum": ["wan", "lan"]
+        },
+
+        "tunnel_id": {
+          "type": "number",
+          "description": "tunnel id",
+          "minimum": 1,
+          "maximum": 65535,
+        },
+
+        "session_id": {
+          "type": "number",
+          "description": "session id",
+          "minimum": 1,
+          "maximum": 65535,
+        },
+
+        "df": {
+          "type": "boolean",
+          "description": "do not fragment flag",
+          "default": true,
+        },
+
+        "remote_addr": {
+          "type": "string",
+          "description": "destination address",
+        }
+        
+      }
+    },
+
+  },
+  "commands": {
+    "add": {
+      "command": "add.sh",
+      "description": "add <protocol (eoip, l2tp)> ",
+      "args": ["tunnel.schema", "tunnel"],
+      "cue": ["proto"],
+      "json": "merge",
+      "argpass": true,
+      "wait": true
+    },
+
+  },
+
+  "acquire": {
+     "shell": "get.sh",
+     "args": ["tunnel.schema", "tunnel"]
+   }
+}

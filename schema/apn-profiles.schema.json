@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/schema#",
-	"title": "apn-profile",
+	"title": "apn-profiles",
 	"description": "APN profiles list",
 	"type": "object",
 	"namesake": "mccmnc",
@@ -45,33 +45,39 @@
 		}
 	},
 	"commands": {
-		"apply": {
-			"command": "apply.sh",
-			"args": ["apply.sh", "apn-profiles", "apn-profiles.schema"],
-			"json": "in",
-			"reload": true,
-			"wait": true
+		"commit": {
+			"command": "commit.sh",
+			"args": ["apn-profiles.schema", "apn-profiles"],
+			"wait": false,
 		},
 
 		"add": {
 			"command": "add.sh",
-			"args": ["add.sh", "apn-profiles", "apn-profiles.schema"],
+			"args": ["apn-profiles.schema", "apn-profiles"],
 			"cue": ["mccmnc", "apn"],
+			"json": "merge",
 			"argpass": true,
-			"reload": true
+			"wait": true
 		},
 
 		"remove": {
 			"command": "remove.sh",
-			"args": ["remove.sh", "apn-profiles", "apn-profiles.schema"],
+			"args": ["apn-profiles.schema", "apn-profiles"],
 			"argpass": true,
-			"json": "in",
-			"reload": true
-		}
+			"reload": true,
+			"wait": true,
+		},
+
+	},
+
+	"onset": {
+		"command": "onset.sh",
+		"args": ["apn-profiles", "apn-profiles.schema"],
+		"wait": true,
 	},
 
 	"acquire": {
 		"shell": "get.sh",
-		"args": ["apn-profile", "apn-profile.schema"]
+		"args": ["apn-profiles.schema", "apn-profiles"]
 	}
 }

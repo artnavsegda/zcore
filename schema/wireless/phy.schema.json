@@ -52,6 +52,6 @@
 
   "acquire": {
      "shell": "get.sh",
-     "args": ["wifi-phy", "wireless.phy.schema"]
+     "args": ["wireless.phy.schema", "wifi-phy"]
    }
 }
