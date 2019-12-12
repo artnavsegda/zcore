@@ -16,6 +16,8 @@
 #include "acquire.h"
 #include "prompt.h"
 
+#define MAXLEN 1000
+
 WJElement root = NULL;
 char zcore_prompt[255];
 
@@ -46,6 +48,24 @@ int main(int argc, char *argv[])
         zcoreconfig = optarg;
         break;
     }
+  }
+
+  if (argv[optind])
+  {
+    //script mode
+    puts("script mode");
+    FILE *script = fopen(argv[optind],"r");
+    if (script == NULL)
+    {
+      printf("cannot open script file %s\n",argv[optind]);
+      return 1;
+    }
+
+    char line[MAXLEN];
+    while (fgets(line, MAXLEN, script))
+      printf("line: %s", line);
+
+    return 0;
   }
 
   signal(SIGINT, ctrl_c);
