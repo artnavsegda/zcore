@@ -312,20 +312,27 @@ char * combinevalues(int argc, char *argv[])
 
 WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 {
-  if (!WJEGetF(optionlist(schema, face->name), NULL, "properties.%s", optionname))
+  char * facename = NULL;
+
+  if (face)
+    facename = face->name;
+  else
+    facename = NULL;
+
+  if (!WJEGetF(optionlist(schema, facename), NULL, "properties.%s", optionname))
   {
-    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), face, schema_errorq, schema_load, schema_free, "%s"))
+    if (WJESchemaValidate(WJEGet(optionlist(schema, facename), "if", NULL), face, schema_errorq, schema_load, schema_free, "%s"))
     {
-      return WJEObjectF(WJEGet(optionlist(schema, face->name), "then", NULL), WJE_GET, NULL, "properties.%s",optionname);
+      return WJEObjectF(WJEGet(optionlist(schema, facename), "then", NULL), WJE_GET, NULL, "properties.%s",optionname);
     }
     else
     {
-      return conditionoption(WJEGet(optionlist(schema, face->name), "else", NULL), face, optionname);
+      return conditionoption(WJEGet(optionlist(schema, facename), "else", NULL), face, optionname);
     }
   }
   else
   {
-    return WJEObjectF(optionlist(schema, face->name), WJE_GET, NULL, "properties.%s",optionname);
+    return WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
   }
 }
 
