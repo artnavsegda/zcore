@@ -70,7 +70,8 @@ int main(int argc, char *argv[])
     char line[MAXLEN];
     while (fgets(line, MAXLEN, script))
     {
-      interpret(line);
+      if (line[0] != '#')
+        interpret(line);
       //printf("line: %s", line);
     }
 
