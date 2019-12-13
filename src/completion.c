@@ -472,6 +472,35 @@ void print_cmp_list(cmplist_t *list)
     {
       if(list->complelist[y]->domain == i)
       {
+        switch(i)
+        {
+          case PROTO:
+            printf("\033[0;31m");//red
+          break;
+          case FACE:
+            printf("\033[0;32m");//green
+          break;
+          case OPTION:
+            printf("\033[0;33m");//yellow
+          break;
+          case SETTING:
+            printf("\033[0;34m");//blue
+          break;
+          case COMMAND:
+            printf("\033[0;35m");//magenta
+          break;
+          case CUESETTING:
+            printf("\033[0;34m");//blue
+          break;
+          case BUILTIN:
+            printf("\033[0;36m");//cyan
+          break;
+          case GLOBAL:
+            printf("\033[0;35m");//magenta
+          break;
+          default:
+            printf("\033[0m");
+        }
         char tmpstr[15];
         sprintf(tmpstr, "   %%-%ds", list->maxlen);
         printf(tmpstr, list->complelist[y]->command);
@@ -482,12 +511,42 @@ void print_cmp_list(cmplist_t *list)
         //}
         if(list->complelist[y]->value)
         {
+          switch(i)
+          {
+            case PROTO:
+              printf("\033[1;31m");//red
+            break;
+            case FACE:
+              printf("\033[1;32m");//green
+            break;
+            case OPTION:
+              printf("\033[1;33m");//yellow
+            break;
+            case SETTING:
+              printf("\033[1;34m");//blue
+            break;
+            case COMMAND:
+              printf("\033[1;35m");//magenta
+            break;
+            case CUESETTING:
+              printf("\033[1;34m");//blue
+            break;
+            case BUILTIN:
+              printf("\033[1;36m");//cyan
+            break;
+            case GLOBAL:
+              printf("\033[1;35m");//magenta
+            break;
+            default:
+              printf("\033[0m");
+          }
           printf("   %s", list->complelist[y]->value);
         }
         putchar('\n');
         x = 1;
       }
     }
+    printf("\033[0m");
   }
   rl_on_new_line();
 
