@@ -23,7 +23,7 @@ int acquire(WJElement proto)
     WJECloseDocument(data);
   }
 
-  printf("acquire %s\n", proto->name);
+//  printf("acquire %s\n", proto->name);
 
   if (WJEGet(proto, "schema.acquire.file", NULL))
   {

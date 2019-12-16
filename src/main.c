@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
   if (argv[optind])
   {
     //script mode
-    puts("script mode");
+    //puts("script mode");
     FILE *script = fopen(argv[optind],"r");
     if (script == NULL)
     {
