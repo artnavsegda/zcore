@@ -7,6 +7,6 @@ if diff test1.result test1.reference; then
 else
   echo "test 1 fail"
 fi
-# test1 cleanup
+# test 1 cleanup
 rm test1.result
 
