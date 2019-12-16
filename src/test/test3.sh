@@ -8,5 +8,5 @@ else
   echo "test 3 fail"
 fi
 # test 3 cleanup
-rm test3.result
+# rm test3.result
 
