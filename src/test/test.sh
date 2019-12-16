@@ -1,3 +1,3 @@
 #!/bin/sh
 
-zcore -c $PWD/zenith test.script
+../zcore -c $PWD/testconfig.json test.script
