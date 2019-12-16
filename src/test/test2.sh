@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# test 1
+# test 2
 ../zcore -c $PWD/testconfig.json test2.script > test2.result
 if diff test2.result test2.reference; then
   echo "test 2 success"
