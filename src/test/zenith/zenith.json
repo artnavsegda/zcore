@@ -1,0 +1,5 @@
+{
+	"schemapath" : "./schema",
+	"scriptpath" : "./script",
+	"jsonpath" : "./consts"
+}

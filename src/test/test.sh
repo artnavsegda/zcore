@@ -1,3 +1,3 @@
 #!/bin/sh
 
-zcore -c $PWD/config test.script
+zcore -c $PWD/zenith test.script
