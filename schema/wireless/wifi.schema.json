@@ -29,7 +29,7 @@
 
         "ssid": {
           "type": "string",
-          "description": "SSID name",
+          "description": "SSID name"
         },
 
         "key": {
