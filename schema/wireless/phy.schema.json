@@ -1,57 +1,103 @@
 {
-  "$schema": "http://json-schema.org/schema#",
-  "title": "phy",
-  "description": "WiFi PHY list",
-  "type": "object",
-  "patternProperties": {
-    "^radio": {
-      "type": "object",
-      "title": "Radio PHY entity",
-      "properties": {
+	"$schema": "http://json-schema.org/schema#",
+	"title": "phy",
+	"description": "WiFi PHY list",
+	"type": "object",
+	"patternProperties": {
+		"^radio": {
+			"type": "object",
+			"title": "Radio PHY entity",
+			"properties": {
+				"hwmode": {
+					"type": "string",
+					"description": "HW radio mode",
+					"enum": ["11b", "11g"]
+				},
 
-        "channel": {
-          "type": "string",
-          "description": "Radio channel number",
-          "enum": ["1","2","3","4","5","6","7","8","9","10","11"]
-        },
+				"htmode": {
+					"type": "string",
+					"description": "HT radio mode",
+					"enum": ["HT20", "HT40-", "HT40+", "HT40"]
+				},
 
-        "hwmode": {
-          "type": "string",
-          "description": "HW radio mode",
-          "enum": ["11b", "11g"]
-        },
+				"chanbw": {
+					"type": "number",
+					"description": "Channel bandwith",
+					"enum": [5, 10, 20]
+				},
 
-        "htmode": {
-          "type": "string",
-          "description": "HT radio mode",
-          "enum": [ "HT20", "HT40-", "HT40+", "HT40" ]
-        },
+				"disabled": {
+					"type": "boolean",
+					"description": "Disable adapter"
+				},
 
-        "chanbw": {
-          "type": "number",
-          "description": "Channel bandwith",
-          "enum": [5, 10, 20]
-        },
+				"country": {
+					"type": "string",
+					"description": "Country code",
+					"enum": ["Russia", "China", "America"]
+				}
+			},
+			"if": {
+				"type": "object",
+				"properties": {
+					"country": {
+						"type": "string",
+						"enum": ["Russia"]
+					}
+				}
+			},
+			"then": {
+				"properties": {
+					"channel": {
+						"type": "number",
+						"enum": [1, 2, 3, 4, 5]
+					}
+				}
+			},
+			"else": {
+				"if": {
+					"type": "object",
+					"properties": {
+						"country": {
+							"type": "string",
+							"enum": ["China"]
+						}
+					}
+				},
+				"then": {
+					"properties": {
+						"channel": {
+							"type": "number",
+							"enum": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+						}
+					}
+				},
+				"else": {
+					"if": {
+						"type": "object",
+						"properties": {
+							"country": {
+								"type": "string",
+								"enum": ["America"]
+							}
+						}
+					},
+					"then": {
+						"properties": {
+							"channel": {
+								"type": "number",
+								"enum": [6, 7, 8, 9, 10]
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"commands": {},
 
-        "disabled": {
-          "type": "boolean",
-          "description": "Disable adapter",
-        },
-
-        "country": {
-          "type": "string",
-          "description": "Country code",
-          "cue": ["wireless.region-params"]
-        },
-
-      }
-    }
-  },
-  "commands": {
-  },
-
-  "acquire": {
-     "shell": "get.sh",
-     "args": ["wireless.phy.schema", "wifi-phy"]
-   }
+	"acquire": {
+		"shell": "get.sh",
+		"args": ["wireless.phy.schema", "wifi-phy"]
+	}
 }
