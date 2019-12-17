@@ -4,6 +4,7 @@
 #include <regex.h>
 #include <wjelement.h>
 #include <wjreader.h>
+#include "validate.h"
 
 void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties);
 
