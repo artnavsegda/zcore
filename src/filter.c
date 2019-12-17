@@ -50,6 +50,10 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties
   {
     translateproperty(ifaceoutput, ifaceinput, property);
   }
+  if (WJEGet(properties, "if", NULL))
+  {
+
+  }
 }
 
 WJElement filter(WJElement input, WJElement schema, char * schemapath)
