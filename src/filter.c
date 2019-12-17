@@ -51,7 +51,7 @@ void translateconditional(WJElement ifaceoutput, WJElement ifaceinput, WJElement
   {
     if (WJESchemaValidate(properties, ifaceoutput, schema_errorq, schema_load, schema_free, "%s"))
     {
-      while (property = _WJEObject(properties, "if.properties[]", WJE_GET, &property))
+      while (property = _WJEObject(properties, "then.properties[]", WJE_GET, &property))
       {
         translateproperty(ifaceoutput, ifaceinput, property);
       }
@@ -62,7 +62,7 @@ void translateconditional(WJElement ifaceoutput, WJElement ifaceinput, WJElement
       {
         translateproperty(ifaceoutput, ifaceinput, property);
       }
-      translateproperty(ifaceoutput, ifaceinput, WJEGet(properties, "else", NULL));
+      translateconditional(ifaceoutput, ifaceinput, WJEGet(properties, "else", NULL));
     }
   }
 }
