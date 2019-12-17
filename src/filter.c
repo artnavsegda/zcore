@@ -5,43 +5,50 @@
 #include <wjelement.h>
 #include <wjreader.h>
 
+void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties);
+
+void translateproperty(WJElement ifaceoutput, WJElement ifaceinput, WJElement property)
+{
+  if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
+  {
+    char * stringvalue = WJEString(ifaceinput,property->name,WJE_GET,"");
+    if (stringvalue[0])
+    {
+      WJEString(ifaceoutput,property->name,WJE_NEW,stringvalue);
+    }
+  }
+  else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
+  {
+    int numbervalue = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
+    if (numbervalue != -1)
+    {
+      WJEInt32(ifaceoutput,property->name,WJE_NEW,numbervalue);
+    }
+  }
+  else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
+  {
+    int boolval = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
+    if (boolval != -1)
+    {
+      WJEBool(ifaceoutput,property->name,WJE_NEW,(XplBool)boolval);
+    }
+  }
+  else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
+  {
+    WJEAttach(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET));
+  }
+  else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"object") == 0)
+  {
+    translate(WJEObject(ifaceoutput, property->name, WJE_NEW),WJEObject(ifaceinput, property->name, WJE_GET),property);
+  }
+}
+
 void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties)
 {
   WJElement property = NULL;
   while (property = _WJEObject(properties, "properties[]", WJE_GET, &property))
   {
-    if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
-    {
-      char * stringvalue = WJEString(ifaceinput,property->name,WJE_GET,"");
-      if (stringvalue[0])
-      {
-        WJEString(ifaceoutput,property->name,WJE_NEW,stringvalue);
-      }
-    }
-    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"number") == 0)
-    {
-      int numbervalue = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
-      if (numbervalue != -1)
-      {
-        WJEInt32(ifaceoutput,property->name,WJE_NEW,numbervalue);
-      }
-    }
-    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"boolean") == 0)
-    {
-      int boolval = WJEInt32(ifaceinput,property->name,WJE_GET,-1);
-      if (boolval != -1)
-      {
-        WJEBool(ifaceoutput,property->name,WJE_NEW,(XplBool)boolval);
-      }
-    }
-    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"array") == 0)
-    {
-      WJEAttach(ifaceoutput,WJEArray(ifaceinput, property->name, WJE_GET));
-    }
-    else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"object") == 0)
-    {
-      translate(WJEObject(ifaceoutput, property->name, WJE_NEW),WJEObject(ifaceinput, property->name, WJE_GET),WJEObject(property, "properties", WJE_GET));
-    }
+    translateproperty(ifaceoutput, ifaceinput, property);
   }
 }
 
