@@ -44,6 +44,29 @@ void translateproperty(WJElement ifaceoutput, WJElement ifaceinput, WJElement pr
   }
 }
 
+void translateconditional(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties)
+{
+  WJElement property = NULL;
+  if (WJEGet(properties, "if", NULL))
+  {
+    if (WJESchemaValidate(properties, ifaceoutput, schema_errorq, schema_load, schema_free, "%s"))
+    {
+      while (property = _WJEObject(properties, "if.properties[]", WJE_GET, &property))
+      {
+        translateproperty(ifaceoutput, ifaceinput, property);
+      }
+    }
+    else
+    {
+      while (property = _WJEObject(properties, "else.properties[]", WJE_GET, &property))
+      {
+        translateproperty(ifaceoutput, ifaceinput, property);
+      }
+      translateproperty(ifaceoutput, ifaceinput, WJEGet(properties, "else", NULL));
+    }
+  }
+}
+
 void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties)
 {
   WJElement property = NULL;
@@ -51,13 +74,7 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties
   {
     translateproperty(ifaceoutput, ifaceinput, property);
   }
-  if (WJEGet(properties, "if", NULL))
-  {
-    if (WJESchemaValidate(properties, ifaceoutput, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      
-    }
-  }
+  translateconditional(ifaceoutput, ifaceinput, properties);
 }
 
 WJElement filter(WJElement input, WJElement schema, char * schemapath)
