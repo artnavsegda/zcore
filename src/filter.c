@@ -8,7 +8,7 @@
 void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties)
 {
   WJElement property = NULL;
-  while (property = _WJEObject(properties, "[]", WJE_GET, &property))
+  while (property = _WJEObject(properties, "properties[]", WJE_GET, &property))
   {
     if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
     {
@@ -63,15 +63,15 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
         if (!regexec(&preg, ifaceinput->name, 0, NULL, 0))
         {
           ifaceoutput = WJEObject(output, ifaceinput->name, WJE_NEW);
-          translate(ifaceoutput, ifaceinput, WJEObject(properties,"properties", WJE_GET));
+          translate(ifaceoutput, ifaceinput, properties);
         }
       }
       regfree(&preg);
     }
   }
-  else if (WJEGetF(schema,NULL,"%s.properties",schemapath))
+  else
   {
-    properties = WJEObjectF(schema, WJE_GET, NULL, "%s.properties", schemapath);
+    properties = WJEObject(schema, schemapath, WJE_GET);
     translate(output, input, properties);
   }
   return output;
