@@ -53,7 +53,10 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties
   }
   if (WJEGet(properties, "if", NULL))
   {
-
+    if (WJESchemaValidate(properties, ifaceoutput, schema_errorq, schema_load, schema_free, "%s"))
+    {
+      
+    }
   }
 }
 
