@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "domain.h"
 #include "global.h"
+#include "validate.h"
 
 extern int protodepth;
 extern WJElement protojson;

@@ -10,6 +10,7 @@
 #include "completion.h"
 #include "builtin.h"
 #include "config.h"
+#include "validate.h"
 
 extern WJElement protojson;
 extern WJElement protoschema;
