@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "test",
+  "title": "test2",
   "description": "test list",
   "type": "object",
   "patternProperties": {
@@ -9,7 +9,7 @@
       "title": "test entity",
       "properties": {
         "something": {
-          "type": "object"
+          "type": "object",
           "properties": {
             "one": {
               "type": "string"
