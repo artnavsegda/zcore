@@ -446,8 +446,12 @@ int rl_option(int argc, char *argv[])
 
 char * optionvalues(const char * text, int len)
 {
+  char suggest_name = NULL;
+  if (rl_protoface)
+    suggest_name = rl_protoface->name;
+
   static WJElement option = NULL;
-  while (option = _WJEObject(optionlist(rl_protoschema, rl_protoface->name), "properties[]", WJE_GET, &option)) {
+  while (option = _WJEObject(optionlist(rl_protoschema, suggest_name), "properties[]", WJE_GET, &option)) {
     if (WJEBool(option, "hidden", WJE_GET, FALSE))
       return optionvalues(text,len);
     if (strncmp(option->name, text, len) == 0) {
