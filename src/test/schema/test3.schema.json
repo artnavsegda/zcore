@@ -9,7 +9,13 @@
       "title": "test entity",
       "properties": {
         "something": {
-          "type": "string"
+          "type": "object",
+          "title": "test entity 2",
+          "properties": {
+            "someelse": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -56,6 +62,6 @@
     }
   },
   "acquire": {
-     "file": "test.json"
+     "file": "test2.json"
    }
 }
