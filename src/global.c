@@ -19,13 +19,13 @@ int globalcommandcount = 0;
 
 void addglobalcommand(WJElement loadroot, char * commandname)
 {
-  printf("add global command %s\n", commandname);
+  //printf("add global command %s\n", commandname);
 
   for (int i = 0; i < globalcommandcount; i++)
   {
     if (strcmp(commandname,globalcommands[i].commandname) == 0)
     {
-      puts("add schema to existing command");
+      //puts("add schema to existing command");
       globalcommands[i].schemacount++;
       globalcommands[i].schemalink = realloc(globalcommands[i].schemalink, sizeof(WJElement *)*globalcommands[i].schemacount);
       globalcommands[globalcommandcount-1].schemalink[globalcommands[i].schemacount-1] = loadroot;
@@ -33,7 +33,7 @@ void addglobalcommand(WJElement loadroot, char * commandname)
     }
   }
 
-  puts("add new command");
+  //puts("add new command");
   globalcommandcount++;
   globalcommands = realloc(globalcommands, sizeof(struct globalcommand_struct)*(globalcommandcount));
   globalcommands[globalcommandcount-1].commandname = commandname;

@@ -54,7 +54,7 @@ WJElement loadschema(char * pathtoload)
   while (command = _WJEObject(schemaroot, "schema.commands[]", WJE_GET, &command)) {
     if (WJEBool(command, "global", WJE_GET, FALSE))
     {
-      printf("adding global command %s from schema %s\n", command->name, schemaroot->name);
+      //printf("adding global command %s from schema %s\n", command->name, schemaroot->name);
       addglobalcommand(schemaroot, command->name);
     }
   }
