@@ -446,7 +446,7 @@ int rl_option(int argc, char *argv[])
 
 char * optionvalues(const char * text, int len)
 {
-  char suggest_name = NULL;
+  char * suggest_name = NULL;
   if (rl_protoface)
     suggest_name = rl_protoface->name;
 
