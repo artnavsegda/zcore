@@ -236,7 +236,7 @@ char * commandvalues(const char * text, int len)
   static WJElement command = NULL;
   while (command = _WJEObject(rl_protojson, "schema.commands[]", WJE_GET, &command)) {
     if (WJEBool(command, "hidden", WJE_GET, FALSE))
-      return optionvalues(text,len);
+      return commandvalues(text,len);
     if (strncmp(command->name, text, len) == 0) {
       return strdup(command->name);
     }
