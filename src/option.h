@@ -11,3 +11,4 @@ char * settingvalues(const char * text, int len, int state);
 char * cuesettingvalues(const char * text, int len, int state);
 char * optionhelp(const char * commandname, WJElement proto, WJElement face);
 char * optionvalue(char * commandname, WJElement proto, WJElement face);
+WJElement conditionoption(WJElement schema, WJElement face, char * optionname);

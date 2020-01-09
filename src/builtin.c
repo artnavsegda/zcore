@@ -202,8 +202,17 @@ int printoption(WJElement proto, WJElement face, int depth)
         printf("%s.", parentname(proto, i));
       }
       if (WJEGet(proto, "schema.patternProperties", NULL))
+      {
         printf("%s.", elementname(proto,face));
-      printf("%s = ", option->name);
+      }
+
+      printf("%s", option->name);
+
+      if (strcmp(WJEString(WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",option->name),"type", WJE_GET, NULL),"object") == 0){
+        printf("<OPTION>");
+      }
+
+      printf(" = ");
 
       char * returnstring = optionvalue(option->name, schema, face);
 
