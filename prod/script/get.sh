@@ -1,39 +1,18 @@
 #!/bin/sh
 
-logger -t "zenith" "get: $@"
+## get.sh <schema.name> <subsystem>
 
-case "$1" in
-	"dns")
-		x=$(ubus call uci get "{'config': 'dhcp', 'type': 'dnsmasq'}" | jsonfilter -e @.values[*].server)
-		echo '{"servers": '$x'}' | zfilter $2
-	;;
+schema=$1; shift
+subsystem=$1; shift
 
-    "wifi-phy")
-        ubus call uci get "{'config': 'wireless', 'type': 'wifi-device'}"  | jsonfilter -e @.values | zfilter $2
+logger -t "zenith" "get: $subsystem $schema"
+
+case "$subsystem" in
+    "mobile")
+        ubus call uci get "{'config':'network', 'type': 'interface', 'match':{'proto':'3g'}}" | jsonfilter -e @.values | zfilter $schema
     ;;
 
-    "wifi-iface")
-        ubus call uci get "{'config': 'wireless', 'type': 'wifi-iface'}"  | jsonfilter -e @.values | zfilter $2
-    ;;
-
-
-	"mobile")
-		ubus call uci get "{'config':'network', 'type': 'interface', 'match':{'proto':'3g'}}" | jsonfilter -e @.values | zfilter $2
-	;;
-
-	"apn-profiles")
-        	ubus call uci get "{'config': 'apn-profiles', 'type': 'apn'}" | jsonfilter -e "@.values" | zfilter $2
-	;;
-
-    "loopback")
-        ubus call uci get "{'config': 'network', 'type': 'interface', 'match': {'ifname': 'lo'}}" | jsonfilter -e @.values | zfilter $2
-    ;;
-
-    "routes")
-        ubus call uci get "{'config': 'network', 'type': 'route'}" | jsonfilter -e @.values | zfilter $2
-    ;;
-
-	"lan")
+    "lan")
         local firstPass=1
 
         rr=$(echo '{'
@@ -64,10 +43,10 @@ case "$1" in
             done
             echo '}')
 
-        echo $rr | zfilter $2
-	;;
+        echo $rr | zfilter $schema
+    ;;
 
-	"wan")
+    "wan")
         local firstPass=1
 
         rr=$(echo '{'
@@ -126,8 +105,24 @@ case "$1" in
         done
         echo '}')
 
-        echo $rr | zfilter $2
-	;;
+        echo $rr | zfilter $schema
+    ;;
+
+    "apn-profiles")
+        [ -f "/etc/config/apn-profiles" ] || touch /etc/config/apn-profiles
+        ubus call uci get "{'config': 'apn-profiles', 'type': 'apn'}" | jsonfilter -e "@.values" | zfilter $schema
+    ;;
+
+    "loopback")
+        ubus call uci get "{'config': 'network', 'type': 'interface', 'match': {'ifname': 'lo'}}" | jsonfilter -e @.values | zfilter $schema
+    ;;
+
+    "wifi")
+    ;;
+
+    "routes")
+        ubus call uci get "{'config': 'network', 'type': 'route'}" | jsonfilter -e @.values | zfilter $schema
+    ;;
 
     "switch-ports")
 
@@ -156,7 +151,7 @@ case "$1" in
         [ "$status" = "link:down" -a "$port_disabled" = "1" ] && status="disabled"
 
         [ "$i" = "1" ] && echo ","
-	echo -n "\"$p\": {\"name\": \"$name\", \"port\": $port, \"speed\": \"$speed\", \"duplex\": \"$duplex\", \"status\": \"$status\", \"disabled\": $port_disabled}"
+        echo -n "\"$p\": {\"name\": \"$name\", \"port\": $port, \"speed\": \"$speed\", \"duplex\": \"$duplex\", \"status\": \"$status\", \"disabled\": $port_disabled}"
 
         i=1
         json_select ..
@@ -164,20 +159,20 @@ case "$1" in
 
         echo '}')
 
-        echo $rr | zfilter $2
+        echo $rr | zfilter $schema
     ;;
 
-	"switch-master-ports")
-		ubus call uci get "{'config':'network', 'type': 'switch_port', 'match':{'to_cpu': 1}}" | jsonfilter -e @.values | zfilter $2
-	;;
-	"ntp")
-		ubus call uci get "{'config':'system', 'section': 'ntp' }" | jsonfilter -e @.values | zfilter $2
-	;;
-	"rules")
-		ubus call uci get "{'config':'firewall', 'type': 'rule'}" | jsonfilter -e @.values | zfilter $2
-	;;
-	"zones")
-		ubus call uci get "{'config':'firewall', 'type': 'zone'}" | jsonfilter -e @.values | zfilter $2
-	;;
+    "switch-master-ports")                                                                                                              
+        ubus call uci get "{'config':'network', 'type': 'switch_port', 'match':{'to_cpu': 1}}" | jsonfilter -e @.values | zfilter $schema
+    ;;
+
+    "wifi-phy")
+        ubus call uci get "{'config': 'wireless', 'type': 'wifi-device'}"  | jsonfilter -e @.values | zfilter $schema
+    ;;
+
+    "wifi-iface")
+        ubus call uci get "{'config': 'wireless', 'type': 'wifi-iface'}"  | jsonfilter -e @.values | zfilter $schema
+    ;;
+
 
 esac
