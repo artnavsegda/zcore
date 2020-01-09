@@ -39,15 +39,15 @@ void generateprompt(char * prompt)
   }
   if (domain == OPTION)
   {
+    for (int i = optiondepth; i > 0; i--)
+    {
+      strcat(prompt, "/");
+      strcat(prompt, parentname(protoface, i+1));
+    }
     if (WJEGet(protojson, "schema.patternProperties", NULL))
     {
       strcat(prompt, "/");
       strcat(prompt, elementname(protojson,protoface));
-    }
-    for (int i = optiondepth; i > 0; i--)
-    {
-      strcat(prompt, "/");
-      strcat(prompt, parentname(protoface, i));
     }
     //if (optiondepth > 0)
     //{
