@@ -356,8 +356,8 @@ int option(int argc, char *argv[])
   {
     if (WJEGet(protoface,argv[0],NULL))
     {
+      protoschema = WJEGetF(optionlist(protoschema, protoface->name),NULL,"properties.%s",argv[0]);// ha ha
       protoface = WJEGet(protoface,argv[0],NULL);
-      protoschema = WJEGetF(protoschema,NULL,"properties.%s",argv[0]);
       optiondepth++;
       if (argc > 1)
        if (isoption(argv[1]))
@@ -701,7 +701,8 @@ char * optionvalue(char * commandname, WJElement proto, WJElement face)
     }
     else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
     {
-      return strdup("Object");
+      //return strdup("Object");
+      return NULL;
     }
   }
   else
