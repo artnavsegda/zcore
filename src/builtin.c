@@ -208,10 +208,17 @@ int printoption(WJElement proto, WJElement face, int depth)
 
       printf("%s", option->name);
 
-      if (strcmp(WJEString(WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",option->name),"type", WJE_GET, NULL),"object") == 0){
-        printf("<OPTION>");
+      if (strcmp(WJEString(option,"type", WJE_GET, NULL),"object") == 0){
+        //printf("<OPTION>");
+        //WJEDump(option);
 
-        WJEDump(WJEGet(face, option->name, NULL));
+        WJElement suboption = NULL;
+
+        while (suboption = _WJEObject(option, "properties[]", WJE_GET, &suboption)) {
+          printf(".%s", suboption->name);
+          //WJEDump(suboption);
+        }
+
       }
 
       printf(" = ");
