@@ -212,6 +212,11 @@ int printoption(WJElement proto, WJElement face, int depth)
           printf(".%s", suboption->name);
         }
         printf(" = ");
+
+        //char * returnstring = optionvalue(suboption->name, schema, face);
+
+
+
         puts("None");
       }
       else
