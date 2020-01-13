@@ -205,33 +205,27 @@ int printoption(WJElement proto, WJElement face, int depth)
       {
         printf("%s.", elementname(proto,face));
       }
-
       printf("%s", option->name);
-
       if (strcmp(WJEString(option,"type", WJE_GET, NULL),"object") == 0){
-        //printf("<OPTION>");
-        //WJEDump(option);
-
         WJElement suboption = NULL;
-
         while (suboption = _WJEObject(option, "properties[]", WJE_GET, &suboption)) {
           printf(".%s", suboption->name);
-          //WJEDump(suboption);
         }
-
-      }
-
-      printf(" = ");
-
-      char * returnstring = optionvalue(option->name, schema, face);
-
-      if (returnstring)
-      {
-        puts(returnstring);
-        free(returnstring);
+        printf(" = ");
+        puts("None");
       }
       else
-        puts("None");
+      {
+        printf(" = ");
+        char * returnstring = optionvalue(option->name, schema, face);
+        if (returnstring)
+        {
+          puts(returnstring);
+          free(returnstring);
+        }
+        else
+          puts("None");
+      }
     }
   }
   printconditional(proto, schema, face, depth);
