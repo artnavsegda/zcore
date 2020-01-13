@@ -211,7 +211,15 @@ int printoption(WJElement proto, WJElement face, int depth)
         while (suboption = _WJEObject(option, "properties[]", WJE_GET, &suboption)) {
           printf(".%s", suboption->name);
           printf(" = ");
-          puts(WJEString(WJEGet(face, option->name, NULL), suboption->name, WJE_GET, "None"));
+
+          char * returnstring = optionvalue(suboption->name, option, WJEGet(face, option->name, NULL));
+          if (returnstring)
+          {
+            puts(returnstring);
+            free(returnstring);
+          }
+          else
+            puts("None");
         }
       }
       else
