@@ -90,7 +90,6 @@ int commandlist(int argc, char *argv[])
     break;
     case OPTION:
       listoptions();
-      listcommands();
     break;
   }
   return 1;

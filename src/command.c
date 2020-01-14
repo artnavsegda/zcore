@@ -40,7 +40,7 @@ int listcommands(void)
 
 int iscommand(char * commandname)
 {
-  if (domain == FACE || domain == OPTION)
+  if (domain == FACE)
   {
     if (WJEGetF(protojson, NULL, "schema.commands.%s", commandname))
     {
@@ -56,7 +56,7 @@ int iscommand(char * commandname)
 
 int rl_iscommand(char * commandname)
 {
-  if (rl_domain == FACE || rl_domain == OPTION)
+  if (rl_domain == FACE)
   {
     if (WJEGetF(rl_protojson, NULL, "schema.commands.%s", commandname))
     {
