@@ -184,10 +184,9 @@ int printconditional(WJElement proto, WJElement schema, WJElement face, int dept
   }
 }
 
-int printoption(WJElement proto, WJElement face, int depth)
+int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
 {
   WJElement option = NULL;
-  WJElement schema = WJEGet(proto, "schema", NULL);
   char * facename = NULL;
   if (face)
     facename = face->name;
@@ -202,6 +201,8 @@ int printoption(WJElement proto, WJElement face, int depth)
       }
       if (WJEGet(proto, "schema.patternProperties", NULL))
       {
+        if (optiondepth > 0)
+          printf("%s.", face->parent->name);
         printf("%s.", elementname(proto,face));
       }
       printf("%s", option->name);
@@ -243,7 +244,7 @@ int printoption2(WJElement proto, int depth)
 {
   WJElement face = NULL;
   while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
-    printoption(proto,face, depth);
+    printoption(proto,face, depth, WJEGet(proto, "schema", NULL));
   }
   return 0;
 }
@@ -263,7 +264,7 @@ int printoption3(WJElement protoinput, int depth)
         }
         else if (WJEGet(proto, "schema.properties", NULL))
         {
-          printoption(proto,WJEGet(proto, "data", NULL),depth);
+          printoption(proto,WJEGet(proto, "data", NULL),depth, WJEGet(proto, "schema", NULL));
         }
       }
     }
@@ -279,7 +280,7 @@ int builtin_show(int argc, char *argv[])
 {
   if (domain == OPTION)
   {
-    printoption(protojson,protoface,protodepth);
+    printoption(protojson,protoface,protodepth,protoschema);
   }
   else if (domain == FACE)
   {
