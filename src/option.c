@@ -223,7 +223,7 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
     //WJEDump(temp);
 
-    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_errorq, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
+    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
     {
       //puts("schema valid");
       WJECloseDocument(protoface);
@@ -298,7 +298,7 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
     }
     else
     {
-      puts("error");
+      puts("Schema validation failed, check output below for mismatches");
       WJECloseDocument(temp);
     }
   }
