@@ -360,10 +360,9 @@ int exportconditional(WJElement proto, WJElement schema, WJElement face, int dep
   }
 }
 
-int exportoption(WJElement proto, WJElement face, int depth)
+int exportoption(WJElement proto, WJElement face, int depth, WJElement schema)
 {
   WJElement option = NULL;
-  WJElement schema = WJEGet(proto, "schema", NULL);
   char * facename = NULL;
   if (face)
     facename = face->name;
@@ -377,18 +376,39 @@ int exportoption(WJElement proto, WJElement face, int depth)
         printf("%s ", parentname(proto, i));
       }
       if (WJEGet(proto, "schema.patternProperties", NULL))
-        printf("%s ", elementname(proto,face));
-      printf("%s ", option->name);
-
-      char * returnstring = optionvalue(option->name, schema, face);
-
-      if (returnstring)
       {
-        puts(returnstring);
-        free(returnstring);
+        if (optiondepth > 0)
+          printf("%s ", face->parent->name);
+        printf("%s ", elementname(proto,face));
+      }
+      printf("%s ", option->name);
+      if (strcmp(WJEString(option,"type", WJE_GET, NULL),"object") == 0){
+        WJElement suboption = NULL;
+        while (suboption = _WJEObject(option, "properties[]", WJE_GET, &suboption)) {
+          printf("%s ", suboption->name);
+
+          char * returnstring = optionvalue(suboption->name, option, WJEGet(face, option->name, NULL));
+          if (returnstring)
+          {
+            puts(returnstring);
+            free(returnstring);
+          }
+          else
+            puts("None");
+        }
       }
       else
-        puts("None");
+      {
+        char * returnstring = optionvalue(option->name, schema, face);
+
+        if (returnstring)
+        {
+          puts(returnstring);
+          free(returnstring);
+        }
+        else
+          puts("None");
+      }
     }
   }
   exportconditional(proto, schema, face, depth);
@@ -399,7 +419,7 @@ int exportoption2(WJElement proto, int depth)
 {
   WJElement face = NULL;
   while (face = _WJEObject(proto, "data[]", WJE_GET, &face)) {
-    exportoption(proto,face, depth);
+    exportoption(proto,face, depth, WJEGet(proto, "schema", NULL));
   }
   return 0;
 }
@@ -419,7 +439,7 @@ int exportoption3(WJElement protoinput, int depth)
         }
         else if (WJEGet(proto, "schema.properties", NULL))
         {
-          exportoption(proto,WJEObject(proto, "data", WJE_GET),depth);
+          exportoption(proto,WJEObject(proto, "data", WJE_GET),depth, WJEGet(proto, "schema", NULL));
         }
       }
     }
@@ -435,7 +455,7 @@ int builtin_export(int argc, char *argv[])
 {
   if (domain == OPTION)
   {
-    exportoption(protojson,protoface,protodepth);
+    exportoption(protojson,protoface,protodepth,protoschema);
   }
   else if (domain == FACE)
   {
