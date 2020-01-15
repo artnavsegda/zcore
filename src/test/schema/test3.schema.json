@@ -63,5 +63,10 @@
   },
   "acquire": {
      "file": "test2.json"
-   }
+  },
+	"onset": {
+		"command": "onset.sh",
+		"args": ["onset", "onset"],
+		"wait": true
+	}
 }
