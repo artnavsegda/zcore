@@ -20,6 +20,7 @@ extern WJElement protojson;
 extern WJElement protoschema;
 extern WJElement protoface;
 extern int protodepth;
+extern int optiondepth;
 extern enum domains domain;
 
 int execute(int argc, char *argv[]) {
@@ -29,6 +30,7 @@ int execute(int argc, char *argv[]) {
   WJElement ret_protoschema = protoschema;
   WJElement ret_protoface = protoface;
   int ret_protodepth = protodepth;
+  int ret_optiondepth = optiondepth;
 
   if (isbuiltin(argv[0]))
   {
@@ -63,8 +65,9 @@ int execute(int argc, char *argv[]) {
     domain = ret_domain;
     protojson = ret_protojson;
     protoschema = ret_protoschema;
-    //protoface = ret_protoface;
+//    protoface = ret_protoface;
     protodepth = ret_protodepth;
+//    optiondepth = ret_optiondepth;
   }
   return 0;
 }

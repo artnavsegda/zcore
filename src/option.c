@@ -11,6 +11,7 @@
 #include "builtin.h"
 #include "config.h"
 #include "validate.h"
+#include "prompt.h"
 
 extern WJElement protojson;
 extern WJElement protoschema;
@@ -279,7 +280,15 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
           int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
 
-          args[argsc++] = protoface->name;
+//          if (optiondepth > 0)
+//          {
+            //args[argsc++] = protoface->parent->name;
+//          }
+//          else
+//          {
+            args[argsc++] = protoface->name;
+//          }
+
           args[argsc++] = parametername;
           args[argsc++] = optionstring;
           args[argsc++] = NULL;
