@@ -282,14 +282,17 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
           int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
 
-//          if (optiondepth > 0)
-//          {
-            //args[argsc++] = protoface->parent->name;
-//          }
-//          else
-//          {
+          char combinedepth[1000]; // replace with asprintf && free
+
+         if (optiondepth > 0)
+         {
+           snprintf(combinedepth,1000,"%s.%s", protoface->parent->name, protoface->name);
+           args[argsc++] = combinedepth;
+         }
+         else
+         {
             args[argsc++] = protoface->name;
-//          }
+         }
 
           args[argsc++] = parametername;
           args[argsc++] = optionstring;
