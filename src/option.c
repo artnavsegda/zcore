@@ -227,12 +227,14 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
     if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
     {
       //puts("schema valid");
+
+      WJElement parent = WJEGet(protoface->parent,"",NULL);
       WJECloseDocument(protoface);
 
       if (WJEGet(protojson, "schema.patternProperties", NULL))
       {
 
-        WJEAttach(WJEGet(protojson,"data",NULL),temp);
+        WJEAttach(parent,temp);
         protoface = WJEGet(temp,"",NULL);
         if (!protoface)
         {

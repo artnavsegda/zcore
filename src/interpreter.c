@@ -67,7 +67,7 @@ int execute(int argc, char *argv[]) {
     protoschema = ret_protoschema;
 //    protoface = ret_protoface;
     protodepth = ret_protodepth;
-//    optiondepth = ret_optiondepth;
+    optiondepth = ret_optiondepth;
   }
   return 0;
 }
