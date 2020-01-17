@@ -283,7 +283,7 @@ enum staging sub_protostage[] = {START_STAGE, PROTO_STAGE, BUILTIN_STAGE, STOP_S
 enum staging sub_facestage[] = {START_STAGE, FACE_STAGE, COMMAND_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging sub_optionstage[] = {START_STAGE, OPTION_STAGE, CONOPTION_STAGE, BUILTIN_STAGE, STOP_STAGE};
 enum staging sub_settingstage[] = {START_STAGE, SETTING_STAGE, CUESETTING_STAGE, STOP_STAGE};
-enum staging sub_commandstage[] = {START_STAGE, CUECOMMAND_STAGE, CUECUECOMMAND_STAGE, STOP_STAGE};
+enum staging sub_commandstage[] = {START_STAGE, FACE_STAGE, CUECOMMAND_STAGE, CUECUECOMMAND_STAGE, STOP_STAGE};
 
 cmpstr_t * rl_subcommands2(const char * text, int len, int state)
 {

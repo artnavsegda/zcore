@@ -11,6 +11,7 @@
 
 extern WJElement protojson;
 extern WJElement rl_protojson;
+extern WJElement rl_commjson;
 extern enum domains domain;
 WJElement protoface = NULL;
 WJElement protoschema = NULL;
@@ -106,6 +107,9 @@ int listfaces(void)
 
 char * facevalues(const char * text, int len)
 {
+  if (rl_domain == COMMAND && WJEGet(rl_commjson, "cue", NULL))
+    return NULL;
+
   static WJElement face = NULL;
   while (face = _WJEObject(rl_protojson, "data[]", WJE_GET, &face)) {
     if (strncmp(elementname(rl_protojson,face), text, len) == 0) {
