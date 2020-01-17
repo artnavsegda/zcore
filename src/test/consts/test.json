@@ -1,7 +1,8 @@
 {
   "test1": {
     "moniker": "alpha",
-    "something" : "hello"
+    "something" : "hello",
+    "someone" : [1,2,3,4]
   },
   "test3": {
     "moniker": "bravo"

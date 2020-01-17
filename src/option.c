@@ -559,8 +559,35 @@ char * settingvalues(const char * text, int len, int state)
   }
   else if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"array") == 0)
   {
-    rl_parameter = WJEObject(rl_parameter, "items", WJE_GET);
-    return settingvalues(text, len, state);
+    if (rl_line_buffer[rl_point-1] == '-')
+    {
+      /// SUDA
+      static WJElement stashelement = NULL;
+      if (strcmp(WJEString(WJEObject(rl_parameter, "items", WJE_GET),"type", WJE_GET, NULL),"number") == 0)
+      {
+        int somevalue = 0;
+        char tempstring[100];
+
+        while (somevalue = WJEInt32F(protoface, WJE_GET, &stashelement, 0, "%s[]", rl_parameter->name))
+        {
+          sprintf(tempstring,"-%d",somevalue);
+          if (strncmp(tempstring, text, len) == 0) {
+            return strdup(tempstring);
+          }
+        }
+        // while (stashelement = WJEObjectF(protoface, WJE_GET, &stashelement, "%s[]", rl_parameter->name))
+        // {
+        //   if (strncmp(elementname(cueproto,cueface), text, len) == 0) {
+        //     return strdup(elementname(cueproto,cueface));
+        //   }
+        // }
+      }
+    }
+    else
+    {
+      rl_parameter = WJEObject(rl_parameter, "items", WJE_GET);
+      return settingvalues(text, len, state);
+    }
   }
   /*if (!state)
   {
