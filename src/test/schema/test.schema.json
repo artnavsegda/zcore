@@ -54,6 +54,11 @@
       "argpass": true,
       "wait": true,
       "global": true
+    },
+    "match": {
+      "command": "match.sh",
+      "argpass": true,
+      "wait": true
     }
   },
   "acquire": {
