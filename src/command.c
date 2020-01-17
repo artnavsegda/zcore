@@ -105,6 +105,16 @@ int command(int argc, char *argv[])
   sprintf(configenv,"_CONFIG=%s", config.configpath);
   envp[i++] = configenv;
 
+  char cuestring[100] = "_CUE=";
+  char * cuename = NULL;
+  WJElement cue = NULL;
+  while (cuename = _WJEString(command_el, "cue[]", WJE_GET, &cue, NULL))
+  {
+    strcat(cuestring, cuename);
+    strcat(cuestring, " ");
+  }
+  envp[i++] = cuestring;
+
   switch(domain)
   {
     case PROTO:
@@ -115,6 +125,17 @@ int command(int argc, char *argv[])
     break;
     case FACE:
       envp[i++] = "_DOMAIN=FACE";
+      WJElement face = NULL;
+      char sections[1000] = "_SECTIONS=";
+      char namesakes[1000] = "_NAMESAKES=";
+      while (face = _WJEObject(protojson, "data[]", WJE_GET, &face)) {
+        strcat(sections, face->name);
+        strcat(sections, " ");
+        strcat(namesakes, elementname(protojson,face));
+        strcat(namesakes, " ");
+      }
+      envp[i++] = sections;
+      envp[i++] = namesakes;
       //setenv("DOMAIN", "FACE", 1);
       //setenv("DOM", "FA", 1);
       //myenv[0] = "DOMAIN=FACE";
@@ -146,15 +167,6 @@ int command(int argc, char *argv[])
     break;
   }
 
-  char cuestring[100] = "_CUE=";
-  char * cuename = NULL;
-  WJElement cue = NULL;
-  while (cuename = _WJEString(command_el, "cue[]", WJE_GET, &cue, NULL))
-  {
-    strcat(cuestring, cuename);
-    strcat(cuestring, " ");
-  }
-  envp[i++] = cuestring;
   envp[i++] = NULL;
 
   if (WJEBool(command_el, "argpass", WJE_GET, 0) == TRUE)

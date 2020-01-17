@@ -3,6 +3,7 @@
   "title": "test",
   "description": "test list",
   "type": "object",
+  "namesake": "moniker",
   "patternProperties": {
     "^test": {
       "type": "object",
