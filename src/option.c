@@ -567,10 +567,21 @@ char * settingvalues(const char * text, int len, int state)
       {
         int somevalue = 0;
         char tempstring[100];
-
         while (somevalue = WJEInt32F(protoface, WJE_GET, &stashelement, 0, "%s[]", rl_parameter->name))
         {
           sprintf(tempstring,"-%d",somevalue);
+          if (strncmp(tempstring, text, len) == 0) {
+            return strdup(tempstring);
+          }
+        }
+      }
+      else if (strcmp(WJEString(WJEObject(rl_parameter, "items", WJE_GET),"type", WJE_GET, NULL),"string") == 0)
+      {
+        char * somestring;
+        char tempstring[100];
+        while (somestring = WJEStringF(protoface, WJE_GET, &stashelement, "<error>", "%s[]", rl_parameter->name))
+        {
+          sprintf(tempstring,"-%s",somestring);
           if (strncmp(tempstring, text, len) == 0) {
             return strdup(tempstring);
           }
