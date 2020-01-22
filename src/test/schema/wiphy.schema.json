@@ -26,34 +26,55 @@
           "enum": ["default", "RU"],
         },
         "channel": {
-          "type": "number"
+          "type": "number",
+          "description": "Channel number",
         }
       },
       "anyOf": [
         { "properties": {
-            "country": {"const": "RU"},
-            "freq": {"const": "2.4Ghz"},
+            "country": {
+              "const": "RU",
+              "description": "Russia 2.4"
+            },
+            "freq": {
+              "const": "2.4Ghz"
+            },
             "channel": {
             	"enum": [1,2,3,4,5,6]
           	}
         }},
         { "properties": {
-            "country": {"const": "RU"},
-            "freq": {"const": "5Ghz"},
+            "country": {
+              "const": "RU",
+              "description": "Russia 5"
+            },
+            "freq": {
+              "const": "5Ghz"
+            },
             "channel": {
           		"enum": [36,40,44,48,149,152,153,157]
         	}
         }},
         { "properties": {
-            "country": {"const": "default"},
-            "freq": {"const": "2.4Ghz"},
+            "country": {
+              "const": "default",
+              "description": "default 2.4"
+            },
+            "freq": {
+              "const": "2.4Ghz"
+            },
             "channel": {
           		"enum": [1,2,3,4,5,6,7,8,9,10]
         	}
         }},
         { "properties": {
-            "country": {"const": "default"},
-            "freq": {"const": "5Ghz"},
+            "country": {
+              "const": "default",
+              "description": "default 5"
+            },
+            "freq": {
+              "const": "5Ghz"
+            },
             "channel": {
           		"enum": [36,40,44,48]
         	}
