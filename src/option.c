@@ -118,30 +118,39 @@ int rl_isoption(char * optionname)
 
 int ValidateConditional(WJElement schema, WJElement json)
 {
-  if (WJEGet(schema, "if", NULL))
-  {
-    //puts("if directive");
-    //WJEDump(WJEGet(schema, "if", NULL));
-    //puts("condition");
-    //WJEDump(json);
-    if (WJESchemaValidate(WJEGet(schema, "if", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
+  WJElement anyoption = NULL;
+  while (anyoption = _WJEObject(schema, "anyOf[]", WJE_GET, &anyoption)) {
+    if (WJESchemaValidate(anyoption, json, schema_errorq, schema_load, schema_free, "%s"))
     {
-      //puts("true");
-      if (WJESchemaValidate(WJEGet(schema, "then", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
-      {
-        return ValidateConditional(WJEGet(schema, "then", NULL), json);
-      }
-      else
-        return 0;
-    }
-    else if (WJESchemaValidate(WJEGet(schema, "else", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      return ValidateConditional(WJEGet(schema, "else", NULL), json);
-    }
-    else
       return 0;
+    }
   }
   return 1;
+
+  // if (WJEGet(schema, "if", NULL))
+  // {
+  //   //puts("if directive");
+  //   //WJEDump(WJEGet(schema, "if", NULL));
+  //   //puts("condition");
+  //   //WJEDump(json);
+  //   if (WJESchemaValidate(WJEGet(schema, "if", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
+  //   {
+  //     //puts("true");
+  //     if (WJESchemaValidate(WJEGet(schema, "then", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
+  //     {
+  //       return ValidateConditional(WJEGet(schema, "then", NULL), json);
+  //     }
+  //     else
+  //       return 0;
+  //   }
+  //   else if (WJESchemaValidate(WJEGet(schema, "else", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
+  //   {
+  //     return ValidateConditional(WJEGet(schema, "else", NULL), json);
+  //   }
+  //   else
+  //     return 0;
+  // }
+  // return 1;
 }
 
 int option_set_value(WJElement parameter, char * parametername, char * value)
