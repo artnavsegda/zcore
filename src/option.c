@@ -327,14 +327,22 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 
   if (!WJEGetF(optionlist(schema, facename), NULL, "properties.%s", optionname))
   {
-    if (WJESchemaValidate(WJEGet(optionlist(schema, facename), "if", NULL), face, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      return WJEObjectF(WJEGet(optionlist(schema, facename), "then", NULL), WJE_GET, NULL, "properties.%s",optionname);
+    WJElement anyoption = NULL;
+    while (anyoption = _WJEObject(schema, "anyOf[]", WJE_GET, &anyoption)) {
+      if (WJESchemaValidate(anyoption, face, schema_errorq, schema_load, schema_free, "%s"))
+      {
+        return WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",optionname);
+      }
     }
-    else
-    {
-      return conditionoption(WJEGet(optionlist(schema, facename), "else", NULL), face, optionname);
-    }
+
+    // if (WJESchemaValidate(WJEGet(optionlist(schema, facename), "if", NULL), face, schema_errorq, schema_load, schema_free, "%s"))
+    // {
+    //   return WJEObjectF(WJEGet(optionlist(schema, facename), "then", NULL), WJE_GET, NULL, "properties.%s",optionname);
+    // }
+    // else
+    // {
+    //   return conditionoption(WJEGet(optionlist(schema, facename), "else", NULL), face, optionname);
+    // }
   }
   else
   {
