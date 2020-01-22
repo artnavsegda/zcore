@@ -17,6 +17,12 @@
           "items": {
             "type": "number"
           }
+        },
+        "around": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

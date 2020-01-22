@@ -2,7 +2,8 @@
   "test1": {
     "moniker": "alpha",
     "something" : "hello",
-    "someone" : [1,2,3,4]
+    "someone" : [1,2,3,4],
+    "around" : ["one","two","three"]
   },
   "test3": {
     "moniker": "bravo"

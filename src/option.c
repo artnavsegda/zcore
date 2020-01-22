@@ -559,7 +559,7 @@ char * settingvalues(const char * text, int len, int state)
   }
   else if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"array") == 0)
   {
-    if (rl_line_buffer[rl_point-1] == '-')
+    if (text[0] == '-')
     {
       /// SUDA
       static WJElement stashelement = NULL;
@@ -577,9 +577,9 @@ char * settingvalues(const char * text, int len, int state)
       }
       else if (strcmp(WJEString(WJEObject(rl_parameter, "items", WJE_GET),"type", WJE_GET, NULL),"string") == 0)
       {
-        char * somestring;
+        char * somestring = NULL;
         char tempstring[100];
-        while (somestring = WJEStringF(protoface, WJE_GET, &stashelement, "<error>", "%s[]", rl_parameter->name))
+        while (somestring = WJEStringF(protoface, WJE_GET, &stashelement, NULL, "%s[]", rl_parameter->name))
         {
           sprintf(tempstring,"-%s",somestring);
           if (strncmp(tempstring, text, len) == 0) {

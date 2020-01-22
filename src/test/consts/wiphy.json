@@ -1,0 +1,7 @@
+{
+  "phy0": {
+    "country": "RU",
+    "freq":    "5Ghz",
+    "channel": 153
+  }
+}
