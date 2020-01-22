@@ -73,24 +73,12 @@ int listoptions(void)
 
 int isoptionconditional(WJElement schema, WJElement face, char * optionname)
 {
-  if (WJEGet(optionlist(schema, face->name), "if", NULL))
-  {
-    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), face, schema_errorq, schema_load, schema_free, "%s"))
+  WJElement anyoption = NULL;
+  while (anyoption = _WJEObject(optionlist(schema, facename), "anyOf[]", WJE_GET, &anyoption)) {
+    if (WJESchemaValidate(anyoption, protoface, schema_errorq, schema_load, schema_free, "%s"))
     {
-      if (WJEGetF(WJEGet(optionlist(schema, face->name), "then", NULL), NULL, "properties.%s", optionname))
+      if (WJEGetF(anyoption, NULL, "properties.%s", optionname))
         return 1;
-    }
-    else
-    {
-      //WJEDump(optionlist(schema, face->name));
-      if (WJEGet(optionlist(schema, face->name), "else", NULL))
-      {
-        //puts("else condition found");
-        if (WJEGetF(WJEGet(optionlist(schema, face->name), "else", NULL), NULL, "properties.%s", optionname))
-          return 1;
-        else
-          return isoptionconditional(WJEGet(optionlist(schema, face->name), "else", NULL), face, optionname);
-      }
     }
   }
   return 0;
