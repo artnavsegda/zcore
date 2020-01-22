@@ -27,12 +27,13 @@ int optiondepth = 0;
 
 void listconditional(WJElement schema, WJElement face)
 {
-  WJElement option = NULL;
+  WJElement anyoption = NULL;
 
-  while (option = _WJEObject(optionlist(schema, facename), "anyOf[]", WJE_GET, &option)) {
-    if (WJESchemaValidate(option, protoface, schema_errorq, schema_load, schema_free, "%s"))
+  while (anyoption = _WJEObject(optionlist(schema, facename), "anyOf[]", WJE_GET, &anyoption)) {
+    if (WJESchemaValidate(anyoption, protoface, schema_errorq, schema_load, schema_free, "%s"))
     {
-      while ((option = _WJEObject(option, "properties[]", WJE_GET, &option))) {
+      WJElement option = NULL;
+      while ((option = _WJEObject(anyoption, "properties[]", WJE_GET, &option))) {
         printf("%s: \n", option->name);
       }
     }
