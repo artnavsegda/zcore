@@ -431,14 +431,36 @@ int option(int argc, char *argv[])
 
 int rl_option(int argc, char *argv[])
 {
-  rl_parameter = conditionoption(rl_protoschema, rl_protoface, argv[0]);
+  WJECloseDocument(rl_parameter);
+  rl_parameter = WJEObject(NULL, argv[0], WJE_NEW);
 
+
+  char * facename = NULL;
+  if (rl_protoface)
+    facename = rl_protoface->name;
+  else
+    facename = NULL;
+
+  WJEMergeObjects(rl_parameter, WJEObjectF(optionlist(rl_protoschema, facename), WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
+
+  if (!WJEGetF(optionlist(rl_protoschema, facename), NULL, "properties.%s", argv[0]))
+  {
+    WJElement anyoption = NULL;
+    while (anyoption = _WJEObject(rl_protoschema, "anyOf[]", WJE_GET, &anyoption)) {
+      if (WJESchemaValidate(anyoption, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
+      {
+        WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
+      }
+    }
+  }
+
+  //rl_parameter = conditionoption(rl_protoschema, rl_protoface, argv[0]);
   //rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
 
-  if (WJEGet(rl_parameter, "[\"$ref\"]", NULL))
-  {
-    rl_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(rl_parameter, "[\"$ref\"]", WJE_GET, NULL));
-  }
+  // if (WJEGet(rl_parameter, "[\"$ref\"]", NULL))
+  // {
+  //   rl_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(rl_parameter, "[\"$ref\"]", WJE_GET, NULL));
+  // }
 
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"object") == 0)
   {
