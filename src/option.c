@@ -443,14 +443,11 @@ int rl_option(int argc, char *argv[])
 
   WJEMergeObjects(rl_parameter, WJEObjectF(optionlist(rl_protoschema, facename), WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
 
-  if (!WJEGetF(optionlist(rl_protoschema, facename), NULL, "properties.%s", argv[0]))
-  {
-    WJElement anyoption = NULL;
-    while (anyoption = _WJEObject(rl_protoschema, "anyOf[]", WJE_GET, &anyoption)) {
-      if (WJESchemaValidate(anyoption, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
-      {
-        WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
-      }
+  WJElement anyoption = NULL;
+  while (anyoption = _WJEObject(optionlist(rl_protoschema, facename), "anyOf[]", WJE_GET, &anyoption)) {
+    if (WJESchemaValidate(anyoption, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
+    {
+      WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
     }
   }
 
