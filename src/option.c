@@ -215,7 +215,8 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
     //WJEDump(temp);
 
-    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
+    //if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
+    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
     {
       //puts("schema valid");
 
@@ -277,25 +278,26 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
          if (optiondepth > 0)
          {
-           snprintf(combinedepth,1000,"%s.%s", protoface->parent->name, protoface->name);
+           args[argsc++] = protoface->parent->name;
+           snprintf(combinedepth,1000,"%s.%s", protoface->name, parametername);
            args[argsc++] = combinedepth;
          }
          else
          {
             args[argsc++] = protoface->name;
+            args[argsc++] = parametername;
          }
 
-          args[argsc++] = parametername;
           args[argsc++] = optionstring;
           args[argsc++] = NULL;
 
-          if (WJEBool(protojson, "schema.onset.wait", WJE_GET, FALSE) == TRUE)
+          if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
           {
-            forkwaitexec(onsetcommand,argsc,args,NULL);
+            WJEMergeObjects(WJEGet(protojson,"data",NULL), streamfromcommand(onsetcommand,args,NULL), FALSE);
           }
           else
           {
-            forkexec(onsetcommand,5,args,NULL);
+            forkwaitexec(onsetcommand,argsc,args,NULL);
           }
           free(optionstring);
         }
@@ -441,15 +443,25 @@ int rl_option(int argc, char *argv[])
   else
     facename = NULL;
 
-  WJEMergeObjects(rl_parameter, WJEObjectF(optionlist(rl_protoschema, facename), WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
-
   WJElement anyoption = NULL;
   while (anyoption = _WJEObject(optionlist(rl_protoschema, facename), "anyOf[]", WJE_GET, &anyoption)) {
     if (WJESchemaValidate(anyoption, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
     {
+      // puts("valid");
+      // puts("schema:");
+      // WJEDump(anyoption);
+      // puts("data");
+      // WJEDump(rl_protoface);
+
       WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
+      // puts("before merge");
+      // WJEDump(rl_parameter);
     }
   }
+
+  WJEMergeObjects(rl_parameter, WJEObjectF(optionlist(rl_protoschema, facename), WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
+  // puts("after merge");
+  // WJEDump(rl_parameter);
 
   //rl_parameter = conditionoption(rl_protoschema, rl_protoface, argv[0]);
   //rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
