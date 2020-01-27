@@ -28,7 +28,11 @@ void generateprompt(char * prompt)
 //  sprintf(prompt, "[%s@%s]/%s>", getlogin(), hostname, protoname);
   prompt[0] = '\0';
   strcat(prompt, "[");
-  strcat(prompt, getlogin());
+  char * loginname = getlogin();
+  if (loginname)
+  	strcat(prompt, loginname);
+  else
+	strcat(prompt, "nologin");
   strcat(prompt, "@");
   strcat(prompt, hostname);
   strcat(prompt, "]");
