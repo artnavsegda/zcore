@@ -14,6 +14,12 @@
           "properties": {
             "someelse": {
               "type": "string"
+            },
+            "someone": {
+              "type": "string"
+            },
+            "someday": {
+              "type": "string"
             }
           }
         }

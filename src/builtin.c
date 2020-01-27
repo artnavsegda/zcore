@@ -186,6 +186,7 @@ int printconditional(WJElement proto, WJElement schema, WJElement face, int dept
 
 int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
 {
+  char stringbuffer[1000] = "";
   WJElement option = NULL;
   char * facename = NULL;
   if (face)
@@ -197,18 +198,19 @@ int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
     {
       for (int i = depth; i > 0; i--)
       {
-        printf("%s.", parentname(proto, i));
+        sprintf(stringbuffer, "%s%s.", stringbuffer, parentname(proto, i));
       }
       if (WJEGet(proto, "schema.patternProperties", NULL))
       {
         if (optiondepth > 0)
-          printf("%s.", face->parent->name);
-        printf("%s.", elementname(proto,face));
+          sprintf(stringbuffer, "%s%s.", stringbuffer, face->parent->name);
+        sprintf(stringbuffer, "%s%s.", stringbuffer, elementname(proto,face));
       }
-      printf("%s", option->name);
+      sprintf(stringbuffer, "%s%s", stringbuffer, option->name);
       if (strcmp(WJEString(option,"type", WJE_GET, NULL),"object") == 0){
         WJElement suboption = NULL;
         while (suboption = _WJEObject(option, "properties[]", WJE_GET, &suboption)) {
+          printf(stringbuffer);
           printf(".%s", suboption->name);
           printf(" = ");
 
@@ -224,6 +226,7 @@ int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
       }
       else
       {
+        printf(stringbuffer);
         printf(" = ");
         char * returnstring = optionvalue(option->name, schema, face);
         if (returnstring)
