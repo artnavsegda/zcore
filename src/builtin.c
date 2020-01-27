@@ -186,7 +186,6 @@ int printconditional(WJElement proto, WJElement schema, WJElement face, int dept
 
 int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
 {
-  char stringbuffer[1000] = "";
   WJElement option = NULL;
   char * facename = NULL;
   if (face)
@@ -194,6 +193,7 @@ int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
   else
     facename = NULL;
   while (option = _WJEObject(optionlist(schema, facename), "properties[]", WJE_GET, &option)) {
+    char stringbuffer[1000] = "";
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       for (int i = depth; i > 0; i--)

@@ -73,6 +73,6 @@
 	"onset": {
 		"command": "onset.sh",
 		"args": ["onset", "onset"],
-		"wait": true
+		"merge": true
 	}
 }
