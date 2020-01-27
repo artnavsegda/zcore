@@ -206,8 +206,10 @@ WJElement streamfromcommand(char * command, char *argv[], char *envp[])
 
   fclose(jsonstream);
   waitpid(forkpid, &status, 0);
-
-  return jsondata;
+  if (status == 0)
+    return jsondata;
+  else
+    return NULL;
 }
 
 FILE * my_popen_read (char * command, char *argv[], char *envp[], int * pid)
