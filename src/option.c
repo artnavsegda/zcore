@@ -293,9 +293,16 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
           if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
           {
+            puts("merging");
             WJElement mergedata = streamfromcommand(onsetcommand,args,NULL);
             if (mergedata)
-              WJEMergeObjects(WJEGet(protojson,"data",NULL), mergedata, FALSE);
+            {
+              WJEDump(mergedata);
+              WJEMergeObjects(WJEGet(protojson,"data",NULL), mergedata, TRUE);
+            }
+            else
+              puts("no data");
+            WJEDump(WJEGet(protojson,"data",NULL));
           }
           else
           {

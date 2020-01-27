@@ -6,4 +6,4 @@
 #echo ==env==
 #env
 
-echo "{ 'something':'hihihi' }"
+cat /home/art/Coding/zcore/src/test/script/onset.json
