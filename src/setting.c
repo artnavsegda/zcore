@@ -28,6 +28,95 @@ extern WJElement optionjson;
 extern int optiondepth;
 extern char * optionname;
 
+char * optionvalue(char * commandname, WJElement proto, WJElement face)
+{
+  WJElement parameter;
+  char * returnstring = NULL;
+
+  parameter = conditionoption(proto, face, commandname);
+
+  if (WJEGet(parameter, "[\"$ref\"]", NULL))
+  {
+    parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
+  }
+
+  if (WJEGet(face, commandname, NULL))
+  {
+    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
+      return strdup(WJEString(face,commandname,WJE_GET,"<undefined>"));
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
+      asprintf(&returnstring,"%d", WJEInt32(face,commandname,WJE_GET,-1));
+      return returnstring;
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
+      if (WJEBool(face,commandname,WJE_GET,-1) == TRUE)
+        return strdup("true");
+      else if (WJEBool(face,commandname,WJE_GET,-1) == FALSE)
+        return strdup("false");
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
+      WJElement array = NULL;
+      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+        char * entity = NULL;
+        returnstring = malloc(1);
+        if (!returnstring)
+        {
+            puts("memory allocation 1 fail");
+            return NULL;
+        }
+        returnstring[0] = '\0';
+        while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", commandname))
+        {
+          if (returnstring = realloc(returnstring, strlen(returnstring) + strlen(entity) + 2))
+          {
+            strcat(returnstring, entity);
+            strcat(returnstring, " ");
+          }
+          else
+          {
+            puts("memory allocation 2 fail");
+            return NULL;
+          }
+        }
+        return returnstring;
+      }
+      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+        int number = 0;
+        returnstring = malloc(1);
+        if (!returnstring)
+        {
+            puts("memory allocation 1 fail");
+            return NULL;
+        }
+        returnstring[0] = '\0';
+        while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", commandname))
+        {
+          char tmpstr[15];
+          sprintf(tmpstr, "%d ", number);
+          if (returnstring = realloc(returnstring, strlen(returnstring) + strlen(tmpstr) + 1))
+          {
+            strcat(returnstring, tmpstr);
+          }
+          else
+          {
+            puts("memory allocation 2 fail");
+            return NULL;
+          }
+        }
+        return returnstring;
+      }
+    }
+    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
+    {
+      //return strdup("Object");
+      return NULL;
+    }
+  }
+  else
+    return NULL;
+}
+
 int listsettings()
 {
   char * returnstring = optionvalue(optionname, protoschema, protoface);
@@ -251,12 +340,6 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
   return 1;
 }
 
-char * combinevalues(int argc, char *argv[])
-{
-  char * combine = "hello good sir";
-  return combine;
-}
-
 WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 {
   char * facename = NULL;
@@ -410,93 +493,4 @@ char * cuesettingvalues(const char * text, int len, int state)
     return cuesettingvalues(text, len, state);
   }
   return NULL;
-}
-
-char * optionvalue(char * commandname, WJElement proto, WJElement face)
-{
-  WJElement parameter;
-  char * returnstring = NULL;
-
-  parameter = conditionoption(proto, face, commandname);
-
-  if (WJEGet(parameter, "[\"$ref\"]", NULL))
-  {
-    parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
-  }
-
-  if (WJEGet(face, commandname, NULL))
-  {
-    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
-      return strdup(WJEString(face,commandname,WJE_GET,"<undefined>"));
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
-      asprintf(&returnstring,"%d", WJEInt32(face,commandname,WJE_GET,-1));
-      return returnstring;
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
-      if (WJEBool(face,commandname,WJE_GET,-1) == TRUE)
-        return strdup("true");
-      else if (WJEBool(face,commandname,WJE_GET,-1) == FALSE)
-        return strdup("false");
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
-      WJElement array = NULL;
-      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
-        char * entity = NULL;
-        returnstring = malloc(1);
-        if (!returnstring)
-        {
-            puts("memory allocation 1 fail");
-            return NULL;
-        }
-        returnstring[0] = '\0';
-        while (entity = WJEStringF(face, WJE_GET, &array, NULL, "%s[]", commandname))
-        {
-          if (returnstring = realloc(returnstring, strlen(returnstring) + strlen(entity) + 2))
-          {
-            strcat(returnstring, entity);
-            strcat(returnstring, " ");
-          }
-          else
-          {
-            puts("memory allocation 2 fail");
-            return NULL;
-          }
-        }
-        return returnstring;
-      }
-      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
-        int number = 0;
-        returnstring = malloc(1);
-        if (!returnstring)
-        {
-            puts("memory allocation 1 fail");
-            return NULL;
-        }
-        returnstring[0] = '\0';
-        while (number = WJEInt32F(face, WJE_GET, &array, 0, "%s[]", commandname))
-        {
-          char tmpstr[15];
-          sprintf(tmpstr, "%d ", number);
-          if (returnstring = realloc(returnstring, strlen(returnstring) + strlen(tmpstr) + 1))
-          {
-            strcat(returnstring, tmpstr);
-          }
-          else
-          {
-            puts("memory allocation 2 fail");
-            return NULL;
-          }
-        }
-        return returnstring;
-      }
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
-    {
-      //return strdup("Object");
-      return NULL;
-    }
-  }
-  else
-    return NULL;
 }
