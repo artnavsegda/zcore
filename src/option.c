@@ -31,13 +31,10 @@ int listoptions(void)
   WJElement option = NULL;
   puts("Options:");
 
-  //WJEDump(optionlist(protoschema));
-
   while ((option = _WJEObject(optionlist(protoschema, protoface->name), "properties[]", WJE_GET, &option))) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       printf("%s: ", option->name);
-      //printf("%s: %s\n", option->name, WJEString(option, "description", WJE_GET, NULL));
       char * optionstring = optionhelp(option->name, protoschema, protoface);
       if (optionstring)
       {
@@ -48,7 +45,6 @@ int listoptions(void)
       {
         printf("None\n");
       }
-      //puts(option->name);
     }
   }
 
@@ -83,16 +79,12 @@ int option(int argc, char *argv[])
 {
   WJElement parameter = NULL;
 
-  //WJEDump(WJEGetF(optionlist(protoschema, protoface->name), NULL, "properties.%s", argv[0]));
-
   parameter = conditionoption(protoschema, protoface, argv[0]);
 
   if (WJEGet(parameter, "[\"$ref\"]", NULL))
   {
     parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
   }
-
-  //WJEDump(parameter);
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
@@ -174,29 +166,11 @@ int rl_option(int argc, char *argv[])
   while (anyoption = _WJEObject(optionlist(rl_protoschema, facename), "anyOf[]", WJE_GET, &anyoption)) {
     if (WJESchemaValidate(anyoption, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
     {
-      // puts("valid");
-      // puts("schema:");
-      // WJEDump(anyoption);
-      // puts("data");
-      // WJEDump(rl_protoface);
-
       WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
-      // puts("before merge");
-      // WJEDump(rl_parameter);
     }
   }
 
   WJEMergeObjects(rl_parameter, WJEObjectF(optionlist(rl_protoschema, facename), WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
-  // puts("after merge");
-  // WJEDump(rl_parameter);
-
-  //rl_parameter = conditionoption(rl_protoschema, rl_protoface, argv[0]);
-  //rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",argv[0]);
-
-  // if (WJEGet(rl_parameter, "[\"$ref\"]", NULL))
-  // {
-  //   rl_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(rl_parameter, "[\"$ref\"]", WJE_GET, NULL));
-  // }
 
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"object") == 0)
   {
