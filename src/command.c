@@ -12,6 +12,7 @@
 #include "option.h"
 #include "acquire.h"
 #include "face.h"
+#include "setting.h"
 
 extern char **environ;
 extern WJElement protojson;

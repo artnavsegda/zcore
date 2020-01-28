@@ -14,6 +14,7 @@
 #include "option.h"
 #include "interpreter.h"
 #include "global.h"
+#include "setting.h"
 
 enum domains rl_domain = PROTO;
 extern enum domains domain;
