@@ -26,6 +26,7 @@ WJElement parameter = NULL;
 WJElement rl_parameter = NULL;
 WJElement optionjson = NULL;
 int optiondepth = 0;
+char * optionname = NULL;
 
 int listoptions(void)
 {
@@ -78,7 +79,8 @@ int rl_isoption(char * optionname)
 
 int option(int argc, char *argv[])
 {
-  parameter = conditionoption(protoschema, protoface, argv[0]);
+  optionname = argv[0];
+  parameter = conditionoption(protoschema, protoface, optionname);
 
   if (WJEGet(parameter, "[\"$ref\"]", NULL))
   {
@@ -87,10 +89,10 @@ int option(int argc, char *argv[])
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
-    if (WJEGet(protoface,argv[0],NULL))
+    if (WJEGet(protoface,optionname,NULL))
     {
       protoschema = WJEGetF(optionlist(protoschema, protoface->name),NULL,"properties.%s",argv[0]);// ha ha
-      protoface = WJEGet(protoface,argv[0],NULL);
+      protoface = WJEGet(protoface,optionname,NULL);
       optiondepth++;
       if (argc > 1)
        if (isoption(argv[1]))

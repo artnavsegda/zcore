@@ -25,10 +25,27 @@ extern enum domains domain;
 extern WJElement rl_parameter;
 extern WJElement optionjson;
 extern int optiondepth;
+extern char * optionname;
+
+int listsettings()
+{
+  char * returnstring = optionvalue(optionname, protoschema, protoface);
+  if (returnstring)
+  {
+    puts(returnstring);
+    free(returnstring);
+  }
+  else
+    puts("undefined");
+  return 1;
+}
 
 int setting(int argc, char *argv[])
 {
-  
+  if (argc == 0)
+  {
+    return listsettings();
+  }
 }
 
 void listconditional(WJElement schema, WJElement face)
