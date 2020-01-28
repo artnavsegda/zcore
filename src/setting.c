@@ -54,43 +54,6 @@ int isoptionconditional(WJElement schema, WJElement face, char * optionname)
   return 0;
 }
 
-int ValidateConditional(WJElement schema, WJElement json)
-{
-  WJElement anyoption = NULL;
-  while (anyoption = _WJEObject(schema, "anyOf[]", WJE_GET, &anyoption)) {
-    if (WJESchemaValidate(anyoption, json, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      return 0;
-    }
-  }
-  return 1;
-
-  // if (WJEGet(schema, "if", NULL))
-  // {
-  //   //puts("if directive");
-  //   //WJEDump(WJEGet(schema, "if", NULL));
-  //   //puts("condition");
-  //   //WJEDump(json);
-  //   if (WJESchemaValidate(WJEGet(schema, "if", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
-  //   {
-  //     //puts("true");
-  //     if (WJESchemaValidate(WJEGet(schema, "then", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
-  //     {
-  //       return ValidateConditional(WJEGet(schema, "then", NULL), json);
-  //     }
-  //     else
-  //       return 0;
-  //   }
-  //   else if (WJESchemaValidate(WJEGet(schema, "else", NULL), json, schema_errorq, schema_load, schema_free, "%s"))
-  //   {
-  //     return ValidateConditional(WJEGet(schema, "else", NULL), json);
-  //   }
-  //   else
-  //     return 0;
-  // }
-  // return 1;
-}
-
 int option_set_value(WJElement parameter, char * parametername, char * value)
 {
   if (value[0] == '?')
@@ -283,60 +246,11 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
         return WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",optionname);
       }
     }
-
-    // if (WJESchemaValidate(WJEGet(optionlist(schema, facename), "if", NULL), face, schema_errorq, schema_load, schema_free, "%s"))
-    // {
-    //   return WJEObjectF(WJEGet(optionlist(schema, facename), "then", NULL), WJE_GET, NULL, "properties.%s",optionname);
-    // }
-    // else
-    // {
-    //   return conditionoption(WJEGet(optionlist(schema, facename), "else", NULL), face, optionname);
-    // }
   }
   else
   {
     return WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
   }
-}
-
-char * conditionvalues(WJElement schema, WJElement face, const char * text, int len)
-{
-  static WJElement option = NULL;
-  if (WJEGet(optionlist(schema, face->name), "if", NULL))
-  {
-    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), protoface, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      while ((option = _WJEObject(WJEGet(optionlist(schema, face->name), "then", NULL), "properties[]", WJE_GET, &option)))
-      {
-        if (strncmp(option->name, text, len) == 0)
-        {
-          return strdup(option->name);
-        }
-      }
-    }
-    else
-    {
-      if (WJEGet(optionlist(schema, face->name), "else.properties", NULL))
-      {
-        while ((option = _WJEObject(WJEGet(optionlist(schema, face->name), "else", NULL), "properties[]", WJE_GET, &option)))
-        {
-          if (strncmp(option->name, text, len) == 0)
-          {
-            return strdup(option->name);
-          }
-        }
-        return NULL;
-      }
-      else
-        return conditionvalues(WJEGet(optionlist(schema, face->name), "else", NULL), face, text, len);
-    }
-  }
-  return NULL;
-}
-
-char * conoptionvalues(const char * text, int len)
-{
-  return conditionvalues(rl_protoschema, rl_protoface, text, len);
 }
 
 char * settingvalues(const char * text, int len, int state)
