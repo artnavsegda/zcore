@@ -122,69 +122,6 @@ int isbuiltin(char * builtinname)
   }
 }
 
-int printconditional(WJElement proto, WJElement schema, WJElement face, int depth)
-{
-  WJElement option = NULL;
-  char * facename = NULL;
-  if (face)
-    facename = face->name;
-  else
-    facename = NULL;
-
-  if (WJEGet(optionlist(schema, facename), "if", NULL))
-  {
-    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), protoface, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      while (option = _WJEObject(WJEGet(optionlist(schema, face->name), "then", NULL), "properties[]", WJE_GET, &option))
-      {
-        if (!WJEBool(option, "hidden", WJE_GET, FALSE))
-        {
-          for (int i = depth; i > 0; i--)
-          {
-            printf("%s.", parentname(proto, i));
-          }
-          if (WJEGet(proto, "schema.patternProperties", NULL))
-            printf("%s.", elementname(proto,face));
-          printf("%s = ", option->name);
-          char * returnstring = optionvalue(option->name, schema, face);
-          if (returnstring)
-          {
-            puts(returnstring);
-            free(returnstring);
-          }
-          else
-            puts("None");
-        }
-      }
-    }
-    else
-    {
-      while (option = _WJEObject(WJEGet(optionlist(schema, face->name), "else", NULL), "properties[]", WJE_GET, &option))
-      {
-        if (!WJEBool(option, "hidden", WJE_GET, FALSE))
-        {
-          for (int i = depth; i > 0; i--)
-          {
-            printf("%s.", parentname(proto, i));
-          }
-          if (WJEGet(proto, "schema.patternProperties", NULL))
-            printf("%s.", elementname(proto,face));
-          printf("%s = ", option->name);
-          char * returnstring = optionvalue(option->name, schema, face);
-          if (returnstring)
-          {
-            puts(returnstring);
-            free(returnstring);
-          }
-          else
-            puts("None");
-        }
-      }
-      printconditional(proto, WJEGet(optionlist(schema, face->name), "else", NULL),face, depth);
-    }
-  }
-}
-
 int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
 {
   WJElement option = NULL;
@@ -240,7 +177,6 @@ int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
       }
     }
   }
-  printconditional(proto, schema, face, depth);
   return 0;
 }
 
@@ -301,69 +237,6 @@ int builtin_show(int argc, char *argv[])
   return 1;
 }
 
-int exportconditional(WJElement proto, WJElement schema, WJElement face, int depth)
-{
-  WJElement option = NULL;
-  char * facename = NULL;
-  if (face)
-    facename = face->name;
-  else
-    facename = NULL;
-
-  if (WJEGet(optionlist(schema, facename), "if", NULL))
-  {
-    if (WJESchemaValidate(WJEGet(optionlist(schema, face->name), "if", NULL), protoface, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      while (option = _WJEObject(WJEGet(optionlist(schema, face->name), "then", NULL), "properties[]", WJE_GET, &option))
-      {
-        if (!WJEBool(option, "hidden", WJE_GET, FALSE) && WJEGet(face, option->name, NULL))
-        {
-          for (int i = depth; i > 0; i--)
-          {
-            printf("%s ", parentname(proto, i));
-          }
-          if (WJEGet(proto, "schema.patternProperties", NULL))
-            printf("%s ", elementname(proto,face));
-          printf("%s ", option->name);
-          char * returnstring = optionvalue(option->name, schema, face);
-          if (returnstring)
-          {
-            puts(returnstring);
-            free(returnstring);
-          }
-          else
-            puts("None");
-        }
-      }
-    }
-    else
-    {
-      while (option = _WJEObject(WJEGet(optionlist(schema, face->name), "else", NULL), "properties[]", WJE_GET, &option))
-      {
-        if (!WJEBool(option, "hidden", WJE_GET, FALSE) && WJEGet(face, option->name, NULL))
-        {
-          for (int i = depth; i > 0; i--)
-          {
-            printf("%s ", parentname(proto, i));
-          }
-          if (WJEGet(proto, "schema.patternProperties", NULL))
-            printf("%s ", elementname(proto,face));
-          printf("%s ", option->name);
-          char * returnstring = optionvalue(option->name, schema, face);
-          if (returnstring)
-          {
-            puts(returnstring);
-            free(returnstring);
-          }
-          else
-            puts("None");
-        }
-      }
-      exportconditional(proto, WJEGet(optionlist(schema, face->name), "else", NULL),face, depth);
-    }
-  }
-}
-
 int exportoption(WJElement proto, WJElement face, int depth, WJElement schema)
 {
   WJElement option = NULL;
@@ -415,7 +288,6 @@ int exportoption(WJElement proto, WJElement face, int depth, WJElement schema)
       }
     }
   }
-  exportconditional(proto, schema, face, depth);
   return 0;
 }
 
