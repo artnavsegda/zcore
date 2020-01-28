@@ -26,6 +26,11 @@ extern WJElement rl_parameter;
 extern WJElement optionjson;
 extern int optiondepth;
 
+int setting(int argc, char *argv[])
+{
+  
+}
+
 void listconditional(WJElement schema, WJElement face)
 {
   WJElement anyoption = NULL;

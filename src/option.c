@@ -22,6 +22,7 @@ extern WJElement rl_protoschema;
 extern WJElement rl_protoface;
 extern char facename[100];
 extern enum domains domain;
+WJElement parameter = NULL;
 WJElement rl_parameter = NULL;
 WJElement optionjson = NULL;
 int optiondepth = 0;
@@ -77,8 +78,6 @@ int rl_isoption(char * optionname)
 
 int option(int argc, char *argv[])
 {
-  WJElement parameter = NULL;
-
   parameter = conditionoption(protoschema, protoface, argv[0]);
 
   if (WJEGet(parameter, "[\"$ref\"]", NULL))
@@ -104,49 +103,55 @@ int option(int argc, char *argv[])
       return 1;
     }
   }
+  else
+  {
+    //domain = SETTING;
+    //return setting(argc-1, &argv[1]);
 
-  if (argc == 1)
-  {
-    char * returnstring = optionvalue(argv[0], protoschema, protoface);
-    if (returnstring)
+    if (argc == 1)
     {
-      puts(returnstring);
-      free(returnstring);
-    }
-    else
-      puts("undefined");
-    return 1;
-  }
-  else if (argc == 2)
-  {
-    if (WJEBool(parameter,"readonly",WJE_GET,FALSE))
-    {
-      puts("option readonly");
+      char * returnstring = optionvalue(argv[0], protoschema, protoface);
+      if (returnstring)
+      {
+        puts(returnstring);
+        free(returnstring);
+      }
+      else
+        puts("undefined");
       return 1;
     }
-    return option_set_value(parameter, argv[0], argv[1]);
-  }
-  else if (argc > 2)
-  {
-    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+    else if (argc == 2)
     {
-      for (int i = 1; i < argc; i++)
+      if (WJEBool(parameter,"readonly",WJE_GET,FALSE))
       {
-        option_set_value(parameter, argv[0], argv[i]);
+        puts("option readonly");
+        return 1;
+      }
+      return option_set_value(parameter, argv[0], argv[1]);
+    }
+    else if (argc > 2)
+    {
+      if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+      {
+        for (int i = 1; i < argc; i++)
+        {
+          option_set_value(parameter, argv[0], argv[i]);
+        }
+      }
+      else
+      {
+        char combine[1000] = "";
+        strcpy(combine, argv[1]);
+        for (int i = 2; i < argc; i++)
+        {
+          strcat(combine, " ");
+          strcat(combine, argv[i]);
+        }
+        return option_set_value(parameter, argv[0], combine);
       }
     }
-    else
-    {
-      char combine[1000] = "";
-      strcpy(combine, argv[1]);
-      for (int i = 2; i < argc; i++)
-      {
-        strcat(combine, " ");
-        strcat(combine, argv[i]);
-      }
-      return option_set_value(parameter, argv[0], combine);
-    }
   }
+
   return 1;
 }
 
