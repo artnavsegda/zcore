@@ -109,168 +109,160 @@ int isoptionconditional(WJElement schema, WJElement face, char * optionname)
 
 int option_set_value(WJElement parameter, char * parametername, char * value)
 {
-  if (value[0] == '?')
+  WJElement temp = WJEObject(NULL, protoface->name, WJE_NEW);
+  WJECopyDocument(temp, protoface, NULL, NULL);
+
+  if (value[0] == '-' && strlen(value) == 1)
   {
-    puts(WJEString(parameter,"description",WJE_GET,"Help not found"));
-    return 1;
+    WJECloseDocument(WJEGet(temp,parametername,NULL));
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+  {
+    if (value[0] == '-')
+    {
+      WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
+    }
+    else
+    {
+      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+        WJEStringF(temp, WJE_NEW, NULL, value, "%s[$]", parametername);
+      }
+      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+        WJEInt32F(temp, WJE_NEW, NULL, atoi(value), "%s[$]", parametername);
+      }
+    }
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
+  {
+    if (value[0] == '\"')
+    {
+      value = cutquot(value);
+    }
+    WJEString(temp, parametername, WJE_SET, value);
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
+    WJEInt32(temp, parametername, WJE_SET, atoi(value));
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
+  {
+    if (strcmp(value, "true") == 0)
+      WJEBool(temp, parametername, WJE_SET, TRUE);
+    else if (strcmp(value, "false") == 0)
+      WJEBool(temp, parametername, WJE_SET, FALSE);
+    else
+    {
+      puts("value incorrect must be true or false");
+      return 1;
+    }
   }
   else
   {
-    WJElement temp = WJEObject(NULL, protoface->name, WJE_NEW);
-    WJECopyDocument(temp, protoface, NULL, NULL);
+    puts("Not implemeted");
+    return 1;
+  }
 
-    if (value[0] == '-' && strlen(value) == 1)
+  //WJEDump(temp);
+
+  //if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
+  if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
+  {
+    //puts("schema valid");
+
+    WJElement parent = WJEGet(protoface->parent,"",NULL);
+    WJECloseDocument(protoface);
+
+    if (WJEGet(protojson, "schema.patternProperties", NULL))
     {
-      WJECloseDocument(WJEGet(temp,parametername,NULL));
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
-    {
-      if (value[0] == '-')
+
+      WJEAttach(parent,temp);
+      protoface = WJEGet(temp,"",NULL);
+      if (!protoface)
       {
-        WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
+        puts("FATAL ERROR");
+        exit(0);
       }
-      else
-      {
-        if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
-          WJEStringF(temp, WJE_NEW, NULL, value, "%s[$]", parametername);
-        }
-        else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
-          WJEInt32F(temp, WJE_NEW, NULL, atoi(value), "%s[$]", parametername);
-        }
-      }
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
-    {
-      if (value[0] == '\"')
-      {
-        value = cutquot(value);
-      }
-      WJEString(temp, parametername, WJE_SET, value);
-    }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
-      WJEInt32(temp, parametername, WJE_SET, atoi(value));
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
-    {
-      if (strcmp(value, "true") == 0)
-        WJEBool(temp, parametername, WJE_SET, TRUE);
-      else if (strcmp(value, "false") == 0)
-        WJEBool(temp, parametername, WJE_SET, FALSE);
-      else
-      {
-        puts("value incorrect must be true or false");
-        return 1;
-      }
+
+      //protoface = getelementbynameprop(protojson, facename);
+      //if (!protoface)
+      //  domain = FACE;
+
+
+
     }
     else
     {
-      puts("Not implemeted");
-      return 1;
+      WJEAttach(protojson,temp);
+      protoface = WJEObject(protojson, "data", WJE_GET);
     }
 
-    //WJEDump(temp);
 
-    //if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
-    if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
+    //puts(protoface->name);
+    //protoface = temp;
+    if (WJEGet(protojson,"schema.onset.command", NULL))
     {
-      //puts("schema valid");
-
-      WJElement parent = WJEGet(protoface->parent,"",NULL);
-      WJECloseDocument(protoface);
-
-      if (WJEGet(protojson, "schema.patternProperties", NULL))
+      struct stat filestat;
+      char onsetcommand[MAXPATH] = "\0";
+      strcpy(onsetcommand,WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
+      if (stat(onsetcommand,&filestat))
       {
-
-        WJEAttach(parent,temp);
-        protoface = WJEGet(temp,"",NULL);
-        if (!protoface)
-        {
-          puts("FATAL ERROR");
-          exit(0);
-        }
-
-        //protoface = getelementbynameprop(protojson, facename);
-        //if (!protoface)
-        //  domain = FACE;
-
-
-
+        onsetcommand[0] = '\0';
+        strcat(onsetcommand, config.scriptpath);
+        strcat(onsetcommand, "/");
+        strcat(onsetcommand, WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
+      }
+      if (stat(onsetcommand,&filestat))
+      {
+        puts("onset script inaccessible");
       }
       else
       {
-        WJEAttach(protojson,temp);
-        protoface = WJEObject(protojson, "data", WJE_GET);
-      }
+        char *args[100];
+        args[0] = onsetcommand;
+        char * optionstring = optionvalue(parametername, protoschema, protoface);
 
+        int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
 
-      //puts(protoface->name);
-      //protoface = temp;
-      if (WJEGet(protojson,"schema.onset.command", NULL))
-      {
-        struct stat filestat;
-        char onsetcommand[MAXPATH] = "\0";
-        strcpy(onsetcommand,WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
-        if (stat(onsetcommand,&filestat))
+        char combinedepth[1000]; // replace with asprintf && free
+
+       if (optiondepth > 0)
+       {
+         args[argsc++] = protoface->parent->name;
+         snprintf(combinedepth,1000,"%s.%s", protoface->name, parametername);
+         args[argsc++] = combinedepth;
+       }
+       else
+       {
+          args[argsc++] = protoface->name;
+          args[argsc++] = parametername;
+       }
+
+        args[argsc++] = optionstring;
+        args[argsc++] = NULL;
+
+        if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
         {
-          onsetcommand[0] = '\0';
-          strcat(onsetcommand, config.scriptpath);
-          strcat(onsetcommand, "/");
-          strcat(onsetcommand, WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
-        }
-        if (stat(onsetcommand,&filestat))
-        {
-          puts("onset script inaccessible");
+          puts("merging");
+          WJElement mergedata = streamfromcommand(onsetcommand,args,NULL);
+          if (mergedata)
+          {
+            WJEDump(mergedata);
+            WJEMergeObjects(WJEGet(protojson,"data",NULL), mergedata, TRUE);
+          }
+          else
+            puts("no data");
+          WJEDump(WJEGet(protojson,"data",NULL));
         }
         else
         {
-          char *args[100];
-          args[0] = onsetcommand;
-          char * optionstring = optionvalue(parametername, protoschema, protoface);
-
-          int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
-
-          char combinedepth[1000]; // replace with asprintf && free
-
-         if (optiondepth > 0)
-         {
-           args[argsc++] = protoface->parent->name;
-           snprintf(combinedepth,1000,"%s.%s", protoface->name, parametername);
-           args[argsc++] = combinedepth;
-         }
-         else
-         {
-            args[argsc++] = protoface->name;
-            args[argsc++] = parametername;
-         }
-
-          args[argsc++] = optionstring;
-          args[argsc++] = NULL;
-
-          if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-          {
-            puts("merging");
-            WJElement mergedata = streamfromcommand(onsetcommand,args,NULL);
-            if (mergedata)
-            {
-              WJEDump(mergedata);
-              WJEMergeObjects(WJEGet(protojson,"data",NULL), mergedata, TRUE);
-            }
-            else
-              puts("no data");
-            WJEDump(WJEGet(protojson,"data",NULL));
-          }
-          else
-          {
-            forkwaitexec(onsetcommand,argsc,args,NULL);
-          }
-          free(optionstring);
+          forkwaitexec(onsetcommand,argsc,args,NULL);
         }
+        free(optionstring);
       }
     }
-    else
-    {
-      puts("Schema validation failed, check output below for mismatches");
-      WJECloseDocument(temp);
-    }
+  }
+  else
+  {
+    puts("Schema validation failed, check output below for mismatches");
+    WJECloseDocument(temp);
   }
   return 1;
 }
