@@ -22,6 +22,7 @@ extern WJElement rl_protoschema;
 extern WJElement rl_protoface;
 extern char facename[100];
 extern enum domains domain;
+extern WJElement parameter;
 extern WJElement rl_parameter;
 extern WJElement optionjson;
 extern int optiondepth;
@@ -45,6 +46,36 @@ int setting(int argc, char *argv[])
   if (argc == 0)
   {
     return listsettings();
+  }
+  else if (argc == 1)
+  {
+    if (WJEBool(parameter,"readonly",WJE_GET,FALSE))
+    {
+      puts("option readonly");
+      return 1;
+    }
+    return option_set_value(parameter, optionname, argv[0]);
+  }
+  else if (argc > 1)
+  {
+    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+    {
+      for (int i = 0; i < argc; i++)
+      {
+        option_set_value(parameter, optionname, argv[i]);
+      }
+    }
+    else
+    {
+      char combine[1000] = "";
+      strcpy(combine, argv[1]);
+      for (int i = 2; i < argc; i++)
+      {
+        strcat(combine, " ");
+        strcat(combine, argv[i]);
+      }
+      return option_set_value(parameter, optionname, combine);
+    }
   }
 }
 
