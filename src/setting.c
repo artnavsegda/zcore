@@ -160,13 +160,8 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
     return 1;
   }
 
-  //WJEDump(temp);
-
-  //if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s") && ValidateConditional(optionlist(protoschema, protoface->name), temp))
   if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
   {
-    //puts("schema valid");
-
     WJElement parent = WJEGet(protoface->parent,"",NULL);
     WJECloseDocument(protoface);
 
@@ -180,23 +175,12 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
         puts("FATAL ERROR");
         exit(0);
       }
-
-      //protoface = getelementbynameprop(protojson, facename);
-      //if (!protoface)
-      //  domain = FACE;
-
-
-
     }
     else
     {
       WJEAttach(protojson,temp);
       protoface = WJEObject(protojson, "data", WJE_GET);
     }
-
-
-    //puts(protoface->name);
-    //protoface = temp;
     if (WJEGet(protojson,"schema.onset.command", NULL))
     {
       struct stat filestat;
@@ -369,12 +353,6 @@ char * settingvalues(const char * text, int len, int state)
             return strdup(tempstring);
           }
         }
-        // while (stashelement = WJEObjectF(protoface, WJE_GET, &stashelement, "%s[]", rl_parameter->name))
-        // {
-        //   if (strncmp(elementname(cueproto,cueface), text, len) == 0) {
-        //     return strdup(elementname(cueproto,cueface));
-        //   }
-        // }
       }
     }
     else
@@ -383,13 +361,6 @@ char * settingvalues(const char * text, int len, int state)
       return settingvalues(text, len, state);
     }
   }
-  /*if (!state)
-  {
-   if (rl_parameter)
-   {
-     return strdup(WJEString(rl_protoface, rl_parameter->name, WJE_GET, ""));
-   }
-  }*/
   return NULL;
 }
 
