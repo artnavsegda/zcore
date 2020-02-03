@@ -369,7 +369,7 @@ int builtin_validate(int argc, char *argv[])
     WJElement tempdata = WJEObject(NULL, NULL, WJE_NEW);
     WJECopyDocument(tempdata, WJEGet(protojson,"data",NULL), NULL, NULL);
 
-    if (WJESchemaValidate(WJEGet(protojson,"schema",NULL), WJEGet(protojson,"data",NULL), schema_error, schema_load, schema_free, "%s"))
+    if (WJESchemaValidate(tempschema, tempdata, schema_error, schema_load, schema_free, "%s"))
     {
       puts("schema valid");
     }
