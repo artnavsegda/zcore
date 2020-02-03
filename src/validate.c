@@ -15,8 +15,8 @@ void schema_errorq(void *client, const char *format, ...) {
   return;
 }
 
-WJElement schema_load(const char *name, void *client, const char *file, const int line)
-{
+WJElement schema_load(const char *name, void *client,
+							 const char *file, const int line) {
 	char *format;
 	char *path;
 	FILE *schemafile;
@@ -26,16 +26,26 @@ WJElement schema_load(const char *name, void *client, const char *file, const in
 	schema = NULL;
 	if(client && name) {
 		format = (char *)client;
-		path = (char *)malloc(strlen(format) + strlen(name));
+		path = malloc(strlen(format) + strlen(name));
 		sprintf(path, format, name);
-    schema = WJEGetF(root, NULL, "%s.schema", path);
-    free(path);
+
+		if ((schemafile = fopen(path, "r"))) {
+			if((readschema = WJROpenFILEDocument(schemafile, NULL, 0))) {
+				schema = WJEOpenDocument(readschema, NULL, NULL, NULL);
+			} else {
+				fprintf(stderr, "json document failed to open: '%s'\n", path);
+			}
+			fclose(schemafile);
+		} else {
+			fprintf(stderr, "json file not found: '%s'\n", path);
+		}
+		free(path);
 	}
-  //WJEDump(schema);
+  WJEDump(schema);
 	return schema;
 }
 
 void schema_free(WJElement schema, void *client) {
-	//WJECloseDocument(schema);
+	WJECloseDocument(schema);
 	return;
 }

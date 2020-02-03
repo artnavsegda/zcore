@@ -362,6 +362,13 @@ int builtin_validate(int argc, char *argv[])
     WJEDump(WJEGet(protojson,"schema",NULL));
     puts("data:");
     WJEDump(WJEGet(protojson,"data",NULL));
+
+    WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
+    WJECopyDocument(tempschema, WJEGet(protojson,"schema",NULL), NULL, NULL);
+
+    WJElement tempdata = WJEObject(NULL, NULL, WJE_NEW);
+    WJECopyDocument(tempdata, WJEGet(protojson,"data",NULL), NULL, NULL);
+
     if (WJESchemaValidate(WJEGet(protojson,"schema",NULL), WJEGet(protojson,"data",NULL), schema_error, schema_load, schema_free, "%s"))
     {
       puts("schema valid");
@@ -370,6 +377,9 @@ int builtin_validate(int argc, char *argv[])
     {
       puts("schema invalid");
     }
+
+    WJECloseDocument(tempschema);
+    WJECloseDocument(tempdata);
   }
   return 1;
 }
