@@ -198,8 +198,9 @@ int isoptionconditional(WJElement schema, WJElement face, char * optionname)
 
 int option_set_value(WJElement parameter, char * parametername, char * value)
 {
-  WJElement temp = WJEObject(NULL, protoface->name, WJE_NEW);
-  WJECopyDocument(temp, protoface, NULL, NULL);
+  WJElement tempproto = WJEObject(NULL, NULL, WJE_NEW);
+  WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
+  WJElement temp = WJEGet(tempproto,protoface->name,NULL);
 
   if (value[0] == '-' && strlen(value) == 1)
   {
@@ -256,9 +257,8 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
 
     if (WJEGet(protojson, "schema.patternProperties", NULL))
     {
-
-      WJEAttach(parent,temp);
-      protoface = WJEGet(temp,"",NULL);
+      WJEAttach(protojson,tempproto);
+      protoface = WJEGet(tempproto,protoface->name,NULL);
       if (!protoface)
       {
         puts("FATAL ERROR");
@@ -267,7 +267,7 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
     }
     else
     {
-      WJEAttach(protojson,temp);
+      WJEAttach(protojson,tempproto);
       protoface = WJEObject(protojson, "data", WJE_GET);
     }
     if (WJEGet(protojson,"schema.onset.command", NULL))
@@ -335,7 +335,7 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
   else
   {
     puts("Schema validation failed, check output below for mismatches");
-    WJECloseDocument(temp);
+    WJECloseDocument(tempproto);
   }
   return 1;
 }
