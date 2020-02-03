@@ -84,7 +84,8 @@ int option(int argc, char *argv[])
 
   if (WJEGet(parameter, "[\"$ref\"]", NULL))
   {
-    parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
+    parameter = WJEGetF(protoschema, NULL, "definitions.%s", strrchr(WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL), '/'));
+    //parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
   }
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
