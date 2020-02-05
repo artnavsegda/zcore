@@ -11,7 +11,7 @@
 
 static int fileselect(const struct dirent *entry)
 {
-  printf("FILE: %s\n", entry->d_name);
+//  printf("FILE: %s\n", entry->d_name);
 
   char *ptr = rindex((char *)entry->d_name, '.');
   if ((ptr!=NULL) && ((strcmp(ptr,".json")==0)))
@@ -22,7 +22,7 @@ static int fileselect(const struct dirent *entry)
 
 static int dirselect(const struct dirent *entry)
 {
-  printf("DIR: %s\n", entry->d_name);
+//  printf("DIR: %s\n", entry->d_name);
 
   if (entry->d_type == DT_DIR)
     if (entry->d_name[0] != '.')
@@ -72,6 +72,7 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
 {
   char path[MAXPATHLEN];
   getcwd(path,MAXPATHLEN);
+  printf("CWD: %s\n", path);
   struct dirent **dirs;
 
   //load schemas from root
