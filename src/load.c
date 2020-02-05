@@ -11,6 +11,8 @@
 
 static int fileselect(const struct dirent *entry)
 {
+  printf("FILE: %s\n", entry->d_name);
+
   char *ptr = rindex((char *)entry->d_name, '.');
   if ((ptr!=NULL) && ((strcmp(ptr,".json")==0)))
     return 1;
@@ -20,6 +22,8 @@ static int fileselect(const struct dirent *entry)
 
 static int dirselect(const struct dirent *entry)
 {
+  printf("DIR: %s\n", entry->d_name);
+
   if (entry->d_type == DT_DIR)
     if (entry->d_name[0] != '.')
       return 1;
@@ -80,10 +84,16 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
     {
       //puts(dirs[cnt]->d_name);
       WJEAttach(loadroot,loadschema(dirs[cnt]->d_name));
+      free(dirs[n]);
     }
   }
   else
+  {
     printf("Cannot find files in %s\n", loadschemapath);
+  }
+
+  free(dirs);
+  chdir(path);
 
   //recursively load shemes from every subdir
   n = scandir(loadschemapath,&dirs,dirselect,alphasort);
@@ -92,13 +102,13 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
   {
     for (int cnt = 0;cnt < n;++cnt)
     {
-      //printf("subdir %s\n",(dirs[cnt]->d_name));
+      printf("subdir %s\n",(dirs[cnt]->d_name));
       loadeveryschema(WJEObject(loadroot, dirs[cnt]->d_name, WJE_NEW), dirs[cnt]->d_name);
     }
   }
   else
   {
-//    printf("Cannot find dirs in %s\n", loadschemapath);
+    printf("Cannot find dirs in %s\n", loadschemapath);
   }
 
   chdir(path);
