@@ -104,6 +104,7 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
     {
       printf("subdir %s\n",(dirs[cnt]->d_name));
       loadeveryschema(WJEObject(loadroot, dirs[cnt]->d_name, WJE_NEW), dirs[cnt]->d_name);
+      free(dirs[n]);
     }
   }
   else
@@ -111,6 +112,7 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
     printf("Cannot find dirs in %s\n", loadschemapath);
   }
 
+  free(dirs);
   chdir(path);
   return 0;
 }
