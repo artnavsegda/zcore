@@ -297,7 +297,6 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
         WJElement mergedata = streamfromcommand(onsetcommand,args,NULL);
         if (mergedata)
         {
-          WJEDump(mergedata);
           WJEMergeObjects(tempproto, mergedata, TRUE);
         }
         else
