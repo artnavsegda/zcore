@@ -204,8 +204,14 @@ WJElement streamfromcommand(char * command, char *argv[], char *envp[])
   WJElement jsondata = WJEOpenDocument(readjson, NULL, NULL, NULL);
   //WJEAttach(jsonparent,jsondata);
 
+  puts("receved data from stream");
+  WJEDump(jsondata);
+
   fclose(jsonstream);
   waitpid(forkpid, &status, 0);
+
+  printf("return code %d\n",status);
+
   if (status == 0)
     return jsondata;
   else
