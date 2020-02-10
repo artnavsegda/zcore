@@ -524,8 +524,19 @@ int setting(int argc, char *argv[])
     {
       for (int i = 0; i < argc; i++)
       {
-        option_set_value(parameter, optionname, argv[i]);
+        //option_set_value(parameter, optionname, argv[i]);
+        WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
+        WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
+        WJElement temp = WJEGet(tempproto,protoface->name,NULL);
+
+        setvalue(parameter, optionname, argv[i], temp);
+
+        if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
+          onset(optionname, tempproto, argv[i]);
+
+        validate(temp, tempproto, optionname, argv[i]);
       }
+      return 1;
     }
     else
     {
@@ -536,7 +547,17 @@ int setting(int argc, char *argv[])
         strcat(combine, " ");
         strcat(combine, argv[i]);
       }
-      return option_set_value(parameter, optionname, combine);
+      //return option_set_value(parameter, optionname, combine);
+      WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
+      WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
+      WJElement temp = WJEGet(tempproto,protoface->name,NULL);
+
+      setvalue(parameter, optionname, combine, temp);
+
+      if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
+        onset(optionname, tempproto, combine);
+
+      validate(temp, tempproto, optionname, argv[0]);
     }
   }
 }
