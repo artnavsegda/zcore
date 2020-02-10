@@ -280,14 +280,11 @@ int setvalue(WJElement parameter, char * parametername, char * value, WJElement 
   }
 }
 
-int validate(WJElement temp, WJElement tempproto, char * parametername, char * value)
+int validate(WJElement temp, WJElement tempproto, char * parametername)
 {
   //validate
   if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
   {
-    if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
-      onset(parametername, tempproto, value);
-
     char tempprotoname[100];
     strcpy(tempprotoname, protoface->name);
     WJECloseDocument(WJEGet(protojson,"data",NULL));
@@ -307,11 +304,13 @@ int validate(WJElement temp, WJElement tempproto, char * parametername, char * v
       WJEAttach(protojson,tempproto);
       protoface = WJEObject(protojson, "data", WJE_GET);
     }
+    return 1;
   }
   else
   {
     puts("Schema validation failed, check output below for mismatches");
     WJECloseDocument(tempproto);
+    return 0;
   }
 }
 
@@ -491,7 +490,9 @@ int setting(int argc, char *argv[])
       setvalue(parameter, optionname, argv[0], temp);
       if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
         onset(optionname, tempproto, argv[0]);
-      validate(temp, tempproto, optionname, argv[0]);
+      if (validate(temp, tempproto, optionname))
+        if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
+          onset(optionname, tempproto, argv[0]);
       return 1;
     }
     else if (argc > 1)
@@ -503,7 +504,9 @@ int setting(int argc, char *argv[])
           setvalue(parameter, optionname, argv[i], temp);
           if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
             onset(optionname, tempproto, argv[i]);
-          validate(temp, tempproto, optionname, argv[i]);
+          if (validate(temp, tempproto, optionname))
+            if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
+              onset(optionname, tempproto, argv[i]);
         }
         return 1;
       }
@@ -519,7 +522,9 @@ int setting(int argc, char *argv[])
         setvalue(parameter, optionname, combine, temp);
         if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
           onset(optionname, tempproto, combine);
-        validate(temp, tempproto, optionname, argv[0]);
+        if (validate(temp, tempproto, optionname))
+          if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
+            onset(optionname, tempproto, combine);
         return 1;
       }
     }
