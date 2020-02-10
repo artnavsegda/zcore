@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
   signal(SIGINT, ctrl_c);
 //  signal(SIGCHLD, SIG_IGN);
-  signal(SIGCHLD, handle_sigchld);
+//  signal(SIGCHLD, handle_sigchld);
 
 //  rl_attempted_completion_function = character_name_completion;
   rl_bind_key('\t', zc_completion2);

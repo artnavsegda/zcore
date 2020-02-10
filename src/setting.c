@@ -196,60 +196,9 @@ int isoptionconditional(WJElement schema, WJElement face, char * optionname)
   return 0;
 }
 
-int option_set_value(WJElement parameter, char * parametername, char * value)
+int onset(char * parametername, WJElement tempproto, char * value)
 {
-  WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
-  WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
-  WJElement temp = WJEGet(tempproto,protoface->name,NULL);
-
-  if (value[0] == '-' && strlen(value) == 1)
-  {
-    WJECloseDocument(WJEGet(temp,parametername,NULL));
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
-  {
-    if (value[0] == '-')
-    {
-      WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
-    }
-    else
-    {
-      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
-        WJEStringF(temp, WJE_NEW, NULL, value, "%s[$]", parametername);
-      }
-      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
-        WJEInt32F(temp, WJE_NEW, NULL, atoi(value), "%s[$]", parametername);
-      }
-    }
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
-  {
-    if (value[0] == '\"')
-    {
-      value = cutquot(value);
-    }
-    WJEString(temp, parametername, WJE_SET, value);
-  }
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
-    WJEInt32(temp, parametername, WJE_SET, atoi(value));
-  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
-  {
-    if (strcmp(value, "true") == 0)
-      WJEBool(temp, parametername, WJE_SET, TRUE);
-    else if (strcmp(value, "false") == 0)
-      WJEBool(temp, parametername, WJE_SET, FALSE);
-    else
-    {
-      puts("value incorrect must be true or false");
-      return 1;
-    }
-  }
-  else
-  {
-    puts("Not implemeted");
-    return 1;
-  }
-
+  //onset
   if (WJEGet(protojson,"schema.onset.command", NULL))
   {
     struct stat filestat;
@@ -310,7 +259,66 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
       free(optionstring);
     }
   }
+}
 
+int option_set_value(WJElement parameter, char * parametername, char * value)
+{
+  WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
+  WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
+  WJElement temp = WJEGet(tempproto,protoface->name,NULL);
+
+  //set value
+  if (value[0] == '-' && strlen(value) == 1)
+  {
+    WJECloseDocument(WJEGet(temp,parametername,NULL));
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
+  {
+    if (value[0] == '-')
+    {
+      WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
+    }
+    else
+    {
+      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+        WJEStringF(temp, WJE_NEW, NULL, value, "%s[$]", parametername);
+      }
+      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+        WJEInt32F(temp, WJE_NEW, NULL, atoi(value), "%s[$]", parametername);
+      }
+    }
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0)
+  {
+    if (value[0] == '\"')
+    {
+      value = cutquot(value);
+    }
+    WJEString(temp, parametername, WJE_SET, value);
+  }
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0)
+    WJEInt32(temp, parametername, WJE_SET, atoi(value));
+  else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0)
+  {
+    if (strcmp(value, "true") == 0)
+      WJEBool(temp, parametername, WJE_SET, TRUE);
+    else if (strcmp(value, "false") == 0)
+      WJEBool(temp, parametername, WJE_SET, FALSE);
+    else
+    {
+      puts("value incorrect must be true or false");
+      return 1;
+    }
+  }
+  else
+  {
+    puts("Not implemeted");
+    return 1;
+  }
+
+  onset(parametername, tempproto, value);
+
+  //validate
   if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
   {
     char tempprotoname[100];
