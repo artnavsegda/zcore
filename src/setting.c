@@ -264,12 +264,8 @@ int onset(char * parametername, WJElement tempproto, char * value)
   }
 }
 
-int option_set_value(WJElement parameter, char * parametername, char * value)
+int setvalue(WJElement parameter, char * parametername, char * value, WJElement temp)
 {
-  WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
-  WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
-  WJElement temp = WJEGet(tempproto,protoface->name,NULL);
-
   //set value
   if (value[0] == '-' && strlen(value) == 1)
   {
@@ -318,10 +314,10 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
     puts("Not implemeted");
     return 1;
   }
+}
 
-  if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-    onset(parametername, tempproto, value);
-
+int validate(WJElement temp, WJElement tempproto, char * parametername, char * value)
+{
   //validate
   if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
   {
@@ -353,8 +349,20 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
     puts("Schema validation failed, check output below for mismatches");
     WJECloseDocument(tempproto);
   }
+}
 
-  //WJEDump(root);
+int option_set_value(WJElement parameter, char * parametername, char * value)
+{
+  WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
+  WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
+  WJElement temp = WJEGet(tempproto,protoface->name,NULL);
+
+  setvalue(parameter, parametername, value, temp);
+
+  if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
+    onset(parametername, tempproto, value);
+
+  validate(temp, tempproto, parametername, value);
 
   return 1;
 }
