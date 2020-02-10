@@ -492,72 +492,52 @@ int setting(int argc, char *argv[])
   {
     return listsettings();
   }
-  else if (argc == 1)
+  else
   {
     if (WJEBool(parameter,"readonly",WJE_GET,FALSE))
     {
       puts("option readonly");
       return 1;
     }
-
-    //return option_set_value(parameter, optionname, argv[0]);
-    //int option_set_value(WJElement parameter, char * parametername, char * value)
-    //{
-      WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
-      WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
-      WJElement temp = WJEGet(tempproto,protoface->name,NULL);
-
+    WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
+    WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
+    WJElement temp = WJEGet(tempproto,protoface->name,NULL);
+    if (argc == 1)
+    {
       setvalue(parameter, optionname, argv[0], temp);
-
       if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
         onset(optionname, tempproto, argv[0]);
-
       validate(temp, tempproto, optionname, argv[0]);
-
-      return 1;
-    //}
-
-  }
-  else if (argc > 1)
-  {
-    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
-    {
-      for (int i = 0; i < argc; i++)
-      {
-        //option_set_value(parameter, optionname, argv[i]);
-        WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
-        WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
-        WJElement temp = WJEGet(tempproto,protoface->name,NULL);
-
-        setvalue(parameter, optionname, argv[i], temp);
-
-        if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-          onset(optionname, tempproto, argv[i]);
-
-        validate(temp, tempproto, optionname, argv[i]);
-      }
       return 1;
     }
-    else
+    else if (argc > 1)
     {
-      char combine[1000] = "";
-      strcpy(combine, argv[1]);
-      for (int i = 2; i < argc; i++)
+      if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
       {
-        strcat(combine, " ");
-        strcat(combine, argv[i]);
+        for (int i = 0; i < argc; i++)
+        {
+          setvalue(parameter, optionname, argv[i], temp);
+          if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
+            onset(optionname, tempproto, argv[i]);
+          validate(temp, tempproto, optionname, argv[i]);
+        }
+        return 1;
       }
-      //return option_set_value(parameter, optionname, combine);
-      WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
-      WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
-      WJElement temp = WJEGet(tempproto,protoface->name,NULL);
-
-      setvalue(parameter, optionname, combine, temp);
-
-      if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-        onset(optionname, tempproto, combine);
-
-      validate(temp, tempproto, optionname, argv[0]);
+      else
+      {
+        char combine[1000] = "";
+        strcpy(combine, argv[1]);
+        for (int i = 2; i < argc; i++)
+        {
+          strcat(combine, " ");
+          strcat(combine, argv[i]);
+        }
+        setvalue(parameter, optionname, combine, temp);
+        if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
+          onset(optionname, tempproto, combine);
+        validate(temp, tempproto, optionname, argv[0]);
+        return 1;
+      }
     }
   }
 }
