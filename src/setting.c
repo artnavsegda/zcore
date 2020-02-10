@@ -315,22 +315,6 @@ int validate(WJElement temp, WJElement tempproto, char * parametername, char * v
   }
 }
 
-int option_set_value(WJElement parameter, char * parametername, char * value)
-{
-  WJElement tempproto = WJEObject(NULL, "data", WJE_NEW);
-  WJECopyDocument(tempproto, WJEGet(protojson,"data",NULL), NULL, NULL);
-  WJElement temp = WJEGet(tempproto,protoface->name,NULL);
-
-  setvalue(parameter, parametername, value, temp);
-
-  if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-    onset(parametername, tempproto, value);
-
-  validate(temp, tempproto, parametername, value);
-
-  return 1;
-}
-
 WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 {
   char * facename = NULL;
