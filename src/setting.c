@@ -316,11 +316,15 @@ int option_set_value(WJElement parameter, char * parametername, char * value)
     return 1;
   }
 
-  onset(parametername, tempproto, value);
+  if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
+    onset(parametername, tempproto, value);
 
   //validate
   if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
   {
+    if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
+      onset(parametername, tempproto, value);
+
     char tempprotoname[100];
     strcpy(tempprotoname, protoface->name);
     WJECloseDocument(WJEGet(protojson,"data",NULL));
