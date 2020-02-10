@@ -492,41 +492,35 @@ int setting(int argc, char *argv[])
         onset(optionname, tempproto, argv[0]);
       if (validate(temp, tempproto, optionname))
         if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
-          onset(optionname, tempproto, argv[0]);
+          onset(optionname, WJEGet(protojson,"data",NULL), argv[0]);
       return 1;
     }
     else if (argc > 1)
     {
+      char combine[1000] = "";
+      strcpy(combine, argv[1]);
+      for (int i = 2; i < argc; i++)
+      {
+        strcat(combine, " ");
+        strcat(combine, argv[i]);
+      }
       if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0)
       {
         for (int i = 0; i < argc; i++)
         {
           setvalue(parameter, optionname, argv[i], temp);
-          if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-            onset(optionname, tempproto, argv[i]);
-          if (validate(temp, tempproto, optionname))
-            if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
-              onset(optionname, tempproto, argv[i]);
         }
-        return 1;
       }
       else
       {
-        char combine[1000] = "";
-        strcpy(combine, argv[1]);
-        for (int i = 2; i < argc; i++)
-        {
-          strcat(combine, " ");
-          strcat(combine, argv[i]);
-        }
         setvalue(parameter, optionname, combine, temp);
-        if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-          onset(optionname, tempproto, combine);
-        if (validate(temp, tempproto, optionname))
-          if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
-            onset(optionname, tempproto, combine);
-        return 1;
       }
+      if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
+        onset(optionname, tempproto, combine);
+      if (validate(temp, tempproto, optionname))
+        if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
+          onset(optionname, WJEGet(protojson,"data",NULL), combine);
+      return 1;
     }
   }
 }
