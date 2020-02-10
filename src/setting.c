@@ -237,8 +237,11 @@ int onset(char * parametername, WJElement tempproto, char * value)
         args[argsc++] = parametername;
      }
 
+     if (value[0] == '-')
+      args[argsc++] = "";
+     else
       args[argsc++] = value;
-      args[argsc++] = NULL;
+     args[argsc++] = NULL;
 
       if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
       {
