@@ -10,17 +10,20 @@
 #include "prompt.h"
 #include "acquire.h"
 #include "utils.h"
-#include "domain.h"
 #include "global.h"
 #include "validate.h"
 #include "setting.h"
 #include "interpreter.h"
+#include "completion.h"
 
 extern int protodepth;
+extern int rl_protodepth;
 extern WJElement protojson;
+extern WJElement rl_protojson;
 extern WJElement protoface;
 extern WJElement protoschema;
 extern enum domains domain;
+extern enum domains rl_domain;
 extern int optiondepth;
 
 int path_up(int argc, char *argv[])
@@ -73,7 +76,50 @@ int path_up(int argc, char *argv[])
 
 int rl_path_up(int argc, char *argv[])
 {
-  return 0;
+  switch (rl_domain)
+  {
+    case PROTO:
+      if (rl_protodepth == 0)
+      {
+        //printf("Already at the command root\n");
+      }
+      else
+      {
+        rl_protodepth--;
+        rl_protojson = protojson->parent;
+      }
+    break;
+    case FACE:
+      rl_domain = PROTO;
+      rl_protodepth--;
+      rl_protojson = protojson->parent;
+    break;
+    case OPTION:
+      // if (optiondepth > 0)
+      // {
+      //   optiondepth--;
+      //   protoface = protoface->parent;
+      //   protoschema = protoschema->parent->parent;
+      // }
+      // else
+      // {
+        if (WJEGet(protojson, "schema.patternProperties", NULL))
+        {
+          rl_domain = FACE;
+        }
+        else if (WJEGet(protojson, "schema.properties", NULL))
+        {
+          rl_domain = PROTO;
+          rl_protodepth--;
+          rl_protojson = rl_protojson->parent;
+        }
+      // }
+    break;
+  }
+  if (argc > 1)
+    return rl_execute(argc-1, &argv[1]);
+  else
+    return 0;
 }
 
 int path_root(int argc, char *argv[])
@@ -89,6 +135,13 @@ int path_root(int argc, char *argv[])
 
 int rl_path_root(int argc, char *argv[])
 {
+  rl_domain = PROTO;
+  rl_protodepth = 0;
+  rl_protojson = root;
+  if (argc > 1)
+    return rl_execute(argc-1, &argv[1]);
+  else
+    return 0;
   return 0;
 }
 

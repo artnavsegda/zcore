@@ -30,3 +30,4 @@ char **character_name_completion(const char *, int, int);
 char *character_name_generator(const char *, int);
 int zc_completion2(int count, int key);
 int zc_completion3(int count, int key);
+int rl_execute(int argc, char *argv[]);
