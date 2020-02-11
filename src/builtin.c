@@ -22,7 +22,7 @@ extern WJElement protoschema;
 extern enum domains domain;
 extern int optiondepth;
 
-int path_up()
+int path_up(int argc, char *argv[])
 {
   switch (domain)
   {
@@ -67,7 +67,7 @@ int path_up()
   return 0;
 }
 
-int path_root()
+int path_root(int argc, char *argv[])
 {
   domain = PROTO;
   protodepth = 0;
@@ -392,11 +392,11 @@ int builtin(int argc, char *argv[])
   }
   else if (argv[0][0]=='/')
   {
-    return path_root();
+    return path_root(argc,argv);
   }
   else if (strcmp(argv[0],"..") == 0)
   {
-    return path_up();
+    return path_up(argc,argv);
   }
   else if (strcmp(argv[0],"show") == 0)
   {
