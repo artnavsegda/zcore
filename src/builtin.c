@@ -14,6 +14,7 @@
 #include "global.h"
 #include "validate.h"
 #include "setting.h"
+#include "interpreter.h"
 
 extern int protodepth;
 extern WJElement protojson;
@@ -72,7 +73,10 @@ int path_root(int argc, char *argv[])
   domain = PROTO;
   protodepth = 0;
   protojson = root;
-  return 0;
+  if (argc > 1)
+    return execute(argc-1, &argv[1]);
+  else
+    return 0;
 }
 
 int commandlist(int argc, char *argv[])

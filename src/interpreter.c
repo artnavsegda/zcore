@@ -69,7 +69,7 @@ int execute(int argc, char *argv[]) {
     protodepth = ret_protodepth;
     optiondepth = ret_optiondepth;
   }
-  return 0;
+  return ret;
 }
 
 int interpret(char * stringtointerpret)
