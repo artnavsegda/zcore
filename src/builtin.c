@@ -71,6 +71,11 @@ int path_up(int argc, char *argv[])
     return 0;
 }
 
+int rl_path_up(int argc, char *argv[])
+{
+  return 0;
+}
+
 int path_root(int argc, char *argv[])
 {
   domain = PROTO;
@@ -80,6 +85,11 @@ int path_root(int argc, char *argv[])
     return execute(argc-1, &argv[1]);
   else
     return 0;
+}
+
+int rl_path_root(int argc, char *argv[])
+{
+  return 0;
 }
 
 int commandlist(int argc, char *argv[])
@@ -450,6 +460,14 @@ int builtin(int argc, char *argv[])
 
 int rl_builtin(int argc, char *argv[])
 {
+  if (argv[0][0]=='/')
+  {
+    return rl_path_root(argc,argv);
+  }
+  else if (strcmp(argv[0],"..") == 0)
+  {
+    return rl_path_up(argc,argv);
+  }
   return 0;
 }
 
