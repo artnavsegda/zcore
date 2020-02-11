@@ -21,6 +21,8 @@
 WJElement root = NULL;
 char zcore_prompt[255];
 
+int debug = 0;
+
 void ctrl_c(int signal) {
    //printf ("ctrl-c key pressed\n");
    rl_replace_line("", 1);
@@ -40,10 +42,13 @@ int main(int argc, char *argv[])
   int opt;
   char *zcoreconfig = NULL;
 
-  while ((opt = getopt(argc, argv, "n:e:s:c:t:")) != -1)
+  while ((opt = getopt(argc, argv, "dc:")) != -1)
   {
     switch (opt)
     {
+      case 'd': // debug
+        debug = 1;
+        break;
       case 'c': // config
         zcoreconfig = optarg;
         break;
