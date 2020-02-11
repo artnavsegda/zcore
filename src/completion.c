@@ -94,7 +94,7 @@ int rl_execute(int argc, char *argv[])
 {
   if (rl_isbuiltin(argv[0]))
   {
-    //builtin(argc,argv);
+    rl_builtin(argc,argv);
   }
   else if (rl_isproto(argv[0]))
   {
