@@ -119,7 +119,31 @@ void listbuiltins(int argc, char *argv[])
 
 int isbuiltin(char * builtinname)
 {
-  if ((strcmp(builtinname,"list") == 0) || (strcmp(builtinname,"..") == 0) || (strcmp(builtinname,"show") == 0) || (strcmp(builtinname,"acquire") == 0) || (strcmp(builtinname,"/") == 0) || (strcmp(builtinname,"validate") == 0) || (strcmp(builtinname,"export") == 0))
+  if ((strcmp(builtinname,"list") == 0) ||
+  (strcmp(builtinname,"..") == 0) ||
+  (strcmp(builtinname,"show") == 0) ||
+  (strcmp(builtinname,"acquire") == 0) ||
+  (strcmp(builtinname,"/") == 0) ||
+  (strcmp(builtinname,"validate") == 0) ||
+  (strcmp(builtinname,"export") == 0))
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+int rl_isbuiltin(char * builtinname)
+{
+  if ((strcmp(builtinname,"list") == 0) ||
+  (strcmp(builtinname,"..") == 0) ||
+  (strcmp(builtinname,"show") == 0) ||
+  (strcmp(builtinname,"acquire") == 0) ||
+  (strcmp(builtinname,"/") == 0) ||
+  (strcmp(builtinname,"validate") == 0) ||
+  (strcmp(builtinname,"export") == 0))
   {
     return 1;
   }
@@ -421,6 +445,11 @@ int builtin(int argc, char *argv[])
   {
     return builtin_export(argc,argv);
   }
+  return 0;
+}
+
+int rl_builtin(int argc, char *argv[])
+{
   return 0;
 }
 

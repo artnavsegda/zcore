@@ -92,7 +92,7 @@ void array_allocate(char * inputstring, callback_func_t *cb_func, cmplist_t * li
 
 int rl_execute(int argc, char *argv[])
 {
-  if (isbuiltin(argv[0]))
+  if (rl_isbuiltin(argv[0]))
   {
     //builtin(argc,argv);
   }
