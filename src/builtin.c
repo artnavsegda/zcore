@@ -65,7 +65,10 @@ int path_up(int argc, char *argv[])
       }
     break;
   }
-  return 0;
+  if (argc > 1)
+    return execute(argc-1, &argv[1]);
+  else
+    return 0;
 }
 
 int path_root(int argc, char *argv[])
