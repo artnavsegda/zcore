@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "dhcp-server",
+  "description": "DHCP servers list",
+  "type": "object",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "DHCP server entity",
+      "properties": {
+        "interface": {
+          "type": "string",
+          "description": "Specifies the interface associated with this DHCP address pool",
+          "cue": ["network.interface", "network.bridge"]
+        },
+        "leasetime": {
+          "type": "string",
+          "description": "Specifies the lease time of addresses",
+          "enum": ["30m", "1h", "4h", "12h", "24h", "7d"],
+        },
+
+        "dhcp_option": {
+          "type": "array",
+          "description": "The ID dhcp_option here must be with written with an underscore",
+          "items": {
+            "type": "string",
+          }
+        },
+
+        "start": {
+          "type": "number",
+          "description": "Specifies the offset from the network address",
+        },
+
+        "limit": {
+          "type": "number",
+          "description": "Specifies the size of the address pool"
+        },
+
+        "force": {
+          "type": "boolean",
+          "hidden": true,
+          "default": true
+        },
+        "dhcpv6": {
+          "type": "string",
+          "hidden": true,
+          "default": "disabled",
+        },
+        "dhcpv4": {
+          "type": "string",
+          "hidden": true,
+          "default": "disabled",
+        },
+        "ra": {
+          "type": "string",
+          "description": "Specifies whether Router Advertisements",
+          "enum": ["disabled", "server", "relay"]
+        },
+
+        "name": {
+          "type": "string",
+          "hidden": true,
+        },
+
+      }
+    }
+  },
+
+  "commands": {
+        "add": {
+            "command": "handler.sh",
+            "description": "add new entry (params: <name>)",
+            "args": ["add", "service.dhcp-server.schema", "dhcp-server"],
+            "cue": ["name"],
+            "json": "merge",
+            "argpass": true,
+            "wait": true
+        },
+
+        "delete": {
+            "command": "handler.sh",
+            "args": ["delete", "service.dhcp-server.schema", "dhcp-server"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "revert": {
+            "command": "handler.sh",
+            "args": ["revert", "service.dhcp-server.schema", "dhcp-server"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "apply": {
+            "command": "handler.sh",
+            "args": ["apply", "service.dhcp-server.schema", "dhcp-server"],
+            "argpass": true,
+        },
+  },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "service.dhcp-server.schema", "dhcp-server"],
+    "argpass": true,
+    "wait": true,
+  },    
+
+  "acquire": {
+    "shell": "handler.sh",
+    "args": ["get", "service.dhcp-server.schema", "dhcp-server"]
+  }
+}

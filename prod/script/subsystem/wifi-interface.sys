@@ -1,0 +1,77 @@
+get_next_ifname() {
+    local prefix="wifi"
+
+    ifnames="$(ubus call uci get "{'config': 'wireless', 'type': 'wifi-iface'}" | jsonfilter -e "@.values[*].ifname" | sort -n)"
+    
+    max_num="${ifnames##* }"
+    max_num="${max_num:4}"
+    for num in $(seq 0 $((max_num + 1)) ); do
+        echo $ifnames | grep -Eq "${prefix}${num}(\ |$)" && continue || break
+    done
+
+    eval export "$1=${prefix}{num}"
+}
+
+add() {
+    get_next_ifname ifname
+    
+    json_add_string ifname $ifname
+    json_add_boolean disabled 1
+
+    config='{"config": "wireless", "type": "wifi-iface", "name": "'$ifname'", "values": '$(json_dump)'}'
+    eval "ubus call uci add '$config'" &> /dev/null
+    
+    data="$(ubus call uci get '{"config": "wireless", "type": "wifi-iface", "section": "'$ifname'"}' | jsonfilter -e "@.values")"
+    echo '{ "'$ifname'": '$data' }' | zfilter $_SCHEMA
+}
+
+get() {
+    ifaces="$(ubus call uci get "{'config': 'wireless', 'type': 'wifi-iface'}" | jsonfilter -e "@.values")"
+
+    json_load "$ifaces"
+    json_get_keys ff   
+
+    for f in $ff; do
+        json_select $f
+        json_get_var ifname ifname
+        [ -n "$ifname" ] && {
+            json_select ..
+            continue
+        }
+        get_next_ifname ifname && (json_add_string ifname $ifname; uci -q set wireless.$f.ifname=$ifname)
+    done
+
+    json_dump | zfilter $_SCHEMA
+}
+
+delete() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+
+    json_init
+    json_add_string "config" "wireless"
+    json_add_string "type" "wifi-iface"
+    [ -n "$_SECTION" ] && {
+        json_add_string "section" "$_SECTION"
+    }
+    ubus call uci delete "$(json_dump)" &> /dev/null
+}
+
+revert() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    uci -q revert wireless${_SECTION:+".${_SECTION}"}
+}
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+    uci -q set wireless.${_SECTION}.${_OPTION}="${_VALUE}"
+}
+
+apply() { ## reload instance 
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -z "${_SECTION}" ] && wifi reload || {
+        device=$(uci -q get wireless.${_SECTION}.device)
+        wifi down ${_SECTION} &>/dev/null
+        wifi up ${_SECTION} &>/dev/null
+    }
+}

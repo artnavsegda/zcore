@@ -1,0 +1,47 @@
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+    uci -q set network.${_SECTION}.${_OPTION}="${_VALUE}"
+}
+
+get() {
+    ubus call uci get "{'config': 'network', 'type': 'interface', 'match': {'proto': '3g'}}" | jsonfilter -e "@.values" | zfilter $_SCHEMA
+}
+
+commit() {
+    [ -z "${_SECTION}" ] && \
+        ifaces=$(ubus call uci get "{'config': 'network', 'type': 'interface', 'match': {'proto': '3g'}}" | jsonfilter -e "@.values[*]['.name']")
+    [ -n "${_SECTION}" ] && (uci -q commit network.${_SECTION}; apply)
+    [ -z "${_SECTION}" ] && {
+        for iface in $ifaces; do
+            uci -q commit network.${iface}
+        done
+        apply
+    }
+    ## reload service if necessary
+}
+
+revert() {
+    [ -z "${_SECTION}" ] && \
+        ifaces=$(ubus call uci get "{'config': 'network', 'type': 'interface', 'match': {'proto': '3g'}}" | jsonfilter -e "@.values[*]['.name']")
+
+    [ -n "${_SECTION}" ] && uci -q revert network.${_SECTION}
+    [ -z "${_SECTION}" ] && {
+        for iface in $ifaces; do
+            uci -q revert network.${iface}
+        done
+    }
+}
+
+apply() { ## reload instance 
+    [ -z "${_SECTION}" ] && \
+        ifaces=$(ubus call uci get "{'config': 'network', 'type': 'interface', 'match': {'proto': '3g'}}" | jsonfilter -e "@.values[*]['.name']")
+    [ -n "${_SECTION}" ] && ifup "${_SECTION}"
+    [ -z "${_SECTION}" ] && {
+        for iface in $ifaces; do
+            uci -q commit network.${iface}
+            ifup $iface
+        done
+    }
+}

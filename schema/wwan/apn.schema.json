@@ -1,0 +1,93 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"title": "apn",
+	"description": "APN profiles list",
+	"type": "object",
+	"namesake": "mccmnc",
+	"patternProperties": {
+		".*": {
+			"type": "object",
+			"title": "APN profile entity",
+			"required": ["mccmnc", "apn"],
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "APN profile name"
+				},
+				"apn": {
+					"type": "string",
+					"description": "APN value"
+				},
+				"mccmnc": {
+					"type": "string",
+					"description": "PLMN (MCC+MNC) operator code"
+				},
+				"username": {
+					"type": "string",
+					"description": "Username",
+					"maxLength": 39
+				},
+				"password": {
+					"type": "string",
+					"description": "Password"
+				},
+				"auth": {
+					"type": "string",
+					"description": "Auth method",
+					"enum": ["any", "eap", "pap", "chap"]
+				},
+				"mode": {
+					"type": "string",
+					"description": "Network mode",
+					"enum": ["auto", "edge", "umts", "lte"]
+				}
+			}
+		}
+	},
+	"commands": {
+		"commit": {
+			"command": "handler.sh",
+			"args": ["commit", "wwan.apn.schema", "apn"],
+			"wait": true,
+		},
+
+		"add": {
+			"command": "handler.sh",
+			"description": "add new entry (params: <mccmnc> <apn>)",
+			"args": ["add", "wwan.apn.schema", "apn"],
+			"cue": ["mccmnc", "apn"],
+			"json": "merge",
+			"argpass": true,
+			"wait": true
+		},
+
+		"delete": {
+			"command": "handler.sh",
+			"args": ["delete", "wwan.apn.schema", "apn"],
+			"argpass": true,
+			"reload": true,
+			"wait": true,
+		},
+
+		"revert": {
+			"command": "handler.sh",
+			"args": ["revert", "wwan.apn.schema", "apn"],
+			"argpass": true,
+			"reload": true,
+			"wait": true,
+		},
+
+	},
+
+	"onset": {
+		"command": "handler.sh",
+		"args": ["onset", "wwan.apn.schema", "apn"],
+		"argpass": true,
+		"wait": true,
+	},
+
+	"acquire": {
+		"shell": "handler.sh",
+		"args": ["get", "wwan.apn.schema", "apn"]
+	}
+}

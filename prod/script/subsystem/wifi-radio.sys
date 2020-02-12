@@ -1,0 +1,78 @@
+is_11a() {
+    phy=$1
+    dot11ac="$(iw phy ${phy} info | awk /'5[0-9][0-9][0-9] MHz'/ | awk '!/IR|disabled|radar/' | awk '{print $4}' | sed 's/\[//g;s/\]//g')"
+    [ -n "$dot11ac" ] && {                                                                                                                
+        return 0      
+    }               
+    return 1
+}               
+ 
+is_11g() {
+    phy=$1
+    dot11ac="$(iw phy ${phy} info | awk /'2[0-9][0-9][0-9] MHz'/ | awk '!/IR|disabled|radar/' | awk '{print $4}' | sed 's/\[//g;s/\]//g')"
+    [ -n "$dot11ac" ] && {                                                                                                                
+        return 0      
+    }               
+    return 0
+}                
+
+get() {
+    radios="$(ubus call uci get "{'config': 'wireless', 'type': 'wifi-device'}" | jsonfilter -e "@.values")"
+                                                        
+    json_load "$radios"
+    json_get_keys rr   
+                          
+    phy_index=0
+    for r in $rr; do
+        json_select $r
+        json_get_vars hwmode country htmode
+                           
+        [ -z "$country" ] && json_add_string country "default"
+                                      
+        is_11a "phy${phy_index}" && enable_11a=1 || enable_11a=0
+        [ "$enable_11a" = "1" ] && json_add_boolean enable_11a 1
+                                    
+        is_11g "phy${phy_index}" && enable_11g=1 || enable_11g=0
+        [ "$enable_11g" = "1" ] && json_add_boolean enable_11g 1 || json_add_boolean enable_11g 0
+                                                     
+        [ "$hwmode" = "11a" -a "$enable_11a" = 1 ] && {
+            json_add_string band "5GHz"            
+            echo $htmode | grep -q 'VHT[0-9]{2,3}' || (json_add_string htmode "VHT40"; uci set wireless.$r.htmode="$htmode"; uci commit wireless)
+        } || {                                                                                                                                       
+            json_add_string band "2.4GHz"
+            echo $htmode | grep -q 'VHT[0-9]{2,3}' && (json_add_string htmode "HT40"; uci set wireless.$r.htmode="$htmode"; uci commit wireless)
+        }                                                                                                                                           
+         
+        json_select ..
+                  
+        let phy_index++
+    done                   
+        
+    json_dump | zfilter $_SCHEMA
+}
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+    case "${_OPTION}" in
+        band)
+            [ "$_VALUE" = "2.4GHz" ] && _VALUE="11g"
+            [ "$_VALUE" = "5GHz" ] && _VALUE="11a"
+            _OPTION="hwmode"
+            echo '{"'$_SECTION'": {"htmode": "none", "channel": "auto"}}'
+            ;;
+
+        country)
+            echo '{"'$_SECTION'": {"htmode": "none", "channel": "auto"}}'
+            ;;
+    esac
+    uci -q set wireless.${_SECTION}.${_OPTION}="${_VALUE}"
+}
+
+apply() { ## reload instance 
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -z "${_SECTION}" ] && wifi reload || {
+        wifi down ${_SECTION} &>/dev/null
+        wifi up ${_SECTION} &>/dev/null
+    }
+}

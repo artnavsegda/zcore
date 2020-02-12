@@ -1,0 +1,248 @@
+
+spilt_ports() {
+    local mp=$1; shift
+    local pp="$@"
+    local p=""
+
+    ports=""
+    tagged=""
+
+    pp=$(echo $pp | sed -E 's/'$mp'(t|$|\ )//')
+
+    for p in $pp; do
+            echo $p | grep -q 't' && tagged="$tagged $p" || ports="$ports $p"
+    done
+
+    eval export "__ports='$ports'"
+    eval export "__tagged='$tagged'"
+}
+
+combine_ports() {
+    local var=$1; shift
+    local define=$1; shift
+    local preff=$1
+    local _define=""
+
+    for d in $define; do
+        _d="$(echo $d | tr -d 't ')"
+        echo $preff | grep -qE '(^|\ )'$_d'(\ |t|$)' || _define="$_define $d"
+    done
+
+    eval export "$var='$_define $preff'"
+}
+
+named_ports() {
+    local var=$1; shift
+    local _ports=$(echo "$@" | awk '{gsub("[a-zA-Z]",""); sub("\ $",""); print}')
+    local ports=""
+    for p in $_ports; do
+        p=$(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'port': $p}}" | jsonfilter -e "@.values[*].name")
+        [ -z "$p" ] && continue
+        ports="$ports $p"
+    done
+
+    eval export "$var='$ports'"
+}
+
+get_next_vlan_slot(){
+    busy_vlans=$(ubus -S call uci get "{'config': 'network', 'type': 'switch_vlan'}" | jsonfilter -e "@.values[*].vlan" | sort -n)
+    busy_vlans=$(echo -n $busy_vlans)
+
+    max_num="${busy_vlans##* }"
+    for num in $(seq 1 $((max_num + 1)) ); do
+        echo $busy_vlans | grep -Eq "${num}(\ |$)" && continue || break
+    done
+
+    echo $num
+}
+
+add() {
+    ## args: "master_port", "vid"
+    ubus call uci get "{'config': 'network', 'type': 'switch_vlan', 'match': {'vid': $vid}}" | jsonfilter -e "@.values[*]['.name']" &>/dev/null && {
+        stderr "VLAN $vid already exist"
+        return 1
+    }
+
+    eval $(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'to_cpu': 1, 'name': '$master_port'}}" | \
+        jsonfilter -e "cpu_port=@.values[*].port" -e "switch=@.values[*].device")
+
+    [ -z "$cpu_port" ] && {
+        stderr "Master port detect failed"
+        return 1
+    }
+    
+    [ -z "$switch" ] && {
+        stderr "Switch device detect failed"
+        return 1
+    }
+
+    uci -q set network.dev_eth${vid}=device
+    uci -q set network.dev_eth${vid}.type="8021q"
+    uci -q set network.dev_eth${vid}.vid=$vid
+    uci -q set network.dev_eth${vid}.ifname="$master_port"
+    uci -q set network.dev_eth${vid}.name="vlan${vid}"
+
+    uci -q set network.vlan_${vid}=switch_vlan
+    uci -q set network.vlan_${vid}.name="vlan${vid}"
+    uci -q set network.vlan_${vid}.vid=$vid
+    uci -q set network.vlan_${vid}.cpu_port=$cpu_port
+    uci -q set network.vlan_${vid}.device="$switch"
+    uci -q set network.vlan_${vid}.vlan=$(get_next_vlan_slot)
+
+    json_init
+    json_add_object "vlan_${vid}"
+
+    json_add_int    vid         $vid
+    json_add_string master_port $master_port
+    json_add_string name        "vlan${vid}"
+
+    json_close_object
+    json_dump | zfilter $_SCHEMA
+
+}
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+
+    # vid=$(uci -q set network.${_SECTION}.vid)
+    vid="${_SECTION#vlan_*}"
+    master_port=$(uci -q get network.dev_eth${vid}.ifname)
+
+    case "$_OPTION" in
+        master_port)    
+            # cpu_port=$(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'name': '$master_port', 'to_cpu': 1}}" | jsonfilter -e "@.values[*].port")
+            eval $(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'to_cpu': 1, 'name': '$_VALUE'}}" | \
+                jsonfilter -e "cpu_port=@.values[*].port")
+            uci -q set network.dev_eth${vid}.ifname="${_VALUE}" 
+            
+            _cpu_port=$(uci -q get network.${_SECTION}.cpu_port)
+            _ports=$(uci -q get network.${_SECTION}.ports | sed 's/'$_cpu_port'/'$cpu_port'/g')            
+
+            uci -q set network.${_SECTION}.cpu_port="$cpu_port"
+            uci -q set network.${_SECTION}.ports="$_ports"
+
+            ip link set down dev "vlan${vid}" &> /dev/null
+            ip link del dev "vlan${vid}" &> /dev/null
+
+            apply
+            ;;
+
+        ports)
+            _ports=""
+            for p in $_VALUE; do
+                p=$(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'name': '$p', 'to_cpu': 0}}" | jsonfilter -e "@.values[*].port")
+                _ports="$_ports $p"
+            done
+            p=$(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'name': '$master_port', 'to_cpu': 1}}" | jsonfilter -e "@.values[*].port")
+            spilt_ports $p $(uci -q get network.${_SECTION}.ports)
+            combine_ports _VALUE "$__tagged" "$_ports"
+
+            [ -n "$_VALUE" ] && uci -q set network.${_SECTION}.ports="$_VALUE ${p}t" || uci -q set network.${_SECTION}.ports=""
+
+            spilt_ports $p $(uci -q get network.${_SECTION}.ports)
+            named_ports __ports $__ports
+            named_ports __tagged $__tagged
+
+            echo '{"'$_SECTION'": {"ports": '$(jsonescape -l "$__ports")', "tagged": '$(jsonescape -l "$__tagged")'}}'
+            ;;
+
+        tagged_ports)
+            _ports=""
+            for p in $_VALUE; do
+                p=$(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'name': '$p', 'to_cpu': 0}}" | jsonfilter -e "@.values[*].port")
+                _ports="$_ports ${p}t"
+            done
+            p=$(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'name': '$master_port', 'to_cpu': 1}}" | jsonfilter -e "@.values[*].port")
+            spilt_ports $p $(uci -q get network.${_SECTION}.ports)
+            combine_ports _VALUE "$__ports" "$_ports"
+
+            [ -n "$_VALUE" ] && uci -q set network.${_SECTION}.ports="$_VALUE ${p}t" || uci -q set network.${_SECTION}.ports=""
+
+            spilt_ports $p $(uci -q get network.${_SECTION}.ports)
+            named_ports __ports $__ports
+            named_ports __tagged $__tagged
+
+            echo '{"'$_SECTION'": {"ports": '$(jsonescape -l "$__ports")', "tagged": '$(jsonescape -l "$__tagged")'}}'
+            ;;
+
+        *)  uci -q set network.${_SECTION}.${_OPTION}="${_VALUE}" ;;
+    esac
+}
+
+get() {
+    vlans=$(ubus call uci get "{'config': 'network', 'type': 'switch_vlan'}" | jsonfilter -e "@.values[*]['.name']")
+    json_init
+
+    for vlan in $vlans; do
+        vid=$(uci -q get network.${vlan}.vid)
+        ports=$(uci -q get network.${vlan}.ports)
+        cpu_port=$(uci -q get network.${vlan}.cpu_port)
+
+        spilt_ports $cpu_port $ports
+        named_ports __ports $__ports
+        named_ports __tagged $__tagged
+
+        master_port=$(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'port': $cpu_port}}" | jsonfilter -e "@.values[*].name")
+
+        device=$(ubus call uci get "{'config': 'network', 'type': 'device', 'match': {'vid': $vid}}" | jsonfilter -e "@.values[*].name")
+        [ -z "$device" ] && continue
+
+        name="vlan${vid}"
+        [ "$(uci -q get network.${vlan}.name)" != "$name" ] && uci set network.${vlan}.name="$name"
+
+        json_add_object $vlan
+
+        json_add_int vid $vid
+        json_add_string name $name
+        json_add_string master_port $master_port
+
+        json_add_array ports
+        for p in $__ports; do json_add_string "" $p; done
+        json_close_array
+
+        json_add_array tagged_ports
+        for p in $__tagged; do json_add_string "" $p; done
+        json_close_array
+
+        json_close_object
+    done
+
+    json_dump | zfilter $_SCHEMA
+}
+
+delete() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && {
+        vid=$(uci -q get network.${_SECTION}.vid)
+        uci -q delete network.dev_eth${vid}
+        uci -q delete network.${_SECTION}
+        ip link set down dev "vlan${vid}" &> /dev/null
+        ip link del dev "vlan${vid}" &> /dev/null
+    } || {
+        vlans=$(ubus call uci get "{'config': 'network', 'type': 'switch_vlan'}" | jsonfilter -e "@.values[*]['.name']")
+        for vlan in $vlans; do
+            vid=$(uci -q get network.${vlan}.vid)
+            uci -q delete network.dev_eth${vid}
+            uci -q delete network.${vlan}
+            ip link set down dev "vlan${vid}" &> /dev/null
+            ip link del dev "vlan${vid}" &> /dev/null
+        done
+    }
+    apply
+}
+
+revert() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && {
+        vid=$(uci -q get network.${_SECTION}.vid)
+        uci -q revert network.dev_eth${vid}
+        uci -q revert network.${_SECTION}
+        apply
+    }
+}
+
+apply() { ## reload instance
+    swconfig dev switch0 load network
+    ubus call network reload
+}

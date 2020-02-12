@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "master",
+  "description": "switch master ports list",
+  "type": "object",
+  "namesake": "name",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "HW port entity",
+      "properties": {
+        "name": {
+          "type": "string",
+          "hidden": true
+        },
+
+        "device": {
+          "type": "string",
+          "description": "Defines which switch to configure",
+          "cue": ["switch.device"],
+          "readonly": true
+        },
+
+        "port": {
+          "type": "number",
+          "description": "PHY switch port",
+          "readonly": true
+        },
+
+      }
+    }
+  },
+  "commands": {
+  },
+
+  "acquire": {
+     "shell": "handler.sh",
+     "args": ["get", "switch.master.schema", "switch-master-ports"]
+   }
+}

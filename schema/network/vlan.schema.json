@@ -1,0 +1,103 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "vlan",
+    "description": "VLAN enties list",
+    "type": "object",
+    "namesake": "name",
+    "patternProperties": {
+        ".*": {
+            "type": "object",
+            "title": "VLAN entity",
+            "required": ["vid", "master_port", "name"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "hidden": true
+                },
+
+                "vid": {
+                    "type": "number",
+                    "description": "VLAN ID",
+                    "minimum": 1,
+                    "maximum": 4094,
+                    "readonly": true
+                },
+
+                "master_port": {
+                    "type": "string",
+                    "description": "Master port",
+                    "cue": ["switch.master"]
+                },
+                "ports": {
+                    "type": "array",
+                    "description": "Untagged ports",
+                    "items": {
+                        "uniqueItems": true,
+                        "type": "string",
+                        "cue": ["switch.ports"]
+                    }
+                },
+
+                "tagged_ports": {
+                    "type": "array",
+                    "description": "Tagged ports",
+                    "items": {
+                        "uniqueItems": true,
+                        "type": "string",
+                        "cue": ["switch.ports"]
+                    }
+                },
+
+            }
+        }
+    },
+
+    "commands": {
+        "add": {
+            "command": "handler.sh",
+            "description": "add new entry (params: <master_port> <vid>)",
+            "args": ["add", "network.vlan.schema", "vlan"],
+            "cue": ["master_port", "vid"],
+            "json": "merge",
+            "argpass": true,
+            "wait": true
+        },
+
+        "delete": {
+            "command": "handler.sh",
+            "args": ["delete", "network.vlan.schema", "vlan"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "revert": {
+            "command": "handler.sh",
+            "args": ["revert", "network.vlan.schema", "vlan"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "apply": {
+            "command": "handler.sh",
+            "args": ["apply", "network.vlan.schema", "vlan"],
+            "argpass": true,
+        },
+
+
+    },  
+
+    "onset": {
+        "command": "handler.sh",
+        "args": ["onset", "network.vlan.schema", "vlan"],
+        "merge": true,
+        "argpass": true,
+        "wait": true,
+    },  
+
+    "acquire": {
+        "shell": "handler.sh",
+        "args": ["get", "network.vlan.schema", "vlan"]
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "global",
+  "hidden": true,
+  "type": "object",
+  "properties": {
+  },
+  "commands": {
+    "log": {
+      "command": "/sbin/logread",
+      "args": ["-fl", "50"],
+      "wait": true,
+      "global": true,
+      "hidden": true
+    },
+
+    "SAVE-config": {
+      "command": "handler.sh",
+      "args": ["commit-config"],
+      "wait": true,
+      "global": true,
+      "hidden": true
+    },
+
+    "REVERT-config": {
+      "command": "handler.sh",
+      "args": ["revert-config"],
+      "wait": true,
+      "global": true,
+      "hidden": true
+    },
+
+    "SHELL": {
+      "command": "shell.sh",
+      "argpass": true,
+      "wait": true,
+      "global": true,
+      "hidden": true
+    },
+
+  }
+}

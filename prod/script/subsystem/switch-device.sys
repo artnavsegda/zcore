@@ -1,0 +1,23 @@
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+    uci -q set network.${_SECTION}.${_OPTION}="${_VALUE}"
+}
+
+get() {
+    ubus call uci get "{'config': 'network', 'type': 'switch'}" | jsonfilter -e "@.values" | zfilter $_SCHEMA
+}
+
+revert() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -z "$_SECTION" ] && return 1
+    uci -q revert network.${_SECTION}
+}
+
+apply() { ## reload instance 
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -z "$_SECTION" ] && return 1
+    device=$(ubus call uci get "{'config': 'network', 'type': 'switch', 'section': '$_SECTION'}" | jsonfilter -e "@.values.name")
+    [ -n "$device" ] && swconfig dev $device load network
+}

@@ -1,0 +1,48 @@
+
+add() {
+    get_next_name name "apn-profiles" "apn_"
+    
+    config='{"config": "apn-profiles", "type": "apn", "name": "'$name'", "values": '$(json_dump)'}'
+    eval "ubus call uci add '$config'" &> /dev/null
+    
+    data="$(ubus call uci get '{"config": "apn-profiles", "type": "apn", "section": "'$name'"}' | jsonfilter -e "@.values")"
+    echo '{ "'$name'": '$data' }' | zfilter $_SCHEMA
+}
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+    uci -q set apn-profiles.${_SECTION}.${_OPTION}="${_VALUE}"
+}
+
+get() {
+    [ -f "/etc/config/apn-profiles" ] || touch /etc/config/apn-profiles
+    ubus call uci get "{'config': 'apn-profiles', 'type': 'apn'}" | jsonfilter -e "@.values" | zfilter $_SCHEMA
+}
+
+delete() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+
+    json_init
+    json_add_string "config" "apn-profiles"
+    json_add_string "type" "apn"
+    [ -n "$_SECTION" ] && {
+        json_add_string "section" "$_SECTION"
+    }
+    ubus call uci delete "$(json_dump)" &> /dev/null
+}
+
+commit() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    uci -q commit apn-profiles${_SECTION:+".${_SECTION}"}
+    ## reload service if necessary
+}
+
+revert() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    uci -q revert apn-profiles${_SECTION:+".${_SECTION}"}
+}
+
+apply() { ## reload instance 
+    stderr "not implemented yet"
+}

@@ -1,0 +1,46 @@
+
+add() {
+    echo $name | grep -qE '^[a-z0-9\_\-]+$' || {
+        stderr "name must be alpha-numberic and '-' '_'"
+        return 1
+    }
+
+    ubus call uci get "{'config': 'dhcp', 'type': 'host', 'match': {'name': '$name'}}" | jsonfilter -e "@.values[*]['name']" &>/dev/null && {
+        stderr "$name name already exist"
+        return 1
+    }
+
+    _SECTION=$(uci -q add dhcp host)
+    uci -q set dhcp.${_SECTION}.name="$name"
+
+    echo '{ "'$_SECTION'": {"name": "'$name'"} }' | zfilter $_SCHEMA
+}
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+
+    uci -q set dhcp.${_SECTION}.${_OPTION}="${_VALUE}"
+}
+
+get() {
+    ubus call uci get "{'config': 'dhcp', 'type': 'host'}" | jsonfilter -e "@.values" | zfilter $_SCHEMA
+}
+
+revert() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && uci -q revert dhcp.${_SECTION} || {
+        stderr "usage: revert <name>"
+    }
+}
+
+delete() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && uci -q delete dhcp.${_SECTION} || {
+        ubus call uci delete "{'config': 'dhcp', 'type': 'host'}"
+    }    
+}
+
+apply() { ## reload instance 
+    /etc/init.d/dnsmasq restart
+}

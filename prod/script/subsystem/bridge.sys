@@ -1,0 +1,95 @@
+
+add() {
+    echo $name | grep -qE '^[a-z0-9]+$' || {
+        stderr "name must be alpha-numberic"
+        return 1
+    }
+
+    ubus call uci get "{'config': 'network', 'section': '$name'}" | jsonfilter -e "@.values['.name']" &>/dev/null && {
+        stderr "$name name already exist"
+        return 1
+    }
+
+    uci -q set network.$name="interface"
+    uci -q set network.$name.proto="static"
+    uci -q set network.$name.type="bridge"
+    uci -q set network.$name.force_link=1
+    uci -q set network.$name.auto=1
+    uci -q set network.$name.bridge_empty=1
+    
+    uci -q set network.$name.stp=0
+    uci -q set network.$name.igmp_snooping=0
+    uci -q set network.$name.multicast_querier=0
+    uci -q set network.$name.disabled=0
+
+    data="$(ubus call uci get '{"config": "network", "type": "interface", "section": "'$name'"}' | jsonfilter -e "@.values")"
+    echo '{ "'$name'": '$data' }' | zfilter $_SCHEMA
+}
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+
+    case "$_OPTION" in
+        slave)
+            uci -q delete network.${_SECTION}.ifname
+            for n in $_VALUE; do
+                uci -q add_list network.${_SECTION}.ifname="$n"
+            done
+            ;;
+        *)  uci -q set network.${_SECTION}.${_OPTION}="${_VALUE}" ;;
+    esac
+}
+
+get() {
+    data=$(ubus call uci get "{'config': 'network', 'type': 'interface', 'match': {'type': 'bridge'}}" | jsonfilter -e "@.values")
+    json_load "$data"
+    json_get_keys bridges
+
+    for br in $bridges; do
+        json_select $br
+        json_get_type t ifname
+        [ "$t" = "array" ] && {
+            json_get_values slave ifname
+        } || {
+            json_get_var slave ifname
+        }
+        json_add_null ifname
+
+        json_add_array slave
+        for s in $slave; do
+            json_add_string "" "$s"
+        done
+        json_close_array
+        
+        json_select ..
+    done
+
+    json_dump | zfilter $_SCHEMA
+}
+
+revert() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && return 1
+    uci -q revert network.${_SECTION}
+    ubus call network reload
+}
+
+delete() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && {
+        uci -q delete network.${_SECTION}
+    } || {
+        bridges=$(ubus call uci get "{'config': 'network', 'type': 'interface', 'match': {'type': 'bridge'}}" | jsonfilter -e "@.values[*]['.name']")
+        for br in $bridges; do
+            uci -q delete network.${br}
+        done
+    }
+    ubus call network reload
+}
+
+apply() { ## reload instance 
+	# keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+	# [ -n "$_SECTION" ] && ifup $_SECTION
+    ubus call network reload
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "dhcp-lease",
+  "description": "DHCP static leases list",
+  "type": "object",
+  "namesake": "name",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "Static lease entity",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Hostname to assign",
+        },
+        "ip": {
+          "type": "string",
+          "description": "IP address to be used for this host or 'ignore'",
+        },
+        "mac": {
+          "type": "string",
+          "description": "The hardware address of this host",
+        },
+        "dns": {
+          "type": "boolean",
+          "description": "Add static forward and reverse DNS entries for this host",
+        },
+        "leasetime": {
+          "type": "string",
+          "description": "Host-specific lease time",
+          "enum": ["30m", "1h", "4h", "12h", "24h", "7d"],
+        }
+      }
+    }
+  },
+
+  "commands": {
+        "add": {
+            "command": "handler.sh",
+            "description": "add new entry (params: <hostname>)",
+            "args": ["add", "service.dhcp-lease.schema", "dhcp-lease"],
+            "cue": ["name"],
+            "json": "merge",
+            "argpass": true,
+            "wait": true
+        },
+
+        "delete": {
+            "command": "handler.sh",
+            "args": ["delete", "service.dhcp-lease.schema", "dhcp-lease"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "revert": {
+            "command": "handler.sh",
+            "args": ["revert", "service.dhcp-lease.schema", "dhcp-lease"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "apply": {
+            "command": "handler.sh",
+            "args": ["apply", "service.dhcp-lease.schema", "dhcp-lease"],
+            "argpass": true,
+        },
+  },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "service.dhcp-lease.schema", "dhcp-lease"],
+    "argpass": true,
+    "wait": true,
+  },    
+
+  "acquire": {
+    "shell": "handler.sh",
+    "args": ["get", "service.dhcp-lease.schema", "dhcp-lease"]
+  }
+}

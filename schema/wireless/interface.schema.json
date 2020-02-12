@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "interface",
+  "description": "WiFi Interfaces list",
+  "type": "object",
+  "namesake": "ifname",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "Radio Interface entity",
+      "required": ["device", "mode"],
+      "properties": {
+
+        "ifname": {
+          "type": "string",
+          "hidden": true          
+        },
+
+        "disabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disabled WiFi Interface"
+        },
+
+        "device": {
+          "type": "string",
+          "description": "Radio PHY device",
+          "cue": ["wireless.phy"]
+        },
+
+        "mode": {
+          "type": "string",
+          "description": "Interface mode",
+          "enum": ["ap", "sta", "monitor"]
+        },
+
+        "encryption": {
+          "type": "string",
+          "description": "Encryption type",
+          "enum": ["open", "psk-mixed+ccmp", "wpa-mixed+ccmp"]
+        },
+
+        "ssid": {
+          "type": "string",
+          "description": "SSID name",
+        },
+
+        "key": {
+          "type": "string",
+          "description": "WPA/WPA2 key",
+          "minLength": 8
+        },
+
+        "hidden": {
+          "type": "boolean",
+          "description": "Turns off SSID broadcasting"
+        },
+
+        "macaddr": {
+          "type": "string",
+          "description": "MAC address"
+        },
+
+        "isolate": {
+          "type": "boolean",
+          "description": "Isolate wireless clients from each other, only applicable in ap mode",
+        },
+
+        "network": {
+          "type": "string",
+          "description": "Bridge with",
+        },
+
+      }
+    }
+  },
+  "commands": {
+    "add": {
+      "command": "handler.sh",
+      "args": ["add", "wireless.interface.schema", "wifi-interface"],
+      "cue": ["device"],
+      "json": "merge",
+      "argpass": true,
+      "description": "add new entry (params: <device>)",
+    },
+
+    "delete": {
+      "command": "handler.sh",
+      "args": ["delete", "wireless.interface.schema", "wifi-interface"],
+      "argpass": true,
+      "reload": true,
+      "wait": true,
+    },
+
+    "revert": {
+      "command": "handler.sh",
+      "args": ["revert", "wireless.interface.schema", "wifi-interface"],
+      "argpass": true,
+      "reload": true,
+      "wait": true,
+    },
+
+    "apply": {
+      "command": "handler.sh",
+      "args": ["apply", "wireless.interface.schema", "wifi-interface"],
+      "argpass": true,
+    }
+  },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "wireless.interface.schema", "wifi-interface"],
+    "merge": true,
+  },
+
+  "acquire": {
+     "shell": "handler.sh",
+     "args": ["get", "wireless.interface.schema", "wifi-interface"]
+   }
+}

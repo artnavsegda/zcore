@@ -1,0 +1,103 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"title": "routing-static",
+	"description": "Static routes list",
+	"type": "object",
+	"namesake": "name",
+	"patternProperties": {
+		".*": {
+			"type": "object",
+			"title": "Route entity",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Route name",
+					"hidden": true
+				},
+
+				"target": {
+					"type": "string",
+					"description": "IP/Network address value"
+				},
+				"gateway": {
+					"type": "string",
+					"description": "Gateway IP address value"
+				},
+				"metric": {
+					"type": "number",
+					"description": "Defines a specific route metric to use"
+				},
+
+				"mtu": {
+					"type": "number",
+					"description": "Defines a specific MTU for this route"
+				},
+				"table": {
+					"type": "number",
+					"description": "Defines the table ID to use for the route",
+					"minimum": 256,
+					"maximum": 65535,
+				},
+				"source": {
+					"type": "string",
+					"description": "The preferred source address when sending to destinations covered by the target"
+				},
+
+				"type": {
+					"type": "string",
+					"description": " Routing type",
+					"enum": ["unicast", "local", "broadcast", "multicast", "unreachable", "prohibit", "blackhole", "anycast"],
+				},
+
+				"interface": {
+					"type": "string",
+					"description": "Interface",
+					"cue": ["network.interface", "network.bridge", "wwan.mobile"]
+				},
+
+			},
+		}
+	},
+	"commands": {
+		"add": {
+			"command": "handler.sh",
+			"args": ["add", "network.routing-static.schema", "routing-static"],
+			"cue": ["name"],
+			"json": "merge",
+			"argpass": true,
+			"wait": true
+		},
+      "delete": {
+          "command": "handler.sh",
+          "args": ["delete", "network.routing-static.schema", "routing-static"],
+          "argpass": true,
+          "reload": true,
+          "wait": true,
+      },
+
+      "revert": {
+          "command": "handler.sh",
+          "args": ["revert", "network.routing-static.schema", "routing-static"],
+          "argpass": true,
+          "reload": true,
+          "wait": true,
+      },
+
+      "apply": {
+          "command": "handler.sh",
+          "args": ["apply", "network.routing-static.schema", "routing-static"],
+          "argpass": true,
+      },		
+	},
+
+	"onset": {
+        "command": "handler.sh",
+        "args": ["onset", "network.routing-static.schema", "routing-static"],
+        "argpass": true,
+        "wait": true,
+	},
+	"acquire": {
+		"shell": "handler.sh",
+		"args": ["get", "network.routing-static.schema", "routing-static"],
+	}
+}

@@ -1,0 +1,38 @@
+
+get() {
+    json_init
+    . /tmp/sysinfo/capabilities
+    for num in $BOARD_MODULES; do
+        json_add_object "modem${num}"
+            json_add_int "device_number" $num
+            [ -f "/tmp/sysinfo/modem${num}" ] && {
+                . /tmp/sysinfo/modem${num}
+                json_add_string "module"    "$MODULE"
+                json_add_string "revision"  "$REVISION"
+                json_add_string "imei"      "$IMEI"
+            } || stderr "modem info not available yet"
+        json_close_object
+    done
+
+    json_dump | zfilter $_SCHEMA
+}
+
+restart() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && {
+        m="${_SECTION:5}"
+        [ -n "$m" ] && (ubus call modem power_reset "{'module': '${m}'}")&
+    }
+}
+
+power_off() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && {
+        m="${_SECTION:5}"
+        [ -n "$m" ] && (ubus call modem power_off "{'module': '${m}'}")&
+    }
+}
+
+power_on() {
+    (restart $@)&
+}

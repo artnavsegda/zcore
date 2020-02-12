@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "device",
+  "description": "Switch device",
+  "type": "object",
+  "namesake": "name",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "HW port entity",
+      "properties": {
+        "name": {
+          "type": "string",
+          "hidden": true
+        },
+
+       "reset": {
+        "type": "boolean",
+        "description": "Reset switch on init/reconfigure",
+       },
+
+       "enanle_mirror_rx": {
+        "type": "boolean",
+        "description": "Mirror received packets",
+       },
+
+       "enanle_mirror_tx": {
+        "type": "boolean",
+        "description": "Mirror transmitted packets",
+       },
+
+       "mirror_monitor_port": {
+        "type": "string",
+        "description": "Switch port to which packets are mirrored",
+        "cue": ["switch.ports"]
+       },
+
+       "mirror_source_port": {
+        "type": "string",
+        "description": "Switch port from which packets are mirrored",
+        "cue": ["switch.ports"]
+       },
+
+      }
+    }
+  },
+  "commands": {
+    "revert": {
+      "command": "handler.sh",
+      "args": ["revert", "switch.device.schema", "switch-device"],
+      "argpass": true,
+      "reload": true,
+      "wait": true,
+    },
+
+    "apply": {
+      "command": "handler.sh",
+      "args": ["apply", "switch.device.schema", "switch-device"],
+      "argpass": true,
+    },
+  },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "switch.device.schema", "switch-device"],
+    "argpass": true,
+    "wait": true,
+  },
+
+  "acquire": {
+     "shell": "handler.sh",
+     "args": ["get", "switch.device.schema", "switch-device"]
+   }
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "phy",
+  "description": "WiFi PHY list",
+  "type": "object",
+  "patternProperties": {
+    "^radio": {
+      "type": "object",
+      "title": "Radio PHY entity",
+      "properties": {
+
+        "channel": {
+          "type": "string",
+          "description": "Specifies the wireless channel to use",
+        },
+
+        "country": {
+          "type": "string",
+          "description": "Specifies the country code",
+          "enum": ["default", "RU", "CN", "US"]
+        },
+
+        "txpower": {
+          "type": "string",
+          "description": "Specifies the transmission power in dBm",
+        },
+
+        "legacy_rates": {
+          "type": "boolean",
+          "description": "Enables 802.11b data rates"
+        },
+
+        "disabled": {
+          "type": "boolean",
+          "description": "Disable adapter",
+        },
+
+        "band": {
+          "type": "string",
+          "description": "Specifies the band to use (2.4GHz:802.11b/g/n, 5GHz:802.11a/ac/na)",
+          "enum": ["2.4GHz", "5GHz"]
+        },
+
+        "htmode": {
+          "type": "string",
+          "description": "Specifies the channel width in 802.11n and 802.11ac mode",
+        },
+
+        "enable_11a": {
+          "type": "boolean",
+          "default": false,
+          "hidden": true,
+        },
+
+        "enable_11g": {
+          "type": "boolean",
+          "default": true,
+          "hidden": true,
+        }
+
+      },
+    "anyOf": [
+      {"properties":{
+        "enable_11a": {"enum": [true]}, 
+        "band": {"enum": ["5GHz"]},
+        "htmode":{"enum": ["VHT20", "VHT40", "VHT80", "VHT160" , "none"]},
+        "country": {"enum": ["RU"]},
+        "channel": { "enum": ["36","40","44","48","149","153","157","161","165", "auto"] },
+      }},
+      {"properties":{
+        "enable_11g": {"enum": [true]}, 
+        "band": {"enum": ["2.4GHz"]},
+        "htmode": {"enum": [ "HT20", "HT40-", "HT40+", "HT40", "none"]},
+        "country": {"enum": ["RU"]},
+        "channel": { "enum": ["1","2","3","4","5","6","7","8","9","10","11","12","13", "auto"] },
+      }},
+
+      {"properties":{
+        "enable_11a": {"enum": [true]}, 
+        "band": {"enum": ["5GHz"]},
+        "htmode":{"enum": ["VHT20", "VHT40", "VHT80", "VHT160" , "none"]},
+        "country": {"enum": ["default"]},
+        "channel": { "enum": ["36","40","44","48", "auto"] }
+      }},
+      {"properties":{
+        "enable_11g": {"enum": [true]}, 
+        "band": {"enum": ["2.4GHz"]},
+        "htmode": {"enum": [ "HT20", "HT40-", "HT40+", "HT40", "none"]},
+        "country": {"enum": ["default"]},
+        "channel": { "enum": ["1","2","3","4","5","6","7","8","9","10","11", "auto"] }
+      }},
+    ],
+  },
+
+  },
+  "commands": {
+    "apply": {
+      "command": "handler.sh",
+      "args": ["apply", "wireless.phy.schema", "wifi-radio"],
+      "argpass": true,
+    }
+  },
+
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "wireless.phy.schema", "wifi-radio"],
+    "merge": true,
+  },
+
+  "acquire": {
+     "shell": "handler.sh",
+     "args": ["get", "wireless.phy.schema", "wifi-radio"]
+   }
+}
+

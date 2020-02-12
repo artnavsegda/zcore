@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "bridge",
+  "description": "LAN interfaces list",
+  "type": "object",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "Bridge Interface entity",
+      "properties": {
+        "slave":{
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Slave device list",
+          "items": {
+            "type": "string",
+            "cue": ["network.vlan", "wireless.interface", "switch.master"]
+          }
+        },
+
+        "disabled": {
+          "type": "boolean",
+          "description": "Disable the interface"
+        },
+
+        "ipaddr": {
+          "type": "string",
+          "description": "IP address value"
+        },
+
+        "netmask": {
+          "type": "string",
+          "description": "IP netmask value"
+        },
+
+        "macaddr": {
+          "type": "string",
+          "description": "MAC address"
+        },
+
+        "mtu": {
+          "type": "number",
+          "description": "MTU",
+          "maximum": 1500,
+          "minimum": 500,
+          "default": 1500
+        },
+
+        "igmp_snooping": {
+          "type": "boolean",
+          "description": "Sets the multicast_snooping kernel setting for a bridge"
+        },
+
+        "multicast_querier": {
+          "type": "boolean",
+          "description": "Sets the multicast_querier kernel setting for a bridge"
+        },
+
+
+        "bridge_empty": {
+          "type": "boolean",
+          "hidden": true
+        },
+
+        "force_link": {
+          "type": "boolean",
+          "hidden": true
+        },
+
+        "auto": {
+          "type": "boolean",
+          "hidden": true          
+        },
+
+        "name": {
+          "type": "string",
+          "hidden": true          
+        },
+
+        "stp": {
+          "type": "boolean",
+          "description": "Enables the Spanning Tree Protocol",
+          "default": false
+        }
+      }
+    }
+  },
+
+    "commands": {
+        "add": {
+            "command": "handler.sh",
+            "description": "add new entry (params: <name>)",
+            "args": ["add", "network.bridge.schema", "bridge"],
+            "cue": ["name"],
+            "json": "merge",
+            "argpass": true,
+            "wait": true
+        },
+
+        "delete": {
+            "command": "handler.sh",
+            "args": ["delete", "network.bridge.schema", "bridge"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "revert": {
+            "command": "handler.sh",
+            "args": ["revert", "network.bridge.schema", "bridge"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "apply": {
+            "command": "handler.sh",
+            "args": ["apply", "network.bridge.schema", "bridge"],
+            "argpass": true,
+        },
+    },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "network.bridge.schema", "bridge"],
+    "argpass": true,
+    "wait": true,
+  },    
+
+  "acquire": {
+    "shell": "handler.sh",
+    "args": ["get", "network.bridge.schema", "bridge"]
+  }
+}

@@ -1,0 +1,4 @@
+
+get() {
+    ubus call uci get "{'config': 'network', 'type': 'switch_port', 'match': {'to_cpu': 1}}" | jsonfilter -e "@.values" | zfilter $_SCHEMA
+}

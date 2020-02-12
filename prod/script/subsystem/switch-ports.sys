@@ -1,0 +1,72 @@
+
+is_1000() {
+	cat /tmp/sysinfo/board_name | grep -qE '^irz_kw'
+}
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+
+    case "$_OPTION" in
+    	speed)
+			[ "$_VALUE" = "auto" ] && _VALUE=0
+			_OPTION="link"
+			_VALUE=$(uci -q get network.${_SECTION}.link | sed -E 's/speed \w+?/speed '$_VALUE'/g')
+			[ -z "$_VALUE" ] && return 1
+			;;
+		duplex)
+			_OPTION="link"
+			_VALUE=$(uci -q get network.${_SECTION}.link | sed -E 's/duplex \w+?/duplex '$_VALUE'/g')
+			[ -z "$_VALUE" ] && return 1
+			;;
+    esac
+    uci -q set network.${_SECTION}.${_OPTION}="${_VALUE}"
+}
+
+get() {
+    data=$(ubus call uci get "{'config': 'network', 'type': 'switch_port'}" | jsonfilter -e "@.values")
+    json_load "$data"
+    json_get_keys ports
+
+    for pp in $ports; do
+    	json_select $pp
+    	json_get_vars to_cpu port_disabled link name port device
+    	[ "$to_cpu" = "1" -o -z "$port" -o -z "$device" ] && {
+			json_select ..
+            json_add_null $pp
+			continue
+    	}
+
+    	[ -z "$name" ] && json_add_string name "port${port}"
+
+    	[ "$port_disabled" = "1" ] && json_add_boolean disabled 1 || json_add_boolean disabled 0
+    	[ -n "$link" ] && eval $( echo $link | awk '{ for (i=1;i<=NF;i+=2) printf("%s=%s\n",$i,$(i+1)) }' ) &> /dev/null
+
+    	[ "$speed" = "0" ] && speed=""
+        [ -z "$speed" ] && speed=auto
+        [ -z "$duplex" ] && duplex=full
+
+        json_add_string speed 	$speed
+        json_add_string duplex 	$duplex
+
+        is_1000 && json_add_boolean enable_1000 1 || json_add_boolean enable_1000 0
+
+    	json_select ..
+    done
+
+    json_dump | zfilter $_SCHEMA
+}
+
+revert() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -z "$_SECTION" ] && return 1
+    uci -q revert network.${_SECTION}
+}
+
+apply() { ## reload instance 
+	keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+	[ -z "$_SECTION" ] && return 1
+	eval $(ubus call uci get "{'config': 'network', 'type': 'switch_port', 'section': '$_SECTION'}" | jsonfilter -e "device=@.values.device")
+
+    [ -n "$device" ] && swconfig dev $device load network
+}

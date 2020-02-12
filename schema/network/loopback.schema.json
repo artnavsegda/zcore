@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "loopback",
+  "description": "Loopback interfaces list",
+  "type": "object",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "Interface entity",
+      "properties": {
+        "ipaddr": {
+          "type": "string",
+          "description": "IP address value"
+        },
+        "netmask": {
+          "type": "string",
+          "description": "IP netmask value"
+        },
+        "zone": {
+          "type": "string",
+          "description": "Firewall zone to which this interface should be added",
+          "enum": ["lan", "wan"]
+        },
+
+        "name": {
+          "type": "string",
+          "hidden": true
+        },
+        "proto": {
+          "type": "string",
+          "description": "Interface proto handler",
+          "default": "static",
+          "hidden": true
+        },
+        "ifname": {
+          "type": "string",
+          "description": "PHY interface name",
+          "default": "lo",
+          "hidden": true
+        },       
+      }
+    }
+  },
+
+  "commands": {
+      "add": {
+          "command": "handler.sh",
+          "description": "add new entry (params: <name>)",
+          "args": ["add", "network.loopback.schema", "loopback"],
+          "cue": ["name"],
+          "json": "merge",
+          "argpass": true,
+          "wait": true
+      },
+
+      "delete": {
+          "command": "handler.sh",
+          "args": ["delete", "network.loopback.schema", "loopback"],
+          "argpass": true,
+          "reload": true,
+          "wait": true,
+      },
+
+      "revert": {
+          "command": "handler.sh",
+          "args": ["revert", "network.loopback.schema", "loopback"],
+          "argpass": true,
+          "reload": true,
+          "wait": true,
+      },
+
+      "apply": {
+          "command": "handler.sh",
+          "args": ["apply", "network.loopback.schema", "loopback"],
+          "argpass": true,
+      },
+  },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "network.bridge.schema", "bridge"],
+    "argpass": true,
+    "wait": true,
+  },    
+
+  "acquire": {
+    "shell": "handler.sh",
+    "args": ["get", "network.loopback.schema", "loopback"]
+  }
+}

@@ -14,15 +14,21 @@
           "hidden": true
         },
 
+        "device": {
+          "type": "string",
+          "description": "Defines which switch to configure",
+          "cue": ["switch.device"],
+          "readonly": true
+        },
+
         "port": {
           "type": "number",
-          "description": "PHY switch port",
+          "description": "The port index to configure ",
           "readonly": true
         },
         "speed": {
           "type": "string",
           "description": "Port speed",
-          "enum": ["auto", "10", "100", "1000"]
         },
         "duplex": {
           "type": "string",
@@ -34,14 +40,49 @@
           "description": "Disabled port",
           "default": true
         },
-      }
+        "enable_1000": {
+          "type": "boolean",
+          "hidden": true
+        },
+      },
+      "anyOf": [
+        {"properties":{
+          "enable_1000": {"enum": [true]},
+          "speed": {"enum": ["auto", "10", "100", "1000"]},
+        }},
+        
+        {"properties":{
+          "enable_1000": {"enum": [false]},
+          "speed": {"enum": ["auto", "10", "100"]},
+        }}        
+      ]
     }
   },
   "commands": {
+    "revert": {
+      "command": "handler.sh",
+      "args": ["revert", "switch.ports.schema", "switch-ports"],
+      "argpass": true,
+      "reload": true,
+      "wait": true,
+    },
+
+    "apply": {
+      "command": "handler.sh",
+      "args": ["apply", "switch.ports.schema", "switch-ports"],
+      "argpass": true,
+    },
+  },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "switch.ports.schema", "switch-ports"],
+    "argpass": true,
+    "wait": true,
   },
 
   "acquire": {
-     "shell": "get.sh",
-     "args": ["switch.ports.schema", "switch-ports"]
+     "shell": "handler.sh",
+     "args": ["get", "switch.ports.schema", "switch-ports"]
    }
 }

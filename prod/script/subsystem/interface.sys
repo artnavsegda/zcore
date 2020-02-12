@@ -1,0 +1,98 @@
+
+add() {
+    echo $name | grep -qE '^[a-z0-9]+$' || {
+        stderr "name must be alpha-numberic"
+        return 1
+    }
+
+    ubus call uci get "{'config': 'network', 'section': '$name'}" | jsonfilter -e "@.values['.name']" &>/dev/null && {
+        stderr "$name name already exist"
+        return 1
+    }
+
+    uci -q set network.$name="interface"
+    uci -q set network.$name.proto="none"
+    uci -q set network.$name.defaultroute=0
+    uci -q set network.$name.disabled=0
+
+    data="$(ubus call uci get "{'config': 'network', 'type': 'interface', 'section': '$name'}" | jsonfilter -e "@.values")"
+    echo '{ "'$name'": '$data' }' | zfilter $_SCHEMA
+}
+
+onset() {
+    [ "$_VALUE" = "true" ]  && _VALUE=1
+    [ "$_VALUE" = "false" ] && _VALUE=0
+
+    case "$_OPTION" in
+        device)
+            _OPTION="ifname"
+            ;;
+    esac
+
+    uci -q set network.${_SECTION}.${_OPTION}="${_VALUE}"
+}
+
+get() {
+    # interfaces=$(ubus call uci get "{'config': 'network', 'type': 'interface'}" | jsonfilter -e "@.values[(@.proto='static'&&@.type!='bridge')||@.proto='dhcp'||@.proto='pppoe']['.name']")
+    data=$(ubus call uci get "{'config': 'network', 'type': 'interface'}" | jsonfilter -e "@.values")
+    json_load "$data"
+    json_get_keys interfaces
+
+    for ff in $interfaces; do
+        json_select $ff
+        json_get_vars type proto defaultroute disabled ifname
+
+        [ "$proto" != "static" -a "$proto" != "dhcp" -a "$proto" != "pppoe" ] && {
+            json_select ..
+            json_add_null $ff
+            continue
+        }
+
+        [ "$proto" = "static" -a "$type" = "bridge" ] && {
+            json_select ..
+            json_add_null $ff
+            continue
+        }
+
+        [ "$proto" = "static" -a "$ifname" = "lo" ] && {
+            json_select ..
+            json_add_null $ff
+            continue
+        }
+
+        json_add_boolean defaultroute $defaultroute
+        json_add_boolean disabled $disabled
+        json_add_string name "$ff"
+        json_add_string device $ifname
+
+        json_select ..
+    done
+
+    json_dump | zfilter $_SCHEMA
+}
+
+revert() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && uci -q revert network.${_SECTION} || {
+        stderr "usage: revert <interface>"
+        return 1
+    }
+    ubus call network reload
+}
+
+delete() {
+    keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+    [ -n "$_SECTION" ] && uci -q delete network.${_SECTION} || {
+        stderr "usage: delete <interface>"
+        return 1
+    }
+    ubus call network reload
+}
+
+apply() { ## reload instance 
+	keymatch _SECTION "$_NAMESAKES" "$_SECTIONS" $@
+	[ -n "$_SECTION" ] && ifup $_SECTION || {
+        ubus call network reload
+    }
+    
+}

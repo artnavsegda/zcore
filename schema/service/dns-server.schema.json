@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "dns-server",
+  "description": "DNS servers list",
+  "type": "object",
+  "namesake": "name",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "DNS server entity",
+      "properties": {
+        "name": {
+          "type": "string",
+          "hidden": true,
+        },
+
+        "domainneeded": {
+          "type": "boolean",
+          "description": "Tells dnsmasq never to forward queries for plain names, without dots or domain parts, to upstream nameservers",
+        },
+
+        "authoritative": {
+          "type": "boolean",
+          "description": "Force into authoritative mode"
+        },
+
+        "boguspriv": {
+          "type": "boolean",
+          "description": "Reject reverse lookups to private IP ranges"
+        },
+
+        "cachelocal": {
+          "type": "boolean",
+          "description": ""
+        },
+
+        "localise_queries": {
+          "type": "boolean",
+          "description": "Choose IP address to match the incoming interface"
+        },
+
+        "rebind_protection": {
+          "type": "boolean",
+          "description": "Enables DNS rebind attack protection by discarding upstream RFC1918 responses"
+        },
+
+        "rebind_localhost": {
+          "type": "boolean",
+          "description": "Allows upstream 127.0.0.0/8 responses, required for DNS based blacklist services, only takes effect if rebind protection is enabled"
+        },
+
+        "nonegcache": {
+          "type": "boolean",
+          "description": "Disable caching of negative “no such domain” responses"
+        },
+
+        "readethers": {
+          "type": "boolean",
+          "description": "Read static lease entries from DHCP"
+        },
+
+        "localservice": {
+          "type": "boolean",
+          "description": "Accept DNS queries only from hosts whose address is on a local subnet, ie a subnet for which an interface exists on the server"
+        },
+
+        "server": {
+          "type": "array",
+          "description": "List of DNS servers to forward requests to",
+          "items": {
+            "type": "string"
+          }
+        },
+
+        "interface": {
+          "type": "array",
+          "description": "List of interfaces to listen on. If unspecified listens on loopback",
+          "items": {
+            "type": "string",
+            "cue": ["network.interface", "network.bridge"]
+          }
+        },
+
+        "notinterface": {
+          "type": "array",
+          "description": "List of interfaces should not listen on",
+          "items": {
+            "type": "string",
+            "cue": ["network.interface", "network.bridge"]
+          }
+        },
+      },
+    },
+  },
+
+  "commands": {
+        "revert": {
+            "command": "handler.sh",
+            "args": ["revert", "service.dns-server.schema", "dns-server"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "apply": {
+            "command": "handler.sh",
+            "args": ["apply", "service.dns-server.schema", "dns-server"],
+            "argpass": true,
+            "hidden": false,
+        },
+  },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "service.dns-server.schema", "dns-server"],
+    "argpass": true,
+    "wait": true,
+  },    
+
+  "acquire": {
+    "shell": "handler.sh",
+    "args": ["get", "service.dns-server.schema", "dns-server"]
+  }
+}
