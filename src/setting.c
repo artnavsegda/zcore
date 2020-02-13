@@ -35,10 +35,10 @@ char * optionvalue(char * commandname, WJElement proto, WJElement face)
 
   option_parameter = conditionoption(proto, face, commandname);
 
-  if (WJEGet(option_parameter, "[\"$ref\"]", NULL))
-  {
-    option_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL));
-  }
+  // if (WJEGet(option_parameter, "[\"$ref\"]", NULL))
+  // {
+  //   option_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL));
+  // }
 
   if (WJEGet(face, commandname, NULL))
   {
