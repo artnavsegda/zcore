@@ -43,12 +43,7 @@ WJElement optionlist(WJElement schema, char * protoname)
       regcomp(&preg, properties->name, REG_EXTENDED | REG_NOSUB);
       if (!regexec(&preg, protoname, 0, NULL, 0))
       {
-        if (WJEGet(properties, "[\"$ref\"]", NULL))
-        {
-          return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
-        }
-        else
-          return properties;
+        return properties;
       }
     }
   }
@@ -68,6 +63,12 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
   WJElement option_parameter = NULL;
 
   option_parameter = WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
+
+  // if (WJEGet(properties, "[\"$ref\"]", NULL))
+  // {
+  //   return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
+  // }
+  // else
 
   return option_parameter;
 }
