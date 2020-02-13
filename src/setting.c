@@ -65,30 +65,16 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
   else
     facename = NULL;
 
-    // if (WJEGet(option_parameter, "[\"$ref\"]", NULL))
-    // {
-    //   option_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL));
-    // }
+  WJElement option_parameter = NULL;
 
-  if (!WJEGetF(optionlist(schema, facename), NULL, "properties.%s", optionname))
-  {
-    WJElement anyoption = NULL;
-    while (anyoption = _WJEObject(schema, "anyOf[]", WJE_GET, &anyoption)) {
-      if (WJESchemaValidate(anyoption, face, schema_errorq, schema_load, schema_free, "%s"))
-      {
-        return WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",optionname);
-      }
-    }
-  }
-  else
-  {
-    return WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
-  }
+  option_parameter = WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
+
+  return option_parameter;
 }
 
 char * optionvalue(char * commandname, WJElement proto, WJElement face)
 {
-  WJElement option_parameter;
+  WJElement option_parameter = NULL;
   char * returnstring = NULL;
 
   option_parameter = conditionoption(proto, face, commandname);
