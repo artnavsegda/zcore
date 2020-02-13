@@ -70,7 +70,24 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
     WJEDump(option_parameter);
     puts("stage1");
     puts(refpath);
-    puts("stage2");
+    char *ptr = strrchr (refpath, '/');
+    if (ptr) {
+      ++ptr;
+      puts("stage2");
+      puts(ptr);
+      WJElement schema_definitions = WJEObject(schema, "definitions", WJE_GET);
+      if (schema_definitions)
+      {
+        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
+        if (sub)
+        {
+          puts("stage3");
+          WJEDump(sub);
+          return sub;
+        }
+      }
+    }
+    puts("stage99");
     WJEDump(schema);
     exit(1);
     //return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
