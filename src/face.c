@@ -8,6 +8,7 @@
 #include "completion.h"
 #include "command.h"
 #include "builtin.h"
+#include "setting.h"
 
 extern WJElement protojson;
 extern WJElement rl_protojson;

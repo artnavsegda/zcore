@@ -7,10 +7,10 @@
 #include <wjreader.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <regex.h>
 #include "utils.h"
 #include "option.h"
 #include "command.h"
+#include "setting.h"
 
 extern WJElement doc, schema;
 extern WJElement protoface;
@@ -291,33 +291,6 @@ WJElement optionsdepth(WJElement schema)
     puts("depth");
     WJEDump(schema);
     return WJEGetF(schema, NULL, "properties.%s",protoface->name);
-  }
-  else
-    return schema;
-}
-
-WJElement optionlist(WJElement schema, char * protoname)
-{
-  WJElement properties = NULL;
-  if (WJEGet(schema, "patternProperties", NULL))
-  {
-    if (protoname == NULL)
-      return WJEObject(schema,"patternProperties[0]", WJE_GET);
-
-    regex_t preg;
-    while (properties = _WJEObject(schema, "patternProperties[]", WJE_GET, &properties))
-    {
-      regcomp(&preg, properties->name, REG_EXTENDED | REG_NOSUB);
-      if (!regexec(&preg, protoname, 0, NULL, 0))
-      {
-        if (WJEGet(properties, "[\"$ref\"]", NULL))
-        {
-          return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
-        }
-        else
-          return properties;
-      }
-    }
   }
   else
     return schema;
