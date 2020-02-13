@@ -18,3 +18,4 @@ int argcat(int argc, char *argout[], char *argin[]);
 void fillenv(WJElement proto, WJElement face);
 char * elementname(WJElement proto, WJElement element);
 int forkexec(char * command, int argc, char *argv[], char *envp[]);
+int onset(char * parametername, WJElement tempproto, char * value);
