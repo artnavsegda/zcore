@@ -30,34 +30,34 @@ extern char * optionname;
 
 char * optionvalue(char * commandname, WJElement proto, WJElement face)
 {
-  WJElement parameter;
+  WJElement option_parameter;
   char * returnstring = NULL;
 
-  parameter = conditionoption(proto, face, commandname);
+  option_parameter = conditionoption(proto, face, commandname);
 
-  if (WJEGet(parameter, "[\"$ref\"]", NULL))
+  if (WJEGet(option_parameter, "[\"$ref\"]", NULL))
   {
-    parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
+    option_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL));
   }
 
   if (WJEGet(face, commandname, NULL))
   {
-    if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"string") == 0){
+    if (strcmp(WJEString(option_parameter,"type", WJE_GET, NULL),"string") == 0){
       return strdup(WJEString(face,commandname,WJE_GET,"<undefined>"));
     }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"number") == 0){
+    else if (strcmp(WJEString(option_parameter,"type", WJE_GET, NULL),"number") == 0){
       asprintf(&returnstring,"%d", WJEInt32(face,commandname,WJE_GET,-1));
       return returnstring;
     }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"boolean") == 0){
+    else if (strcmp(WJEString(option_parameter,"type", WJE_GET, NULL),"boolean") == 0){
       if (WJEBool(face,commandname,WJE_GET,-1) == TRUE)
         return strdup("true");
       else if (WJEBool(face,commandname,WJE_GET,-1) == FALSE)
         return strdup("false");
     }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"array") == 0){
+    else if (strcmp(WJEString(option_parameter,"type", WJE_GET, NULL),"array") == 0){
       WJElement array = NULL;
-      if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"string") == 0){
+      if (strcmp(WJEString(option_parameter,"items.type", WJE_GET, NULL),"string") == 0){
         char * entity = NULL;
         returnstring = malloc(1);
         if (!returnstring)
@@ -81,7 +81,7 @@ char * optionvalue(char * commandname, WJElement proto, WJElement face)
         }
         return returnstring;
       }
-      else if (strcmp(WJEString(parameter,"items.type", WJE_GET, NULL),"number") == 0){
+      else if (strcmp(WJEString(option_parameter,"items.type", WJE_GET, NULL),"number") == 0){
         int number = 0;
         returnstring = malloc(1);
         if (!returnstring)
@@ -107,7 +107,7 @@ char * optionvalue(char * commandname, WJElement proto, WJElement face)
         return returnstring;
       }
     }
-    else if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
+    else if (strcmp(WJEString(option_parameter,"type", WJE_GET, NULL),"object") == 0)
     {
       //return strdup("Object");
       return NULL;
