@@ -64,11 +64,12 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 
   option_parameter = WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
 
-  // if (WJEGet(properties, "[\"$ref\"]", NULL))
-  // {
-  //   return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
-  // }
-  // else
+  if (WJEGet(option_parameter, "[\"$ref\"]", NULL))
+  {
+    puts("DANGER ZONE");
+    exit(1);
+    //return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
+  }
 
   return option_parameter;
 }
