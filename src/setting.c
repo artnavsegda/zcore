@@ -183,36 +183,6 @@ int listsettings()
   return 1;
 }
 
-
-
-void listconditional(WJElement schema, WJElement face)
-{
-  WJElement anyoption = NULL;
-
-  while (anyoption = _WJEObject(optionlist(schema, facename), "anyOf[]", WJE_GET, &anyoption)) {
-    if (WJESchemaValidate(anyoption, protoface, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      WJElement option = NULL;
-      while ((option = _WJEObject(anyoption, "properties[]", WJE_GET, &option))) {
-        printf("%s: \n", option->name);
-      }
-    }
-  }
-}
-
-int isoptionconditional(WJElement schema, WJElement face, char * optionname)
-{
-  WJElement anyoption = NULL;
-  while (anyoption = _WJEObject(optionlist(schema, facename), "anyOf[]", WJE_GET, &anyoption)) {
-    if (WJESchemaValidate(anyoption, protoface, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      if (WJEGetF(anyoption, NULL, "properties.%s", optionname))
-        return 1;
-    }
-  }
-  return 0;
-}
-
 int setvalue(WJElement parameter, char * parametername, char * value, WJElement temp)
 {
   //set value
@@ -262,40 +232,6 @@ int setvalue(WJElement parameter, char * parametername, char * value, WJElement 
   {
     puts("Not implemeted");
     return 1;
-  }
-}
-
-int validate(WJElement temp, WJElement tempproto, char * parametername)
-{
-  //validate
-  if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
-  {
-    char tempprotoname[100];
-    strcpy(tempprotoname, protoface->name);
-    WJECloseDocument(WJEGet(protojson,"data",NULL));
-
-    if (WJEGet(protojson, "schema.patternProperties", NULL))
-    {
-      WJEAttach(protojson,tempproto);
-      protoface = WJEGet(WJEGet(protojson,"data",NULL),tempprotoname,NULL);
-      if (!protoface)
-      {
-        puts("FATAL ERROR");
-        exit(0);
-      }
-    }
-    else
-    {
-      WJEAttach(protojson,tempproto);
-      protoface = WJEObject(protojson, "data", WJE_GET);
-    }
-    return 1;
-  }
-  else
-  {
-    puts("Schema validation failed, check output below for mismatches");
-    WJECloseDocument(tempproto);
-    return 0;
   }
 }
 

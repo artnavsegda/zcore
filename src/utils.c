@@ -13,6 +13,7 @@
 #include "command.h"
 #include "setting.h"
 #include "config.h"
+#include "validate.h"
 
 extern WJElement doc, schema;
 extern WJElement protoface;
@@ -351,5 +352,39 @@ int onset(char * parametername, WJElement tempproto, char * value)
       }
       free(optionstring);
     }
+  }
+}
+
+int validate(WJElement temp, WJElement tempproto, char * parametername)
+{
+  //validate
+  if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
+  {
+    char tempprotoname[100];
+    strcpy(tempprotoname, protoface->name);
+    WJECloseDocument(WJEGet(protojson,"data",NULL));
+
+    if (WJEGet(protojson, "schema.patternProperties", NULL))
+    {
+      WJEAttach(protojson,tempproto);
+      protoface = WJEGet(WJEGet(protojson,"data",NULL),tempprotoname,NULL);
+      if (!protoface)
+      {
+        puts("FATAL ERROR");
+        exit(0);
+      }
+    }
+    else
+    {
+      WJEAttach(protojson,tempproto);
+      protoface = WJEObject(protojson, "data", WJE_GET);
+    }
+    return 1;
+  }
+  else
+  {
+    puts("Schema validation failed, check output below for mismatches");
+    WJECloseDocument(tempproto);
+    return 0;
   }
 }
