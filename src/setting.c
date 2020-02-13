@@ -37,6 +37,11 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
   else
     facename = NULL;
 
+    // if (WJEGet(option_parameter, "[\"$ref\"]", NULL))
+    // {
+    //   option_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL));
+    // }
+
   if (!WJEGetF(optionlist(schema, facename), NULL, "properties.%s", optionname))
   {
     WJElement anyoption = NULL;
@@ -59,11 +64,6 @@ char * optionvalue(char * commandname, WJElement proto, WJElement face)
   char * returnstring = NULL;
 
   option_parameter = conditionoption(proto, face, commandname);
-
-  // if (WJEGet(option_parameter, "[\"$ref\"]", NULL))
-  // {
-  //   option_parameter = WJEGetF(root, NULL, "%s.schema", WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL));
-  // }
 
   if (WJEGet(face, commandname, NULL))
   {
