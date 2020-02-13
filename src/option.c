@@ -82,11 +82,11 @@ int option(int argc, char *argv[])
   optionname = argv[0];
   parameter = conditionoption(protoschema, protoface, optionname);
 
-  if (WJEGet(parameter, "[\"$ref\"]", NULL))
-  {
-    parameter = WJEGetF(protoschema, NULL, "definitions.%s", strrchr(WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL), '/'));
-    //parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
-  }
+  // if (WJEGet(parameter, "[\"$ref\"]", NULL))
+  // {
+  //   parameter = WJEGetF(protoschema, NULL, "definitions.%s", strrchr(WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL), '/'));
+  //   //parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
+  // }
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {
@@ -119,7 +119,6 @@ int rl_option(int argc, char *argv[])
 {
   WJECloseDocument(rl_parameter);
   rl_parameter = WJEObject(NULL, argv[0], WJE_NEW);
-
 
   char * facename = NULL;
   if (rl_protoface)
