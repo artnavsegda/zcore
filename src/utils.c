@@ -7,57 +7,19 @@
 #include <wjreader.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include "utils.h"
 #include "option.h"
 #include "command.h"
 #include "setting.h"
+#include "config.h"
 
 extern WJElement doc, schema;
 extern WJElement protoface;
+extern WJElement protojson;
+extern WJElement protoschema;
 extern WJElement root;
 extern int optiondepth;
-
-char *strmbtok ( char *input, char *delimit, char *openblock, char *closeblock) {
-    static char *token = NULL;
-    char *lead = NULL;
-    char *block = NULL;
-    int iBlock = 0;
-    int iBlockIndex = 0;
-
-    if ( input != NULL) {
-        token = input;
-        lead = input;
-    }
-    else {
-        lead = token;
-        if ( *token == '\0') {
-            lead = NULL;
-        }
-    }
-
-    while ( *token != '\0') {
-        if ( iBlock) {
-            if ( closeblock[iBlockIndex] == *token) {
-                iBlock = 0;
-            }
-            token++;
-            continue;
-        }
-        if ( ( block = strchr ( openblock, *token)) != NULL) {
-            iBlock = 1;
-            iBlockIndex = block - openblock;
-            token++;
-            continue;
-        }
-        if ( strchr ( delimit, *token) != NULL) {
-            *token = '\0';
-            token++;
-            break;
-        }
-        token++;
-    }
-    return lead;
-}
 
 WJElement getelementbynameprop(WJElement container, char * text)
 {
@@ -321,5 +283,73 @@ void fillenv(WJElement proto, WJElement face)
             setenv(option->name,"False",1);
         }
       }
+  }
+}
+
+int onset(char * parametername, WJElement tempproto, char * value)
+{
+  //onset
+  if (WJEGet(protojson,"schema.onset.command", NULL))
+  {
+    struct stat filestat;
+    char onsetcommand[MAXPATH] = "\0";
+    strcpy(onsetcommand,WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
+    if (stat(onsetcommand,&filestat))
+    {
+      onsetcommand[0] = '\0';
+      strcat(onsetcommand, config.scriptpath);
+      strcat(onsetcommand, "/");
+      strcat(onsetcommand, WJEString(protojson, "schema.onset.command", WJE_GET, NULL));
+    }
+    if (stat(onsetcommand,&filestat))
+    {
+      puts("onset script inaccessible");
+    }
+    else
+    {
+      char *args[100];
+      args[0] = onsetcommand;
+      char * optionstring = optionvalue(parametername, protoschema, protoface);
+
+      int argsc = arguments(WJEArray(protojson, "schema.onset.args", WJE_GET),args);
+
+      char combinedepth[1000]; // replace with asprintf && free
+
+     if (optiondepth > 0)
+     {
+       args[argsc++] = protoface->parent->name;
+       snprintf(combinedepth,1000,"%s.%s", protoface->name, parametername);
+       args[argsc++] = combinedepth;
+     }
+     else
+     {
+        args[argsc++] = protoface->name;
+        args[argsc++] = parametername;
+     }
+
+     if (value[0] == '-')
+      args[argsc++] = "";
+     else
+      args[argsc++] = value;
+     args[argsc++] = NULL;
+
+      if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
+      {
+        printf("merging %s %s %s %s %s %s\n", onsetcommand, args[1], args[2], args[3], args[4], args[5]);
+        WJElement mergedata = streamfromcommand(onsetcommand,args,NULL);
+        if (mergedata)
+        {
+          WJEMergeObjects(tempproto, mergedata, TRUE);
+        }
+        else
+          puts("no data");
+        WJEDump(tempproto);
+      }
+      else
+      {
+        forkwaitexec(onsetcommand,argsc,args,NULL);
+      }
+      free(optionstring);
+    }
   }
 }
