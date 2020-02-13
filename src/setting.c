@@ -28,6 +28,31 @@ extern WJElement optionjson;
 extern int optiondepth;
 extern char * optionname;
 
+WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
+{
+  char * facename = NULL;
+
+  if (face)
+    facename = face->name;
+  else
+    facename = NULL;
+
+  if (!WJEGetF(optionlist(schema, facename), NULL, "properties.%s", optionname))
+  {
+    WJElement anyoption = NULL;
+    while (anyoption = _WJEObject(schema, "anyOf[]", WJE_GET, &anyoption)) {
+      if (WJESchemaValidate(anyoption, face, schema_errorq, schema_load, schema_free, "%s"))
+      {
+        return WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",optionname);
+      }
+    }
+  }
+  else
+  {
+    return WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
+  }
+}
+
 char * optionvalue(char * commandname, WJElement proto, WJElement face)
 {
   WJElement option_parameter;
@@ -311,31 +336,6 @@ int validate(WJElement temp, WJElement tempproto, char * parametername)
     puts("Schema validation failed, check output below for mismatches");
     WJECloseDocument(tempproto);
     return 0;
-  }
-}
-
-WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
-{
-  char * facename = NULL;
-
-  if (face)
-    facename = face->name;
-  else
-    facename = NULL;
-
-  if (!WJEGetF(optionlist(schema, facename), NULL, "properties.%s", optionname))
-  {
-    WJElement anyoption = NULL;
-    while (anyoption = _WJEObject(schema, "anyOf[]", WJE_GET, &anyoption)) {
-      if (WJESchemaValidate(anyoption, face, schema_errorq, schema_load, schema_free, "%s"))
-      {
-        return WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",optionname);
-      }
-    }
-  }
-  else
-  {
-    return WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
   }
 }
 
