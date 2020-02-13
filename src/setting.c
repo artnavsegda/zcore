@@ -54,23 +54,27 @@ WJElement optionlist(WJElement schema, char * protoname)
 WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 {
   char * facename = NULL;
-
   if (face)
     facename = face->name;
   else
     facename = NULL;
-
   WJElement option_parameter = NULL;
-
   option_parameter = WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
-
-  if (WJEGet(option_parameter, "[\"$ref\"]", NULL))
+  char * refpath = NULL;
+  refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
+  if (refpath)
   {
     puts("DANGER ZONE");
+    //debug
+    puts("stage0");
+    WJEDump(option_parameter);
+    puts("stage1");
+    puts(refpath);
+    puts("stage2");
+    WJEDump(schema);
     exit(1);
     //return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
   }
-
   return option_parameter;
 }
 
