@@ -42,6 +42,10 @@
            "description": "Radio regulation region",
            "enum": ["default", "RU"],
          },
+         "channel": {
+           "type": "number",
+           "description": "Radio channel"
+         },
        },
        "anyOf": [
          { "properties": {
