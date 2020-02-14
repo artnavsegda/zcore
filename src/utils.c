@@ -357,8 +357,11 @@ int onset(char * parametername, WJElement tempproto, char * value)
 
 int validate(WJElement temp, WJElement tempproto, char * parametername)
 {
+  WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
+  WJECopyDocument(tempschema, protoschema, NULL, NULL);
+
   //validate
-  if (WJESchemaValidate(optionlist(protoschema, protoface->name), temp, schema_error, schema_load, schema_free, "%s"))
+  if (WJESchemaValidate(tempschema, tempproto, schema_error, schema_load, schema_free, "%s"))
   {
     char tempprotoname[100];
     strcpy(tempprotoname, protoface->name);
@@ -379,11 +382,13 @@ int validate(WJElement temp, WJElement tempproto, char * parametername)
       WJEAttach(protojson,tempproto);
       protoface = WJEObject(protojson, "data", WJE_GET);
     }
+    WJECloseDocument(tempschema);
     return 1;
   }
   else
   {
     puts("Schema validation failed, check output below for mismatches");
+    WJECloseDocument(tempschema);
     WJECloseDocument(tempproto);
     return 0;
   }
