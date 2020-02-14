@@ -134,7 +134,9 @@ int rl_option(int argc, char *argv[])
     }
   }
 
-  WJEMergeObjects(rl_parameter, WJEObjectF(optionlist(rl_protoschema, facename), WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
+  //WJEMergeObjects(rl_parameter, WJEObjectF(optionlist(rl_protoschema, facename), WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
+
+  WJEMergeObjects(rl_parameter, conditionoption(rl_protoschema, rl_protoface, argv[0]), TRUE);
 
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"object") == 0)
   {
