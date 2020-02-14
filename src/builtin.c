@@ -356,7 +356,10 @@ int exportoption(WJElement proto, WJElement face, int depth, WJElement schema)
         printf("%s ", elementname(proto,face));
       }
       printf("%s ", option->name);
-      if (strcmp(WJEString(option,"type", WJE_GET, NULL),"object") == 0){
+
+      WJElement tempoption = conditionoption(schema, face, option->name);
+
+      if (strcmp(WJEString(tempoption,"type", WJE_GET, NULL),"object") == 0){
         WJElement suboption = NULL;
         while (suboption = _WJEObject(option, "properties[]", WJE_GET, &suboption)) {
           printf("%s ", suboption->name);
