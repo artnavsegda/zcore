@@ -1,0 +1,18 @@
+{
+  "port_6":{
+    "name":"eth1",
+    "device":"switch0",
+    "port":6,
+    "freq":"2.4Ghz",
+    "country": "RU",
+    "channel": 6
+  },
+  "port_5":{
+    "name":"eth0",
+    "device":"switch0",
+    "port":5,
+    "freq":"5Ghz",
+    "country": "RU",
+    "channel": 153
+  }
+}
