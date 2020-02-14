@@ -45,23 +45,23 @@
        },
        "anyOf": [
          { "properties": {
-             "country": {"const": "RU"},
-             "freq": {"const": "2.4Ghz"},
+             "country": {"enum": ["RU"]},
+             "freq": {"enum": ["2.4Ghz"]},
              "channel": {"$ref": "#/definitions/24ruchannels"}
          }},
          { "properties": {
-             "country": {"const": "RU"},
-             "freq": {"const": "5Ghz"},
+             "country": {"enum": ["RU"]},
+             "freq": {"enum": ["5Ghz"]},
              "channel": {"$ref": "#/definitions/5ruchannels"}
          }},
          { "properties": {
-             "country": {"const": "default"},
-             "freq": {"const": "2.4Ghz"},
+             "country": {"enum": ["default"]},
+             "freq": {"enum": ["2.4Ghz"]},
              "channel": {"$ref": "#/definitions/24defchannels"}
          }},
          { "properties": {
-             "country": {"const": "default"},
-             "freq": {"const": "5Ghz"},
+             "country": {"enum": ["default"]},
+             "freq": {"enum": ["5Ghz"]},
              "channel": {"$ref": "#/definitions/5defchannels"}
          }},
        ]
