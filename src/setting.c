@@ -89,7 +89,7 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
     }
     //puts("stage99");
     //WJEDump(schema);
-    exit(1);
+    //exit(1);
     //return WJEGetF(root, NULL, "%s.schema", WJEString(properties, "[\"$ref\"]", WJE_GET, NULL));
   }
   return option_parameter;
