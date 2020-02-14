@@ -128,6 +128,9 @@ int rl_option(int argc, char *argv[])
 
   WJElement anyoption = NULL;
   while (anyoption = _WJEObject(optionlist(rl_protoschema, facename), "anyOf[]", WJE_GET, &anyoption)) {
+    
+
+
     if (WJESchemaValidate(anyoption, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
     {
       WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);

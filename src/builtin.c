@@ -239,7 +239,10 @@ int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
         sprintf(stringbuffer, "%s%s.", stringbuffer, elementname(proto,face));
       }
       sprintf(stringbuffer, "%s%s", stringbuffer, option->name);
-      if (strcmp(WJEString(option,"type", WJE_GET, NULL),"object") == 0){
+
+      WJElement tempoption = conditionoption(schema, face, option->name);
+
+      if (strcmp(WJEString(tempoption,"type", WJE_GET, NULL),"object") == 0){
         WJElement suboption = NULL;
         while (suboption = _WJEObject(option, "properties[]", WJE_GET, &suboption)) {
           printf(stringbuffer);
