@@ -128,13 +128,26 @@ int rl_option(int argc, char *argv[])
 
   WJElement anyoption = NULL;
   while (anyoption = _WJEObject(optionlist(rl_protoschema, facename), "anyOf[]", WJE_GET, &anyoption)) {
-    
 
+    //taks taks taks
+    WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
+    WJECopyDocument(tempschema, anyoption, NULL, NULL);
+    WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
+    WJECopyDocument(tempdefs, WJEGet(rl_protoschema, "definitions", NULL), NULL, NULL);
 
-    if (WJESchemaValidate(anyoption, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
+    WJEAttach(tempschema, tempdefs);
+
+    //puts("check");
+    //WJEDump(tempschema);
+
+    if (WJESchemaValidate(tempschema, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
     {
+      //puts("compile");
+      //WJEDump(tempschema);
       WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
     }
+
+    WJECloseDocument(tempschema);
   }
 
   WJEMergeObjects(rl_parameter, conditionoption(rl_protoschema, rl_protoface, argv[0]), TRUE);
