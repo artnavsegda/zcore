@@ -144,13 +144,20 @@ int rl_option(int argc, char *argv[])
     {
       //puts("compile");
       //WJEDump(tempschema);
-      WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
+      //WJEMergeObjects(rl_parameter, WJEObjectF(anyoption, WJE_GET, NULL, "properties.%s",argv[0]), TRUE);
+      WJEMergeObjects(rl_parameter, conditionoption(tempschema, rl_protoface, argv[0]), TRUE);
     }
 
     WJECloseDocument(tempschema);
   }
 
+  //puts("12one");
+  //WJEDump(rl_parameter);
+
   WJEMergeObjects(rl_parameter, conditionoption(rl_protoschema, rl_protoface, argv[0]), TRUE);
+
+  //puts("12two");
+  //WJEDump(rl_parameter);
 
   if (strcmp(WJEString(rl_parameter,"type", WJE_GET, NULL),"object") == 0)
   {
