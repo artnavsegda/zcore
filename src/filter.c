@@ -6,9 +6,9 @@
 #include <wjreader.h>
 #include "validate.h"
 
-void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties);
+void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties, WJElement schema);
 
-void translateproperty(WJElement ifaceoutput, WJElement ifaceinput, WJElement property)
+void translateproperty(WJElement ifaceoutput, WJElement ifaceinput, WJElement property, WJElement schema)
 {
   if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"string") == 0)
   {
@@ -40,12 +40,13 @@ void translateproperty(WJElement ifaceoutput, WJElement ifaceinput, WJElement pr
   }
   else if (strcmp(WJEString(property,"type",WJE_GET,"unknown"),"object") == 0)
   {
-    translate(WJEObject(ifaceoutput, property->name, WJE_NEW),WJEObject(ifaceinput, property->name, WJE_GET),property);
+    translate(WJEObject(ifaceoutput, property->name, WJE_NEW),WJEObject(ifaceinput, property->name, WJE_GET),property, schema);
   }
 }
 
-void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties)
+void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties, WJElement schema)
 {
+
   WJElement property = NULL;
   while (property = _WJEObject(properties, "properties[]", WJE_GET, &property))
   {
@@ -56,17 +57,19 @@ void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties
       char *ptr = strrchr (refpath, '/');
       if (ptr) {
         ++ptr;
-        WJElement schema_definitions = WJEObject(properties, "definitions", WJE_GET);
+        WJElement schema_definitions = WJEObject(schema, "definitions", WJE_GET);
         if (schema_definitions)
         {
           WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
           if (sub)
-            translateproperty(ifaceoutput, ifaceinput, sub);
+          {
+            translateproperty(ifaceoutput, ifaceinput, sub, schema);
+          }
         }
       }
     }
     else
-      translateproperty(ifaceoutput, ifaceinput, property);
+      translateproperty(ifaceoutput, ifaceinput, property, schema);
   }
 }
 
@@ -75,6 +78,7 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
   WJElement ifaceinput = NULL, ifaceoutput = NULL;
   WJElement properties = NULL;
   WJElement output = WJEObject(NULL, NULL, WJE_NEW);
+  WJElement schemaroot = WJEGet(schema,schemapath,NULL);
 
   if (WJEGetF(schema,NULL,"%s.patternProperties",schemapath))
   {
@@ -88,7 +92,7 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
         if (!regexec(&preg, ifaceinput->name, 0, NULL, 0))
         {
           ifaceoutput = WJEObject(output, ifaceinput->name, WJE_NEW);
-          translate(ifaceoutput, ifaceinput, properties);
+          translate(ifaceoutput, ifaceinput, properties, schemaroot);
         }
       }
       regfree(&preg);
@@ -97,7 +101,7 @@ WJElement filter(WJElement input, WJElement schema, char * schemapath)
   else
   {
     properties = WJEObject(schema, schemapath, WJE_GET);
-    translate(output, input, properties);
+    translate(output, input, properties, schemaroot);
   }
   return output;
 }
