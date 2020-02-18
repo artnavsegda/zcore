@@ -44,37 +44,30 @@ void translateproperty(WJElement ifaceoutput, WJElement ifaceinput, WJElement pr
   }
 }
 
-void translateconditional(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties)
-{
-  WJElement property = NULL;
-  if (WJEGet(properties, "if", NULL))
-  {
-    if (WJESchemaValidate(properties, ifaceoutput, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      while (property = _WJEObject(properties, "then.properties[]", WJE_GET, &property))
-      {
-        translateproperty(ifaceoutput, ifaceinput, property);
-      }
-    }
-    else
-    {
-      while (property = _WJEObject(properties, "else.properties[]", WJE_GET, &property))
-      {
-        translateproperty(ifaceoutput, ifaceinput, property);
-      }
-      translateconditional(ifaceoutput, ifaceinput, WJEGet(properties, "else", NULL));
-    }
-  }
-}
-
 void translate(WJElement ifaceoutput, WJElement ifaceinput, WJElement properties)
 {
   WJElement property = NULL;
   while (property = _WJEObject(properties, "properties[]", WJE_GET, &property))
   {
-    translateproperty(ifaceoutput, ifaceinput, property);
+    char * refpath = NULL;
+    refpath = WJEString(property, "[\"$ref\"]", WJE_GET, NULL);
+    if (refpath)
+    {
+      char *ptr = strrchr (refpath, '/');
+      if (ptr) {
+        ++ptr;
+        WJElement schema_definitions = WJEObject(properties, "definitions", WJE_GET);
+        if (schema_definitions)
+        {
+          WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
+          if (sub)
+            translateproperty(ifaceoutput, ifaceinput, sub);
+        }
+      }
+    }
+    else
+      translateproperty(ifaceoutput, ifaceinput, property);
   }
-  translateconditional(ifaceoutput, ifaceinput, properties);
 }
 
 WJElement filter(WJElement input, WJElement schema, char * schemapath)
