@@ -187,6 +187,10 @@ int setvalue(WJElement parameter, char * parametername, char * value, WJElement 
   {
     if (value[0] == '-')
     {
+      printf("deleting %s\n",&value[1]);
+
+      WJEDump(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
+
       WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
     }
     else
@@ -380,6 +384,10 @@ int setting(int argc, char *argv[])
       setvalue(parameter, optionname, argv[0], temp);
 
       result = optionvalue(optionname, protoschema, temp);
+      if (!result)
+      {
+        result = strdup("");
+      }
 
       if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
         onset(optionname, tempproto, result);
