@@ -360,6 +360,7 @@ char * cuesettingvalues(const char * text, int len, int state)
 
 int setting(int argc, char *argv[])
 {
+  char * result = NULL;
   if (argc == 0)
   {
     return listsettings();
@@ -377,11 +378,16 @@ int setting(int argc, char *argv[])
     if (argc == 1)
     {
       setvalue(parameter, optionname, argv[0], temp);
+
+      result = optionvalue(optionname, protoschema, temp);
+
       if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-        onset(optionname, tempproto, argv[0]);
+        onset(optionname, tempproto, result);
       if (validate(temp, tempproto, optionname))
         if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
-          onset(optionname, WJEGet(protojson,"data",NULL), argv[0]);
+          onset(optionname, WJEGet(protojson,"data",NULL), result);
+
+      free(result);
       return 1;
     }
     else if (argc > 1)
@@ -404,11 +410,16 @@ int setting(int argc, char *argv[])
       {
         setvalue(parameter, optionname, combine, temp);
       }
+
+      result = optionvalue(optionname, protoschema, temp);
+
       if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == TRUE)
-        onset(optionname, tempproto, combine);
+        onset(optionname, tempproto, result);
       if (validate(temp, tempproto, optionname))
         if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
-          onset(optionname, WJEGet(protojson,"data",NULL), combine);
+          onset(optionname, WJEGet(protojson,"data",NULL), result);
+
+      free(result);
       return 1;
     }
   }

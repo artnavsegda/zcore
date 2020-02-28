@@ -9,6 +9,7 @@
   "test3": {
   },
   "quest": {
-    "somebody" : "once"
+    "somebody" : "once",
+    "someshit": ["one", "two", "three"]
   }
 }

@@ -31,6 +31,12 @@
       "properties": {
         "somebody": {
           "type": "string"
+        },
+        "someshit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }
