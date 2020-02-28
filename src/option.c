@@ -132,8 +132,11 @@ int rl_option(int argc, char *argv[])
     //taks taks taks
     WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
     WJECopyDocument(tempschema, anyoption, NULL, NULL);
+
     WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
-    WJECopyDocument(tempdefs, WJEGet(rl_protoschema, "definitions", NULL), NULL, NULL);
+
+    if (WJEGet(rl_protoschema, "definitions", NULL))
+      WJECopyDocument(tempdefs, WJEGet(rl_protoschema, "definitions", NULL), NULL, NULL);
 
     WJEAttach(tempschema, tempdefs);
 
