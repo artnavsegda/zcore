@@ -343,26 +343,28 @@ int exportoption(WJElement proto, WJElement face, int depth, WJElement schema)
   else
     facename = NULL;
   while (option = _WJEObject(optionlist(schema, facename), "properties[]", WJE_GET, &option)) {
-    if (!WJEBool(option, "hidden", WJE_GET, FALSE) && WJEGet(face, option->name, NULL))
+    char stringbuffer[1000] = "";
+    if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       for (int i = depth; i > 0; i--)
       {
-        printf("%s ", parentname(proto, i));
+        sprintf(stringbuffer, "%s%s ", stringbuffer, parentname(proto, i));
       }
       if (WJEGet(proto, "schema.patternProperties", NULL))
       {
         if (optiondepth > 0)
-          printf("%s ", face->parent->name);
-        printf("%s ", elementname(proto,face));
+          sprintf(stringbuffer, "%s%s ", stringbuffer, face->parent->name);
+        sprintf(stringbuffer, "%s%s ", stringbuffer, elementname(proto,face));
       }
-      printf("%s ", option->name);
+      sprintf(stringbuffer, "%s%s", stringbuffer, option->name);
 
       WJElement tempoption = conditionoption(schema, face, option->name);
 
       if (strcmp(WJEString(tempoption,"type", WJE_GET, NULL),"object") == 0){
         WJElement suboption = NULL;
         while (suboption = _WJEObject(option, "properties[]", WJE_GET, &suboption)) {
-          printf("%s ", suboption->name);
+          printf(stringbuffer);
+          printf(" %s ", suboption->name);
 
           char * returnstring = optionvalue(suboption->name, option, WJEGet(face, option->name, NULL));
           if (returnstring)
@@ -371,20 +373,21 @@ int exportoption(WJElement proto, WJElement face, int depth, WJElement schema)
             free(returnstring);
           }
           else
-            puts("None");
+            puts("-");
         }
       }
       else
       {
+        printf(stringbuffer);
+        printf(" ");
         char * returnstring = optionvalue(option->name, schema, face);
-
         if (returnstring)
         {
           puts(returnstring);
           free(returnstring);
         }
         else
-          puts("None");
+          puts("-");
       }
     }
   }
