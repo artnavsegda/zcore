@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
 
   readconfig(zcoreconfig);
   loadeveryschema(root,config.schemapath);
+  //WJEDump(root);
   acquireall(root);
 
   if (argv[optind])

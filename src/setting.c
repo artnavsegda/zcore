@@ -189,9 +189,10 @@ int setvalue(WJElement parameter, char * parametername, char * value, WJElement 
     {
       printf("deleting %s\n",&value[1]);
 
-      WJEDump(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
+      //WJEDump(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
+      WJEDump(WJEGetF(temp,NULL,"%s[] == \"%s\"",parametername,&value[1]));
 
-      WJECloseDocument(WJEGetF(temp,NULL,"%s[] == %s",parametername,&value[1]));
+      WJECloseDocument(WJEGetF(temp,NULL,"%s[] == \"%s\"",parametername,&value[1]));
     }
     else
     {

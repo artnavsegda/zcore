@@ -70,6 +70,8 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
   getcwd(path,MAXPATHLEN);
   struct dirent **dirs;
 
+  //printf("current path %s loading from %s\n", path, loadschemapath);
+
   //load schemas from root
 
   int n = scandir(loadschemapath,&dirs,fileselect,alphasort);
@@ -81,9 +83,12 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
       //puts(dirs[cnt]->d_name);
       WJEAttach(loadroot,loadschema(dirs[cnt]->d_name));
     }
+    chdir(path);
   }
   else
+  {
     printf("Cannot find files in %s\n", loadschemapath);
+  }
 
   //recursively load shemes from every subdir
   n = scandir(loadschemapath,&dirs,dirselect,alphasort);
@@ -93,7 +98,9 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
     for (int cnt = 0;cnt < n;++cnt)
     {
       //printf("subdir %s\n",(dirs[cnt]->d_name));
+      chdir(loadschemapath);
       loadeveryschema(WJEObject(loadroot, dirs[cnt]->d_name, WJE_NEW), dirs[cnt]->d_name);
+      chdir(path);
     }
   }
   else
@@ -101,6 +108,6 @@ int loadeveryschema(WJElement loadroot, char * loadschemapath)
 //    printf("Cannot find dirs in %s\n", loadschemapath);
   }
 
-  chdir(path);
+  //chdir(path);
   return 0;
 }
