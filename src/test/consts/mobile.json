@@ -1,0 +1,32 @@
+{
+  "sim1":{
+    "proto":"3g",
+    "device_number":1,
+    "auto":true,
+    "enable":true,
+    "defaultroute":true,
+    "mtu":1400,
+    "peerdns":true,
+    "metric":204,
+    "auth":"any",
+    "mode":"auto",
+    "allow_roaming":false,
+    "failover":{
+    }
+  },
+  "sim2":{
+    "proto":"3g",
+    "device_number":2,
+    "auto":true,
+    "enable":true,
+    "defaultroute":true,
+    "mtu":1400,
+    "peerdns":true,
+    "metric":205,
+    "auth":"any",
+    "mode":"auto",
+    "allow_roaming":false,
+    "failover":{
+    }
+  }
+  
