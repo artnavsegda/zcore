@@ -3,7 +3,6 @@
 #include <string.h>
 #include <wjelement.h>
 #include <sys/stat.h>
-#include <regex.h>
 #include "zcore.h"
 #include "interpreter.h"
 #include "option.h"
@@ -28,28 +27,6 @@ extern WJElement rl_parameter;
 extern WJElement optionjson;
 extern int optiondepth;
 extern char * optionname;
-
-WJElement optionlist(WJElement schema, char * protoname)
-{
-  WJElement properties = NULL;
-  if (WJEGet(schema, "patternProperties", NULL))
-  {
-    if (protoname == NULL)
-      return WJEObject(schema,"patternProperties[0]", WJE_GET);
-
-    regex_t preg;
-    while (properties = _WJEObject(schema, "patternProperties[]", WJE_GET, &properties))
-    {
-      regcomp(&preg, properties->name, REG_EXTENDED | REG_NOSUB);
-      if (!regexec(&preg, protoname, 0, NULL, 0))
-      {
-        return properties;
-      }
-    }
-  }
-  else
-    return schema;
-}
 
 WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 {
