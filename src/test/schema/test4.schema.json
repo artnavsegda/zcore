@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "test4",
+  "description": "test list",
+  "type": "object",
+  "patternProperties": {
+    "^test": {
+      "type": "object",
+      "title": "test entity",
+      "properties": {
+        "something": {
+          "type": "object",
+          "title": "test entity 2",
+          "properties": {
+            "someelse": {
+              "type": "string"
+            },
+            "someone": {
+              "type": "string"
+            },
+            "someday": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "^quest": {
+      "type": "object",
+      "title": "test entity two",
+      "properties": {
+        "somebody": {
+          "type": "string"
+        },
+        "someshit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "acquire": {
+     "file": "test2.json"
+  }
+}
