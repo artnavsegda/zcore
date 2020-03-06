@@ -53,7 +53,8 @@ WJElement optionlist(WJElement schema, char * protoname)
 
 int listoptions(void)
 {
-  WJElement optionlistone = optionlist(protoschema, protoface->name);
+  WJElement optionlistone = WJEObject(NULL, NULL, WJE_NEW);
+  WJECopyDocument(optionlistone, optionlist(protoschema, protoface->name), NULL, NULL);
 
   puts("Options:");
   WJElement option = NULL;
@@ -74,6 +75,8 @@ int listoptions(void)
       }
     }
   }
+
+  WJECloseDocument(optionlistone);
 
   return 0;
 }
