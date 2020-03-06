@@ -56,6 +56,21 @@ int listoptions(void)
   WJElement optionlistone = WJEObject(NULL, NULL, WJE_NEW);
   WJECopyDocument(optionlistone, optionlist(protoschema, protoface->name), NULL, NULL);
 
+  WJElement anyoption = NULL;
+  while (anyoption = _WJEObject(optionlist(protoschema, protoface->name), "anyOf[]", WJE_GET, &anyoption)) {
+    WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
+    WJECopyDocument(tempschema, anyoption, NULL, NULL);
+    WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
+    if (WJEGet(rl_protoschema, "definitions", NULL))
+      WJECopyDocument(tempdefs, WJEGet(rl_protoschema, "definitions", NULL), NULL, NULL);
+    WJEAttach(tempschema, tempdefs);
+    if (WJESchemaValidate(tempschema, protoface, schema_errorq, schema_load, schema_free, "%s"))
+    {
+      WJEMergeObjects(optionlistone, anyoption, TRUE);
+    }
+    WJECloseDocument(tempschema);
+  }
+
   puts("Options:");
   WJElement option = NULL;
 
