@@ -53,10 +53,12 @@ WJElement optionlist(WJElement schema, char * protoname)
 
 int listoptions(void)
 {
-  WJElement option = NULL;
-  puts("Options:");
+  WJElement optionlistone = optionlist(protoschema, protoface->name);
 
-  while ((option = _WJEObject(optionlist(protoschema, protoface->name), "properties[]", WJE_GET, &option))) {
+  puts("Options:");
+  WJElement option = NULL;
+
+  while ((option = _WJEObject(optionlistone, "properties[]", WJE_GET, &option))) {
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       printf("%s: ", option->name);
