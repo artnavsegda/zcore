@@ -114,7 +114,23 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
       {
         WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
         if (sub)
-          return sub;
+        {
+          //return sub; // kag bi da no net
+
+          static WJElement mergedoptions = NULL;
+          if (mergedoptions)
+          {
+            WJECloseDocument(mergedoptions);
+            mergedoptions = NULL;
+          }
+          mergedoptions = WJEObject(NULL, optionname, WJE_NEW);
+
+          WJEMergeObjects(mergedoptions, option_parameter, TRUE);
+          WJEMergeObjects(mergedoptions, sub, TRUE);
+
+          return mergedoptions;
+
+        }
       }
     }
   }
