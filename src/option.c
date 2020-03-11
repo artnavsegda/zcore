@@ -56,10 +56,10 @@ WJElement optionlist(WJElement schema, char * protoname)
 WJElement anyoption(WJElement schema, WJElement face)
 {
   WJElement optionlisttwo = WJEObject(NULL, NULL, WJE_NEW);
-  WJECopyDocument(optionlisttwo, optionlist(schema, face), NULL, NULL);
+  WJECopyDocument(optionlisttwo, optionlist(schema, face->name), NULL, NULL);
 
   WJElement myanyoption = NULL;
-  while (myanyoption = _WJEObject(optionlist(schema, face), "anyOf[]", WJE_GET, &myanyoption)) {
+  while (myanyoption = _WJEObject(optionlist(schema, face->name), "anyOf[]", WJE_GET, &myanyoption)) {
     WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
     WJECopyDocument(tempschema, myanyoption, NULL, NULL);
     WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
@@ -148,16 +148,30 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
   else
     facename = NULL;
   WJElement option_parameter = NULL;
-
   if (optionlistone)
   {
     WJECloseDocument(optionlistone);
     optionlistone = NULL;
   }
   optionlistone = anyoption(schema, face);
-
   option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
 
+  char * refpath = NULL;
+  refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
+  if (refpath)
+  {
+    char *ptr = strrchr (refpath, '/');
+    if (ptr) {
+      ++ptr;
+      WJElement schema_definitions = WJEObject(schema, "definitions", WJE_GET);
+      if (schema_definitions)
+      {
+        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
+        if (sub)
+          return sub;
+      }
+    }
+  }
   return option_parameter;
 }
 
@@ -272,7 +286,7 @@ char * optionvalues(const char * text, int len)
       WJECloseDocument(rl_optionlistone);
       rl_optionlistone = NULL;
     }
-    rl_optionlistone = rl_anyoption();
+    rl_optionlistone = anyoption(rl_protoschema, rl_protoface);
   }
 
   while (option = _WJEObject(rl_optionlistone, "properties[]", WJE_GET, &option)) {
