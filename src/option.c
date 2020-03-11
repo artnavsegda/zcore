@@ -28,6 +28,7 @@ WJElement rl_parameter = NULL;
 WJElement optionjson = NULL;
 int optiondepth = 0;
 char * optionname = NULL;
+WJElement optionlistone;
 
 WJElement optionlist(WJElement schema, char * protoname)
 {
@@ -76,7 +77,13 @@ WJElement anyoption(void)
 
 int listoptions(void)
 {
-  WJElement optionlistone = anyoption();
+  if (optionlistone)
+  {
+    WJECloseDocument(optionlistone);
+    optionlistone = NULL;
+  }
+
+  optionlistone = anyoption();
 
   puts("Options:");
   WJElement option = NULL;
@@ -98,8 +105,6 @@ int listoptions(void)
     }
   }
 
-  WJECloseDocument(optionlistone);
-
   return 0;
 }
 
@@ -107,14 +112,17 @@ int isoption(char * optionname)
 {
   if (domain == OPTION)
   {
-    WJElement optionlistone = anyoption();
+    if (optionlistone)
+    {
+      WJECloseDocument(optionlistone);
+      optionlistone = NULL;
+    }
+    optionlistone = anyoption();
 
     if (WJEGetF(optionlistone, NULL, "properties.%s", optionname))
     {
       return 1;
     }
-
-    WJECloseDocument(optionlistone);
   }
   return 0;
 }
@@ -139,7 +147,15 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
   else
     facename = NULL;
   WJElement option_parameter = NULL;
-  option_parameter = WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
+
+  if (optionlistone)
+  {
+    WJECloseDocument(optionlistone);
+    optionlistone = NULL;
+  }
+  optionlistone = anyoption();
+
+  option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
   char * refpath = NULL;
   refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
   if (refpath)
