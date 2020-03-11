@@ -156,22 +156,7 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
   optionlistone = anyoption();
 
   option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
-  char * refpath = NULL;
-  refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
-  if (refpath)
-  {
-    char *ptr = strrchr (refpath, '/');
-    if (ptr) {
-      ++ptr;
-      WJElement schema_definitions = WJEObject(schema, "definitions", WJE_GET);
-      if (schema_definitions)
-      {
-        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
-        if (sub)
-          return sub;
-      }
-    }
-  }
+
   return option_parameter;
 }
 
