@@ -35,6 +35,10 @@ char * optionvalue(char * commandname, WJElement proto, WJElement face)
 
   option_parameter = conditionoption(proto, face, commandname);
 
+  //puts("OPTIONVALUE CONDITIONOPTION DUMP");
+  //WJEDump(option_parameter);
+  //puts("END OPTIONVALUE CONDITIONOPTION DUMP END");
+
   if (WJEGet(face, commandname, NULL))
   {
     if (strcmp(WJEString(option_parameter,"type", WJE_GET, NULL),"string") == 0){

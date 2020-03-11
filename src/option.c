@@ -58,6 +58,11 @@ WJElement anyoption(WJElement schema, WJElement face)
   WJElement optionlisttwo = WJEObject(NULL, NULL, WJE_NEW);
   WJECopyDocument(optionlisttwo, optionlist(schema, face->name), NULL, NULL);
 
+  WJElement tempdefs2 = WJEObject(NULL, "definitions", WJE_NEW);
+  if (WJEGet(schema, "definitions", NULL))
+    WJECopyDocument(tempdefs2, WJEGet(schema, "definitions", NULL), NULL, NULL);
+  WJEAttach(optionlisttwo, tempdefs2);
+
   WJElement myanyoption = NULL;
   while (myanyoption = _WJEObject(optionlist(schema, face->name), "anyOf[]", WJE_GET, &myanyoption)) {
     WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
@@ -74,6 +79,46 @@ WJElement anyoption(WJElement schema, WJElement face)
   }
 
   return optionlisttwo;
+}
+
+WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
+{
+  char * facename = NULL;
+  if (face)
+    facename = face->name;
+  else
+    facename = NULL;
+  WJElement option_parameter = NULL;
+  if (optionlistone)
+  {
+    WJECloseDocument(optionlistone);
+    optionlistone = NULL;
+  }
+  optionlistone = anyoption(schema, face);
+
+  //puts("CONDITIONOPTION ANYOPTION DUMP");
+  //WJEDump(optionlistone);
+  //puts("END CONDITIONOPTION ANYOPTION DUMP END");
+
+  option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
+
+  char * refpath = NULL;
+  refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
+  if (refpath)
+  {
+    char *ptr = strrchr (refpath, '/');
+    if (ptr) {
+      ++ptr;
+      WJElement schema_definitions = WJEObject(optionlistone, "definitions", WJE_GET);
+      if (schema_definitions)
+      {
+        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
+        if (sub)
+          return sub;
+      }
+    }
+  }
+  return option_parameter;
 }
 
 int listoptions(void)
@@ -138,41 +183,6 @@ int rl_isoption(char * optionname)
     }
   }
   return 0;
-}
-
-WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
-{
-  char * facename = NULL;
-  if (face)
-    facename = face->name;
-  else
-    facename = NULL;
-  WJElement option_parameter = NULL;
-  if (optionlistone)
-  {
-    WJECloseDocument(optionlistone);
-    optionlistone = NULL;
-  }
-  optionlistone = anyoption(schema, face);
-  option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
-
-  char * refpath = NULL;
-  refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
-  if (refpath)
-  {
-    char *ptr = strrchr (refpath, '/');
-    if (ptr) {
-      ++ptr;
-      WJElement schema_definitions = WJEObject(schema, "definitions", WJE_GET);
-      if (schema_definitions)
-      {
-        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
-        if (sub)
-          return sub;
-      }
-    }
-  }
-  return option_parameter;
 }
 
 int option(int argc, char *argv[])

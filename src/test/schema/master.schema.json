@@ -5,15 +5,23 @@
 			"enum": ["2.4Ghz", "5Ghz"]
 		},
 		"24defchannels": {
+			"type": "number",
+			"description": "Radio channel",
 			"enum": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 		},
 		"24ruchannels": {
+			"type": "number",
+			"description": "Radio channel",
 			"enum": [1, 2, 3, 4, 5, 6]
 		},
 		"5defchannels": {
+			"type": "number",
+			"description": "Radio channel",
 			"enum": [36, 40, 44, 48]
 		},
 		"5ruchannels": {
+			"type": "number",
+			"description": "Radio channel",
 			"enum": [36, 40, 44, 48, 149, 152, 153, 157]
 		}
 	},
@@ -43,10 +51,6 @@
 					"type": "string",
 					"description": "Radio regulation region",
 					"enum": ["default", "RU"]
-				},
-				"channel": {
-					"type": "number",
-					"description": "Radio channel"
 				}
 			},
 			"anyOf": [{
