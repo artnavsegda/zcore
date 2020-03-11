@@ -28,7 +28,8 @@ WJElement rl_parameter = NULL;
 WJElement optionjson = NULL;
 int optiondepth = 0;
 char * optionname = NULL;
-WJElement optionlistone;
+WJElement optionlistone = NULL;
+WJElement rl_optionlistone = NULL;
 
 WJElement optionlist(WJElement schema, char * protoname)
 {
@@ -54,18 +55,41 @@ WJElement optionlist(WJElement schema, char * protoname)
 
 WJElement anyoption(void)
 {
-  WJElement optionlistone = WJEObject(NULL, NULL, WJE_NEW);
-  WJECopyDocument(optionlistone, optionlist(protoschema, protoface->name), NULL, NULL);
+  WJElement optionlisttwo = WJEObject(NULL, NULL, WJE_NEW);
+  WJECopyDocument(optionlisttwo, optionlist(protoschema, protoface->name), NULL, NULL);
 
   WJElement anyoption = NULL;
   while (anyoption = _WJEObject(optionlist(protoschema, protoface->name), "anyOf[]", WJE_GET, &anyoption)) {
     WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
     WJECopyDocument(tempschema, anyoption, NULL, NULL);
     WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
+    if (WJEGet(protoschema, "definitions", NULL))
+      WJECopyDocument(tempdefs, WJEGet(protoschema, "definitions", NULL), NULL, NULL);
+    WJEAttach(tempschema, tempdefs);
+    if (WJESchemaValidate(tempschema, protoface, schema_errorq, schema_load, schema_free, "%s"))
+    {
+      WJEMergeObjects(optionlisttwo, anyoption, TRUE);
+    }
+    WJECloseDocument(tempschema);
+  }
+
+  return optionlisttwo;
+}
+
+WJElement rl_anyoption(void)
+{
+  WJElement optionlistone = WJEObject(NULL, NULL, WJE_NEW);
+  WJECopyDocument(optionlistone, optionlist(rl_protoschema, rl_protoface->name), NULL, NULL);
+
+  WJElement anyoption = NULL;
+  while (anyoption = _WJEObject(optionlist(rl_protoschema, rl_protoface->name), "anyOf[]", WJE_GET, &anyoption)) {
+    WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
+    WJECopyDocument(tempschema, anyoption, NULL, NULL);
+    WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
     if (WJEGet(rl_protoschema, "definitions", NULL))
       WJECopyDocument(tempdefs, WJEGet(rl_protoschema, "definitions", NULL), NULL, NULL);
     WJEAttach(tempschema, tempdefs);
-    if (WJESchemaValidate(tempschema, protoface, schema_errorq, schema_load, schema_free, "%s"))
+    if (WJESchemaValidate(tempschema, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
     {
       WJEMergeObjects(optionlistone, anyoption, TRUE);
     }
@@ -263,7 +287,18 @@ char * optionvalues(const char * text, int len)
     suggest_name = rl_protoface->name;
 
   static WJElement option = NULL;
-  while (option = _WJEObject(optionlist(rl_protoschema, suggest_name), "properties[]", WJE_GET, &option)) {
+
+  if (option == NULL)
+  {
+    if (rl_optionlistone)
+    {
+      WJECloseDocument(rl_optionlistone);
+      rl_optionlistone = NULL;
+    }
+    rl_optionlistone = rl_anyoption();
+  }
+
+  while (option = _WJEObject(rl_optionlistone, "properties[]", WJE_GET, &option)) {
     if (WJEBool(option, "hidden", WJE_GET, FALSE))
       return optionvalues(text,len);
     if (strncmp(option->name, text, len) == 0) {
