@@ -73,7 +73,7 @@ WJElement anyoption(WJElement schema, WJElement face)
     WJEAttach(tempschema, tempdefs);
     if (WJESchemaValidate(tempschema, face, schema_errorq, schema_load, schema_free, "%s"))
     {
-      WJEMergeObjects(optionlisttwo, myanyoption, TRUE);
+      WJEMergeObjects(optionlisttwo, myanyoption, TRUE); // TAKAYA SUKA ZASADA
     }
     WJECloseDocument(tempschema);
   }
