@@ -1,77 +1,113 @@
 {
-  "definitions": {
-      "freq": {
-        "type": "string",
-        "enum": ["2.4Ghz", "5Ghz"],
-      },
-      "24defchannels": {
-        "enum": [1,2,3,4,5,6,7,8,9,10]
-      },
-      "24ruchannels": {
-        "enum": [1,2,3,4,5,6]
-      },
-      "5defchannels": {
-        "enum": [36,40,44,48]
-      },
-      "5ruchannels": {
-        "enum": [36,40,44,48,149,152,153,157]
-      },
-  },
-  "$schema":"http://json-schema.org/schema#",
-  "title":"master",
-  "description":"switch master ports list",
-  "type":"object",
-  "namesake":"name",
-  "patternProperties": {
-     ".*": {
-       "type": "object",
-       "title": "Radio Interface entity",
-       "properties": {
-         "somevalue1": {
-           "type": "string",
-           "description": "Some anther radio value"
-         },
-         "freq": {"$ref": "#/definitions/freq"},
-         "htmode": {
-           "type": "string",
-           "description": "HT radio mode",
-           "enum": [ "HT20", "HT40-", "HT40+", "HT40" ]
-         },
-         "country": {
-           "type": "string",
-           "description": "Radio regulation region",
-           "enum": ["default", "RU"],
-         },
-         "channel": {
-           "type": "number",
-           "description": "Radio channel"
-         },
-       },
-       "anyOf": [
-         { "properties": {
-             "country": {"enum": ["RU"]},
-             "freq": {"enum": ["2.4Ghz"]},
-             "channel": {"$ref": "#/definitions/24ruchannels"}
-         }},
-         { "properties": {
-             "country": {"enum": ["RU"]},
-             "freq": {"enum": ["5Ghz"]},
-             "channel": {"$ref": "#/definitions/5ruchannels"}
-         }},
-         { "properties": {
-             "country": {"enum": ["default"]},
-             "freq": {"enum": ["2.4Ghz"]},
-             "channel": {"$ref": "#/definitions/24defchannels"}
-         }},
-         { "properties": {
-             "country": {"enum": ["default"]},
-             "freq": {"enum": ["5Ghz"]},
-             "channel": {"$ref": "#/definitions/5defchannels"}
-         }},
-       ]
-     }
-   },
-  "acquire": {
-     "file": "master.json"
-   }
+	"definitions": {
+		"freq": {
+			"type": "string",
+			"enum": ["2.4Ghz", "5Ghz"]
+		},
+		"24defchannels": {
+			"enum": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+		},
+		"24ruchannels": {
+			"enum": [1, 2, 3, 4, 5, 6]
+		},
+		"5defchannels": {
+			"enum": [36, 40, 44, 48]
+		},
+		"5ruchannels": {
+			"enum": [36, 40, 44, 48, 149, 152, 153, 157]
+		}
+	},
+	"$schema": "http://json-schema.org/schema#",
+	"title": "master",
+	"description": "switch master ports list",
+	"type": "object",
+	"namesake": "name",
+	"patternProperties": {
+		".*": {
+			"type": "object",
+			"title": "Radio Interface entity",
+			"properties": {
+				"somevalue1": {
+					"type": "string",
+					"description": "Some anther radio value"
+				},
+				"freq": {
+					"$ref": "#/definitions/freq"
+				},
+				"htmode": {
+					"type": "string",
+					"description": "HT radio mode",
+					"enum": ["HT20", "HT40-", "HT40+", "HT40"]
+				},
+				"country": {
+					"type": "string",
+					"description": "Radio regulation region",
+					"enum": ["default", "RU"]
+				},
+				"channel": {
+					"type": "number",
+					"description": "Radio channel"
+				}
+			},
+			"anyOf": [{
+					"properties": {
+						"country": {
+							"enum": ["RU"]
+						},
+						"freq": {
+							"enum": ["2.4Ghz"]
+						},
+						"channel": {
+							"$ref": "#/definitions/24ruchannels"
+						}
+					}
+				},
+				{
+					"properties": {
+						"country": {
+							"enum": ["RU"]
+						},
+						"freq": {
+							"enum": ["5Ghz"]
+						},
+						"channel": {
+							"$ref": "#/definitions/5ruchannels"
+						},
+						"mysterious": {
+							"type": "string"
+						}
+					}
+				},
+				{
+					"properties": {
+						"country": {
+							"enum": ["default"]
+						},
+						"freq": {
+							"enum": ["2.4Ghz"]
+						},
+						"channel": {
+							"$ref": "#/definitions/24defchannels"
+						}
+					}
+				},
+				{
+					"properties": {
+						"country": {
+							"enum": ["default"]
+						},
+						"freq": {
+							"enum": ["5Ghz"]
+						},
+						"channel": {
+							"$ref": "#/definitions/5defchannels"
+						}
+					}
+				}
+			]
+		}
+	},
+	"acquire": {
+		"file": "master.json"
+	}
 }
