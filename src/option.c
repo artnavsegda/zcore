@@ -51,7 +51,7 @@ WJElement optionlist(WJElement schema, char * protoname)
     return schema;
 }
 
-int listoptions(void)
+WJElement anyoption(void)
 {
   WJElement optionlistone = WJEObject(NULL, NULL, WJE_NEW);
   WJECopyDocument(optionlistone, optionlist(protoschema, protoface->name), NULL, NULL);
@@ -70,6 +70,13 @@ int listoptions(void)
     }
     WJECloseDocument(tempschema);
   }
+
+  return optionlistone;
+}
+
+int listoptions(void)
+{
+  WJElement optionlistone = anyoption();
 
   puts("Options:");
   WJElement option = NULL;
@@ -100,10 +107,14 @@ int isoption(char * optionname)
 {
   if (domain == OPTION)
   {
-    if (WJEGetF(optionlist(protoschema, protoface->name), NULL, "properties.%s", optionname))
+    WJElement optionlistone = anyoption();
+
+    if (WJEGetF(optionlistone, NULL, "properties.%s", optionname))
     {
       return 1;
     }
+
+    WJECloseDocument(optionlistone);
   }
   return 0;
 }
@@ -120,16 +131,38 @@ int rl_isoption(char * optionname)
   return 0;
 }
 
+WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
+{
+  char * facename = NULL;
+  if (face)
+    facename = face->name;
+  else
+    facename = NULL;
+  WJElement option_parameter = NULL;
+  option_parameter = WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
+  char * refpath = NULL;
+  refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
+  if (refpath)
+  {
+    char *ptr = strrchr (refpath, '/');
+    if (ptr) {
+      ++ptr;
+      WJElement schema_definitions = WJEObject(schema, "definitions", WJE_GET);
+      if (schema_definitions)
+      {
+        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
+        if (sub)
+          return sub;
+      }
+    }
+  }
+  return option_parameter;
+}
+
 int option(int argc, char *argv[])
 {
   optionname = argv[0];
   parameter = conditionoption(protoschema, protoface, optionname);
-
-  // if (WJEGet(parameter, "[\"$ref\"]", NULL))
-  // {
-  //   parameter = WJEGetF(protoschema, NULL, "definitions.%s", strrchr(WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL), '/'));
-  //   //parameter = WJEGetF(root, NULL, "%s.schema", WJEString(parameter, "[\"$ref\"]", WJE_GET, NULL));
-  // }
 
   if (strcmp(WJEString(parameter,"type", WJE_GET, NULL),"object") == 0)
   {

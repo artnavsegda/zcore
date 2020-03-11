@@ -28,34 +28,6 @@ extern WJElement optionjson;
 extern int optiondepth;
 extern char * optionname;
 
-WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
-{
-  char * facename = NULL;
-  if (face)
-    facename = face->name;
-  else
-    facename = NULL;
-  WJElement option_parameter = NULL;
-  option_parameter = WJEObjectF(optionlist(schema, facename), WJE_GET, NULL, "properties.%s",optionname);
-  char * refpath = NULL;
-  refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
-  if (refpath)
-  {
-    char *ptr = strrchr (refpath, '/');
-    if (ptr) {
-      ++ptr;
-      WJElement schema_definitions = WJEObject(schema, "definitions", WJE_GET);
-      if (schema_definitions)
-      {
-        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
-        if (sub)
-          return sub;
-      }
-    }
-  }
-  return option_parameter;
-}
-
 char * optionvalue(char * commandname, WJElement proto, WJElement face)
 {
   WJElement option_parameter = NULL;
