@@ -53,50 +53,27 @@ WJElement optionlist(WJElement schema, char * protoname)
     return schema;
 }
 
-WJElement anyoption(void)
+WJElement anyoption(WJElement schema, WJElement face)
 {
   WJElement optionlisttwo = WJEObject(NULL, NULL, WJE_NEW);
-  WJECopyDocument(optionlisttwo, optionlist(protoschema, protoface->name), NULL, NULL);
+  WJECopyDocument(optionlisttwo, optionlist(schema, face), NULL, NULL);
 
-  WJElement anyoption = NULL;
-  while (anyoption = _WJEObject(optionlist(protoschema, protoface->name), "anyOf[]", WJE_GET, &anyoption)) {
+  WJElement myanyoption = NULL;
+  while (myanyoption = _WJEObject(optionlist(schema, face), "anyOf[]", WJE_GET, &myanyoption)) {
     WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
-    WJECopyDocument(tempschema, anyoption, NULL, NULL);
+    WJECopyDocument(tempschema, myanyoption, NULL, NULL);
     WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
-    if (WJEGet(protoschema, "definitions", NULL))
-      WJECopyDocument(tempdefs, WJEGet(protoschema, "definitions", NULL), NULL, NULL);
+    if (WJEGet(schema, "definitions", NULL))
+      WJECopyDocument(tempdefs, WJEGet(schema, "definitions", NULL), NULL, NULL);
     WJEAttach(tempschema, tempdefs);
-    if (WJESchemaValidate(tempschema, protoface, schema_errorq, schema_load, schema_free, "%s"))
+    if (WJESchemaValidate(tempschema, face, schema_errorq, schema_load, schema_free, "%s"))
     {
-      WJEMergeObjects(optionlisttwo, anyoption, TRUE);
+      WJEMergeObjects(optionlisttwo, myanyoption, TRUE);
     }
     WJECloseDocument(tempschema);
   }
 
   return optionlisttwo;
-}
-
-WJElement rl_anyoption(void)
-{
-  WJElement optionlistone = WJEObject(NULL, NULL, WJE_NEW);
-  WJECopyDocument(optionlistone, optionlist(rl_protoschema, rl_protoface->name), NULL, NULL);
-
-  WJElement anyoption = NULL;
-  while (anyoption = _WJEObject(optionlist(rl_protoschema, rl_protoface->name), "anyOf[]", WJE_GET, &anyoption)) {
-    WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
-    WJECopyDocument(tempschema, anyoption, NULL, NULL);
-    WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
-    if (WJEGet(rl_protoschema, "definitions", NULL))
-      WJECopyDocument(tempdefs, WJEGet(rl_protoschema, "definitions", NULL), NULL, NULL);
-    WJEAttach(tempschema, tempdefs);
-    if (WJESchemaValidate(tempschema, rl_protoface, schema_errorq, schema_load, schema_free, "%s"))
-    {
-      WJEMergeObjects(optionlistone, anyoption, TRUE);
-    }
-    WJECloseDocument(tempschema);
-  }
-
-  return optionlistone;
 }
 
 int listoptions(void)
@@ -107,7 +84,7 @@ int listoptions(void)
     optionlistone = NULL;
   }
 
-  optionlistone = anyoption();
+  optionlistone = anyoption(protoschema, protoface);
 
   puts("Options:");
   WJElement option = NULL;
@@ -141,7 +118,7 @@ int isoption(char * optionname)
       WJECloseDocument(optionlistone);
       optionlistone = NULL;
     }
-    optionlistone = anyoption();
+    optionlistone = anyoption(protoschema, protoface);
 
     if (WJEGetF(optionlistone, NULL, "properties.%s", optionname))
     {
@@ -177,7 +154,7 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
     WJECloseDocument(optionlistone);
     optionlistone = NULL;
   }
-  optionlistone = anyoption();
+  optionlistone = anyoption(schema, face);
 
   option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
 
