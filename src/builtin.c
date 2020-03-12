@@ -216,6 +216,8 @@ int rl_isbuiltin(char * builtinname)
   }
 }
 
+extern WJElement optionlistone;
+
 int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
 {
   WJElement option = NULL;
@@ -224,7 +226,20 @@ int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
     facename = face->name;
   else
     facename = NULL;
-  while (option = _WJEObject(optionlist(schema, facename), "properties[]", WJE_GET, &option)) {
+
+  static WJElement optionlistthree = NULL;
+
+    if (optionlistthree)
+    {
+      WJECloseDocument(optionlistthree);
+      optionlistthree = NULL;
+    }
+    optionlistthree = anyoption(schema, face);
+
+  //puts("DEBUG237");
+  //WJEDump(optionlistone);
+
+  while (option = _WJEObject(optionlistthree, "properties[]", WJE_GET, &option)) {
     char stringbuffer[1000] = "";
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
@@ -241,6 +256,9 @@ int printoption(WJElement proto, WJElement face, int depth, WJElement schema)
       sprintf(stringbuffer, "%s%s", stringbuffer, option->name);
 
       WJElement tempoption = conditionoption(schema, face, option->name);
+
+      //puts("DEBUG255");
+      //WJEDump(tempoption);
 
       if (strcmp(WJEString(tempoption,"type", WJE_GET, NULL),"object") == 0){
         WJElement suboption = NULL;
@@ -342,7 +360,17 @@ int exportoption(WJElement proto, WJElement face, int depth, WJElement schema)
     facename = face->name;
   else
     facename = NULL;
-  while (option = _WJEObject(optionlist(schema, facename), "properties[]", WJE_GET, &option)) {
+
+    static WJElement optionlistthree = NULL;
+
+      if (optionlistthree)
+      {
+        WJECloseDocument(optionlistthree);
+        optionlistthree = NULL;
+      }
+      optionlistthree = anyoption(schema, face);
+
+  while (option = _WJEObject(optionlistthree, "properties[]", WJE_GET, &option)) {
     char stringbuffer[1000] = "";
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
