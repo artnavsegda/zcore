@@ -345,6 +345,7 @@ int onset(char * parametername, WJElement tempproto, char * value)
         else
           puts("no data");
         WJEDump(tempproto);
+        WJECloseDocument(mergedata);
       }
       else
       {
