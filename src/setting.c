@@ -381,6 +381,7 @@ int setting(int argc, char *argv[])
         if (WJEBool(protojson, "schema.onset.merge", WJE_GET, FALSE) == FALSE)
           onset(optionname, WJEGet(protojson,"data",NULL), result);
 
+      WJECloseDocument(tempproto);
       free(result);
       return 1;
     }
