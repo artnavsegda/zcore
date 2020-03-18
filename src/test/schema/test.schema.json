@@ -31,7 +31,8 @@
       "title": "test entity two",
       "properties": {
         "somebody": {
-          "type": "string"
+          "type": "string",
+          "enum": ["to", "love"]
         }
       }
     }
@@ -48,7 +49,8 @@
     "cat": {
       "command": "/usr/bin/cat",
       "description": "test",
-      "json": "in"
+      "json": "in",
+      "cue": "somebody"
     },
     "true": {
       "command": "/bin/true",

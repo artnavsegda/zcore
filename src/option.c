@@ -55,8 +55,15 @@ WJElement optionlist(WJElement schema, char * protoname)
 
 WJElement anyoption(WJElement schema, WJElement face)
 {
+  char * facename;
+
+  if (face)
+    facename = face->name;
+  else
+    facename = NULL;
+
   WJElement optionlisttwo = WJEObject(NULL, NULL, WJE_NEW);
-  WJECopyDocument(optionlisttwo, optionlist(schema, face->name), NULL, NULL);
+  WJECopyDocument(optionlisttwo, optionlist(schema, facename), NULL, NULL);
 
   WJElement tempdefs2 = WJEObject(NULL, "definitions", WJE_NEW);
   if (WJEGet(schema, "definitions", NULL))
@@ -64,7 +71,7 @@ WJElement anyoption(WJElement schema, WJElement face)
   WJEAttach(optionlisttwo, tempdefs2);
 
   WJElement myanyoption = NULL;
-  while (myanyoption = _WJEObject(optionlist(schema, face->name), "anyOf[]", WJE_GET, &myanyoption)) {
+  while (myanyoption = _WJEObject(optionlist(schema, facename), "anyOf[]", WJE_GET, &myanyoption)) {
     WJElement tempschema = WJEObject(NULL, NULL, WJE_NEW);
     WJECopyDocument(tempschema, myanyoption, NULL, NULL);
     WJElement tempdefs = WJEObject(NULL, "definitions", WJE_NEW);
@@ -83,17 +90,13 @@ WJElement anyoption(WJElement schema, WJElement face)
 
 WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
 {
-  char * facename = NULL;
-  if (face)
-    facename = face->name;
-  else
-    facename = NULL;
   WJElement option_parameter = NULL;
   if (optionlistone)
   {
     WJECloseDocument(optionlistone);
     optionlistone = NULL;
   }
+
   optionlistone = anyoption(schema, face);
 
   //puts("CONDITIONOPTION ANYOPTION DUMP");
