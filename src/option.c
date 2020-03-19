@@ -98,11 +98,6 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
   }
 
   optionlistone = anyoption(schema, face);
-
-  //puts("CONDITIONOPTION ANYOPTION DUMP");
-  //WJEDump(optionlistone);
-  //puts("END CONDITIONOPTION ANYOPTION DUMP END");
-
   option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
 
   char * refpath = NULL;
@@ -140,6 +135,30 @@ WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
   return option_parameter;
 }
 
+WJElement deref(WJElement reference)
+{
+  char * refpath = NULL;
+  refpath = WJEString(reference, "[\"$ref\"]", WJE_GET, NULL);
+  if (refpath)
+  {
+    char *ptr = strrchr (refpath, '/');
+    if (ptr) {
+      ++ptr;
+      WJElement schema_definitions = WJEObject(optionlistone, "definitions", WJE_GET);
+      if (schema_definitions)
+      {
+        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
+        if (sub)
+        {
+          return sub; // kag bi da no net
+        }
+      }
+    }
+  }
+  else
+    return reference;
+}
+
 int listoptions(void)
 {
   if (optionlistone)
@@ -152,8 +171,30 @@ int listoptions(void)
 
   puts("Options:");
   WJElement option = NULL;
+  WJElement option2 = NULL;
 
-  while ((option = _WJEObject(optionlistone, "properties[]", WJE_GET, &option))) {
+  while ((option2 = _WJEObject(optionlistone, "properties[]", WJE_GET, &option2))) {
+    option = option2;
+
+    char * refpath = NULL;
+    refpath = WJEString(option2, "[\"$ref\"]", WJE_GET, NULL);
+    if (refpath)
+    {
+      char *ptr = strrchr (refpath, '/');
+      if (ptr) {
+        ++ptr;
+        WJElement schema_definitions = WJEObject(optionlistone, "definitions", WJE_GET);
+        if (schema_definitions)
+        {
+          WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
+          if (sub)
+          {
+            option = sub; // kag bi da no net
+          }
+        }
+      }
+    }
+
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
       printf("%s: ", option->name);
