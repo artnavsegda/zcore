@@ -1,0 +1,13 @@
+{
+  "l2tp1":{
+    "proto":"l2tp",
+    "name":"l2tp1",
+    "auto":true,
+    "ipaddr":"172.16.0.1",
+    "netmask":"255.255.255.252",
+    "tunlink":"lan",
+    "tunnel_id":12,
+    "session_id":22,
+    "remote_addr":"1.1.1.1"
+  }
+}

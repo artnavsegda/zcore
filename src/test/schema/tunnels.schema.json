@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "tunnels",
+  "description": "VPN Tunnels",
+  "type": "object",
+  "definitions": {
+    "proto": {
+      "type": "string",
+      "hidden": true,
+      "enum": ["l2tp", "eoip"]
+    }
+  },
+  "patternProperties": {
+    "^eoip": {
+      "type": "object",
+      "title": "EoIP tunnels",
+      "properties": {
+        "proto": {
+          "$ref": "#/definitions/proto"
+        },
+
+        "name": {
+          "type": "string",
+          "hidden": true,
+        },
+
+        "auto": {
+          "type": "boolean",
+          "description": "autostart tunnel",
+          "default": true,
+        },
+
+        "ipaddr": {
+          "type": "string",
+          "description": "ip address",
+        },
+        "netmask": {
+          "type": "string",
+          "description": "network mask address",
+        },
+
+        "tunlink": {
+          "type": "string",
+          "description": "source interface",
+          "cue": ["network.bridge", "network.interface", "wwan.mobile"]
+        },
+
+        "zone": {
+          "type": "string",
+          "description": "firewall zone",
+          "cue": ["firewall.zone"]
+        },
+
+        "tunnel_id": {
+          "type": "number",
+          "description": "tunnel id",
+          "minimum": 1,
+          "maximum": 65535,
+        },
+
+        "remote_addr": {
+          "type": "string",
+          "description": "destination address",
+        }
+
+
+      }
+    },
+
+    "^l2tp": {
+      "type": "object",
+      "title": "L2TPv3 tunnels",
+      "properties": {
+        "proto": {
+          "$ref": "#/definitions/proto"
+        },
+
+        "name": {
+          "type": "string",
+          "hidden": true,
+        },
+
+        "auto": {
+          "type": "boolean",
+          "description": "autostart tunnel",
+          "default": true,
+        },
+
+        "ipaddr": {
+          "type": "string",
+          "description": "ip address",
+        },
+        "netmask": {
+          "type": "string",
+          "description": "network mask address",
+        },
+
+        "tunlink": {
+          "type": "string",
+          "description": "source interface",
+          "cue": ["network.bridge", "network.interface", "wwan.mobile"]
+        },
+
+        "zone": {
+          "type": "string",
+          "description": "firewall zone",
+          "cue": ["firewall.zone"]
+        },
+
+        "tunnel_id": {
+          "type": "number",
+          "description": "tunnel id",
+          "minimum": 1,
+          "maximum": 65535,
+        },
+
+        "session_id": {
+          "type": "number",
+          "description": "session id",
+          "minimum": 1,
+          "maximum": 65535,
+        },
+
+        "df": {
+          "type": "boolean",
+          "description": "do not fragment flag",
+          "default": true,
+        },
+
+        "remote_addr": {
+          "type": "string",
+          "description": "destination address",
+        }
+
+      }
+    },
+  },
+  "acquire": {
+    "file": "tunnels.json",
+  }
+}

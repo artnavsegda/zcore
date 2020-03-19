@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "interface",
+  "description": "Logical interfaces list",
+  "type": "object",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "title": "Interface entity",
+      "properties": {
+
+        "name": {
+          "type": "string",
+          "hidden": true
+        },
+
+        "device": {
+          "type": "string",
+          "description": "Physical device name",
+          "cue": ["network.vlan", "wireless.interface", "switch.master"]
+        },
+
+        "disabled": {
+          "type": "boolean",
+          "description": "Disable the interface"
+        },
+
+        "proto": {
+          "type": "string",
+          "description": "Interface type",
+          "enum": ["none", "static", "dhcp", "pppoe"]
+        },
+
+        "macaddr": {
+          "type": "string",
+          "description": "MAC address"
+        },
+
+        "metric": {
+          "type": "number",
+          "description": "Specifies the default route metric to use (min: 100)",
+          "minimum": 100
+        },
+
+        "mtu": {
+          "type": "number",
+          "description": "MTU",
+          "maximum": 1500,
+          "minimum": 500,
+          "default": 1500
+        },
+
+        "defaultroute": {
+          "type": "boolean",
+          "description": "Set default route via interface"
+        },
+        "zone": {
+          "type": "string",
+          "description": "Firewall zone to which this interface should be added",
+          "enum": ["lan", "wan"]
+        },
+        "ipaddr": {
+          "type": "array",
+          "description": "IP addresses",
+          "items": {"type": "string"},
+        },
+      },
+      "anyOf": [
+        {"properties": {
+          "proto": {"enum": ["static"]},
+          "gateway": { "type": "string", "description": "Default gateway" },
+          "dns": {"type": "array", "description": "DNS servers" ,"items": {"type": "string"}},
+        }},
+        {"properties": {
+          "proto": {"enum": ["pppoe"]},
+          "username": { "type": "string", "description": "Username for PAP/CHAP authentication" },
+          "password": { "type": "string", "description": "Password for PAP/CHAP authentication" },
+          "ac": { "type": "string", "description": "Specifies the Access Concentrator to connect to. If unset, pppd uses the first discovered one" },
+          "service": { "type": "string", "description": "Specifies the Service Name to connect to, If unset, pppd uses the first discovered one" },
+          "keepalive": { "type": "string", "description": "The numbers must be separated by a space. (pppd: 'lcp-echo-interval lcp-echo-failure'", "pattern": "^[1-9]([0-9]+)?\\ [1-9]([0-9]+)?$" },
+          "peerdns": {"type": "boolean", "description": "Use peer-assigned DNS server"},
+          "dns": {"type": "array", "description": "DNS servers" ,"items": {"type": "string"}},
+          "pppd_options": {"type": "array", "description": "Additional command line arguments to pass to the pppd" ,"items": {"type": "string"}},
+        }},
+        {"properties": {
+          "proto": {"enum": ["dhcp"]},
+          "hostname": { "type": "string", "description": "Hostname to include in DHCP requests" },
+          "clientid": { "type": "string", "description": "Override client identifier in DHCP requests" },
+          "vendorid": { "type": "string", "description": "Override the vendor class in DHCP requests" },
+          "dns": {"type": "array", "description": "DNS servers" ,"items": {"type": "string"}},
+          "peerdns": {"type": "boolean", "description": "Use peer-assigned DNS server"},
+
+        }},
+      ]
+    }
+  },
+
+    "commands": {
+        "add": {
+            "command": "handler.sh",
+            "description": "add new entry (params: <name>)",
+            "args": ["add", "network.interface.schema", "interface"],
+            "cue": ["name"],
+            "json": "merge",
+            "argpass": true,
+            "wait": true
+        },
+
+        "delete": {
+            "command": "handler.sh",
+            "args": ["delete", "network.interface.schema", "interface"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "revert": {
+            "command": "handler.sh",
+            "args": ["revert", "network.interface.schema", "interface"],
+            "argpass": true,
+            "reload": true,
+            "wait": true,
+        },
+
+        "purge": {
+          "command": "handler.sh",
+          "args": ["purge", "network.interface.schema", "vlan"],
+          "reload": true,
+        },
+
+        "apply": {
+            "command": "handler.sh",
+            "args": ["apply", "network.interface.schema", "interface"],
+            "argpass": true,
+        },
+    },
+
+  "onset": {
+    "command": "handler.sh",
+    "args": ["onset", "network.interface.schema", "interface"],
+    "argpass": true,
+    "wait": true,
+  },
+
+  "acquire": {
+    "file": "interface.json"
+  }
+}

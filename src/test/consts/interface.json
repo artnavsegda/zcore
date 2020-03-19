@@ -1,0 +1,20 @@
+{
+  "wan2":{
+    "name":"wan2",
+    "device":"vlan2",
+    "disabled":false,
+    "type":"dhcp",
+    "proto":"dhcp",
+    "metric":301,
+    "defaultroute":true
+  },
+  "wan3":{
+    "name":"wan3",
+    "device":"vlan3",
+    "disabled":false,
+    "type":"dhcp",
+    "proto":"dhcp",
+    "metric":302,
+    "defaultroute":true
+  }
+}
