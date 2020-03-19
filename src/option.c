@@ -238,7 +238,8 @@ int option(int argc, char *argv[])
 
 int rl_option(int argc, char *argv[])
 {
-  WJECloseDocument(rl_parameter);
+  if (!rl_parameter->parent)
+    WJECloseDocument(rl_parameter);
   rl_parameter = WJEObject(NULL, argv[0], WJE_NEW);
 
   char * facename = NULL;

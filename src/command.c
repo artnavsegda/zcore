@@ -263,13 +263,10 @@ char * cuecommandvalues(const char * text, int len, int state)
   char * cuename = NULL;
   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
   {
-      WJECloseDocument(rl_parameter);
-      rl_parameter = WJEObject(NULL, cuename, WJE_NEW);
-      WJEMergeObjects(rl_parameter, conditionoption(rl_protoschema, rl_protoface, cuename), TRUE);
-//    if (rl_protoface == NULL)
-//      rl_parameter = WJEObjectF(optionlist(rl_protoschema, NULL), WJE_GET, NULL, "properties.%s",cuename);
-//    else
-//      rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",cuename);
+   if (rl_protoface == NULL)
+     rl_parameter = WJEObjectF(optionlist(rl_protoschema, NULL), WJE_GET, NULL, "properties.%s",cuename);
+   else
+     rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",cuename);
     return settingvalues(text, len, state);
   }
   return NULL;
@@ -281,13 +278,10 @@ char * cuecuecommandvalues(const char * text, int len, int state)
   char * cuename = NULL;
   if (cuename = WJEStringF(rl_commjson, WJE_GET, NULL, NULL, "cue[%d]", rl_argcount))
   {
-    WJECloseDocument(rl_parameter);
-    rl_parameter = WJEObject(NULL, cuename, WJE_NEW);
-    WJEMergeObjects(rl_parameter, conditionoption(rl_protoschema, rl_protoface, cuename), TRUE);
-//    if (rl_protoface == NULL)
-//      rl_parameter = WJEObjectF(optionlist(rl_protoschema, NULL), WJE_GET, NULL, "properties.%s",cuename);
-//    else
-//      rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",cuename);
+   if (rl_protoface == NULL)
+     rl_parameter = WJEObjectF(optionlist(rl_protoschema, NULL), WJE_GET, NULL, "properties.%s",cuename);
+   else
+     rl_parameter = WJEObjectF(optionlist(rl_protoschema, rl_protoface->name), WJE_GET, NULL, "properties.%s",cuename);
     return cuesettingvalues(text, len, state);
   }
   return NULL;

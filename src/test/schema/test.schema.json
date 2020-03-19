@@ -10,7 +10,8 @@
       "title": "test entity",
       "properties": {
         "something": {
-          "type": "string"
+          "type": "string",
+          "enum": ["to", "hate"]
         },
         "someone": {
           "type": "array",
@@ -50,7 +51,7 @@
       "command": "/usr/bin/cat",
       "description": "test",
       "json": "in",
-      "cue": "somebody"
+      "cue": ["something"]
     },
     "true": {
       "command": "/bin/true",
