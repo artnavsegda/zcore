@@ -88,53 +88,6 @@ WJElement anyoption(WJElement schema, WJElement face)
   return optionlisttwo;
 }
 
-WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
-{
-  WJElement option_parameter = NULL;
-  if (optionlistone)
-  {
-    WJECloseDocument(optionlistone);
-    optionlistone = NULL;
-  }
-
-  optionlistone = anyoption(schema, face);
-  option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
-
-  char * refpath = NULL;
-  refpath = WJEString(option_parameter, "[\"$ref\"]", WJE_GET, NULL);
-  if (refpath)
-  {
-    char *ptr = strrchr (refpath, '/');
-    if (ptr) {
-      ++ptr;
-      WJElement schema_definitions = WJEObject(optionlistone, "definitions", WJE_GET);
-      if (schema_definitions)
-      {
-        WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
-        if (sub)
-        {
-          //return sub; // kag bi da no net
-
-          static WJElement mergedoptions = NULL;
-          if (mergedoptions)
-          {
-            WJECloseDocument(mergedoptions);
-            mergedoptions = NULL;
-          }
-          mergedoptions = WJEObject(NULL, optionname, WJE_NEW);
-
-          WJEMergeObjects(mergedoptions, option_parameter, TRUE);
-          WJEMergeObjects(mergedoptions, sub, TRUE);
-
-          return mergedoptions;
-
-        }
-      }
-    }
-  }
-  return option_parameter;
-}
-
 WJElement deref(WJElement reference)
 {
   char * refpath = NULL;
@@ -159,6 +112,34 @@ WJElement deref(WJElement reference)
     return reference;
 }
 
+WJElement conditionoption(WJElement schema, WJElement face, char * optionname)
+{
+  WJElement option_parameter = NULL;
+  WJElement option_parameter2 = NULL;
+  if (optionlistone)
+  {
+    WJECloseDocument(optionlistone);
+    optionlistone = NULL;
+  }
+
+  optionlistone = anyoption(schema, face);
+  option_parameter = WJEObjectF(optionlistone, WJE_GET, NULL, "properties.%s",optionname);
+  option_parameter2 = deref(option_parameter);
+
+  static WJElement mergedoptions = NULL;
+  if (mergedoptions)
+  {
+    WJECloseDocument(mergedoptions);
+    mergedoptions = NULL;
+  }
+  mergedoptions = WJEObject(NULL, optionname, WJE_NEW);
+
+  WJEMergeObjects(mergedoptions, option_parameter, TRUE);
+  WJEMergeObjects(mergedoptions, option_parameter2, TRUE);
+
+  return mergedoptions;
+}
+
 int listoptions(void)
 {
   if (optionlistone)
@@ -174,26 +155,7 @@ int listoptions(void)
   WJElement option2 = NULL;
 
   while ((option2 = _WJEObject(optionlistone, "properties[]", WJE_GET, &option2))) {
-    option = option2;
-
-    char * refpath = NULL;
-    refpath = WJEString(option2, "[\"$ref\"]", WJE_GET, NULL);
-    if (refpath)
-    {
-      char *ptr = strrchr (refpath, '/');
-      if (ptr) {
-        ++ptr;
-        WJElement schema_definitions = WJEObject(optionlistone, "definitions", WJE_GET);
-        if (schema_definitions)
-        {
-          WJElement sub = WJEObject(schema_definitions, ptr, WJE_GET);
-          if (sub)
-          {
-            option = sub; // kag bi da no net
-          }
-        }
-      }
-    }
+    option = deref(option2);
 
     if (!WJEBool(option, "hidden", WJE_GET, FALSE))
     {
